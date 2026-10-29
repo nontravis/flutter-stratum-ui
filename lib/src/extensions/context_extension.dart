@@ -36,10 +36,11 @@ extension StratumThemeContextExtension on BuildContext {
   StratumThemeData themeData([ThemeMode? mode]) =>
       StratumThemeApplication.of(this, themeMode: mode);
 
-  /// The default widget size of [themeData] for [mode]; throws like
-  /// [themeData].
+  /// The default widget size of [mode]'s theme for the current window size;
+  /// throws like [themeData], and like `WindowSizeScope.of` when the size
+  /// varies per window size and no scope is above.
   WidgetSize defaultWidgetSize([ThemeMode? mode]) =>
-      themeData(mode).defaultWidgetSize;
+      StratumTheme.of(this, themeMode: mode).defaultWidgetSize;
 
   /// The window size class of the nearest `WindowSizeScope`; throws the
   /// scope's error, which says how to wrap the app, when none is above.

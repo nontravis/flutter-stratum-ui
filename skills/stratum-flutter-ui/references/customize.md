@@ -33,4 +33,5 @@
   `StratumTheme.of(context).color.byName`, an unmodifiable map from each token path (`brand.normal`,
   `background.color.blue`) to its color.
 - A component's size hook is `resolveDefaultSize(context)`: the widget's `size` when set, else
-  `resolveTheme(context).defaultWidgetSize`, so a subclass that overrides `resolveTheme` sets its own default size.
+  the default widget size of `resolveTheme(context)` for the widget's window size (a passed `windowSize` wins), so a
+  subclass that overrides `resolveTheme` sets its own default size.

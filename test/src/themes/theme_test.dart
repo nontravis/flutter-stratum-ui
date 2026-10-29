@@ -296,7 +296,10 @@ void main() {
       expect(theme.maybeAppColor('kiwi'), isNull);
       expect(theme.themeMode, ThemeMode.light);
       expect(theme.physics, same(data.physics));
-      expect(theme.defaultWidgetSize, data.defaultWidgetSize);
+      expect(
+        theme.defaultWidgetSize,
+        data.defaultWidgetSize.valueFor(WindowSize.values.first),
+      );
       expect(theme.border, same(data.border));
       expect(theme.shadow, same(data.shadow));
       expect(theme.blur, same(data.blur));
@@ -333,5 +336,91 @@ void main() {
           .isUniform,
       isFalse,
     );
+  });
+
+  group('fo03/us15 default widget size', () {
+    final perWindow = _data.copyWith(
+      defaultWidgetSize: StratumByWindowSize(const {
+        WindowSize.mobile: WidgetSize.medium,
+        WindowSize.desktop: WidgetSize.large,
+      }),
+    );
+    testWidgets(
+      'context.defaultWidgetSize() and StratumTheme agree on desktop',
+      (tester) async {
+        _setWidth(tester, 1300);
+        addTearDown(tester.view.reset);
+        WidgetSize? fromContext;
+        WidgetSize? fromTheme;
+
+        await tester.pumpWidget(
+          StratumThemeApplication(
+            themes: StratumThemeSet(light: perWindow),
+            themeMode: ThemeMode.light,
+            child: WindowSizeScope(
+              child: Builder(
+                builder: (context) {
+                  fromContext = context.defaultWidgetSize();
+                  fromTheme = StratumTheme.of(context).defaultWidgetSize;
+                  return const SizedBox();
+                },
+              ),
+            ),
+          ),
+        );
+
+        expect((fromContext, fromTheme), (WidgetSize.large, WidgetSize.large));
+      },
+    );
+
+    testWidgets("fo03/us15/fr01: with no scope of its own, the application's "
+        'body scope serves a per-window-size default', (tester) async {
+      _setWidth(tester, 1300);
+      addTearDown(tester.view.reset);
+      WidgetSize? size;
+
+      await tester.pumpWidget(
+        StratumThemeApplication(
+          themes: StratumThemeSet(light: perWindow),
+          themeMode: ThemeMode.light,
+          child: Builder(
+            builder: (context) {
+              size = context.defaultWidgetSize();
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      expect(tester.takeException(), isNull);
+      expect(size, WidgetSize.large);
+    });
+
+    testWidgets('fo03/us10/fr06/e05: one default widget size reads no window '
+        'size and never throws', (tester) async {
+      WidgetSize? size;
+
+      await tester.pumpWidget(
+        StratumThemeApplication(
+          themes: StratumThemeSet(
+            light: _data.copyWith(
+              defaultWidgetSize: const StratumByWindowSize.all(
+                WidgetSize.small,
+              ),
+            ),
+          ),
+          themeMode: ThemeMode.light,
+          child: Builder(
+            builder: (context) {
+              size = context.defaultWidgetSize();
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      expect(tester.takeException(), isNull);
+      expect(size, WidgetSize.small);
+    });
   });
 }

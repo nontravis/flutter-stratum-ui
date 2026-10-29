@@ -70,7 +70,10 @@ class StratumTheme {
 
   ThemeMode get themeMode => data.themeMode;
 
-  WidgetSize get defaultWidgetSize => data.defaultWidgetSize;
+  /// The default widget size of the current window size; a uniform one
+  /// reads no [WindowSizeScope].
+  WidgetSize get defaultWidgetSize =>
+      data.defaultWidgetSize.valueForWindow(() => WindowSizeScope.of(_context));
 
   /// `data.border`: border widths in logical pixels.
   StratumBorderTokens get border => data.border;
@@ -108,9 +111,7 @@ class StratumTheme {
           'path',
           'no token at this path in the theme data',
         ));
-    final value = token.isUniform
-        ? token.valueFor(WindowSize.values.first)
-        : token.valueFor(WindowSizeScope.of(_context));
+    final value = token.valueForWindow(() => WindowSizeScope.of(_context));
     return switch (value) {
       FixedDimension(:final px) => px,
       PercentDimension(:final ratio) =>

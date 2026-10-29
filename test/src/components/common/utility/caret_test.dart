@@ -225,7 +225,11 @@ void main() {
         await tester.pumpWidget(
           themedHost(
             const StratumCaret(),
-            theme: fakeTheme.copyWith(defaultWidgetSize: WidgetSize.large),
+            theme: fakeTheme.copyWith(
+              defaultWidgetSize: const StratumByWindowSize.all(
+                WidgetSize.large,
+              ),
+            ),
           ),
         );
 

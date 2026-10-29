@@ -56,11 +56,15 @@ mixin StratumWidgetProps {
       context.themeData(themeMode);
 
   /// Returns [size] when set, else the default widget size of
-  /// [resolveTheme]; a subclass that overrides [resolveTheme] sets its
-  /// default size this way. A null [size] reads the theme, so it throws
-  /// like [resolveTheme] when no theme is above [context].
+  /// [resolveTheme] for [resolveWindowSize]; a passed [windowSize] wins, and
+  /// a subclass that overrides [resolveTheme] sets its default size this
+  /// way. A null [size] reads the theme, so it throws like [resolveTheme]
+  /// when no theme is above [context]; a default that is the same on every
+  /// window size reads no `WindowSizeScope`.
   WidgetSize resolveDefaultSize(BuildContext context) =>
-      size ?? resolveTheme(context).defaultWidgetSize;
+      size ??
+      resolveTheme(context).defaultWidgetSize
+          .valueForWindow(() => resolveWindowSize(context));
 
   /// Throws a [FlutterError] when [windowSize] is null and no
   /// `WindowSizeScope` is above [context].

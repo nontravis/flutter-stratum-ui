@@ -90,6 +90,7 @@ abstract class StratumThemeSet with _$StratumThemeSet {
       radius: config.radius,
       layouts: config.layouts,
       ladders: config.ladders,
+      defaultWidgetSize: config.defaultWidgetSize,
       appColors: _appColors(setColors),
       appPalettes: appPalettes,
       assets: assets,

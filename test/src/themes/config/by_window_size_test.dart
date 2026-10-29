@@ -95,6 +95,41 @@ void main() {
     });
   });
 
+  group('valueForWindow', () {
+    test('fo03/us15/fr01/e04: a uniform value reads no window', () {
+      var reads = 0;
+      WindowSize window() {
+        reads++;
+        throw StateError('read a window');
+      }
+
+      expect(const StratumByWindowSize.all(3).valueForWindow(window), 3);
+      expect(
+        StratumByWindowSize(const {WindowSize.mobile: 3, WindowSize.desktop: 3})
+            .valueForWindow(window),
+        3,
+      );
+      expect(reads, 0);
+    });
+
+    test('a varying value reads the window once and gives its entry', () {
+      var reads = 0;
+      final value = StratumByWindowSize(const {
+        WindowSize.mobile: 1,
+        WindowSize.desktop: 2,
+      });
+
+      expect(
+        value.valueForWindow(() {
+          reads++;
+          return WindowSize.bigDesktop;
+        }),
+        2,
+      );
+      expect(reads, 1);
+    });
+  });
+
   test('an empty map asserts', () {
     expect(() => StratumByWindowSize<int>(const {}), throwsAssertionError);
   });

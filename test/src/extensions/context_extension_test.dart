@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/components/common/responsive/window_size_scope.dart';
 import 'package:stratum_ui/src/extensions/context_extension.dart';
+import 'package:stratum_ui/src/themes/config/by_window_size.dart';
 import 'package:stratum_ui/src/themes/constant/widget_size.dart';
 import 'package:stratum_ui/src/themes/constant/window_size.dart';
 import 'package:stratum_ui/src/themes/theme_application.dart';
@@ -73,8 +74,12 @@ void main() {
     });
   });
 
-  final light = fakeTheme.copyWith(defaultWidgetSize: WidgetSize.small);
-  final dark = fakeTheme.copyWith(defaultWidgetSize: WidgetSize.large);
+  final light = fakeTheme.copyWith(
+    defaultWidgetSize: const StratumByWindowSize.all(WidgetSize.small),
+  );
+  final dark = fakeTheme.copyWith(
+    defaultWidgetSize: const StratumByWindowSize.all(WidgetSize.large),
+  );
 
   /// What [read] returns while a probe builds under a theme application
   /// of [light] and [dark] in [mode], or under no application at all.

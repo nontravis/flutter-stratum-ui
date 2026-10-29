@@ -232,7 +232,9 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; Widget sizes;
 - Read the theme data, its default widget size, and the window size where a widget sits:
   `context.themeData()` (or `context.themeData(ThemeMode.dark)`), `context.defaultWidgetSize()`, and
   `context.windowSize`. Each throws a `FlutterError`: `themeData` and `defaultWidgetSize` name the missing
-  `StratumThemeApplication`; the window-size error says how to wrap the app.
+  `StratumThemeApplication`; the window-size error says how to wrap the app. `defaultWidgetSize()` gives the size
+  of the current window size; `StratumThemeData.defaultWidgetSize` is a `StratumByWindowSize<WidgetSize>`, read with
+  `valueForWindow`.
 - **App-wide component defaults** — `StratumThemeApplication(componentDefaults: (theme) => {MyWidget:
   WidgetStyle(...)}, ...)` restyles every instance of a component type from one place; read it in a component's
   `build` through `StratumWidgetProps.resolveStyle(context, defaults, customStyle)`, never directly; the component

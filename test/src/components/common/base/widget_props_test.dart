@@ -6,6 +6,9 @@ import 'package:stratum_ui/src/components/common/base/stateless_widget.dart';
 import 'package:stratum_ui/src/components/common/base/widget_props.dart';
 import 'package:stratum_ui/src/components/common/model/widget_style.dart';
 import 'package:stratum_ui/src/components/common/responsive/window_size_scope.dart';
+import 'package:stratum_ui/src/src.dart'
+    show StratumThemeConfig, StratumThemeSource;
+import 'package:stratum_ui/src/themes/config/by_window_size.dart';
 import 'package:stratum_ui/src/themes/constant/color.dart';
 import 'package:stratum_ui/src/themes/constant/widget_size.dart';
 import 'package:stratum_ui/src/themes/constant/window_size.dart';
@@ -80,10 +83,10 @@ class _StatefulThemeOverrideProbeState
 }
 
 final StratumThemeData _light = fakeTheme.copyWith(
-  defaultWidgetSize: WidgetSize.small,
+  defaultWidgetSize: const StratumByWindowSize.all(WidgetSize.small),
 );
 final StratumThemeData _dark = fakeTheme.copyWith(
-  defaultWidgetSize: WidgetSize.large,
+  defaultWidgetSize: const StratumByWindowSize.all(WidgetSize.large),
 );
 
 const _fallback = Color(0xFF0A0B0C);
@@ -140,6 +143,58 @@ Future<T> _readInBuild<T>(
   return result;
 }
 
+/// The package default with `component.default-size` set to [defaultSize].
+StratumThemeData _sizedData(String defaultSize) => StratumThemeSet.fromConfig(
+  StratumThemeConfig.parse(
+    base: const StratumThemeSource(
+      id: 'stratum-default',
+      folder: 'packages/stratum_ui/assets/themes/default',
+      yaml: defaultThemeSource,
+    ),
+    layers: [
+      StratumThemeSource(
+        id: 'app',
+        folder: 'themes/app',
+        yaml:
+            r'$schema: stratum-theme/v2.0.0'
+            '\n'
+            'component:\n  default-size: $defaultSize',
+      ),
+    ],
+  ),
+).light;
+
+void _setView(WidgetTester tester, double width, double height) {
+  tester.view.devicePixelRatio = 1;
+  tester.view.physicalSize = Size(width, height);
+  addTearDown(tester.view.reset);
+}
+
+/// Builds [probe] under [data], inside a `WindowSizeScope` when [scope] is
+/// set, and records what `resolveDefaultSize` returns on every build.
+Future<List<WidgetSize>> _pumpSized(
+  WidgetTester tester,
+  StratumWidgetProps probe,
+  StratumThemeData data, {
+  bool scope = true,
+}) async {
+  final sizes = <WidgetSize>[];
+  final reader = Builder(
+    builder: (context) {
+      sizes.add(probe.resolveDefaultSize(context));
+      return const SizedBox();
+    },
+  );
+  await tester.pumpWidget(
+    StratumThemeApplication(
+      themes: StratumThemeSet(light: data),
+      themeMode: ThemeMode.light,
+      child: scope ? WindowSizeScope(child: reader) : reader,
+    ),
+  );
+  return sizes;
+}
+
 void main() {
   test('fo08/us01/fr01: StratumStatelessWidget holds the eight shared props '
       'at their defaults', () {
@@ -192,7 +247,9 @@ void main() {
 
     testWidgets('fo08/us01/fr02: a subclass that overrides resolveTheme sets '
         'the default size', (tester) async {
-      final override = fakeTheme.copyWith(defaultWidgetSize: WidgetSize.huge);
+      final override = fakeTheme.copyWith(
+        defaultWidgetSize: const StratumByWindowSize.all(WidgetSize.huge),
+      );
       final probe = _StatelessThemeOverrideProbe(overrideTheme: override);
 
       final size = await _readInBuild(
@@ -202,6 +259,80 @@ void main() {
       );
 
       expect(size, WidgetSize.huge);
+    });
+  });
+
+  group('resolveDefaultSize per window size', () {
+    final data = _sizedData('{ mobile: medium, desktop: large }');
+    final cases = <(String, double, double, WidgetSize)>[
+      ('fo03/us15/s1, fo03/us15/fr01: desktop', 1300, 800, WidgetSize.large),
+      (
+        'fo03/us15/s2, fo03/us15/fr01/e01: tablet',
+        900,
+        1000,
+        WidgetSize.medium,
+      ),
+      ('fo03/us15/s3, fo03/us15/fr01/e02: watch', 200, 200, WidgetSize.medium),
+      ('fo03/us15/fr01/e03: big desktop', 1700, 900, WidgetSize.large),
+    ];
+    for (final (name, width, height, expected) in cases) {
+      testWidgets('$name gives $expected', (tester) async {
+        _setView(tester, width, height);
+
+        final sizes = await _pumpSized(tester, const _StatelessProbe(), data);
+
+        expect(sizes, [expected]);
+      });
+    }
+
+    testWidgets('fo03/us15/fr01/e04: a single default size reads no '
+        'WindowSizeScope and does not throw', (tester) async {
+      final sizes = await _pumpSized(
+        tester,
+        const _StatelessProbe(),
+        _sizedData('small'),
+        scope: false,
+      );
+
+      expect(tester.takeException(), isNull);
+      expect(sizes, [WidgetSize.small]);
+    });
+
+    testWidgets('fo03/us15/s4, fo03/us15/fr01/e05: a passed size wins on '
+        'desktop', (tester) async {
+      _setView(tester, 1300, 800);
+
+      final sizes = await _pumpSized(
+        tester,
+        const _StatelessProbe(size: WidgetSize.small),
+        data,
+      );
+
+      expect(sizes, [WidgetSize.small]);
+    });
+
+    testWidgets('a passed windowSize wins over the scope', (tester) async {
+      _setView(tester, 1300, 800);
+
+      final sizes = await _pumpSized(
+        tester,
+        const _StatelessProbe(windowSize: WindowSize.mobile),
+        data,
+      );
+
+      expect(sizes, [WidgetSize.medium]);
+    });
+
+    testWidgets('fo03/us15/fr01/e06: a resize from 1100 to 1300 px wide '
+        'rebuilds the probe once, at large', (tester) async {
+      _setView(tester, 1100, 800);
+      final sizes = await _pumpSized(tester, const _StatelessProbe(), data);
+      expect(sizes, [WidgetSize.medium]);
+
+      tester.view.physicalSize = const Size(1300, 800);
+      await tester.pump();
+
+      expect(sizes, [WidgetSize.medium, WidgetSize.large]);
     });
   });
 
@@ -554,7 +685,9 @@ void main() {
 
     testWidgets('fo08/us01/fr02: a subclass that overrides resolveTheme sets '
         'the default size', (tester) async {
-      final override = fakeTheme.copyWith(defaultWidgetSize: WidgetSize.huge);
+      final override = fakeTheme.copyWith(
+        defaultWidgetSize: const StratumByWindowSize.all(WidgetSize.huge),
+      );
       final probe = _StatefulThemeOverrideProbe(overrideTheme: override);
 
       final size = await _readInBuild(

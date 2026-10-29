@@ -166,7 +166,10 @@ void main() {
       final set = defaultThemeSet;
       final light = set.light;
 
-      expect(light.defaultWidgetSize, WidgetSize.medium);
+      expect(
+        light.defaultWidgetSize,
+        const StratumByWindowSize.all(WidgetSize.medium),
+      );
       expect(light.splashFactory, same(NoSplash.splashFactory));
       expect(light.scrollBehavior, isA<StratumScrollBehavior>());
       expect(light.physics, isA<ClampingScrollPhysics>());

@@ -45,7 +45,7 @@ mixin _$StratumThemeData {
 /// such as `caret.side`, each holding one value per [WidgetSize] step;
 /// read them through [component] (FO-01 US-06 FR-03).
  Map<String, Map<WidgetSize, double>> get ladders;/// The 64 built-in transparent steps.
- StratumTransparentTokens get transparent; WidgetSize get defaultWidgetSize; InteractiveInkFeatureFactory get splashFactory; ScrollBehavior get scrollBehavior; ScrollPhysics get physics;
+ StratumTransparentTokens get transparent; StratumByWindowSize<WidgetSize> get defaultWidgetSize; InteractiveInkFeatureFactory get splashFactory; ScrollBehavior get scrollBehavior; ScrollPhysics get physics;
 /// Create a copy of StratumThemeData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -81,7 +81,7 @@ abstract mixin class $StratumThemeDataCopyWith<$Res>  {
   factory $StratumThemeDataCopyWith(StratumThemeData value, $Res Function(StratumThemeData) _then) = _$StratumThemeDataCopyWithImpl;
 @useResult
 $Res call({
- ThemeMode themeMode, StratumColorTokens color, StratumPaletteTokens palette, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> appColors, Map<String, Map<String, Color>> appPalettes, StratumAssetTokens assets, Map<String, Object?> extensions, StratumTypography typography, StratumAnimation animation, StratumOpacityTokens opacity, StratumBorderTokens border, StratumShadowTokens shadow, StratumBlurTokens blur, SystemStyle systemStyle, StratumFocusTokens focus, Map<String, Map<WidgetSize, double>> ladders, StratumTransparentTokens transparent, WidgetSize defaultWidgetSize, InteractiveInkFeatureFactory splashFactory, ScrollBehavior scrollBehavior, ScrollPhysics physics
+ ThemeMode themeMode, StratumColorTokens color, StratumPaletteTokens palette, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> appColors, Map<String, Map<String, Color>> appPalettes, StratumAssetTokens assets, Map<String, Object?> extensions, StratumTypography typography, StratumAnimation animation, StratumOpacityTokens opacity, StratumBorderTokens border, StratumShadowTokens shadow, StratumBlurTokens blur, SystemStyle systemStyle, StratumFocusTokens focus, Map<String, Map<WidgetSize, double>> ladders, StratumTransparentTokens transparent, StratumByWindowSize<WidgetSize> defaultWidgetSize, InteractiveInkFeatureFactory splashFactory, ScrollBehavior scrollBehavior, ScrollPhysics physics
 });
 
 
@@ -121,7 +121,7 @@ as SystemStyle,focus: null == focus ? _self.focus : focus // ignore: cast_nullab
 as StratumFocusTokens,ladders: null == ladders ? _self.ladders : ladders // ignore: cast_nullable_to_non_nullable
 as Map<String, Map<WidgetSize, double>>,transparent: null == transparent ? _self.transparent : transparent // ignore: cast_nullable_to_non_nullable
 as StratumTransparentTokens,defaultWidgetSize: null == defaultWidgetSize ? _self.defaultWidgetSize : defaultWidgetSize // ignore: cast_nullable_to_non_nullable
-as WidgetSize,splashFactory: null == splashFactory ? _self.splashFactory : splashFactory // ignore: cast_nullable_to_non_nullable
+as StratumByWindowSize<WidgetSize>,splashFactory: null == splashFactory ? _self.splashFactory : splashFactory // ignore: cast_nullable_to_non_nullable
 as InteractiveInkFeatureFactory,scrollBehavior: null == scrollBehavior ? _self.scrollBehavior : scrollBehavior // ignore: cast_nullable_to_non_nullable
 as ScrollBehavior,physics: null == physics ? _self.physics : physics // ignore: cast_nullable_to_non_nullable
 as ScrollPhysics,
@@ -172,7 +172,7 @@ $StratumFocusTokensCopyWith<$Res> get focus {
 
 
 class _StratumThemeData extends StratumThemeData {
-  const _StratumThemeData({required this.themeMode, required this.color, required this.palette, required  Map<String, StratumByWindowSize<StratumDimension>> space, required  Map<String, StratumByWindowSize<StratumDimension>> radius, required  Map<String, StratumByWindowSize<StratumDimension>> layouts, required  Map<String, Color> appColors, required  Map<String, Map<String, Color>> appPalettes, required this.assets, required  Map<String, Object?> extensions, required this.typography, required this.animation, required this.opacity, required this.border, required this.shadow, required this.blur, required this.systemStyle, required this.focus, required  Map<String, Map<WidgetSize, double>> ladders, this.transparent = StratumTransparentTokens.builtIn, this.defaultWidgetSize = WidgetSize.medium, this.splashFactory = NoSplash.splashFactory, this.scrollBehavior = const StratumScrollBehavior(), this.physics = const ClampingScrollPhysics()}): _space = space,_radius = radius,_layouts = layouts,_appColors = appColors,_appPalettes = appPalettes,_extensions = extensions,_ladders = ladders,super._();
+  const _StratumThemeData({required this.themeMode, required this.color, required this.palette, required  Map<String, StratumByWindowSize<StratumDimension>> space, required  Map<String, StratumByWindowSize<StratumDimension>> radius, required  Map<String, StratumByWindowSize<StratumDimension>> layouts, required  Map<String, Color> appColors, required  Map<String, Map<String, Color>> appPalettes, required this.assets, required  Map<String, Object?> extensions, required this.typography, required this.animation, required this.opacity, required this.border, required this.shadow, required this.blur, required this.systemStyle, required this.focus, required  Map<String, Map<WidgetSize, double>> ladders, this.transparent = StratumTransparentTokens.builtIn, this.defaultWidgetSize = const StratumByWindowSize<WidgetSize>.all(WidgetSize.medium), this.splashFactory = NoSplash.splashFactory, this.scrollBehavior = const StratumScrollBehavior(), this.physics = const ClampingScrollPhysics()}): _space = space,_radius = radius,_layouts = layouts,_appColors = appColors,_appPalettes = appPalettes,_extensions = extensions,_ladders = ladders,super._();
   
 
 /// `ThemeMode.light` for the light and high-contrast light data,
@@ -272,7 +272,7 @@ class _StratumThemeData extends StratumThemeData {
 
 /// The 64 built-in transparent steps.
 @override@JsonKey() final  StratumTransparentTokens transparent;
-@override@JsonKey() final  WidgetSize defaultWidgetSize;
+@override@JsonKey() final  StratumByWindowSize<WidgetSize> defaultWidgetSize;
 @override@JsonKey() final  InteractiveInkFeatureFactory splashFactory;
 @override@JsonKey() final  ScrollBehavior scrollBehavior;
 @override@JsonKey() final  ScrollPhysics physics;
@@ -309,7 +309,7 @@ abstract mixin class _$StratumThemeDataCopyWith<$Res> implements $StratumThemeDa
   factory _$StratumThemeDataCopyWith(_StratumThemeData value, $Res Function(_StratumThemeData) _then) = __$StratumThemeDataCopyWithImpl;
 @override @useResult
 $Res call({
- ThemeMode themeMode, StratumColorTokens color, StratumPaletteTokens palette, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> appColors, Map<String, Map<String, Color>> appPalettes, StratumAssetTokens assets, Map<String, Object?> extensions, StratumTypography typography, StratumAnimation animation, StratumOpacityTokens opacity, StratumBorderTokens border, StratumShadowTokens shadow, StratumBlurTokens blur, SystemStyle systemStyle, StratumFocusTokens focus, Map<String, Map<WidgetSize, double>> ladders, StratumTransparentTokens transparent, WidgetSize defaultWidgetSize, InteractiveInkFeatureFactory splashFactory, ScrollBehavior scrollBehavior, ScrollPhysics physics
+ ThemeMode themeMode, StratumColorTokens color, StratumPaletteTokens palette, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> appColors, Map<String, Map<String, Color>> appPalettes, StratumAssetTokens assets, Map<String, Object?> extensions, StratumTypography typography, StratumAnimation animation, StratumOpacityTokens opacity, StratumBorderTokens border, StratumShadowTokens shadow, StratumBlurTokens blur, SystemStyle systemStyle, StratumFocusTokens focus, Map<String, Map<WidgetSize, double>> ladders, StratumTransparentTokens transparent, StratumByWindowSize<WidgetSize> defaultWidgetSize, InteractiveInkFeatureFactory splashFactory, ScrollBehavior scrollBehavior, ScrollPhysics physics
 });
 
 
@@ -349,7 +349,7 @@ as SystemStyle,focus: null == focus ? _self.focus : focus // ignore: cast_nullab
 as StratumFocusTokens,ladders: null == ladders ? _self._ladders : ladders // ignore: cast_nullable_to_non_nullable
 as Map<String, Map<WidgetSize, double>>,transparent: null == transparent ? _self.transparent : transparent // ignore: cast_nullable_to_non_nullable
 as StratumTransparentTokens,defaultWidgetSize: null == defaultWidgetSize ? _self.defaultWidgetSize : defaultWidgetSize // ignore: cast_nullable_to_non_nullable
-as WidgetSize,splashFactory: null == splashFactory ? _self.splashFactory : splashFactory // ignore: cast_nullable_to_non_nullable
+as StratumByWindowSize<WidgetSize>,splashFactory: null == splashFactory ? _self.splashFactory : splashFactory // ignore: cast_nullable_to_non_nullable
 as InteractiveInkFeatureFactory,scrollBehavior: null == scrollBehavior ? _self.scrollBehavior : scrollBehavior // ignore: cast_nullable_to_non_nullable
 as ScrollBehavior,physics: null == physics ? _self.physics : physics // ignore: cast_nullable_to_non_nullable
 as ScrollPhysics,

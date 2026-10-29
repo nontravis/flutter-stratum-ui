@@ -49,6 +49,11 @@ class StratumByWindowSize<T> with _$StratumByWindowSize<T> {
     return values[WindowSize.values[index!]] as T;
   }
 
+  /// The value for the current window: [window] is called only when the
+  /// value varies, so a uniform value reads no `WindowSizeScope` (spec G11).
+  T valueForWindow(WindowSize Function() window) =>
+      valueFor(isUniform ? WindowSize.values.first : window());
+
   /// Whether [size] is one `theme.yaml` names: always true for `.all`, a
   /// scalar that sets every window size; for a map, whether it declares
   /// [size] (FO-02 US-04 FR-02, the shared window-size fill).

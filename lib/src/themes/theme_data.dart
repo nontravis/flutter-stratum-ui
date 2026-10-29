@@ -76,7 +76,8 @@ abstract class StratumThemeData with _$StratumThemeData {
     /// The 64 built-in transparent steps.
     @Default(StratumTransparentTokens.builtIn)
     StratumTransparentTokens transparent,
-    @Default(WidgetSize.medium) WidgetSize defaultWidgetSize,
+    @Default(StratumByWindowSize<WidgetSize>.all(WidgetSize.medium))
+    StratumByWindowSize<WidgetSize> defaultWidgetSize,
     @Default(NoSplash.splashFactory) InteractiveInkFeatureFactory splashFactory,
     @Default(StratumScrollBehavior()) ScrollBehavior scrollBehavior,
     @Default(ClampingScrollPhysics()) ScrollPhysics physics,

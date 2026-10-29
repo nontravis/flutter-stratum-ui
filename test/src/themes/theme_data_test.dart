@@ -232,7 +232,7 @@ void main() {
         typography: typography,
         animation: animation,
         opacity: opacity,
-        defaultWidgetSize: WidgetSize.huge,
+        defaultWidgetSize: const StratumByWindowSize.all(WidgetSize.huge),
         border: border,
         shadow: shadow,
         blur: blur,
@@ -257,7 +257,10 @@ void main() {
       expect(copy.typography, same(typography));
       expect(copy.animation, same(animation));
       expect(copy.opacity, same(opacity));
-      expect(copy.defaultWidgetSize, WidgetSize.huge);
+      expect(
+        copy.defaultWidgetSize,
+        const StratumByWindowSize.all(WidgetSize.huge),
+      );
       expect(copy.border, same(border));
       expect(copy.shadow, same(shadow));
       expect(copy.blur, same(blur));
@@ -284,7 +287,12 @@ void main() {
         data.copyWith(physics: const BouncingScrollPhysics()),
         isNot(data),
       );
-      expect(data.copyWith(defaultWidgetSize: WidgetSize.small), isNot(data));
+      expect(
+        data.copyWith(
+          defaultWidgetSize: const StratumByWindowSize.all(WidgetSize.small),
+        ),
+        isNot(data),
+      );
     });
 
     test('D4: StratumAppPalette compares by name and shade content', () {
