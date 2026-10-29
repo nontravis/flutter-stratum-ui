@@ -4,9 +4,9 @@ import 'package:stratum_ui/src/src.dart';
 ///
 /// Read it inside `build` only: each read registers its dependencies on
 /// the context that created the view. A `space`, `radius`, or `layouts`
-/// token that is the same on every window size reads no
-/// [WindowSizeScope]; a varying one reads [WindowSizeScope.of], so the
-/// reader rebuilds when the window crosses a breakpoint; a `layouts`
+/// token, or the `defaultWidgetSize`, that is the same on every window size
+/// reads no [WindowSizeScope]; a varying one reads [WindowSizeScope.of], so
+/// the reader rebuilds when the window crosses a breakpoint; a `layouts`
 /// percent reads `MediaQuery.sizeOf(context).width`, so the reader
 /// rebuilds on every width change.
 class StratumTheme {
