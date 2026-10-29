@@ -4,11 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
 import 'package:stratum_ui/src/components/common/layout/page_areas.dart';
 import 'package:stratum_ui/src/components/common/layout/page_drawer.dart'
-    show
-        PageDrawerStage,
-        inlinePaneWidth,
-        overlayDrawerWidth,
-        resolveDrawerType;
+    show PageDrawerStage, resolveDrawerType;
 import 'package:stratum_ui/src/components/common/model/page_layout/page_areas.dart';
 import 'package:stratum_ui/src/components/common/model/solid_fill.dart';
 import 'package:stratum_ui/src/components/common/widget_settings/setting_binding.dart';
@@ -128,8 +124,9 @@ class PageLayoutController extends ChangeNotifier {
 /// keyboard's top, so [bottom] rides above it, and [footer] stays docked at
 /// the bottom edge under the keyboard (US-18 FR-05).
 ///
-/// Below [drawerCut], [WindowSize.tablet] by default, [left] and [right]
-/// are drawers that take no space: [PageLayoutController.openLeft] and
+/// Where [inlinePanes] resolves no, below [WindowSize.tablet] by default,
+/// [left] and [right] are drawers that take no space:
+/// [PageLayoutController.openLeft] and
 /// [PageLayoutController.openRight] open them, a swipe from their screen
 /// edge opens them while [edgeSwipe] holds, and a tap on the scrim, a drag
 /// toward their edge, Esc, or back closes them, back before the route pops.
@@ -138,16 +135,18 @@ class PageLayoutController extends ChangeNotifier {
 /// open drawer keeps focus inside it, reads as its own named screen, and
 /// hides the page behind from screen readers (US-19 FR-02 to FR-05).
 ///
-/// At and above the cut both sides sit inline beside the center column, as
-/// two nested [SplitLayout]s, with a divider the EndUser drags or moves by
-/// the arrow, Home, and End keys, within the side's width bounds. A divider
-/// paints only what [leftDividerBuilder] or [rightDividerBuilder] paints,
-/// while it always takes the drag, the keys, and focus, and reads as a
-/// slider. Each pane opens at the controller's chosen width, else at its
-/// Figma width, and the controller hears each settled resize as the new
-/// width (US-19 FR-06). With [rightAsOverlay], [right] opens there instead
-/// as a front drawer over a scrim, with a close button (US-19 FR-01). A
-/// drawer open as the window crosses into inline panes closes.
+/// Where [inlinePanes] resolves yes both sides sit inline beside the
+/// center column, as two nested [SplitLayout]s, with a divider the EndUser
+/// drags or moves by the arrow, Home, and End keys, within the side's
+/// width bounds. A divider paints only what [leftDividerBuilder] or
+/// [rightDividerBuilder] paints, while it always takes the drag, the keys,
+/// and focus, and reads as a slider. Each pane opens at the controller's
+/// chosen width, else at the theme's `layouts.left-pane-width` or
+/// `layouts.right-pane-width` for the window size, and the controller
+/// hears each settled resize as the new width (US-19 FR-06). With
+/// [rightAsOverlay], [right] opens there instead as a front drawer over a
+/// scrim, with a close button (US-19 FR-01). A drawer open as the window
+/// crosses into inline panes closes.
 ///
 /// While [loading] holds, a layer over the whole page refuses every tap and
 /// keyboard focus, reads as a live region with the built-in loading label,
@@ -188,7 +187,7 @@ class PageLayout extends StatefulWidget {
     this.controller,
     this.leftSide = const PageSide(),
     this.rightSide = const PageSide(),
-    this.drawerCut = WindowSize.tablet,
+    this.inlinePanes = const Responsive(false, tablet: true),
     this.rightAsOverlay = false,
     this.minCenterWidth = 320,
     this.leftDividerBuilder,
@@ -254,14 +253,17 @@ class PageLayout extends StatefulWidget {
   /// pane.
   final PageSide rightSide;
 
-  /// The smallest window size that shows [left] and [right] as inline
-  /// panes; below it both are drawers.
-  final WindowSize drawerCut;
+  /// The page layout's responsive prop: whether [left] and [right] sit
+  /// inline beside the center column (FO-07 US-03 FR-02). Resolves no on
+  /// a window size to show both as drawers; the default is no with a
+  /// tablet override of yes.
+  final Responsive<bool> inlinePanes;
 
-  /// Whether [right] opens at and above [drawerCut] as a front overlay
-  /// drawer with a scrim and a close button, 450 px wide at
-  /// [WindowSize.bigDesktop] and 400 px below it, instead of an inline
-  /// pane.
+  /// Whether [right] opens where [inlinePanes] resolves yes as a front
+  /// overlay drawer with a scrim and a close button, as wide as the
+  /// theme's `layouts.overlay-drawer-width` for the window size (450 px at
+  /// [WindowSize.bigDesktop], 400 px below it, on the default theme),
+  /// instead of an inline pane.
   final bool rightAsOverlay;
 
   /// The least width, in logical pixels, the center column keeps beside the
@@ -816,24 +818,24 @@ class _PageLayoutState extends State<PageLayout>
 
   // MARK: - Drawers
 
-  /// Whether the window sits below [PageLayout.drawerCut], where `left`
-  /// and `right` are drawers (layout s03 INV-69).
-  bool get _belowCut => _windowSize < widget.drawerCut;
+  /// Whether [PageLayout.inlinePanes] resolves yes for the window size,
+  /// so `left` and `right` sit inline (layout s03 INV-69).
+  bool get _inlinePanes => widget.inlinePanes.resolve(_windowSize);
 
-  /// Whether [side] is `right` shown as the front overlay drawer, at or
-  /// above the drawer cut (US-19 FR-01 E04).
+  /// Whether [side] is `right` shown as the front overlay drawer, where
+  /// the panes sit inline (US-19 FR-01 E04).
   bool _isOverlay(PageDrawerSide side) =>
-      side == PageDrawerSide.right && widget.rightAsOverlay && !_belowCut;
+      side == PageDrawerSide.right && widget.rightAsOverlay && _inlinePanes;
 
   /// [side]'s slot while it sits inline; null where it is a drawer.
   Widget? _inlineOf(PageDrawerSide side) =>
-      _belowCut || _isOverlay(side) ? null : _slotOf(side);
+      _inlinePanes && !_isOverlay(side) ? _slotOf(side) : null;
 
-  /// [PageLayout.left] while it sits inline; null below the drawer cut.
+  /// [PageLayout.left] while it sits inline; null where it is a drawer.
   Widget? get _inlineLeft => _inlineOf(PageDrawerSide.left);
 
-  /// [PageLayout.right] while it sits inline; null below the drawer cut or
-  /// as the overlay drawer.
+  /// [PageLayout.right] while it sits inline; null where it is a drawer
+  /// or the overlay drawer.
   Widget? get _inlineRight => _inlineOf(PageDrawerSide.right);
 
   Widget? _slotOf(PageDrawerSide side) => switch (side) {
@@ -849,10 +851,10 @@ class _PageLayoutState extends State<PageLayout>
   PageDrawerType _typeOf(PageDrawerSide side) =>
       resolveDrawerType(_drawerSide(side) ?? _sideOf(side), _platform);
 
-  /// Whether [side] opens as a drawer here: its slot is set, and the window
-  /// sits below the drawer cut or [side] is the overlay drawer.
+  /// Whether [side] opens as a drawer here: its slot is set, and the
+  /// panes sit as drawers or [side] is the overlay drawer.
   bool _isDrawer(PageDrawerSide side) =>
-      _slotOf(side) != null && (_belowCut || _isOverlay(side));
+      _slotOf(side) != null && (!_inlinePanes || _isOverlay(side));
 
   /// Whether a drag moves [side]'s drawer frame by frame: every type but
   /// `permanent` and `page`, which open or close only on release.
@@ -1069,12 +1071,13 @@ class _PageLayoutState extends State<PageLayout>
   }
 
   /// [side]'s drawer, or null where it has none: the overlay drawer is a
-  /// `front` drawer [overlayDrawerWidth] wide, never wider than the box
-  /// (US-19 FR-01, FR-04 E10), with the side's label (US-19 FR-01 E04).
+  /// `front` drawer as wide as the theme's `layouts.overlay-drawer-width`
+  /// for the window size, never wider than the box (US-19 FR-01, FR-04
+  /// E10), with the side's label (US-19 FR-01 E04).
   PageSide? _drawerSide(PageDrawerSide side) {
     if (!_isDrawer(side)) return null;
     if (!_isOverlay(side)) return _sideOf(side);
-    final width = overlayDrawerWidth(_windowSize);
+    final width = context.theme.layouts.overlayDrawerWidth;
     return PageSide(
       type: PageDrawerType.front,
       minWidth: width,
@@ -1387,7 +1390,10 @@ class _PageLayoutState extends State<PageLayout>
       PageDrawerSide.right => _controller.rightWidth,
     };
     return PageLayoutController._checked(chosen) ??
-        inlinePaneWidth(side, _windowSize);
+        switch (side) {
+          PageDrawerSide.left => context.theme.layouts.leftPaneWidth,
+          PageDrawerSide.right => context.theme.layouts.rightPaneWidth,
+        };
   }
 
   /// The least width of the main column beside `left` in a split [extent]

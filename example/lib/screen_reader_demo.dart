@@ -308,7 +308,7 @@ class _ScreenReaderDemoPage extends StatelessWidget {
           style: const WidgetStyle(padding: EdgeInsets.all(24)),
           children: const [Text('Check 3: the start pane.')],
         ),
-        drawerCut: WindowSize.bigDesktop,
+        inlinePanes: const Responsive(false, bigDesktop: true),
         onDrawerChanged: (side) =>
             checks.record(side == null ? 'Drawer closed' : 'Drawer opened'),
         body: ColumnLayout(

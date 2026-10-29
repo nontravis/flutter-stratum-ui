@@ -1183,6 +1183,111 @@ void main() {
     });
   });
 
+  group('PageLayout inlinePanes', () {
+    testWidgets(
+      'fo07/us03/s1, fo07/us03/fr02: the default inlinePanes, off with a '
+      'tablet override that turns it on, shows the side panes as drawers on a '
+      'mobile window',
+      (tester) async {
+        _view(tester, size: _phone);
+        await tester.pumpWidget(
+          _host(
+            const PageLayout(
+              left: Text('left pane'),
+              right: Text('right pane'),
+              body: Text('body'),
+            ),
+          ),
+        );
+        expect(find.text('left pane'), findsNothing);
+        expect(find.text('right pane'), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'fo07/us03/s2: the same page shows the side panes inline beside the body '
+      'on a tablet window',
+      (tester) async {
+        _view(tester);
+        await tester.pumpWidget(
+          _host(
+            const PageLayout(
+              left: Text('left pane'),
+              right: Text('right pane'),
+              body: Text('body'),
+            ),
+          ),
+        );
+        expect(find.text('left pane'), findsOneWidget);
+        expect(find.text('right pane'), findsOneWidget);
+        expect(
+          _rect(tester, 'left pane').right,
+          lessThanOrEqualTo(_rect(tester, 'body').left),
+        );
+        expect(
+          _rect(tester, 'body').right,
+          lessThanOrEqualTo(_rect(tester, 'right pane').left),
+        );
+      },
+    );
+
+    testWidgets(
+      'fo07/us03/s3: a mobile window widening across the tablet breakpoint '
+      'rebuilds the page once, with the side panes inline',
+      (tester) async {
+        var builds = 0;
+        _view(tester, size: _phone);
+        await tester.pumpWidget(
+          _host(
+            PageLayout(
+              left: Builder(
+                builder: (context) {
+                  builds++;
+                  return const Text('left pane');
+                },
+              ),
+              body: const Text('body'),
+            ),
+          ),
+        );
+        expect(find.text('left pane'), findsNothing);
+        expect(builds, 0);
+        _view(tester);
+        await tester.pumpAndSettle();
+        expect(find.text('left pane'), findsOneWidget);
+        expect(builds, 1);
+        await tester.pump();
+        expect(builds, 1);
+      },
+    );
+
+    testWidgets(
+      'fo07/us03/fr02/e02: a resize inside desktop does not rebuild the left '
+      'slot',
+      (tester) async {
+        var builds = 0;
+        _view(tester);
+        await tester.pumpWidget(
+          _host(
+            PageLayout(
+              left: Builder(
+                builder: (context) {
+                  builds++;
+                  return const Text('left pane');
+                },
+              ),
+              body: const Text('body'),
+            ),
+          ),
+        );
+        expect(builds, 1);
+        _view(tester, size: const Size(1450, 900));
+        await tester.pumpAndSettle();
+        expect(builds, 1);
+      },
+    );
+  });
+
   group('PageLayout accessibility gate', () {
     testWidgets('NFR-U01: slot text on the slot fills passes contrast', (
       tester,

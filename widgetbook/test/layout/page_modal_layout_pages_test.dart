@@ -90,7 +90,7 @@ final _pages = <_Page>[
       'controller',
       'leftSide',
       'rightSide',
-      'drawerCut',
+      'inlinePanesFrom',
       'rightAsOverlay',
       'minCenterWidth',
       'leftDividerBuilder',

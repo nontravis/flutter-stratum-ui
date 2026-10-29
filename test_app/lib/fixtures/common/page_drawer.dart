@@ -55,7 +55,7 @@ class _PageDrawerFixtureState extends State<PageDrawerFixture> {
       controller: _controller,
       // The largest window size, so the left pane is a drawer on every window,
       // the tablet one included.
-      drawerCut: WindowSize.bigDesktop,
+      inlinePanes: const Responsive(false, bigDesktop: true),
       left: ColumnLayout(
         mainAxisAlignment: MainAxisAlignment.center,
         gap: 8,

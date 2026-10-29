@@ -92,7 +92,7 @@ class _PageLayoutFixtureState extends State<PageLayoutFixture> {
         controller: _pageController,
         // The smallest window size, so no window size puts the pane in a
         // drawer; a phone shows it inline too.
-        drawerCut: WindowSize.watch,
+        inlinePanes: const Responsive(true),
         minCenterWidth: 0,
         header: ColumnLayout(
           crossAxisAlignment: CrossAxisAlignment.start,

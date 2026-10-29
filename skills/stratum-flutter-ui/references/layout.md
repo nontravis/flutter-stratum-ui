@@ -467,8 +467,9 @@ beside `style`, which draws the box.
 - **Style** — `customStyle: PageLayoutStyle(outer:, header:, top:, tab:, left:, body:, right:, bottom:, footer:,
   snack:)`, merged over the theme (edge slots `background.default.surface`, page and body
   `background.default.normal`), then over the app-wide `componentPartDefaults` entry for `PageLayout`.
-- **Drawers** — below `drawerCut` (default `WindowSize.tablet`), `left` and `right` are drawers that take no space; at
-  the cut and up they sit inline. Open one from a menu button with `PageLayout.of(context).openLeft()` (or
+- **Drawers** — where `inlinePanes` (a `Responsive<bool>`, default `Responsive(false, tablet: true)`) resolves false,
+  `left` and `right` are drawers that take no space; where it resolves true they sit inline. Open one from a menu
+  button with `PageLayout.of(context).openLeft()` (or
   `openRight()`), close it with `close()`, and listen with `onDrawerChanged:` (the side that opened, then null once it
   closed); `openLeft()` on a side shown inline does nothing. The EndUser also opens one by a swipe from its edge of the
   `PageLayout`'s own box (never from the iOS start edge of a page that can go back, and never with `edgeSwipe: false`)
@@ -476,17 +477,19 @@ beside `style`, which draws the box.
   maxWidth: 320)` picks the type (`front`, `back`, `slide`, `permanent`, or `page`; default `slide` on iOS, `front`
   elsewhere), the width bounds (80% of the `PageLayout`'s own box, up to 360 by default, never wider than that box), an
   optional page scale, and `semanticsLabel:`. A `page` drawer opens as a new page that sits outside the `PageLayout`, so
-  close it with `Navigator.pop`, never `PageLayout.of`. A drawer open when the window grows past the cut closes
+  close it with `Navigator.pop`, never `PageLayout.of`. A drawer open when `inlinePanes` flips to true closes
   (`onDrawerChanged` hears null after that frame) and the side shows inline.
-- **Side panes** — at the cut and up, `left` and `right` sit beside the center column as `SplitLayout` panes the EndUser
+- **Side panes** — where `inlinePanes` resolves true, `left` and `right` sit beside the center column as `SplitLayout` panes the EndUser
   resizes by drag, arrow keys, Home, and End, within the side's `minWidth` and `maxWidth`; on either divider End widens
   the side pane to its maximum, Home narrows it to its minimum, and the slider reads its share, while the arrows move by
   screen direction. Nothing paints between a pane and the center column; paint a line with `leftDividerBuilder:` or
   `rightDividerBuilder:`, the same `(context, state)` shape as `SplitLayout.dividerBuilder`. A pane opens at the
-  controller's chosen width, else at Figma's (`left` 280 and `right` 380 at `bigDesktop`; 260 and 320 below). The center
+  controller's chosen width, else at the theme's `layouts.left-pane-width` or `layouts.right-pane-width` for the window
+  size (left 280 and right 380 at `bigDesktop`; 260 and 320 below, on the default theme). The center
   column keeps at least `minCenterWidth` (default 320): a divider stops there, and a narrow window narrows the panes
-  first. `rightAsOverlay: true` instead opens `right` at the cut and up as a front drawer over a scrim, 450 wide at
-  `bigDesktop` and 400 below (never wider than the `PageLayout`'s own box), with a close button; open it with
+  first. `rightAsOverlay: true` instead opens `right` where the panes sit inline as a front drawer over a scrim, as wide
+  as `layouts.overlay-drawer-width` for the window size (450 at `bigDesktop` and 400 below on the default theme; never
+  wider than the `PageLayout`'s own box), with a close button; open it with
   `openRight()`.
 - **Controller** — `PageLayout.of(context)` returns the page's `PageLayoutController`, which opens and closes its
   drawers; pass your own `PageLayoutController(leftWidth:, rightWidth:)` to restore kept side pane widths, listen to

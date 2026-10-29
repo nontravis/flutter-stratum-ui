@@ -35,24 +35,6 @@ double drawerWidth(double boxWidth, {double? min, double? max}) {
   return (boxWidth * 0.8).clamp(lower, upper);
 }
 
-/// The width of the right overlay drawer at [window]: 450 at
-/// [WindowSize.bigDesktop] and 400 below it, the Figma `RIGHT_DRAWER`
-/// frames (US-19 FR-01 E04).
-double overlayDrawerWidth(WindowSize window) =>
-    window == WindowSize.bigDesktop ? 450 : 400;
-
-/// The width [side]'s inline pane opens at on [window] while no width is
-/// chosen: the Figma page layout's side widths, `left` 280 and `right` 380
-/// at [WindowSize.bigDesktop], the 1600 `DESKTOP` frame, and `left` 260 and
-/// `right` 320 below it, the 1200 `TABLET` frame (US-19 FR-06 E10).
-double inlinePaneWidth(PageDrawerSide side, WindowSize window) {
-  final wide = window == WindowSize.bigDesktop;
-  return switch (side) {
-    PageDrawerSide.left => wide ? 280 : 260,
-    PageDrawerSide.right => wide ? 380 : 320,
-  };
-}
-
 /// The drawer a [PageDrawerStage] draws: its `side`, that side's `config`
 /// and resolved `type`, its `width`, and whether it sits `atLeft`, on the
 /// physical left edge of the box.

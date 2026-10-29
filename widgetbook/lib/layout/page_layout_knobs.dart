@@ -23,7 +23,7 @@ class PageLayoutKnobs {
     required this.controller,
     required this.leftSide,
     required this.rightSide,
-    this.drawerCut = WindowSize.tablet,
+    this.inlinePanesFrom = WindowSize.tablet,
     this.rightAsOverlay = false,
     this.minCenterWidth = 320,
     required this.leftDividerBuilder,
@@ -51,7 +51,10 @@ class PageLayoutKnobs {
   final Preset<PageLayoutController> controller;
   final RequiredPreset<PageSide> leftSide;
   final RequiredPreset<PageSide> rightSide;
-  final WindowSize drawerCut;
+
+  /// The smallest window size whose panes sit inline, the one choice the
+  /// playground offers for `inlinePanes`.
+  final WindowSize inlinePanesFrom;
   final bool rightAsOverlay;
   final double minCenterWidth;
   final Preset<SplitDividerBuilder> leftDividerBuilder;

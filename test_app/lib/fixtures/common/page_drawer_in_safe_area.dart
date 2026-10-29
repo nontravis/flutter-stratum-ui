@@ -43,7 +43,7 @@ class _PageDrawerInSafeAreaFixtureState
         controller: _controller,
         // The largest window size, so the left pane is a drawer on every
         // window, the tablet one included.
-        drawerCut: WindowSize.bigDesktop,
+        inlinePanes: const Responsive(false, bigDesktop: true),
         left: Semantics(
           identifier: 'page_drawer_in_safe_area.link_a',
           child: const Text('Drawer link A'),

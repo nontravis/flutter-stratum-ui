@@ -3,12 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart' show RenderRepaintBoundary;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/components/common/layout/page_drawer.dart'
-    show
-        PageDrawerStage,
-        defaultDrawerType,
-        drawerWidth,
-        inlinePaneWidth,
-        overlayDrawerWidth;
+    show PageDrawerStage, defaultDrawerType, drawerWidth;
 import 'package:stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
 import 'package:stratum_ui/src/src.dart';
 
@@ -305,7 +300,7 @@ class _OpenRight extends StatelessWidget {
 /// end side `right pane`, each left out when [left] or [right] is false,
 /// an optional [top], and [body], else an [_OpenRight] button.
 Widget _sides({
-  WindowSize cut = WindowSize.tablet,
+  Responsive<bool> inlinePanes = const Responsive(false, tablet: true),
   bool overlay = false,
   bool left = true,
   bool right = true,
@@ -318,7 +313,7 @@ Widget _sides({
   SplitDividerBuilder? rightDivider,
   PageLayoutStyle? style,
 }) => PageLayout(
-  drawerCut: cut,
+  inlinePanes: inlinePanes,
   rightAsOverlay: overlay,
   controller: controller,
   onDrawerChanged: changed,
@@ -1439,7 +1434,11 @@ void main() {
       'fo06/us19/fr01/e03: with the cut at desktop a tablet keeps both '
       'sides as drawers',
       (tester) async {
-        await _pump(tester, _sides(cut: WindowSize.desktop), size: _tablet);
+        await _pump(
+          tester,
+          _sides(inlinePanes: const Responsive(false, desktop: true)),
+          size: _tablet,
+        );
         expect(find.text('left pane'), findsNothing);
         expect(_dividers, findsNothing);
         await _openRight(tester);
@@ -1452,7 +1451,7 @@ void main() {
       await _pump(
         tester,
         _sides(
-          cut: WindowSize.mobile,
+          inlinePanes: const Responsive(false, mobile: true),
           right: false,
           controller: _widths(left: 250),
         ),
@@ -1461,6 +1460,20 @@ void main() {
       expect(tester.getRect(_box('left pane')).width, 250);
       expect(_dividers, findsOneWidget);
     });
+
+    testWidgets(
+      'fo06/us19/fr04: a drawer shown where inlinePanes resolves to no '
+      'is 80% of the box and at most 360 px',
+      (tester) async {
+        await _pump(
+          tester,
+          _sides(inlinePanes: const Responsive(false, desktop: true)),
+          size: _tablet,
+        );
+        await _openRight(tester);
+        expect(tester.getRect(_box('right pane')).width, 360);
+      },
+    );
 
     testWidgets(
       'review focus 2: fo06/us19/fr01/e05: crossing the cut with a drawer '
@@ -1506,9 +1519,10 @@ void main() {
   group('PageDrawer right overlay drawer', () {
     test('fo06/us19/fr01/e04: the overlay drawer is 450 wide at bigDesktop and '
         '400 below it', () {
-      expect(overlayDrawerWidth(WindowSize.bigDesktop), 450);
-      expect(overlayDrawerWidth(WindowSize.desktop), 400);
-      expect(overlayDrawerWidth(WindowSize.tablet), 400);
+      final token = fakeTheme.layouts['overlay-drawer-width']!;
+      expect(token.valueFor(WindowSize.bigDesktop).resolve(of: 1), 450);
+      expect(token.valueFor(WindowSize.desktop).resolve(of: 1), 400);
+      expect(token.valueFor(WindowSize.tablet).resolve(of: 1), 400);
     });
 
     testWidgets(
@@ -1547,6 +1561,28 @@ void main() {
         );
       });
     }
+
+    testWidgets(
+      'fo06/us19/fr01/e04: a theme setting layouts.overlay-drawer-width '
+      'to 420 opens it 420 px on desktop',
+      (tester) async {
+        final layouts = Map.of(fakeTheme.layouts);
+        layouts['overlay-drawer-width'] = const StratumByWindowSize.all(
+          StratumDimension.fixed(420),
+        );
+        await _pump(
+          tester,
+          _sides(overlay: true),
+          size: _desktop,
+          theme: fakeTheme.copyWith(layouts: layouts),
+        );
+        await _openRight(tester);
+        expect(
+          tester.getRect(_box('right pane')),
+          const Rect.fromLTRB(880, 0, 1300, 900),
+        );
+      },
+    );
 
     testWidgets('fo06/us19/fr01/e04: the overlay drawer moves in front of the '
         'still page on iOS too', (tester) async {
@@ -1598,7 +1634,11 @@ void main() {
       (tester) async {
         await _pump(
           tester,
-          _sides(cut: WindowSize.mobile, overlay: true, left: false),
+          _sides(
+            inlinePanes: const Responsive(false, mobile: true),
+            overlay: true,
+            left: false,
+          ),
         );
         await _openRight(tester);
         expect(
@@ -1668,10 +1708,20 @@ void main() {
 
     test('fo06/us19/fr06/e10: the Figma side widths: left 280 and right 380 at '
         'bigDesktop, 260 and 320 below', () {
+      StratumByWindowSize<StratumDimension> tokenOf(String name) =>
+          fakeTheme.layouts[name]!;
       for (final window in WindowSize.values) {
         final wide = window == WindowSize.bigDesktop;
-        expect(inlinePaneWidth(PageDrawerSide.left, window), wide ? 280 : 260);
-        expect(inlinePaneWidth(PageDrawerSide.right, window), wide ? 380 : 320);
+        expect(
+          tokenOf('left-pane-width').valueFor(window).resolve(of: 1),
+          wide ? 280 : 260,
+          reason: 'left at $window',
+        );
+        expect(
+          tokenOf('right-pane-width').valueFor(window).resolve(of: 1),
+          wide ? 380 : 320,
+          reason: 'right at $window',
+        );
       }
     });
 
@@ -1698,6 +1748,24 @@ void main() {
         },
       );
     }
+
+    testWidgets(
+      'fo06/us19/fr06: a theme setting layouts.left-pane-width to 300 '
+      'opens left at 300 px on desktop',
+      (tester) async {
+        final layouts = Map.of(fakeTheme.layouts);
+        layouts['left-pane-width'] = const StratumByWindowSize.all(
+          StratumDimension.fixed(300),
+        );
+        await _pump(
+          tester,
+          const PageLayout(left: Text('left pane'), body: _OpenRight()),
+          size: _desktop,
+          theme: fakeTheme.copyWith(layouts: layouts),
+        );
+        expect(tester.getRect(_box('left pane')).width, 300);
+      },
+    );
 
     test('fo06/us19/fr06/e11: a kept width that is NaN, infinite, or negative '
         'reads as none, from the constructor and from a set', () {

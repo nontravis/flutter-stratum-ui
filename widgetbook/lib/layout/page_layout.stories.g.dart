@@ -45,8 +45,9 @@ and [resizeToAvoidKeyboard] holds, the page above [footer] ends at the
 keyboard's top, so [bottom] rides above it, and [footer] stays docked at
 the bottom edge under the keyboard (US-18 FR-05).
 
-Below [drawerCut], [WindowSize.tablet] by default, [left] and [right]
-are drawers that take no space: [PageLayoutController.openLeft] and
+Where [inlinePanes] resolves no, below [WindowSize.tablet] by default,
+[left] and [right] are drawers that take no space:
+[PageLayoutController.openLeft] and
 [PageLayoutController.openRight] open them, a swipe from their screen
 edge opens them while [edgeSwipe] holds, and a tap on the scrim, a drag
 toward their edge, Esc, or back closes them, back before the route pops.
@@ -55,16 +56,18 @@ scale, and label, and [onDrawerChanged] hears each open and close. An
 open drawer keeps focus inside it, reads as its own named screen, and
 hides the page behind from screen readers (US-19 FR-02 to FR-05).
 
-At and above the cut both sides sit inline beside the center column, as
-two nested [SplitLayout]s, with a divider the EndUser drags or moves by
-the arrow, Home, and End keys, within the side's width bounds. A divider
-paints only what [leftDividerBuilder] or [rightDividerBuilder] paints,
-while it always takes the drag, the keys, and focus, and reads as a
-slider. Each pane opens at the controller's chosen width, else at its
-Figma width, and the controller hears each settled resize as the new
-width (US-19 FR-06). With [rightAsOverlay], [right] opens there instead
-as a front drawer over a scrim, with a close button (US-19 FR-01). A
-drawer open as the window crosses into inline panes closes.
+Where [inlinePanes] resolves yes both sides sit inline beside the
+center column, as two nested [SplitLayout]s, with a divider the EndUser
+drags or moves by the arrow, Home, and End keys, within the side's
+width bounds. A divider paints only what [leftDividerBuilder] or
+[rightDividerBuilder] paints, while it always takes the drag, the keys,
+and focus, and reads as a slider. Each pane opens at the controller's
+chosen width, else at the theme's `layouts.left-pane-width` or
+`layouts.right-pane-width` for the window size, and the controller
+hears each settled resize as the new width (US-19 FR-06). With
+[rightAsOverlay], [right] opens there instead as a front drawer over a
+scrim, with a close button (US-19 FR-01). A drawer open as the window
+crosses into inline panes closes.
 
 While [loading] holds, a layer over the whole page refuses every tap and
 keyboard focus, reads as a live region with the built-in loading label,
@@ -133,7 +136,7 @@ class PageLayoutKnobsArgs extends StoryArgs<PageLayout> {
     required Arg<Preset<PageLayoutController>> controller,
     required Arg<RequiredPreset<PageSide>> leftSide,
     required Arg<RequiredPreset<PageSide>> rightSide,
-    Arg<WindowSize>? drawerCut,
+    Arg<WindowSize>? inlinePanesFrom,
     Arg<bool>? rightAsOverlay,
     Arg<double>? minCenterWidth,
     required Arg<Preset<Widget Function(BuildContext, SplitDividerState)>>
@@ -205,9 +208,9 @@ class PageLayoutKnobsArgs extends StoryArgs<PageLayout> {
        this.controllerArg = $initArg('controller', controller, null)!,
        this.leftSideArg = $initArg('leftSide', leftSide, null)!,
        this.rightSideArg = $initArg('rightSide', rightSide, null)!,
-       this.drawerCutArg = $initArg(
-         'drawerCut',
-         drawerCut,
+       this.inlinePanesFromArg = $initArg(
+         'inlinePanesFrom',
+         inlinePanesFrom,
          EnumArg<WindowSize>(WindowSize.tablet, values: WindowSize.values),
        )!,
        this.rightAsOverlayArg = $initArg(
@@ -257,7 +260,7 @@ class PageLayoutKnobsArgs extends StoryArgs<PageLayout> {
     required Preset<PageLayoutController> controller,
     required RequiredPreset<PageSide> leftSide,
     required RequiredPreset<PageSide> rightSide,
-    WindowSize drawerCut = WindowSize.tablet,
+    WindowSize inlinePanesFrom = WindowSize.tablet,
     bool rightAsOverlay = false,
     double minCenterWidth = 320,
     required Preset<Widget Function(BuildContext, SplitDividerState)>
@@ -297,7 +300,11 @@ class PageLayoutKnobsArgs extends StoryArgs<PageLayout> {
        )!,
        this.leftSideArg = $initArg('leftSide', Arg.fixed(leftSide), null)!,
        this.rightSideArg = $initArg('rightSide', Arg.fixed(rightSide), null)!,
-       this.drawerCutArg = $initArg('drawerCut', Arg.fixed(drawerCut), null)!,
+       this.inlinePanesFromArg = $initArg(
+         'inlinePanesFrom',
+         Arg.fixed(inlinePanesFrom),
+         null,
+       )!,
        this.rightAsOverlayArg = $initArg(
          'rightAsOverlay',
          Arg.fixed(rightAsOverlay),
@@ -368,7 +375,7 @@ class PageLayoutKnobsArgs extends StoryArgs<PageLayout> {
 
   final Arg<RequiredPreset<PageSide>> rightSideArg;
 
-  final Arg<WindowSize> drawerCutArg;
+  final Arg<WindowSize> inlinePanesFromArg;
 
   final Arg<bool> rightAsOverlayArg;
 
@@ -423,7 +430,7 @@ class PageLayoutKnobsArgs extends StoryArgs<PageLayout> {
 
   RequiredPreset<PageSide> get rightSide => rightSideArg.value;
 
-  WindowSize get drawerCut => drawerCutArg.value;
+  WindowSize get inlinePanesFrom => inlinePanesFromArg.value;
 
   bool get rightAsOverlay => rightAsOverlayArg.value;
 
@@ -463,7 +470,7 @@ class PageLayoutKnobsArgs extends StoryArgs<PageLayout> {
     controllerArg,
     leftSideArg,
     rightSideArg,
-    drawerCutArg,
+    inlinePanesFromArg,
     rightAsOverlayArg,
     minCenterWidthArg,
     leftDividerBuilderArg,

@@ -34,8 +34,8 @@ PageLayout(
   donts: [
     'Nest a Scaffold in a slot; each slot already hosts any widget on a '
         'transparent Material.',
-    'Expect the left or right slot inline below drawerCut; they are '
-        'drawers there and take no space until opened.',
+    'Expect the left or right slot inline where inlinePanes resolves '
+        'false; they are drawers there and take no space until opened.',
   ],
   accessibility: [
     'An open drawer keeps focus inside it, reads as its own named screen, '
@@ -60,6 +60,16 @@ final componentMeta = ComponentMeta(
 /// The height the page stories give the page, since a page needs bounded
 /// constraints.
 const _height = 480.0;
+
+/// The `inlinePanes` that shows inline panes from [from] up: drawers
+/// below it.
+Responsive<bool> _inlinePanesOf(WindowSize from) => switch (from) {
+  WindowSize.watch => const Responsive(true),
+  WindowSize.mobile => const Responsive(false, mobile: true),
+  WindowSize.tablet => const Responsive(false, tablet: true),
+  WindowSize.desktop => const Responsive(false, desktop: true),
+  WindowSize.bigDesktop => const Responsive(false, bigDesktop: true),
+};
 
 /// A fresh set of knobs: one per constructor param, in constructor order.
 PageLayoutKnobsArgs _knobs() => PageLayoutKnobsArgs(
@@ -231,7 +241,7 @@ final $Playground = _Story(
     controller: args.controller.build(context),
     leftSide: args.leftSide.valueOf(context),
     rightSide: args.rightSide.valueOf(context),
-    drawerCut: args.drawerCut,
+    inlinePanes: _inlinePanesOf(args.inlinePanesFrom),
     rightAsOverlay: args.rightAsOverlay,
     minCenterWidth: args.minCenterWidth,
     leftDividerBuilder: args.leftDividerBuilder.build(context),
