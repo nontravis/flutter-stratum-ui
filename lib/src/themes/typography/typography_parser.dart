@@ -48,7 +48,7 @@ final class PlainTypography {
   final Map<FontType, PlainTypeStyle> types;
 
   /// The size each window size adds, or null when the node names none.
-  final PlainByWindowSize? scaleByWindowSize;
+  final PlainByWindowSize<StratumDimension>? scaleByWindowSize;
 }
 
 /// Reads the `typography` subtree [node], which sits at the path

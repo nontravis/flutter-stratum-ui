@@ -2,6 +2,8 @@ import 'package:stratum_ui/src/themes/config/animation_config.dart';
 import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
 import 'package:stratum_ui/src/themes/config/shadow_layer.dart';
 import 'package:stratum_ui/src/themes/config/theme_asset.dart';
+import 'package:stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:stratum_ui/src/themes/typography/dimension.dart';
 import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
 
 /// Stage 5's result (FO-01 s01 Theme config data): the data of
@@ -26,6 +28,8 @@ final class PlainThemeConfig {
     required this.blur,
     required this.system,
     required this.focus,
+    required this.defaultWidgetSize,
+    required this.ladders,
     required this.extensions,
   });
 
@@ -33,9 +37,9 @@ final class PlainThemeConfig {
 
   /// Each slot that names an asset.
   final Map<String, StratumThemeAsset> assets;
-  final Map<String, PlainByWindowSize> space;
-  final Map<String, PlainByWindowSize> radius;
-  final Map<String, PlainByWindowSize> layouts;
+  final Map<String, PlainByWindowSize<StratumDimension>> space;
+  final Map<String, PlainByWindowSize<StratumDimension>> radius;
+  final Map<String, PlainByWindowSize<StratumDimension>> layouts;
 
   /// Every shade by its path under `palette`, as `0xAARRGGBB`.
   final Map<String, int> palette;
@@ -63,6 +67,15 @@ final class PlainThemeConfig {
   /// value: a color as `0xAARRGGBB` or a width or gap in logical pixels; a
   /// key whose value failed is missing.
   final Map<String, Map<String, Object>> focus;
+
+  /// The `component.default-size` value: the widget size every window size
+  /// reads.
+  final PlainByWindowSize<WidgetSize> defaultWidgetSize;
+
+  /// Each `component.<component>.<property>` ladder by its
+  /// `<component>.<property>` key, all seven steps in `WidgetSize` order,
+  /// each a fixed px; unmodifiable.
+  final Map<String, Map<WidgetSize, double>> ladders;
 
   /// The merged `extensions` group as plain, unmodifiable Dart values.
   final Map<String, Object?> extensions;

@@ -10,6 +10,7 @@ import 'package:stratum_ui/src/themes/config/reader.dart';
 import 'package:stratum_ui/src/themes/config/system_names.dart';
 import 'package:stratum_ui/src/themes/config/theme_convert.dart';
 import 'package:stratum_ui/src/themes/config/transition_names.dart';
+import 'package:stratum_ui/src/themes/config/widget_size_names.dart';
 import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 import '../theme_fixtures.dart';
@@ -72,6 +73,26 @@ final String _baseWithSplash = baseYaml.replaceFirst(
   '  splash-screen:\n',
   '  splash-screen: images/splash.svg\n',
 );
+
+/// A base that also holds the default `component` group.
+final String _componentBase = baseYaml.replaceFirst(
+  'extensions: {}',
+  'component:\n'
+      '  default-size: medium\n'
+      '  caret:\n'
+      '    side: { tiny: 10, extra-small: 12, small: 14, medium: 16, '
+      'large: 20, extra-large: 24, huge: 32 }\n'
+      'extensions: {}',
+);
+
+/// The errors stages 1 to 5 report for one layer of [body] over
+/// [_componentBase].
+List<String> _componentProblems(String body) =>
+    problems(_read([layer(body)], base: _componentBase).$2);
+
+const _widgetSizes =
+    'expected one of tiny, extra-small, small, medium, large, extra-large, '
+    'huge, got';
 
 void main() {
   group('readThemeValues colors', () {
@@ -1919,5 +1940,237 @@ shadow:
       expect(problems(errors), isEmpty);
       expect(plain.focus['light']!['outside.gap'], 0.0);
     });
+  });
+  group('readThemeValues component', () {
+    test('fo01/us06/s2, fo01/us06/fr02: a default-size map loads with both '
+        'window sizes', () {
+      final (config, errors) = _read([
+        layer('component:\n  default-size: { mobile: medium, desktop: large }'),
+      ], base: _componentBase);
+
+      expect(problems(errors), isEmpty);
+      expect(
+        config.defaultWidgetSize.valueFor(WindowSize.mobile),
+        WidgetSize.medium,
+      );
+      expect(
+        config.defaultWidgetSize.valueFor(WindowSize.desktop),
+        WidgetSize.large,
+      );
+    });
+
+    test('fo01/us06/s3, fo01/us06/fr02/e03: a scalar default-size gives that '
+        'size on all five window sizes', () {
+      final (config, errors) = _read([
+        layer('component:\n  default-size: small'),
+      ], base: _componentBase);
+
+      expect(problems(errors), isEmpty);
+      for (final size in WindowSize.values) {
+        expect(config.defaultWidgetSize.valueFor(size), WidgetSize.small);
+      }
+    });
+
+    test('fo01/us06/fr02/e05: the base default-size gives medium on all five '
+        'window sizes', () {
+      final (config, errors) = _read([], base: _componentBase);
+
+      expect(problems(errors), isEmpty);
+      for (final size in WindowSize.values) {
+        expect(config.defaultWidgetSize.valueFor(size), WidgetSize.medium);
+      }
+    });
+
+    test(
+      'fo01/us06/fr02: a layer map replaces the base default-size whole',
+      () {
+        final (config, _) = _read([
+          layer('component:\n  default-size: { desktop: large }'),
+        ], base: _componentBase);
+
+        expect(
+          config.defaultWidgetSize.valueFor(WindowSize.watch),
+          WidgetSize.large,
+        );
+        expect(
+          config.defaultWidgetSize.valueFor(WindowSize.desktop),
+          WidgetSize.large,
+        );
+      },
+    );
+
+    final defaultSizeCases = <(String, String, String)>[
+      (
+        'fo01/us06/s5, fo01/us06/fr02/e01: a window size outside the five',
+        'component:\n  default-size: { laptop: large }',
+        'layer1 component.default-size.laptop: unknown window size "laptop" '
+            '[unknown_key]',
+      ),
+      (
+        'fo01/us06/fr02/e02: an empty map',
+        'component:\n  default-size: {}',
+        'layer1 component.default-size: required [required]',
+      ),
+      (
+        'fo01/us06/fr02/e04: a widget size as a key',
+        'component:\n  default-size: { large: medium }',
+        'layer1 component.default-size.large: unknown window size "large" '
+            '[unknown_key]',
+      ),
+      (
+        'fo01/us06/fr02/e06: a name that is no widget size',
+        'component:\n  default-size: giant',
+        'layer1 component.default-size: $_widgetSizes "giant" '
+            '[expected_widget_size]',
+      ),
+      (
+        'fo01/us06/fr02/e06: a name that is no widget size at desktop',
+        'component:\n  default-size: { desktop: giant }',
+        'layer1 component.default-size.desktop: $_widgetSizes "giant" '
+            '[expected_widget_size]',
+      ),
+    ];
+    for (final (name, body, problem) in defaultSizeCases) {
+      test(name, () {
+        expect(_componentProblems(body), [problem]);
+      });
+    }
+
+    test('fo01/us06/s4, fo01/us06/fr03: a step reads as its fixed px', () {
+      final (config, errors) = _read([
+        layer('component:\n  caret:\n    side: { large: 20 }'),
+      ], base: _componentBase);
+
+      expect(problems(errors), isEmpty);
+      expect(config.ladders['caret.side']![WidgetSize.large], 20);
+    });
+
+    final stepCases = <(String, String, String)>[
+      (
+        'fo01/us06/fr03/e01: a percent step',
+        'tiny: "50%"',
+        'layer1 component.caret.side.tiny: expected a number, got "50%"; '
+            'a percent is allowed only in layouts [expected_dimension]',
+      ),
+      (
+        'fo01/us06/fr03/e01: a text step',
+        'small: "a"',
+        'layer1 component.caret.side.small: expected a number or "N%", got '
+            '"a" [expected_dimension]',
+      ),
+      (
+        'fo01/us06/fr03/e01: a step past the length bound',
+        'huge: 10001',
+        'layer1 component.caret.side.huge: expected a number from -10000 '
+            'to 10000, got 10001 [expected_dimension]',
+      ),
+      (
+        'fo01/us06/fr03/e02: a window size as a step',
+        'desktop: 20',
+        'layer1 component.caret.side.desktop: unknown key "desktop" '
+            '[unknown_key]',
+      ),
+      (
+        'fo01/us06/fr03/e02: a name that is no widget size as a step',
+        'giant: 20',
+        'layer1 component.caret.side.giant: unknown key "giant" '
+            '[unknown_key]',
+      ),
+    ];
+    for (final (name, step, problem) in stepCases) {
+      test(name, () {
+        expect(
+          _componentProblems('component:\n  caret:\n    side: { $step }'),
+          [problem],
+        );
+      });
+    }
+
+    test('fo01/us06/fr03/e04: a base ladder without huge is required at the '
+        'missing step', () {
+      final base = _componentBase.replaceFirst(', huge: 32', '');
+      final (_, errors) = _read([], base: base);
+
+      expect(problems(errors), [
+        'base component.caret.side.huge: required [required]',
+      ]);
+    });
+
+    test('fo01/us06/fr03/e05: a layer step merges over the other six', () {
+      final (config, errors) = _read([
+        layer('component:\n  caret:\n    side: { medium: 18 }'),
+      ], base: _componentBase);
+
+      expect(problems(errors), isEmpty);
+      expect(config.ladders['caret.side'], {
+        WidgetSize.tiny: 10,
+        WidgetSize.extraSmall: 12,
+        WidgetSize.small: 14,
+        WidgetSize.medium: 18,
+        WidgetSize.large: 20,
+        WidgetSize.extraLarge: 24,
+        WidgetSize.huge: 32,
+      });
+    });
+
+    test('fo01/us06/fr03/e06: an unknown component or property is an unknown '
+        'key', () {
+      expect(
+        _componentProblems(
+          'component:\n  badge:\n    side: { tiny: 1 }\n  caret:\n'
+          '    width: { tiny: 1 }',
+        ),
+        [
+          'layer1 component.badge: unknown key "badge" [unknown_key]',
+          'layer1 component.caret.width: unknown key "width" [unknown_key]',
+        ],
+      );
+    });
+
+    test('fo01/us06/fr03/e07: the default ladder reads 10 to 32 from tiny to '
+        'huge', () {
+      final (config, errors) = _read([], base: _componentBase);
+
+      expect(problems(errors), isEmpty);
+      expect(
+        [
+          for (final size in WidgetSize.values)
+            config.ladders['caret.side']![size],
+        ],
+        [10, 12, 14, 16, 20, 24, 32],
+      );
+    });
+
+    test('fo01/us06/fr03: the ladders are unmodifiable', () {
+      final (config, _) = _read([], base: _componentBase);
+
+      expect(() => config.ladders.clear(), throwsUnsupportedError);
+      expect(
+        () => config.ladders['caret.side']!.clear(),
+        throwsUnsupportedError,
+      );
+    });
+
+    test('a theme without a component group still loads', () {
+      final (config, errors) = _read([]);
+
+      expect(problems(errors), isEmpty);
+      expect(config.ladders, isEmpty);
+    });
+
+    test(
+      'widgetSizeNames equals WidgetSize.values in kebab-case, in order',
+      () {
+        expect(widgetSizeNames, [
+          for (final size in WidgetSize.values)
+            size.name.replaceAllMapped(
+              RegExp('[A-Z]'),
+              (match) => '-${match[0]!.toLowerCase()}',
+            ),
+        ]);
+        expect(widgetSizeOfName('extra-large'), WidgetSize.extraLarge);
+        expect(widgetSizeOfName('giant'), isNull);
+      },
+    );
   });
 }

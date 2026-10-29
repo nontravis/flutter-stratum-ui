@@ -38,7 +38,11 @@ mixin _$StratumThemeConfig {
 /// `highContrastLight`, and `highContrastDark`, each the focus ring's
 /// level 0, a high-contrast set laid over its base set; a set the parse
 /// could not read whole has no entry.
- Map<String, StratumFocusTokens> get focus;/// The merged `extensions` group as plain Dart values: maps with string
+ Map<String, StratumFocusTokens> get focus;/// The widget size each window size reads, from `component.default-size`
+/// (config s03 INV-20).
+ StratumByWindowSize<WidgetSize> get defaultWidgetSize;/// The merged `component` ladders by `<component>.<property>`, such as
+/// `caret.side`, each holding all seven [WidgetSize] steps as fixed px.
+ Map<String, Map<WidgetSize, double>> get ladders;/// The merged `extensions` group as plain Dart values: maps with string
 /// keys, lists, strings, numbers, booleans, and null. Never
 /// alias-resolved and never checked.
  Map<String, Object?> get extensions;
@@ -53,20 +57,20 @@ $StratumThemeConfigCopyWith<StratumThemeConfig> get copyWith => _$StratumThemeCo
 @override
 bool operator ==(Object other) {
   final _this = this as StratumThemeConfig;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StratumThemeConfig&&(identical(other.name, _this.name) || other.name == _this.name)&&const DeepCollectionEquality().equals(other.assets, _this.assets)&&const DeepCollectionEquality().equals(other.space, _this.space)&&const DeepCollectionEquality().equals(other.radius, _this.radius)&&const DeepCollectionEquality().equals(other.layouts, _this.layouts)&&const DeepCollectionEquality().equals(other.palette, _this.palette)&&(identical(other.color, _this.color) || other.color == _this.color)&&(identical(other.typography, _this.typography) || other.typography == _this.typography)&&(identical(other.animation, _this.animation) || other.animation == _this.animation)&&const DeepCollectionEquality().equals(other.opacity, _this.opacity)&&const DeepCollectionEquality().equals(other.border, _this.border)&&const DeepCollectionEquality().equals(other.shadow, _this.shadow)&&const DeepCollectionEquality().equals(other.blur, _this.blur)&&const DeepCollectionEquality().equals(other.system, _this.system)&&const DeepCollectionEquality().equals(other.focus, _this.focus)&&const DeepCollectionEquality().equals(other.extensions, _this.extensions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StratumThemeConfig&&(identical(other.name, _this.name) || other.name == _this.name)&&const DeepCollectionEquality().equals(other.assets, _this.assets)&&const DeepCollectionEquality().equals(other.space, _this.space)&&const DeepCollectionEquality().equals(other.radius, _this.radius)&&const DeepCollectionEquality().equals(other.layouts, _this.layouts)&&const DeepCollectionEquality().equals(other.palette, _this.palette)&&(identical(other.color, _this.color) || other.color == _this.color)&&(identical(other.typography, _this.typography) || other.typography == _this.typography)&&(identical(other.animation, _this.animation) || other.animation == _this.animation)&&const DeepCollectionEquality().equals(other.opacity, _this.opacity)&&const DeepCollectionEquality().equals(other.border, _this.border)&&const DeepCollectionEquality().equals(other.shadow, _this.shadow)&&const DeepCollectionEquality().equals(other.blur, _this.blur)&&const DeepCollectionEquality().equals(other.system, _this.system)&&const DeepCollectionEquality().equals(other.focus, _this.focus)&&(identical(other.defaultWidgetSize, _this.defaultWidgetSize) || other.defaultWidgetSize == _this.defaultWidgetSize)&&const DeepCollectionEquality().equals(other.ladders, _this.ladders)&&const DeepCollectionEquality().equals(other.extensions, _this.extensions));
 }
 
 
 @override
 int get hashCode {
   final _this = this as StratumThemeConfig;
-  return Object.hash(runtimeType,_this.name,const DeepCollectionEquality().hash(_this.assets),const DeepCollectionEquality().hash(_this.space),const DeepCollectionEquality().hash(_this.radius),const DeepCollectionEquality().hash(_this.layouts),const DeepCollectionEquality().hash(_this.palette),_this.color,_this.typography,_this.animation,const DeepCollectionEquality().hash(_this.opacity),const DeepCollectionEquality().hash(_this.border),const DeepCollectionEquality().hash(_this.shadow),const DeepCollectionEquality().hash(_this.blur),const DeepCollectionEquality().hash(_this.system),const DeepCollectionEquality().hash(_this.focus),const DeepCollectionEquality().hash(_this.extensions));
+  return Object.hash(runtimeType,_this.name,const DeepCollectionEquality().hash(_this.assets),const DeepCollectionEquality().hash(_this.space),const DeepCollectionEquality().hash(_this.radius),const DeepCollectionEquality().hash(_this.layouts),const DeepCollectionEquality().hash(_this.palette),_this.color,_this.typography,_this.animation,const DeepCollectionEquality().hash(_this.opacity),const DeepCollectionEquality().hash(_this.border),const DeepCollectionEquality().hash(_this.shadow),const DeepCollectionEquality().hash(_this.blur),const DeepCollectionEquality().hash(_this.system),const DeepCollectionEquality().hash(_this.focus),_this.defaultWidgetSize,const DeepCollectionEquality().hash(_this.ladders),const DeepCollectionEquality().hash(_this.extensions));
 }
 
 @override
 String toString() {
   final _this = this as StratumThemeConfig;
-  return 'StratumThemeConfig(name: ${_this.name}, assets: ${_this.assets}, space: ${_this.space}, radius: ${_this.radius}, layouts: ${_this.layouts}, palette: ${_this.palette}, color: ${_this.color}, typography: ${_this.typography}, animation: ${_this.animation}, opacity: ${_this.opacity}, border: ${_this.border}, shadow: ${_this.shadow}, blur: ${_this.blur}, system: ${_this.system}, focus: ${_this.focus}, extensions: ${_this.extensions})';
+  return 'StratumThemeConfig(name: ${_this.name}, assets: ${_this.assets}, space: ${_this.space}, radius: ${_this.radius}, layouts: ${_this.layouts}, palette: ${_this.palette}, color: ${_this.color}, typography: ${_this.typography}, animation: ${_this.animation}, opacity: ${_this.opacity}, border: ${_this.border}, shadow: ${_this.shadow}, blur: ${_this.blur}, system: ${_this.system}, focus: ${_this.focus}, defaultWidgetSize: ${_this.defaultWidgetSize}, ladders: ${_this.ladders}, extensions: ${_this.extensions})';
 }
 
 
@@ -77,7 +81,7 @@ abstract mixin class $StratumThemeConfigCopyWith<$Res>  {
   factory $StratumThemeConfigCopyWith(StratumThemeConfig value, $Res Function(StratumThemeConfig) _then) = _$StratumThemeConfigCopyWithImpl;
 @useResult
 $Res call({
- String name, Map<String, StratumThemeAsset> assets, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> palette, StratumColorSets color, StratumTypography typography, StratumAnimationConfig animation, Map<String, double> opacity, Map<String, double> border, Map<String, List<StratumShadowLayer>> shadow, Map<String, double> blur, Map<String, SystemStyle> system, Map<String, StratumFocusTokens> focus, Map<String, Object?> extensions
+ String name, Map<String, StratumThemeAsset> assets, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> palette, StratumColorSets color, StratumTypography typography, StratumAnimationConfig animation, Map<String, double> opacity, Map<String, double> border, Map<String, List<StratumShadowLayer>> shadow, Map<String, double> blur, Map<String, SystemStyle> system, Map<String, StratumFocusTokens> focus, StratumByWindowSize<WidgetSize> defaultWidgetSize, Map<String, Map<WidgetSize, double>> ladders, Map<String, Object?> extensions
 });
 
 
@@ -94,7 +98,7 @@ class _$StratumThemeConfigCopyWithImpl<$Res>
 
 /// Create a copy of StratumThemeConfig
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? assets = null,Object? space = null,Object? radius = null,Object? layouts = null,Object? palette = null,Object? color = null,Object? typography = null,Object? animation = null,Object? opacity = null,Object? border = null,Object? shadow = null,Object? blur = null,Object? system = null,Object? focus = null,Object? extensions = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? assets = null,Object? space = null,Object? radius = null,Object? layouts = null,Object? palette = null,Object? color = null,Object? typography = null,Object? animation = null,Object? opacity = null,Object? border = null,Object? shadow = null,Object? blur = null,Object? system = null,Object? focus = null,Object? defaultWidgetSize = null,Object? ladders = null,Object? extensions = null,}) {
   return _then(StratumThemeConfig(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,assets: null == assets ? _self.assets : assets // ignore: cast_nullable_to_non_nullable
@@ -111,7 +115,9 @@ as Map<String, double>,shadow: null == shadow ? _self.shadow : shadow // ignore:
 as Map<String, List<StratumShadowLayer>>,blur: null == blur ? _self.blur : blur // ignore: cast_nullable_to_non_nullable
 as Map<String, double>,system: null == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
 as Map<String, SystemStyle>,focus: null == focus ? _self.focus : focus // ignore: cast_nullable_to_non_nullable
-as Map<String, StratumFocusTokens>,extensions: null == extensions ? _self.extensions : extensions // ignore: cast_nullable_to_non_nullable
+as Map<String, StratumFocusTokens>,defaultWidgetSize: null == defaultWidgetSize ? _self.defaultWidgetSize : defaultWidgetSize // ignore: cast_nullable_to_non_nullable
+as StratumByWindowSize<WidgetSize>,ladders: null == ladders ? _self.ladders : ladders // ignore: cast_nullable_to_non_nullable
+as Map<String, Map<WidgetSize, double>>,extensions: null == extensions ? _self.extensions : extensions // ignore: cast_nullable_to_non_nullable
 as Map<String, Object?>,
   ));
 }
@@ -151,7 +157,7 @@ $StratumAnimationConfigCopyWith<$Res> get animation {
 
 
 class _StratumThemeConfig implements StratumThemeConfig {
-  const _StratumThemeConfig({required this.name, required  Map<String, StratumThemeAsset> assets, required  Map<String, StratumByWindowSize<StratumDimension>> space, required  Map<String, StratumByWindowSize<StratumDimension>> radius, required  Map<String, StratumByWindowSize<StratumDimension>> layouts, required  Map<String, Color> palette, required this.color, required this.typography, required this.animation, required  Map<String, double> opacity, required  Map<String, double> border, required  Map<String, List<StratumShadowLayer>> shadow, required  Map<String, double> blur, required  Map<String, SystemStyle> system, required  Map<String, StratumFocusTokens> focus, required  Map<String, Object?> extensions}): _assets = assets,_space = space,_radius = radius,_layouts = layouts,_palette = palette,_opacity = opacity,_border = border,_shadow = shadow,_blur = blur,_system = system,_focus = focus,_extensions = extensions;
+  const _StratumThemeConfig({required this.name, required  Map<String, StratumThemeAsset> assets, required  Map<String, StratumByWindowSize<StratumDimension>> space, required  Map<String, StratumByWindowSize<StratumDimension>> radius, required  Map<String, StratumByWindowSize<StratumDimension>> layouts, required  Map<String, Color> palette, required this.color, required this.typography, required this.animation, required  Map<String, double> opacity, required  Map<String, double> border, required  Map<String, List<StratumShadowLayer>> shadow, required  Map<String, double> blur, required  Map<String, SystemStyle> system, required  Map<String, StratumFocusTokens> focus, required this.defaultWidgetSize, required  Map<String, Map<WidgetSize, double>> ladders, required  Map<String, Object?> extensions}): _assets = assets,_space = space,_radius = radius,_layouts = layouts,_palette = palette,_opacity = opacity,_border = border,_shadow = shadow,_blur = blur,_system = system,_focus = focus,_ladders = ladders,_extensions = extensions;
   
 
 @override final  String name;
@@ -280,6 +286,20 @@ class _StratumThemeConfig implements StratumThemeConfig {
   return EqualUnmodifiableMapView(_focus);
 }
 
+/// The widget size each window size reads, from `component.default-size`
+/// (config s03 INV-20).
+@override final  StratumByWindowSize<WidgetSize> defaultWidgetSize;
+/// The merged `component` ladders by `<component>.<property>`, such as
+/// `caret.side`, each holding all seven [WidgetSize] steps as fixed px.
+ final  Map<String, Map<WidgetSize, double>> _ladders;
+/// The merged `component` ladders by `<component>.<property>`, such as
+/// `caret.side`, each holding all seven [WidgetSize] steps as fixed px.
+@override Map<String, Map<WidgetSize, double>> get ladders {
+  if (_ladders is EqualUnmodifiableMapView) return _ladders;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_ladders);
+}
+
 /// The merged `extensions` group as plain Dart values: maps with string
 /// keys, lists, strings, numbers, booleans, and null. Never
 /// alias-resolved and never checked.
@@ -304,18 +324,18 @@ _$StratumThemeConfigCopyWith<_StratumThemeConfig> get copyWith => __$StratumThem
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StratumThemeConfig&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.assets, _assets)&&const DeepCollectionEquality().equals(other.space, _space)&&const DeepCollectionEquality().equals(other.radius, _radius)&&const DeepCollectionEquality().equals(other.layouts, _layouts)&&const DeepCollectionEquality().equals(other.palette, _palette)&&(identical(other.color, color) || other.color == color)&&(identical(other.typography, typography) || other.typography == typography)&&(identical(other.animation, animation) || other.animation == animation)&&const DeepCollectionEquality().equals(other.opacity, _opacity)&&const DeepCollectionEquality().equals(other.border, _border)&&const DeepCollectionEquality().equals(other.shadow, _shadow)&&const DeepCollectionEquality().equals(other.blur, _blur)&&const DeepCollectionEquality().equals(other.system, _system)&&const DeepCollectionEquality().equals(other.focus, _focus)&&const DeepCollectionEquality().equals(other.extensions, _extensions));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StratumThemeConfig&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.assets, _assets)&&const DeepCollectionEquality().equals(other.space, _space)&&const DeepCollectionEquality().equals(other.radius, _radius)&&const DeepCollectionEquality().equals(other.layouts, _layouts)&&const DeepCollectionEquality().equals(other.palette, _palette)&&(identical(other.color, color) || other.color == color)&&(identical(other.typography, typography) || other.typography == typography)&&(identical(other.animation, animation) || other.animation == animation)&&const DeepCollectionEquality().equals(other.opacity, _opacity)&&const DeepCollectionEquality().equals(other.border, _border)&&const DeepCollectionEquality().equals(other.shadow, _shadow)&&const DeepCollectionEquality().equals(other.blur, _blur)&&const DeepCollectionEquality().equals(other.system, _system)&&const DeepCollectionEquality().equals(other.focus, _focus)&&(identical(other.defaultWidgetSize, defaultWidgetSize) || other.defaultWidgetSize == defaultWidgetSize)&&const DeepCollectionEquality().equals(other.ladders, _ladders)&&const DeepCollectionEquality().equals(other.extensions, _extensions));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,name,const DeepCollectionEquality().hash(_assets),const DeepCollectionEquality().hash(_space),const DeepCollectionEquality().hash(_radius),const DeepCollectionEquality().hash(_layouts),const DeepCollectionEquality().hash(_palette),color,typography,animation,const DeepCollectionEquality().hash(_opacity),const DeepCollectionEquality().hash(_border),const DeepCollectionEquality().hash(_shadow),const DeepCollectionEquality().hash(_blur),const DeepCollectionEquality().hash(_system),const DeepCollectionEquality().hash(_focus),const DeepCollectionEquality().hash(_extensions));
+    return Object.hash(runtimeType,name,const DeepCollectionEquality().hash(_assets),const DeepCollectionEquality().hash(_space),const DeepCollectionEquality().hash(_radius),const DeepCollectionEquality().hash(_layouts),const DeepCollectionEquality().hash(_palette),color,typography,animation,const DeepCollectionEquality().hash(_opacity),const DeepCollectionEquality().hash(_border),const DeepCollectionEquality().hash(_shadow),const DeepCollectionEquality().hash(_blur),const DeepCollectionEquality().hash(_system),const DeepCollectionEquality().hash(_focus),defaultWidgetSize,const DeepCollectionEquality().hash(_ladders),const DeepCollectionEquality().hash(_extensions));
 }
 
 @override
 String toString() {
-    return 'StratumThemeConfig(name: $name, assets: $assets, space: $space, radius: $radius, layouts: $layouts, palette: $palette, color: $color, typography: $typography, animation: $animation, opacity: $opacity, border: $border, shadow: $shadow, blur: $blur, system: $system, focus: $focus, extensions: $extensions)';
+    return 'StratumThemeConfig(name: $name, assets: $assets, space: $space, radius: $radius, layouts: $layouts, palette: $palette, color: $color, typography: $typography, animation: $animation, opacity: $opacity, border: $border, shadow: $shadow, blur: $blur, system: $system, focus: $focus, defaultWidgetSize: $defaultWidgetSize, ladders: $ladders, extensions: $extensions)';
 }
 
 
@@ -326,7 +346,7 @@ abstract mixin class _$StratumThemeConfigCopyWith<$Res> implements $StratumTheme
   factory _$StratumThemeConfigCopyWith(_StratumThemeConfig value, $Res Function(_StratumThemeConfig) _then) = __$StratumThemeConfigCopyWithImpl;
 @override @useResult
 $Res call({
- String name, Map<String, StratumThemeAsset> assets, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> palette, StratumColorSets color, StratumTypography typography, StratumAnimationConfig animation, Map<String, double> opacity, Map<String, double> border, Map<String, List<StratumShadowLayer>> shadow, Map<String, double> blur, Map<String, SystemStyle> system, Map<String, StratumFocusTokens> focus, Map<String, Object?> extensions
+ String name, Map<String, StratumThemeAsset> assets, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> palette, StratumColorSets color, StratumTypography typography, StratumAnimationConfig animation, Map<String, double> opacity, Map<String, double> border, Map<String, List<StratumShadowLayer>> shadow, Map<String, double> blur, Map<String, SystemStyle> system, Map<String, StratumFocusTokens> focus, StratumByWindowSize<WidgetSize> defaultWidgetSize, Map<String, Map<WidgetSize, double>> ladders, Map<String, Object?> extensions
 });
 
 
@@ -343,7 +363,7 @@ class __$StratumThemeConfigCopyWithImpl<$Res>
 
 /// Create a copy of StratumThemeConfig
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? assets = null,Object? space = null,Object? radius = null,Object? layouts = null,Object? palette = null,Object? color = null,Object? typography = null,Object? animation = null,Object? opacity = null,Object? border = null,Object? shadow = null,Object? blur = null,Object? system = null,Object? focus = null,Object? extensions = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? assets = null,Object? space = null,Object? radius = null,Object? layouts = null,Object? palette = null,Object? color = null,Object? typography = null,Object? animation = null,Object? opacity = null,Object? border = null,Object? shadow = null,Object? blur = null,Object? system = null,Object? focus = null,Object? defaultWidgetSize = null,Object? ladders = null,Object? extensions = null,}) {
   return _then(_StratumThemeConfig(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,assets: null == assets ? _self._assets : assets // ignore: cast_nullable_to_non_nullable
@@ -360,7 +380,9 @@ as Map<String, double>,shadow: null == shadow ? _self._shadow : shadow // ignore
 as Map<String, List<StratumShadowLayer>>,blur: null == blur ? _self._blur : blur // ignore: cast_nullable_to_non_nullable
 as Map<String, double>,system: null == system ? _self._system : system // ignore: cast_nullable_to_non_nullable
 as Map<String, SystemStyle>,focus: null == focus ? _self._focus : focus // ignore: cast_nullable_to_non_nullable
-as Map<String, StratumFocusTokens>,extensions: null == extensions ? _self._extensions : extensions // ignore: cast_nullable_to_non_nullable
+as Map<String, StratumFocusTokens>,defaultWidgetSize: null == defaultWidgetSize ? _self.defaultWidgetSize : defaultWidgetSize // ignore: cast_nullable_to_non_nullable
+as StratumByWindowSize<WidgetSize>,ladders: null == ladders ? _self._ladders : ladders // ignore: cast_nullable_to_non_nullable
+as Map<String, Map<WidgetSize, double>>,extensions: null == extensions ? _self._extensions : extensions // ignore: cast_nullable_to_non_nullable
 as Map<String, Object?>,
   ));
 }

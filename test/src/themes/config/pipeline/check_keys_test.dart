@@ -17,6 +17,26 @@ import '../theme_fixtures.dart';
 /// The errors stage 2 reports for one layer of [body].
 List<String> _problems(String body) => problems(_check([layer(body)]).$2);
 
+/// A base that also holds the default `component` group.
+final String _componentBase = baseYaml.replaceFirst(
+  'extensions: {}',
+  'component:\n'
+      '  default-size: medium\n'
+      '  caret:\n'
+      '    side: { tiny: 10, extra-small: 12, small: 14, medium: 16, '
+      'large: 20, extra-large: 24, huge: 32 }\n'
+      'extensions: {}',
+);
+
+/// Runs stages 1 and 2 on the component base and [layers].
+(CheckedThemes, ThemeErrors) _checkComponent(List<String> layers) {
+  final all = sources(layers, base: _componentBase);
+  final errors = errorsFor(all);
+  final roots = loadThemes(all, errors);
+  expect(problems(errors), isEmpty, reason: 'stage 1');
+  return (checkThemeKeys(roots, errors), errors);
+}
+
 void main() {
   group('checkThemeKeys unknown keys', () {
     final cases = <(String, String, String, String)>[
@@ -351,5 +371,48 @@ shadow:
 
       expect(problems(errors), isEmpty);
     });
+  });
+  group('checkThemeKeys component', () {
+    test('fo01/us06/fr02: default-size is one leaf, so its map passes whole '
+        'for stage 5 to judge', () {
+      final (checked, errors) = _checkComponent([
+        layer('component:\n  default-size: { laptop: large }'),
+      ]);
+
+      expect(problems(errors), isEmpty);
+      final component =
+          checked.files.last.tree['component']! as Map<String, Object?>;
+      expect(component['default-size'], {'laptop': 'large'});
+    });
+
+    final cases = <(String, String, String)>[
+      (
+        'fo01/us06/fr03/e06: a component the default lacks',
+        'component:\n  badge:\n    side: { tiny: 1 }',
+        'layer1 component.badge: unknown key "badge" [unknown_key]',
+      ),
+      (
+        'fo01/us06/fr03/e06: a property the default lacks',
+        'component:\n  caret:\n    width: { tiny: 1 }',
+        'layer1 component.caret.width: unknown key "width" [unknown_key]',
+      ),
+      (
+        'fo01/us06/fr03/e02: a window size as a ladder step',
+        'component:\n  caret:\n    side: { desktop: 1 }',
+        'layer1 component.caret.side.desktop: unknown key "desktop" '
+            '[unknown_key]',
+      ),
+      (
+        'fo01/us06/fr03/e02: a name that is no widget size as a ladder step',
+        'component:\n  caret:\n    side: { giant: 1 }',
+        'layer1 component.caret.side.giant: unknown key "giant" '
+            '[unknown_key]',
+      ),
+    ];
+    for (final (name, body, problem) in cases) {
+      test(name, () {
+        expect(problems(_checkComponent([layer(body)]).$2), [problem]);
+      });
+    }
   });
 }

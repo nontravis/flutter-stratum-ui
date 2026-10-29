@@ -27,6 +27,7 @@ enum StratumThemeErrorCode {
   expectedShadow,
   expectedBarIcons,
   expectedBoolean,
+  expectedWidgetSize,
   // FO-02 typography
   emptyFonts,
   unknownFontKey,

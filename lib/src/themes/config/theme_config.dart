@@ -8,6 +8,7 @@ import 'package:stratum_ui/src/themes/config/shadow_layer.dart';
 import 'package:stratum_ui/src/themes/config/theme_asset.dart';
 import 'package:stratum_ui/src/themes/config/theme_convert.dart';
 import 'package:stratum_ui/src/themes/config/theme_source.dart';
+import 'package:stratum_ui/src/themes/constant/widget_size.dart';
 import 'package:stratum_ui/src/themes/focus_tokens.dart';
 import 'package:stratum_ui/src/themes/system/system_style.dart';
 import 'package:stratum_ui/src/themes/typography/dimension.dart';
@@ -69,6 +70,14 @@ abstract class StratumThemeConfig with _$StratumThemeConfig {
     /// level 0, a high-contrast set laid over its base set; a set the parse
     /// could not read whole has no entry.
     required Map<String, StratumFocusTokens> focus,
+
+    /// The widget size each window size reads, from `component.default-size`
+    /// (config s03 INV-20).
+    required StratumByWindowSize<WidgetSize> defaultWidgetSize,
+
+    /// The merged `component` ladders by `<component>.<property>`, such as
+    /// `caret.side`, each holding all seven [WidgetSize] steps as fixed px.
+    required Map<String, Map<WidgetSize, double>> ladders,
 
     /// The merged `extensions` group as plain Dart values: maps with string
     /// keys, lists, strings, numbers, booleans, and null. Never

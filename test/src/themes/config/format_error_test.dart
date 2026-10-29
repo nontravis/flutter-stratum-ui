@@ -111,6 +111,7 @@ void main() {
         StratumThemeErrorCode.expectedShadow: 'expected_shadow',
         StratumThemeErrorCode.expectedBarIcons: 'expected_bar_icons',
         StratumThemeErrorCode.expectedBoolean: 'expected_boolean',
+        StratumThemeErrorCode.expectedWidgetSize: 'expected_widget_size',
         StratumThemeErrorCode.emptyFonts: 'empty_fonts',
         StratumThemeErrorCode.unknownFontKey: 'unknown_font_key',
         StratumThemeErrorCode.invalidTag: 'invalid_tag',

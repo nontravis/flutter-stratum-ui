@@ -12,12 +12,10 @@ import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
 // window size name is one of `windowSizeNames`. Internal: not exported.
 
 /// [plain] as `StratumByWindowSize`.
-StratumByWindowSize<StratumDimension> convertByWindowSize(
-  PlainByWindowSize plain,
-) {
+StratumByWindowSize<T> convertByWindowSize<T>(PlainByWindowSize<T> plain) {
   final sizes = plain.sizes;
   return sizes == null
-      ? StratumByWindowSize.all(plain.all!)
+      ? StratumByWindowSize.all(plain.all as T)
       : StratumByWindowSize(_bySize(sizes));
 }
 
@@ -42,9 +40,7 @@ StratumTypography convertTypography(PlainTypography plain) => StratumTypography(
   }),
 );
 
-Map<WindowSize, StratumDimension> _bySize(
-  Map<String, StratumDimension> byName,
-) => frozenMap({
+Map<WindowSize, T> _bySize<T>(Map<String, T> byName) => frozenMap({
   for (final MapEntry(:key, :value) in byName.entries)
     windowSizeOfYamlName(key): value,
 });
@@ -78,11 +74,13 @@ StratumThemeConfig convertThemeConfig(PlainThemeConfig plain) =>
         for (final MapEntry(:key, :value) in plain.focus.entries)
           key: ?convertFocusLook(value),
       }),
+      defaultWidgetSize: convertByWindowSize(plain.defaultWidgetSize),
+      ladders: plain.ladders,
       extensions: plain.extensions,
     );
 
 Map<String, StratumByWindowSize<StratumDimension>> _tokens(
-  Map<String, PlainByWindowSize> tokens,
+  Map<String, PlainByWindowSize<StratumDimension>> tokens,
 ) => frozenMap({
   for (final MapEntry(:key, :value) in tokens.entries)
     key: convertByWindowSize(value),

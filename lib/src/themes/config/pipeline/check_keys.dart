@@ -61,11 +61,12 @@ final class ThemeSchema {
   };
 
   /// Whether [path] holds one value, which a layer replaces whole: a token
-  /// of `space`, `radius`, or `layouts` (a window-size map included), a
-  /// palette shade, an app color, or any other path where the package
-  /// default holds no map.
+  /// of `space`, `radius`, or `layouts` (a window-size map included), the
+  /// `component.default-size` value, a palette shade, an app color, or any
+  /// other path where the package default holds no map.
   bool isLeaf(List<String> path) => switch (path) {
     ['space' || 'radius' || 'layouts', _] => true,
+    ['component', 'default-size'] => true,
     ['palette', 'app', _, _] => true,
     ['palette', final ramp, _] => ramp != 'app',
     ['color', final colorSet, 'app', _] => colorSets.containsKey(colorSet),

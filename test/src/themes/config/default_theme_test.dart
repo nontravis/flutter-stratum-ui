@@ -363,6 +363,25 @@ void main() {
     });
   });
 
+  test('fo01/us06/fr02/e05: the default theme gives medium on all five window '
+      'sizes', () {
+    for (final size in WindowSize.values) {
+      expect(config.defaultWidgetSize.valueFor(size), WidgetSize.medium);
+    }
+  });
+
+  test('fo01/us06/fr03/e07: the default caret side ladder reads 10, 12, 14, '
+      '16, 20, 24, 32 from tiny to huge', () {
+    expect(
+      [
+        for (final size in WidgetSize.values)
+          config.ladders['caret.side']![size],
+      ],
+      [10, 12, 14, 16, 20, 24, 32],
+    );
+    expect(config.ladders.keys, ['caret.side']);
+  });
+
   final flutterRoot = Platform.environment['FLUTTER_ROOT'];
   test("the curve table equals the SDK's Curves constants", () {
     final source = File(

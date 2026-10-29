@@ -11,6 +11,8 @@ import 'package:stratum_ui/src/themes/config/system_names.dart';
 import 'package:stratum_ui/src/themes/config/theme_asset.dart';
 import 'package:stratum_ui/src/themes/config/theme_source.dart';
 import 'package:stratum_ui/src/themes/config/transition_names.dart';
+import 'package:stratum_ui/src/themes/config/widget_size_names.dart';
+import 'package:stratum_ui/src/themes/constant/widget_size.dart';
 import 'package:stratum_ui/src/themes/typography/dimension.dart';
 import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
 
@@ -56,6 +58,7 @@ final class _Read {
 
   PlainThemeConfig run() {
     final tree = _theme.tree;
+    final component = _component(tree['component']);
     return PlainThemeConfig(
       name: _reader.string(tree['name'], 'name') ?? '',
       assets: _assets(tree['assets']),
@@ -77,6 +80,8 @@ final class _Read {
       blur: frozenMap(_effectNumbers(tree['blur'], 'blur')),
       system: _system(tree['system']),
       focus: _focus(tree['focus']),
+      defaultWidgetSize: component.defaultSize,
+      ladders: component.ladders,
       extensions: _extensions(tree['extensions']),
     );
   }
@@ -167,11 +172,113 @@ final class _Read {
     return StratumThemeAsset(kind: kind, path: '${_folderOf(path)}/$relative');
   }
 
+  /// The `component` group (FO-01 US-06): the default widget size and the
+  /// per-component widget-size ladders. A theme without the group reads
+  /// `medium` on every window size and no ladder; the package default always
+  /// holds it. A `default-size` that failed reads `medium` too, since its
+  /// error already stops the parse.
+  ({
+    PlainByWindowSize<WidgetSize> defaultSize,
+    Map<String, Map<WidgetSize, double>> ladders,
+  })
+  _component(Object? value) {
+    final group = value is Map<String, Object?>
+        ? value
+        : const <String, Object?>{};
+    return (
+      defaultSize:
+          (group.containsKey('default-size')
+              ? _defaultSize(group['default-size'])
+              : null) ??
+          const PlainByWindowSize<WidgetSize>.all(WidgetSize.medium),
+      ladders: frozenMap({
+        for (final MapEntry(key: component, value: properties) in group.entries)
+          if (component != 'default-size' && properties is Map<String, Object?>)
+            for (final MapEntry(key: property, value: steps)
+                in properties.entries)
+              '$component.$property': ?_ladder(
+                'component.$component.$property',
+                steps,
+              ),
+      }),
+    );
+  }
+
+  PlainByWindowSize<WidgetSize>? _defaultSize(Object? value) {
+    const path = 'component.default-size';
+    if (value is! Map<String, Object?>) {
+      final size = _widgetSize(value, path);
+      return size == null ? null : PlainByWindowSize<WidgetSize>.all(size);
+    }
+    if (value.isEmpty) {
+      _reader.report(StratumThemeErrorCode.required, path, 'required');
+      return null;
+    }
+    final entries = <String, WidgetSize>{};
+    for (final MapEntry(key: name, value: entry) in value.entries) {
+      final entryPath = '$path.$name';
+      if (!windowSizeNames.contains(name)) {
+        _reader.report(
+          StratumThemeErrorCode.unknownKey,
+          entryPath,
+          'unknown window size ${ThemeReader.show(name)}',
+          atKey: true,
+        );
+        continue;
+      }
+      if (_widgetSize(entry, entryPath) case final size?) entries[name] = size;
+    }
+    return entries.isEmpty
+        ? null
+        : PlainByWindowSize<WidgetSize>(Map.unmodifiable(entries));
+  }
+
+  /// [value] as a [WidgetSize] by its yaml name; reports `required` for null
+  /// and `expected_widget_size` for anything else.
+  WidgetSize? _widgetSize(Object? value, String path) {
+    if (value == null) {
+      _reader.report(StratumThemeErrorCode.required, path, 'required');
+      return null;
+    }
+    final size = value is String ? widgetSizeOfName(value) : null;
+    if (size == null) {
+      _reader.report(
+        StratumThemeErrorCode.expectedWidgetSize,
+        path,
+        'expected one of ${widgetSizeNames.join(', ')}, got '
+        '${ThemeReader.show(value)}',
+      );
+    }
+    return size;
+  }
+
+  /// The seven steps of the ladder at [path], each a fixed px within the
+  /// length bound; null when any step is missing or fails. Stage 2 refused
+  /// every other key, so the keys are widget size names.
+  Map<WidgetSize, double>? _ladder(String path, Object? steps) {
+    if (steps is! Map<String, Object?>) return null;
+    final ladder = <WidgetSize, double>{};
+    for (final (index, name) in widgetSizeNames.indexed) {
+      final stepPath = '$path.$name';
+      final step = _reader.dimension(
+        steps[name],
+        stepPath,
+        percent: false,
+        required: true,
+      );
+      if (step is FixedDimension) ladder[WidgetSize.values[index]] = step.px;
+    }
+    return ladder.length == widgetSizeNames.length ? frozenMap(ladder) : null;
+  }
+
   /// `PlainThemeConfig` holds this once, un-wrapped by `frozenMap`:
   /// `convertThemeConfig` rebuilds it into a `StratumByWindowSize` map for
   /// the freezed model, so this copy carries no identity contract of its
   /// own.
-  Map<String, PlainByWindowSize> _tokens(Object? value, String group) {
+  Map<String, PlainByWindowSize<StratumDimension>> _tokens(
+    Object? value,
+    String group,
+  ) {
     final tokens = value is Map<String, Object?>
         ? value
         : const <String, Object?>{};
@@ -186,7 +293,7 @@ final class _Read {
     });
   }
 
-  PlainByWindowSize? _byWindowSize(
+  PlainByWindowSize<StratumDimension>? _byWindowSize(
     String path,
     Object? value, {
     required bool percent,
@@ -194,7 +301,9 @@ final class _Read {
     final reader = _readerFor(path, value);
     if (value is! Map<String, Object?>) {
       final dimension = _dimension(reader, value, path, percent: percent);
-      return dimension == null ? null : PlainByWindowSize.all(dimension);
+      return dimension == null
+          ? null
+          : PlainByWindowSize<StratumDimension>.all(dimension);
     }
     if (value.isEmpty) {
       reader.report(StratumThemeErrorCode.required, path, 'required');
@@ -230,7 +339,7 @@ final class _Read {
     }
     return entries.isEmpty
         ? null
-        : PlainByWindowSize(Map.unmodifiable(entries));
+        : PlainByWindowSize<StratumDimension>(Map.unmodifiable(entries));
   }
 
   /// [reader]'s required dimension of [value] at [path]. Without [percent]

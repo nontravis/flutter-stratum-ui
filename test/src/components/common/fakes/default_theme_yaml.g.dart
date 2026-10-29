@@ -802,5 +802,10 @@ focus:                       # the focus ring's level 0 (FO-06 US-04 FR-03), the
   highContrastLight: {}      # partial overlays on light and dark, as in color
   highContrastDark: {}
 
+component:                   # the theme's widget sizes (FO-01 US-06)
+  default-size: medium
+  caret:
+    side: { tiny: 10, extra-small: 12, small: 14, medium: 16, large: 20, extra-large: 24, huge: 32 }
+
 extensions: {}
 """;

@@ -24,6 +24,28 @@ Object? _at(Map<String, Object?> tree, String path) {
   return node;
 }
 
+/// A base that also holds the default `component` group.
+final String _componentBase = baseYaml.replaceFirst(
+  'extensions: {}',
+  'component:\n'
+      '  default-size: medium\n'
+      '  caret:\n'
+      '    side: { tiny: 10, extra-small: 12, small: 14, medium: 16, '
+      'large: 20, extra-large: 24, huge: 32 }\n'
+      'extensions: {}',
+);
+
+/// Runs stages 1 to 3 on the component base and [layers].
+MergedTheme _mergeComponent(List<String> layers) {
+  final all = sources(layers, base: _componentBase);
+  final errors = errorsFor(all);
+  final roots = loadThemes(all, errors);
+  expect(problems(errors), isEmpty, reason: 'stage 1');
+  final merged = mergeThemes(checkThemeKeys(roots, errors), errors);
+  expect(problems(errors), isEmpty, reason: 'stages 2 and 3');
+  return merged;
+}
+
 void main() {
   group('mergeThemes layers', () {
     test('fo01/us04/s1: maps merge by key and values replace', () {
@@ -170,6 +192,52 @@ color:
         _at(merged.tree, 'color.highContrastLight.brand.normal'),
         '{palette.brand.700}',
       );
+    });
+  });
+  group('mergeThemes component', () {
+    test('fo01/us06/fr02: a layer default-size map replaces the base value '
+        'whole', () {
+      final merged = _mergeComponent([
+        layer('component:\n  default-size: { desktop: large }'),
+      ]);
+
+      expect(_at(merged.tree, 'component.default-size'), {'desktop': 'large'});
+      expect(merged.origins['component.default-size']?.source, 1);
+    });
+
+    test('fo01/us06/fr02: a layer map replaces a base default-size map whole, '
+        'not key by key', () {
+      final all = sources(
+        [layer('component:\n  default-size: { tablet: small }')],
+        base: _componentBase.replaceFirst(
+          'default-size: medium',
+          'default-size: { mobile: large, desktop: huge }',
+        ),
+      );
+      final errors = errorsFor(all);
+      final roots = loadThemes(all, errors);
+      final merged = mergeThemes(checkThemeKeys(roots, errors), errors);
+
+      expect(problems(errors), isEmpty);
+      expect(_at(merged.tree, 'component.default-size'), {'tablet': 'small'});
+    });
+
+    test('fo01/us06/fr03/e05: a ladder merges step by step', () {
+      final merged = _mergeComponent([
+        layer('component:\n  caret:\n    side: { medium: 18 }'),
+      ]);
+
+      expect(_at(merged.tree, 'component.caret.side'), {
+        'tiny': 10,
+        'extra-small': 12,
+        'small': 14,
+        'medium': 18,
+        'large': 20,
+        'extra-large': 24,
+        'huge': 32,
+      });
+      expect(merged.origins['component.caret.side.medium']?.source, 1);
+      expect(merged.origins['component.caret.side.tiny']?.source, 0);
     });
   });
 }

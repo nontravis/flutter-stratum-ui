@@ -3,7 +3,7 @@
 Sections: Themes; Theme font files; Default theme fonts; Google font weights; Material text theme; Custom text size;
 Theme models; Before `preload`; `StratumThemeController`; `StratumThemeApplication.controlled`; `StratumThemePreloader`;
 `StratumSplashScreen`; Remote theme zips; Pack and check a theme zip; Supported zip tools; Disabled opacity and scrim;
-Border, shadow, and blur tokens; System bar look; Focus ring look; App-wide component defaults
+Border, shadow, and blur tokens; System bar look; Focus ring look; Widget sizes; App-wide component defaults
 
 ## Themes
 
@@ -220,6 +220,13 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; App-wide comp
   `expected_dimension`, since either hides the ring; a gap of 0 loads. A file that leaves the group out keeps the
   Figma `FocusBorder` look. Read it in code as `StratumTheme.of(context).focus`, a `StratumFocusTokens` of the six
   values for the active light, dark, or high-contrast data.
+- **Widget sizes** — `component` in `theme.yaml` (format `stratum-theme/v2.0.0`) holds `default-size`, a widget size name
+  (`tiny`, `extra-small`, `small`, `medium`, `large`, `extra-large`, `huge`) for every window size or a map of window
+  sizes to names, and one ladder per component property, such as `caret.side`, with all seven widget sizes as px. A
+  layer's `default-size` map replaces the base's whole; a ladder merges step by step. A name that is no widget size is
+  `expected_widget_size`, a step that is no fixed px within the length bound is `expected_dimension`, and a window size
+  in a ladder, a widget size in `default-size`, or an unknown component or property is `unknown_key`. Read the parsed
+  values as `StratumThemeConfig.defaultWidgetSize` and `StratumThemeConfig.ladders`.
 - Read the theme data, its default widget size, and the window size where a widget sits:
   `context.themeData()` (or `context.themeData(ThemeMode.dark)`), `context.defaultWidgetSize()`, and
   `context.windowSize`. Each throws a `FlutterError`: `themeData` and `defaultWidgetSize` name the missing
