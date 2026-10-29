@@ -41,7 +41,10 @@ mixin _$StratumThemeData {
 /// for this data's mode, a high-contrast set laid over its base, each
 /// color from this data's own color set (FO-06 US-04 FR-03; themes s03
 /// INV-46).
- StratumFocusTokens get focus;/// The 64 built-in transparent steps.
+ StratumFocusTokens get focus;/// `component`: the widget-size ladders by `<component>.<property>`,
+/// such as `caret.side`, each holding one value per [WidgetSize] step;
+/// read them through [component] (FO-01 US-06 FR-03).
+ Map<String, Map<WidgetSize, double>> get ladders;/// The 64 built-in transparent steps.
  StratumTransparentTokens get transparent; WidgetSize get defaultWidgetSize; InteractiveInkFeatureFactory get splashFactory; ScrollBehavior get scrollBehavior; ScrollPhysics get physics;
 /// Create a copy of StratumThemeData
 /// with the given fields replaced by the non-null parameter values.
@@ -54,20 +57,20 @@ $StratumThemeDataCopyWith<StratumThemeData> get copyWith => _$StratumThemeDataCo
 @override
 bool operator ==(Object other) {
   final _this = this as StratumThemeData;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StratumThemeData&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.color, _this.color) || other.color == _this.color)&&(identical(other.palette, _this.palette) || other.palette == _this.palette)&&const DeepCollectionEquality().equals(other.space, _this.space)&&const DeepCollectionEquality().equals(other.radius, _this.radius)&&const DeepCollectionEquality().equals(other.layouts, _this.layouts)&&const DeepCollectionEquality().equals(other.appColors, _this.appColors)&&const DeepCollectionEquality().equals(other.appPalettes, _this.appPalettes)&&(identical(other.assets, _this.assets) || other.assets == _this.assets)&&const DeepCollectionEquality().equals(other.extensions, _this.extensions)&&(identical(other.typography, _this.typography) || other.typography == _this.typography)&&(identical(other.animation, _this.animation) || other.animation == _this.animation)&&(identical(other.opacity, _this.opacity) || other.opacity == _this.opacity)&&(identical(other.border, _this.border) || other.border == _this.border)&&(identical(other.shadow, _this.shadow) || other.shadow == _this.shadow)&&(identical(other.blur, _this.blur) || other.blur == _this.blur)&&(identical(other.systemStyle, _this.systemStyle) || other.systemStyle == _this.systemStyle)&&(identical(other.focus, _this.focus) || other.focus == _this.focus)&&(identical(other.transparent, _this.transparent) || other.transparent == _this.transparent)&&(identical(other.defaultWidgetSize, _this.defaultWidgetSize) || other.defaultWidgetSize == _this.defaultWidgetSize)&&(identical(other.splashFactory, _this.splashFactory) || other.splashFactory == _this.splashFactory)&&(identical(other.scrollBehavior, _this.scrollBehavior) || other.scrollBehavior == _this.scrollBehavior)&&(identical(other.physics, _this.physics) || other.physics == _this.physics));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StratumThemeData&&(identical(other.themeMode, _this.themeMode) || other.themeMode == _this.themeMode)&&(identical(other.color, _this.color) || other.color == _this.color)&&(identical(other.palette, _this.palette) || other.palette == _this.palette)&&const DeepCollectionEquality().equals(other.space, _this.space)&&const DeepCollectionEquality().equals(other.radius, _this.radius)&&const DeepCollectionEquality().equals(other.layouts, _this.layouts)&&const DeepCollectionEquality().equals(other.appColors, _this.appColors)&&const DeepCollectionEquality().equals(other.appPalettes, _this.appPalettes)&&(identical(other.assets, _this.assets) || other.assets == _this.assets)&&const DeepCollectionEquality().equals(other.extensions, _this.extensions)&&(identical(other.typography, _this.typography) || other.typography == _this.typography)&&(identical(other.animation, _this.animation) || other.animation == _this.animation)&&(identical(other.opacity, _this.opacity) || other.opacity == _this.opacity)&&(identical(other.border, _this.border) || other.border == _this.border)&&(identical(other.shadow, _this.shadow) || other.shadow == _this.shadow)&&(identical(other.blur, _this.blur) || other.blur == _this.blur)&&(identical(other.systemStyle, _this.systemStyle) || other.systemStyle == _this.systemStyle)&&(identical(other.focus, _this.focus) || other.focus == _this.focus)&&const DeepCollectionEquality().equals(other.ladders, _this.ladders)&&(identical(other.transparent, _this.transparent) || other.transparent == _this.transparent)&&(identical(other.defaultWidgetSize, _this.defaultWidgetSize) || other.defaultWidgetSize == _this.defaultWidgetSize)&&(identical(other.splashFactory, _this.splashFactory) || other.splashFactory == _this.splashFactory)&&(identical(other.scrollBehavior, _this.scrollBehavior) || other.scrollBehavior == _this.scrollBehavior)&&(identical(other.physics, _this.physics) || other.physics == _this.physics));
 }
 
 
 @override
 int get hashCode {
   final _this = this as StratumThemeData;
-  return Object.hashAll([runtimeType,_this.themeMode,_this.color,_this.palette,const DeepCollectionEquality().hash(_this.space),const DeepCollectionEquality().hash(_this.radius),const DeepCollectionEquality().hash(_this.layouts),const DeepCollectionEquality().hash(_this.appColors),const DeepCollectionEquality().hash(_this.appPalettes),_this.assets,const DeepCollectionEquality().hash(_this.extensions),_this.typography,_this.animation,_this.opacity,_this.border,_this.shadow,_this.blur,_this.systemStyle,_this.focus,_this.transparent,_this.defaultWidgetSize,_this.splashFactory,_this.scrollBehavior,_this.physics]);
+  return Object.hashAll([runtimeType,_this.themeMode,_this.color,_this.palette,const DeepCollectionEquality().hash(_this.space),const DeepCollectionEquality().hash(_this.radius),const DeepCollectionEquality().hash(_this.layouts),const DeepCollectionEquality().hash(_this.appColors),const DeepCollectionEquality().hash(_this.appPalettes),_this.assets,const DeepCollectionEquality().hash(_this.extensions),_this.typography,_this.animation,_this.opacity,_this.border,_this.shadow,_this.blur,_this.systemStyle,_this.focus,const DeepCollectionEquality().hash(_this.ladders),_this.transparent,_this.defaultWidgetSize,_this.splashFactory,_this.scrollBehavior,_this.physics]);
 }
 
 @override
 String toString() {
   final _this = this as StratumThemeData;
-  return 'StratumThemeData(themeMode: ${_this.themeMode}, color: ${_this.color}, palette: ${_this.palette}, space: ${_this.space}, radius: ${_this.radius}, layouts: ${_this.layouts}, appColors: ${_this.appColors}, appPalettes: ${_this.appPalettes}, assets: ${_this.assets}, extensions: ${_this.extensions}, typography: ${_this.typography}, animation: ${_this.animation}, opacity: ${_this.opacity}, border: ${_this.border}, shadow: ${_this.shadow}, blur: ${_this.blur}, systemStyle: ${_this.systemStyle}, focus: ${_this.focus}, transparent: ${_this.transparent}, defaultWidgetSize: ${_this.defaultWidgetSize}, splashFactory: ${_this.splashFactory}, scrollBehavior: ${_this.scrollBehavior}, physics: ${_this.physics})';
+  return 'StratumThemeData(themeMode: ${_this.themeMode}, color: ${_this.color}, palette: ${_this.palette}, space: ${_this.space}, radius: ${_this.radius}, layouts: ${_this.layouts}, appColors: ${_this.appColors}, appPalettes: ${_this.appPalettes}, assets: ${_this.assets}, extensions: ${_this.extensions}, typography: ${_this.typography}, animation: ${_this.animation}, opacity: ${_this.opacity}, border: ${_this.border}, shadow: ${_this.shadow}, blur: ${_this.blur}, systemStyle: ${_this.systemStyle}, focus: ${_this.focus}, ladders: ${_this.ladders}, transparent: ${_this.transparent}, defaultWidgetSize: ${_this.defaultWidgetSize}, splashFactory: ${_this.splashFactory}, scrollBehavior: ${_this.scrollBehavior}, physics: ${_this.physics})';
 }
 
 
@@ -78,7 +81,7 @@ abstract mixin class $StratumThemeDataCopyWith<$Res>  {
   factory $StratumThemeDataCopyWith(StratumThemeData value, $Res Function(StratumThemeData) _then) = _$StratumThemeDataCopyWithImpl;
 @useResult
 $Res call({
- ThemeMode themeMode, StratumColorTokens color, StratumPaletteTokens palette, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> appColors, Map<String, Map<String, Color>> appPalettes, StratumAssetTokens assets, Map<String, Object?> extensions, StratumTypography typography, StratumAnimation animation, StratumOpacityTokens opacity, StratumBorderTokens border, StratumShadowTokens shadow, StratumBlurTokens blur, SystemStyle systemStyle, StratumFocusTokens focus, StratumTransparentTokens transparent, WidgetSize defaultWidgetSize, InteractiveInkFeatureFactory splashFactory, ScrollBehavior scrollBehavior, ScrollPhysics physics
+ ThemeMode themeMode, StratumColorTokens color, StratumPaletteTokens palette, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> appColors, Map<String, Map<String, Color>> appPalettes, StratumAssetTokens assets, Map<String, Object?> extensions, StratumTypography typography, StratumAnimation animation, StratumOpacityTokens opacity, StratumBorderTokens border, StratumShadowTokens shadow, StratumBlurTokens blur, SystemStyle systemStyle, StratumFocusTokens focus, Map<String, Map<WidgetSize, double>> ladders, StratumTransparentTokens transparent, WidgetSize defaultWidgetSize, InteractiveInkFeatureFactory splashFactory, ScrollBehavior scrollBehavior, ScrollPhysics physics
 });
 
 
@@ -95,7 +98,7 @@ class _$StratumThemeDataCopyWithImpl<$Res>
 
 /// Create a copy of StratumThemeData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? color = null,Object? palette = null,Object? space = null,Object? radius = null,Object? layouts = null,Object? appColors = null,Object? appPalettes = null,Object? assets = null,Object? extensions = null,Object? typography = null,Object? animation = null,Object? opacity = null,Object? border = null,Object? shadow = null,Object? blur = null,Object? systemStyle = null,Object? focus = null,Object? transparent = null,Object? defaultWidgetSize = null,Object? splashFactory = null,Object? scrollBehavior = null,Object? physics = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? themeMode = null,Object? color = null,Object? palette = null,Object? space = null,Object? radius = null,Object? layouts = null,Object? appColors = null,Object? appPalettes = null,Object? assets = null,Object? extensions = null,Object? typography = null,Object? animation = null,Object? opacity = null,Object? border = null,Object? shadow = null,Object? blur = null,Object? systemStyle = null,Object? focus = null,Object? ladders = null,Object? transparent = null,Object? defaultWidgetSize = null,Object? splashFactory = null,Object? scrollBehavior = null,Object? physics = null,}) {
   return _then(StratumThemeData(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,color: null == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
@@ -115,7 +118,8 @@ as StratumBorderTokens,shadow: null == shadow ? _self.shadow : shadow // ignore:
 as StratumShadowTokens,blur: null == blur ? _self.blur : blur // ignore: cast_nullable_to_non_nullable
 as StratumBlurTokens,systemStyle: null == systemStyle ? _self.systemStyle : systemStyle // ignore: cast_nullable_to_non_nullable
 as SystemStyle,focus: null == focus ? _self.focus : focus // ignore: cast_nullable_to_non_nullable
-as StratumFocusTokens,transparent: null == transparent ? _self.transparent : transparent // ignore: cast_nullable_to_non_nullable
+as StratumFocusTokens,ladders: null == ladders ? _self.ladders : ladders // ignore: cast_nullable_to_non_nullable
+as Map<String, Map<WidgetSize, double>>,transparent: null == transparent ? _self.transparent : transparent // ignore: cast_nullable_to_non_nullable
 as StratumTransparentTokens,defaultWidgetSize: null == defaultWidgetSize ? _self.defaultWidgetSize : defaultWidgetSize // ignore: cast_nullable_to_non_nullable
 as WidgetSize,splashFactory: null == splashFactory ? _self.splashFactory : splashFactory // ignore: cast_nullable_to_non_nullable
 as InteractiveInkFeatureFactory,scrollBehavior: null == scrollBehavior ? _self.scrollBehavior : scrollBehavior // ignore: cast_nullable_to_non_nullable
@@ -168,7 +172,7 @@ $StratumFocusTokensCopyWith<$Res> get focus {
 
 
 class _StratumThemeData extends StratumThemeData {
-  const _StratumThemeData({required this.themeMode, required this.color, required this.palette, required  Map<String, StratumByWindowSize<StratumDimension>> space, required  Map<String, StratumByWindowSize<StratumDimension>> radius, required  Map<String, StratumByWindowSize<StratumDimension>> layouts, required  Map<String, Color> appColors, required  Map<String, Map<String, Color>> appPalettes, required this.assets, required  Map<String, Object?> extensions, required this.typography, required this.animation, required this.opacity, required this.border, required this.shadow, required this.blur, required this.systemStyle, required this.focus, this.transparent = StratumTransparentTokens.builtIn, this.defaultWidgetSize = WidgetSize.medium, this.splashFactory = NoSplash.splashFactory, this.scrollBehavior = const StratumScrollBehavior(), this.physics = const ClampingScrollPhysics()}): _space = space,_radius = radius,_layouts = layouts,_appColors = appColors,_appPalettes = appPalettes,_extensions = extensions,super._();
+  const _StratumThemeData({required this.themeMode, required this.color, required this.palette, required  Map<String, StratumByWindowSize<StratumDimension>> space, required  Map<String, StratumByWindowSize<StratumDimension>> radius, required  Map<String, StratumByWindowSize<StratumDimension>> layouts, required  Map<String, Color> appColors, required  Map<String, Map<String, Color>> appPalettes, required this.assets, required  Map<String, Object?> extensions, required this.typography, required this.animation, required this.opacity, required this.border, required this.shadow, required this.blur, required this.systemStyle, required this.focus, required  Map<String, Map<WidgetSize, double>> ladders, this.transparent = StratumTransparentTokens.builtIn, this.defaultWidgetSize = WidgetSize.medium, this.splashFactory = NoSplash.splashFactory, this.scrollBehavior = const StratumScrollBehavior(), this.physics = const ClampingScrollPhysics()}): _space = space,_radius = radius,_layouts = layouts,_appColors = appColors,_appPalettes = appPalettes,_extensions = extensions,_ladders = ladders,super._();
   
 
 /// `ThemeMode.light` for the light and high-contrast light data,
@@ -253,6 +257,19 @@ class _StratumThemeData extends StratumThemeData {
 /// color from this data's own color set (FO-06 US-04 FR-03; themes s03
 /// INV-46).
 @override final  StratumFocusTokens focus;
+/// `component`: the widget-size ladders by `<component>.<property>`,
+/// such as `caret.side`, each holding one value per [WidgetSize] step;
+/// read them through [component] (FO-01 US-06 FR-03).
+ final  Map<String, Map<WidgetSize, double>> _ladders;
+/// `component`: the widget-size ladders by `<component>.<property>`,
+/// such as `caret.side`, each holding one value per [WidgetSize] step;
+/// read them through [component] (FO-01 US-06 FR-03).
+@override Map<String, Map<WidgetSize, double>> get ladders {
+  if (_ladders is EqualUnmodifiableMapView) return _ladders;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_ladders);
+}
+
 /// The 64 built-in transparent steps.
 @override@JsonKey() final  StratumTransparentTokens transparent;
 @override@JsonKey() final  WidgetSize defaultWidgetSize;
@@ -270,18 +287,18 @@ _$StratumThemeDataCopyWith<_StratumThemeData> get copyWith => __$StratumThemeDat
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StratumThemeData&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.color, color) || other.color == color)&&(identical(other.palette, palette) || other.palette == palette)&&const DeepCollectionEquality().equals(other.space, _space)&&const DeepCollectionEquality().equals(other.radius, _radius)&&const DeepCollectionEquality().equals(other.layouts, _layouts)&&const DeepCollectionEquality().equals(other.appColors, _appColors)&&const DeepCollectionEquality().equals(other.appPalettes, _appPalettes)&&(identical(other.assets, assets) || other.assets == assets)&&const DeepCollectionEquality().equals(other.extensions, _extensions)&&(identical(other.typography, typography) || other.typography == typography)&&(identical(other.animation, animation) || other.animation == animation)&&(identical(other.opacity, opacity) || other.opacity == opacity)&&(identical(other.border, border) || other.border == border)&&(identical(other.shadow, shadow) || other.shadow == shadow)&&(identical(other.blur, blur) || other.blur == blur)&&(identical(other.systemStyle, systemStyle) || other.systemStyle == systemStyle)&&(identical(other.focus, focus) || other.focus == focus)&&(identical(other.transparent, transparent) || other.transparent == transparent)&&(identical(other.defaultWidgetSize, defaultWidgetSize) || other.defaultWidgetSize == defaultWidgetSize)&&(identical(other.splashFactory, splashFactory) || other.splashFactory == splashFactory)&&(identical(other.scrollBehavior, scrollBehavior) || other.scrollBehavior == scrollBehavior)&&(identical(other.physics, physics) || other.physics == physics));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StratumThemeData&&(identical(other.themeMode, themeMode) || other.themeMode == themeMode)&&(identical(other.color, color) || other.color == color)&&(identical(other.palette, palette) || other.palette == palette)&&const DeepCollectionEquality().equals(other.space, _space)&&const DeepCollectionEquality().equals(other.radius, _radius)&&const DeepCollectionEquality().equals(other.layouts, _layouts)&&const DeepCollectionEquality().equals(other.appColors, _appColors)&&const DeepCollectionEquality().equals(other.appPalettes, _appPalettes)&&(identical(other.assets, assets) || other.assets == assets)&&const DeepCollectionEquality().equals(other.extensions, _extensions)&&(identical(other.typography, typography) || other.typography == typography)&&(identical(other.animation, animation) || other.animation == animation)&&(identical(other.opacity, opacity) || other.opacity == opacity)&&(identical(other.border, border) || other.border == border)&&(identical(other.shadow, shadow) || other.shadow == shadow)&&(identical(other.blur, blur) || other.blur == blur)&&(identical(other.systemStyle, systemStyle) || other.systemStyle == systemStyle)&&(identical(other.focus, focus) || other.focus == focus)&&const DeepCollectionEquality().equals(other.ladders, _ladders)&&(identical(other.transparent, transparent) || other.transparent == transparent)&&(identical(other.defaultWidgetSize, defaultWidgetSize) || other.defaultWidgetSize == defaultWidgetSize)&&(identical(other.splashFactory, splashFactory) || other.splashFactory == splashFactory)&&(identical(other.scrollBehavior, scrollBehavior) || other.scrollBehavior == scrollBehavior)&&(identical(other.physics, physics) || other.physics == physics));
 }
 
 
 @override
 int get hashCode {
-    return Object.hashAll([runtimeType,themeMode,color,palette,const DeepCollectionEquality().hash(_space),const DeepCollectionEquality().hash(_radius),const DeepCollectionEquality().hash(_layouts),const DeepCollectionEquality().hash(_appColors),const DeepCollectionEquality().hash(_appPalettes),assets,const DeepCollectionEquality().hash(_extensions),typography,animation,opacity,border,shadow,blur,systemStyle,focus,transparent,defaultWidgetSize,splashFactory,scrollBehavior,physics]);
+    return Object.hashAll([runtimeType,themeMode,color,palette,const DeepCollectionEquality().hash(_space),const DeepCollectionEquality().hash(_radius),const DeepCollectionEquality().hash(_layouts),const DeepCollectionEquality().hash(_appColors),const DeepCollectionEquality().hash(_appPalettes),assets,const DeepCollectionEquality().hash(_extensions),typography,animation,opacity,border,shadow,blur,systemStyle,focus,const DeepCollectionEquality().hash(_ladders),transparent,defaultWidgetSize,splashFactory,scrollBehavior,physics]);
 }
 
 @override
 String toString() {
-    return 'StratumThemeData(themeMode: $themeMode, color: $color, palette: $palette, space: $space, radius: $radius, layouts: $layouts, appColors: $appColors, appPalettes: $appPalettes, assets: $assets, extensions: $extensions, typography: $typography, animation: $animation, opacity: $opacity, border: $border, shadow: $shadow, blur: $blur, systemStyle: $systemStyle, focus: $focus, transparent: $transparent, defaultWidgetSize: $defaultWidgetSize, splashFactory: $splashFactory, scrollBehavior: $scrollBehavior, physics: $physics)';
+    return 'StratumThemeData(themeMode: $themeMode, color: $color, palette: $palette, space: $space, radius: $radius, layouts: $layouts, appColors: $appColors, appPalettes: $appPalettes, assets: $assets, extensions: $extensions, typography: $typography, animation: $animation, opacity: $opacity, border: $border, shadow: $shadow, blur: $blur, systemStyle: $systemStyle, focus: $focus, ladders: $ladders, transparent: $transparent, defaultWidgetSize: $defaultWidgetSize, splashFactory: $splashFactory, scrollBehavior: $scrollBehavior, physics: $physics)';
 }
 
 
@@ -292,7 +309,7 @@ abstract mixin class _$StratumThemeDataCopyWith<$Res> implements $StratumThemeDa
   factory _$StratumThemeDataCopyWith(_StratumThemeData value, $Res Function(_StratumThemeData) _then) = __$StratumThemeDataCopyWithImpl;
 @override @useResult
 $Res call({
- ThemeMode themeMode, StratumColorTokens color, StratumPaletteTokens palette, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> appColors, Map<String, Map<String, Color>> appPalettes, StratumAssetTokens assets, Map<String, Object?> extensions, StratumTypography typography, StratumAnimation animation, StratumOpacityTokens opacity, StratumBorderTokens border, StratumShadowTokens shadow, StratumBlurTokens blur, SystemStyle systemStyle, StratumFocusTokens focus, StratumTransparentTokens transparent, WidgetSize defaultWidgetSize, InteractiveInkFeatureFactory splashFactory, ScrollBehavior scrollBehavior, ScrollPhysics physics
+ ThemeMode themeMode, StratumColorTokens color, StratumPaletteTokens palette, Map<String, StratumByWindowSize<StratumDimension>> space, Map<String, StratumByWindowSize<StratumDimension>> radius, Map<String, StratumByWindowSize<StratumDimension>> layouts, Map<String, Color> appColors, Map<String, Map<String, Color>> appPalettes, StratumAssetTokens assets, Map<String, Object?> extensions, StratumTypography typography, StratumAnimation animation, StratumOpacityTokens opacity, StratumBorderTokens border, StratumShadowTokens shadow, StratumBlurTokens blur, SystemStyle systemStyle, StratumFocusTokens focus, Map<String, Map<WidgetSize, double>> ladders, StratumTransparentTokens transparent, WidgetSize defaultWidgetSize, InteractiveInkFeatureFactory splashFactory, ScrollBehavior scrollBehavior, ScrollPhysics physics
 });
 
 
@@ -309,7 +326,7 @@ class __$StratumThemeDataCopyWithImpl<$Res>
 
 /// Create a copy of StratumThemeData
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? color = null,Object? palette = null,Object? space = null,Object? radius = null,Object? layouts = null,Object? appColors = null,Object? appPalettes = null,Object? assets = null,Object? extensions = null,Object? typography = null,Object? animation = null,Object? opacity = null,Object? border = null,Object? shadow = null,Object? blur = null,Object? systemStyle = null,Object? focus = null,Object? transparent = null,Object? defaultWidgetSize = null,Object? splashFactory = null,Object? scrollBehavior = null,Object? physics = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? themeMode = null,Object? color = null,Object? palette = null,Object? space = null,Object? radius = null,Object? layouts = null,Object? appColors = null,Object? appPalettes = null,Object? assets = null,Object? extensions = null,Object? typography = null,Object? animation = null,Object? opacity = null,Object? border = null,Object? shadow = null,Object? blur = null,Object? systemStyle = null,Object? focus = null,Object? ladders = null,Object? transparent = null,Object? defaultWidgetSize = null,Object? splashFactory = null,Object? scrollBehavior = null,Object? physics = null,}) {
   return _then(_StratumThemeData(
 themeMode: null == themeMode ? _self.themeMode : themeMode // ignore: cast_nullable_to_non_nullable
 as ThemeMode,color: null == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
@@ -329,7 +346,8 @@ as StratumBorderTokens,shadow: null == shadow ? _self.shadow : shadow // ignore:
 as StratumShadowTokens,blur: null == blur ? _self.blur : blur // ignore: cast_nullable_to_non_nullable
 as StratumBlurTokens,systemStyle: null == systemStyle ? _self.systemStyle : systemStyle // ignore: cast_nullable_to_non_nullable
 as SystemStyle,focus: null == focus ? _self.focus : focus // ignore: cast_nullable_to_non_nullable
-as StratumFocusTokens,transparent: null == transparent ? _self.transparent : transparent // ignore: cast_nullable_to_non_nullable
+as StratumFocusTokens,ladders: null == ladders ? _self._ladders : ladders // ignore: cast_nullable_to_non_nullable
+as Map<String, Map<WidgetSize, double>>,transparent: null == transparent ? _self.transparent : transparent // ignore: cast_nullable_to_non_nullable
 as StratumTransparentTokens,defaultWidgetSize: null == defaultWidgetSize ? _self.defaultWidgetSize : defaultWidgetSize // ignore: cast_nullable_to_non_nullable
 as WidgetSize,splashFactory: null == splashFactory ? _self.splashFactory : splashFactory // ignore: cast_nullable_to_non_nullable
 as InteractiveInkFeatureFactory,scrollBehavior: null == scrollBehavior ? _self.scrollBehavior : scrollBehavior // ignore: cast_nullable_to_non_nullable

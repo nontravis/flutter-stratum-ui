@@ -89,6 +89,7 @@ abstract class StratumThemeSet with _$StratumThemeSet {
       space: config.space,
       radius: config.radius,
       layouts: config.layouts,
+      ladders: config.ladders,
       appColors: _appColors(setColors),
       appPalettes: appPalettes,
       assets: assets,

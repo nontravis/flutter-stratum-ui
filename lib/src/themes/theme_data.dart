@@ -1,5 +1,6 @@
 import 'package:stratum_ui/src/animations/stratum_page_transitions_builder.dart';
 import 'package:stratum_ui/src/src.dart';
+import 'package:stratum_ui/src/themes/config/widget_size_names.dart';
 import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/theme_data.freezed.dart';
@@ -67,6 +68,11 @@ abstract class StratumThemeData with _$StratumThemeData {
     /// INV-46).
     required StratumFocusTokens focus,
 
+    /// `component`: the widget-size ladders by `<component>.<property>`,
+    /// such as `caret.side`, each holding one value per [WidgetSize] step;
+    /// read them through [component] (FO-01 US-06 FR-03).
+    required Map<String, Map<WidgetSize, double>> ladders,
+
     /// The 64 built-in transparent steps.
     @Default(StratumTransparentTokens.builtIn)
     StratumTransparentTokens transparent,
@@ -77,6 +83,20 @@ abstract class StratumThemeData with _$StratumThemeData {
   }) = _StratumThemeData;
 
   const new _();
+
+  /// The widget-size ladders of every component, read as
+  /// `component.caret.side(size)`. A ladder or step this data lacks makes
+  /// the read throw an [ArgumentError] naming
+  /// `component.<component>.<property>.<step>`.
+  StratumComponentTokens get component => StratumComponentTokens(_ladderStep);
+
+  double _ladderStep(String path, WidgetSize size) =>
+      ladders[path]?[size] ??
+      (throw ArgumentError.value(
+        'component.$path.${widgetSizeNames[size.index]}',
+        'path',
+        'no ladder step at this path in the theme data',
+      ));
 
   /// The app color [name]. Throws an [ArgumentError] that lists the names
   /// in [appColors] (spec G13).

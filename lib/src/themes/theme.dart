@@ -49,6 +49,10 @@ class StratumTheme {
   StratumLayoutTokens get layouts =>
       StratumLayoutTokens((name) => _resolve(data.layouts, 'layouts', name));
 
+  /// `data.component`: the widget-size ladders, read as
+  /// `theme.component.caret.side(size)`; a window size never changes them.
+  StratumComponentTokens get component => data.component;
+
   /// `data.animation`, unchanged under reduced motion too (spec C1).
   StratumAnimation get animation => data.animation;
 

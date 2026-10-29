@@ -226,7 +226,9 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; Widget sizes;
   layer's `default-size` map replaces the base's whole; a ladder merges step by step. A name that is no widget size is
   `expected_widget_size`, a step that is no fixed px within the length bound is `expected_dimension`, and a window size
   in a ladder, a widget size in `default-size`, or an unknown component or property is `unknown_key`. Read the parsed
-  values as `StratumThemeConfig.defaultWidgetSize` and `StratumThemeConfig.ladders`.
+  values as `StratumThemeConfig.defaultWidgetSize` and `StratumThemeConfig.ladders`. Read a ladder step in code
+  with `theme.component.caret.side(size)`, or `StratumThemeData.component`; a ladder or step the data lacks throws an
+  `ArgumentError` naming `component.<component>.<property>.<step>`.
 - Read the theme data, its default widget size, and the window size where a widget sits:
   `context.themeData()` (or `context.themeData(ThemeMode.dark)`), `context.defaultWidgetSize()`, and
   `context.windowSize`. Each throws a `FlutterError`: `themeData` and `defaultWidgetSize` name the missing

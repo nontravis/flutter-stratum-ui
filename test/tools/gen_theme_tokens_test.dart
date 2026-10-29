@@ -7,8 +7,9 @@ import 'package:stratum_ui/src/themes/config/transparent.dart';
 import '../../tools/gen_theme_tokens.dart';
 import '../src/components/common/fakes/fake_stratum_theme.dart';
 
-/// The smallest yaml the generator reads, with [space] as its space group.
-String _yaml(String space) =>
+/// The smallest yaml the generator reads, with [space] as its space group
+/// and [component] as its component group.
+String _yaml(String space, {String component = '  default-size: medium'}) =>
     '''
 color:
   light:
@@ -24,6 +25,8 @@ opacity: { disabled: 0.5 }
 border: { md: 1 }
 shadow: { 1: [] }
 blur: { 1: 4 }
+component:
+$component
 ''';
 
 /// The `color.light` map of the default theme yaml, without `app`.
@@ -66,6 +69,7 @@ opacity: { disabled: 0.5 }
 border: { md: 1 }
 shadow: { 1: [] }
 blur: { 1: 4 }
+component: { default-size: medium }
 ''';
 
 /// The yaml key whose Dart name is [color]'s name.
@@ -173,15 +177,16 @@ void main() {
       );
     });
 
-    test('the package default gives 42 classes: the 38 of spec section 6.3, '
-        'the opacity class, and the border, shadow, and blur classes', () {
+    test('the package default gives 44 classes: the 38 of spec section 6.3, '
+        'the opacity class, the border, shadow, and blur classes, and the '
+        'component class with its caret ladders', () {
       final generated = generateThemeTokens(File(themePath).readAsStringSync());
       final names = RegExp(
         r'^final class (\w+)',
         multiLine: true,
       ).allMatches(generated).map((match) => match[1]!).toList();
 
-      expect(names, hasLength(42));
+      expect(names, hasLength(44));
       expect(
         names.where((name) => name.startsWith('StratumColor')),
         hasLength(30),
@@ -194,6 +199,8 @@ void main() {
         'StratumSpaceTokens',
         'StratumRadiusTokens',
         'StratumLayoutTokens',
+        'StratumComponentTokens',
+        'StratumCaretLadders',
         'StratumAssetTokens',
         'StratumOpacityTokens',
         'StratumBorderTokens',
@@ -491,6 +498,40 @@ void main() {
     expect(() => StratumBorderTokens.fromMap(const {}), namesKey('sm'));
     expect(() => StratumShadowTokens.fromMap(const {}), namesKey('1'));
     expect(() => StratumBlurTokens.fromMap(const {}), namesKey('1'));
+  });
+
+  test('fo01/us06/fr03: the generator emits one ladder class per component '
+      'and one method per property', () {
+    const steps =
+        '{ tiny: 1, extra-small: 2, small: 3, medium: 4, large: 5, '
+        'extra-large: 6, huge: 7 }';
+    final generated = generateThemeTokens(
+      _yaml(
+        '  md: 1',
+        component:
+            '  default-size: medium\n'
+            '  badge:\n'
+            '    side: $steps\n'
+            '    gap: $steps',
+      ),
+    );
+
+    expect(generated, contains('final class StratumComponentTokens {\n'));
+    expect(generated, contains('  StratumComponentTokens(this._read);\n'));
+    expect(
+      generated,
+      contains(
+        '  StratumBadgeLadders get badge => StratumBadgeLadders(_read);\n',
+      ),
+    );
+    expect(generated, contains('final class StratumBadgeLadders {\n'));
+    expect(generated, contains('  double side(WidgetSize size) =>'));
+    expect(generated, contains("_read('badge.side', size);\n"));
+    expect(generated, contains('  double gap(WidgetSize size) =>'));
+    expect(generated, contains("_read('badge.gap', size);\n"));
+    expect(generated, isNot(contains('defaultSize')));
+    expect(generated, isNot(contains('default-size')));
+    expect(generated, contains('/// `component.badge.side`'));
   });
 
   group('byName', () {

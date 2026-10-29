@@ -105,6 +105,9 @@ String generateThemeTokens(String yaml) {
     )
     ..writeln("import 'package:stratum_ui/src/themes/config/theme_asset.dart';")
     ..writeln("import 'package:stratum_ui/src/themes/constant/color.dart';")
+    ..writeln(
+      "import 'package:stratum_ui/src/themes/constant/widget_size.dart';",
+    )
     ..writeln()
     ..writeln(
       '/// A `<group>.color` group that gives its token for a [ColorEnum] '
@@ -122,6 +125,7 @@ String generateThemeTokens(String yaml) {
   for (final group in const ['space', 'radius', 'layouts']) {
     _dimensions(out, group, _map(root[group], group).keys);
   }
+  _components(out, _map(root['component'], 'component'));
   _assets(out, _map(root['assets'], 'assets').keys);
   _opacityClass(out, _map(root['opacity'], 'opacity').keys);
   _tokenClass(
@@ -465,6 +469,54 @@ void _dimensions(StringBuffer out, String group, Iterable<String> keys) {
       ..writeln("  double get $name => _read('$key');");
   }
   out.writeln('}');
+}
+
+/// The `component` group: `StratumComponentTokens` with one getter per
+/// component, each a `Stratum<Component>Ladders` with one method per
+/// property that reads the ladder `<component>.<property>` for a widget
+/// size. `default-size` is a scalar, not a component, so it gets no getter.
+void _components(StringBuffer out, Map<String, Object?> group) {
+  final components = {
+    for (final MapEntry(:key, :value) in group.entries)
+      if (key != 'default-size') key: _map(value, 'component.$key'),
+  };
+  final names = _names(components.keys, 'component');
+  out
+    ..writeln()
+    ..writeln(
+      '/// The `component` widget-size ladders: one getter per component.',
+    )
+    ..writeln('final class StratumComponentTokens {')
+    ..writeln('  StratumComponentTokens(this._read);')
+    ..writeln()
+    ..writeln('  final double Function(String path, WidgetSize size) _read;');
+  for (final MapEntry(:key, value: name) in names.entries) {
+    final className = 'Stratum${_pascal(name)}Ladders';
+    out
+      ..writeln()
+      ..writeln('  /// `component.$key`')
+      ..writeln('  $className get $name => $className(_read);');
+  }
+  out.writeln('}');
+  for (final MapEntry(:key, value: name) in names.entries) {
+    final properties = _names(components[key]!.keys, 'component.$key');
+    out
+      ..writeln()
+      ..writeln('/// The widget-size ladders of `component.$key`.')
+      ..writeln('final class Stratum${_pascal(name)}Ladders {')
+      ..writeln('  const Stratum${_pascal(name)}Ladders(this._read);')
+      ..writeln()
+      ..writeln('  final double Function(String path, WidgetSize size) _read;');
+    for (final MapEntry(key: property, value: method) in properties.entries) {
+      out
+        ..writeln()
+        ..writeln('  /// `component.$key.$property`')
+        ..writeln(
+          "  double $method(WidgetSize size) => _read('$key.$property', size);",
+        );
+    }
+    out.writeln('}');
+  }
 }
 
 void _assets(StringBuffer out, Iterable<String> slots) {

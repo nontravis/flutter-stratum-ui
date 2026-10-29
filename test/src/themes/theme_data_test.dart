@@ -78,6 +78,79 @@ void main() {
     });
   });
 
+  group('component ladders', () {
+    test("fo01/us06/fr03/e07: the default data's caret side ladder reads "
+        '10, 12, 14, 16, 20, 24, 32', () {
+      final caret = defaultThemeSet.light.component.caret;
+
+      expect(
+        [for (final size in WidgetSize.values) caret.side(size)],
+        [10, 12, 14, 16, 20, 24, 32],
+      );
+    });
+
+    test('fo01/us06/fr03/e07: data with no ladders throws an ArgumentError '
+        'naming the missing step', () {
+      final data = defaultThemeSet.light.copyWith(ladders: const {});
+
+      expect(
+        () => data.component.caret.side(WidgetSize.medium),
+        throwsA(
+          isA<ArgumentError>().having(
+            (error) => error.toString(),
+            'message',
+            contains('component.caret.side.medium'),
+          ),
+        ),
+      );
+    });
+
+    test('fo01/us06/fr03/e07: data whose ladder lacks a step names that '
+        'step', () {
+      final data = defaultThemeSet.light.copyWith(
+        ladders: const {
+          'caret.side': {WidgetSize.small: 14},
+        },
+      );
+
+      expect(data.component.caret.side(WidgetSize.small), 14);
+      expect(
+        () => data.component.caret.side(WidgetSize.huge),
+        throwsA(
+          isA<ArgumentError>().having(
+            (error) => error.toString(),
+            'message',
+            contains('component.caret.side.huge'),
+          ),
+        ),
+      );
+    });
+
+    testWidgets("fo03/us10/fr01: the theme data exposes each component's "
+        'widget-size ladders as a typed set', (tester) async {
+      late StratumTheme theme;
+      await tester.pumpWidget(
+        StratumThemeApplication(
+          themes: StratumThemeSet(light: defaultThemeSet.light),
+          themeMode: ThemeMode.light,
+          child: Builder(
+            builder: (context) {
+              theme = StratumTheme.of(context);
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+
+      for (final size in WidgetSize.values) {
+        expect(
+          theme.component.caret.side(size),
+          defaultThemeSet.light.component.caret.side(size),
+        );
+      }
+    });
+  });
+
   group('copyWith', () {
     test('with no argument keeps every field', () {
       final data = fakeTheme;
@@ -119,6 +192,9 @@ void main() {
       final layouts = EqualUnmodifiableMapView({
         'max': const StratumByWindowSize.all(StratumDimension.fixed(3)),
       });
+      final ladders = EqualUnmodifiableMapView({
+        'caret.side': {WidgetSize.medium: 3.0},
+      });
       final appColors = EqualUnmodifiableMapView({
         'x': const Color(0xFF000001),
       });
@@ -148,6 +224,7 @@ void main() {
         space: space,
         radius: radius,
         layouts: layouts,
+        ladders: ladders,
         appColors: appColors,
         appPalettes: appPalettes,
         assets: other.assets,
@@ -172,6 +249,7 @@ void main() {
       expect(copy.space, same(space));
       expect(copy.radius, same(radius));
       expect(copy.layouts, same(layouts));
+      expect(copy.ladders, same(ladders));
       expect(copy.appColors, same(appColors));
       expect(copy.appPalettes, same(appPalettes));
       expect(copy.assets, same(other.assets));
