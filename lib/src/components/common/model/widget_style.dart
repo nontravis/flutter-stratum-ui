@@ -94,6 +94,9 @@ class WidgetStyle with _$WidgetStyle {
   /// Returns a copy with [watch], [mobile], [tablet], [desktop], and
   /// [bigDesktop] layered over the override this value already carries at
   /// that size.
+  ///
+  /// Every argument null returns this value unchanged, with no empty
+  /// override map.
   WidgetStyle at({
     WidgetStyle? watch,
     WidgetStyle? mobile,
@@ -101,6 +104,13 @@ class WidgetStyle with _$WidgetStyle {
     WidgetStyle? desktop,
     WidgetStyle? bigDesktop,
   }) {
+    if (watch == null &&
+        mobile == null &&
+        tablet == null &&
+        desktop == null &&
+        bigDesktop == null) {
+      return this;
+    }
     final added = <WindowSize, WidgetStyle>{
       WindowSize.watch: ?watch,
       WindowSize.mobile: ?mobile,
@@ -194,6 +204,9 @@ class WidgetStyle with _$WidgetStyle {
 
   /// Interpolates between two styles, for implicit animation.
   ///
+  /// Takes styles already resolved for one window size ([resolve]); a style
+  /// that still carries overrides loses them, which the debug assert flags.
+  ///
   /// Returns [a] at `t == 0` and [b] at `t == 1`. A null style counts as
   /// `const WidgetStyle()`. A size switches at `t = 0.5` when one side is
   /// null, because null means unconstrained. [clipBehavior] switches at
@@ -201,6 +214,10 @@ class WidgetStyle with _$WidgetStyle {
   /// spacing, sizes, and blur are clamped to legal values, so a curve that
   /// overshoots cannot throw.
   static WidgetStyle? lerp(WidgetStyle? a, WidgetStyle? b, double t) {
+    assert(
+      !(a?.hasWindowOverrides ?? false) && !(b?.hasWindowOverrides ?? false),
+      'WidgetStyle.lerp takes resolved styles; call resolve(WindowSize) first',
+    );
     if (identical(a, b)) return a;
     if (t == 0) return a;
     if (t == 1) return b;

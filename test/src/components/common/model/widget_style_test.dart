@@ -432,6 +432,32 @@ void main() {
       );
     });
 
+    test('fo05/us04/fr01: at() with no override returns the same style', () {
+      const style = WidgetStyle(padding: EdgeInsets.all(16));
+
+      expect(style.at(), same(style));
+      expect(
+        style.at(tablet: const WidgetStyle(width: 320)).at(),
+        style.at(tablet: const WidgetStyle(width: 320)),
+      );
+    });
+
+    test('fo05/us04/fr01: lerp asserts on a style that still carries '
+        'overrides', () {
+      final styled = const WidgetStyle(padding: EdgeInsets.all(16))
+          .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32)));
+      const plain = WidgetStyle();
+
+      expect(
+        () => WidgetStyle.lerp(styled, plain, 0.5),
+        throwsA(isA<AssertionError>()),
+      );
+      expect(
+        () => WidgetStyle.lerp(plain, styled, 0.5),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+
     test('fo05/us04/fr03/e01: the override sets only a fill at the base '
         'level, and the base carries a desktop override of 32 px padding, so '
         'on a desktop window the merged style shows the override fill with '
