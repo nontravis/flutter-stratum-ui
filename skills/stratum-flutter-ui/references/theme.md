@@ -199,8 +199,9 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; App-wide comp
   `unknown_key`. A `typography` that draws some text at a font size or a line box of 0 px or less is
   `expected_dimension` too: at text scale 1 the package tries every size `s10` to `s56`, with no window size and at
   each one, in every font a tag gives the type, and blames the `adjustSize`, the `scaleByWindowSize` entry, or the
-  `spaceHeight` that does it, once per path, in the app and in the `stratum_theme` CLI alike. `AppBorder`, `AppShadow`, `AppFilter`, `StratumThemeData.filter`, and `screenBorderRadius` no longer exist;
-  read the screen's corner radius from `context.deviceWindow.radius` (see Screen corner radius).
+  `spaceHeight` that does it, once per path, in the app and in the `stratum_theme` CLI alike. `AppBorder`,
+  `AppShadow`, `AppFilter`, `StratumThemeData.filter`, and `screenBorderRadius` no longer exist; read the screen's
+  corner radius from `context.deviceWindow.radius` (see Screen corner radius).
 - **System bar look** — `system` in `theme.yaml` (format `stratum-theme/v2.0.0`) sets how the status bar and the
   navigation bar look, in `light` and `dark` and the optional partial overlays `highContrastLight` and
   `highContrastDark`, as `color` does: `statusBarIcons` and `navigationBarIcons` (`auto`, `light`, or `dark`; `auto`
