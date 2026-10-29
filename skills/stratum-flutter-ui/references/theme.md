@@ -199,10 +199,7 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; App-wide comp
   `unknown_key`. A `typography` that draws some text at a font size or a line box of 0 px or less is
   `expected_dimension` too: at text scale 1 the package tries every size `s10` to `s56`, with no window size and at
   each one, in every font a tag gives the type, and blames the `adjustSize`, the `scaleByWindowSize` entry, or the
-  `spaceHeight` that does it, once per path, in the app and in the `stratum_theme` CLI alike. A package build
-  that reads only up to `v1.1` refuses a
-  `v1.2` theme as `unsupported_schema`, so a theme that must load there writes `v1.1.0` and leaves the three groups
-  out. `AppBorder`, `AppShadow`, `AppFilter`, `StratumThemeData.filter`, and `screenBorderRadius` no longer exist;
+  `spaceHeight` that does it, once per path, in the app and in the `stratum_theme` CLI alike. `AppBorder`, `AppShadow`, `AppFilter`, `StratumThemeData.filter`, and `screenBorderRadius` no longer exist;
   read the screen's corner radius from `context.deviceWindow.radius` (see Screen corner radius).
 - **System bar look** — `system` in `theme.yaml` (format `stratum-theme/v2.0.0`) sets how the status bar and the
   navigation bar look, in `light` and `dark` and the optional partial overlays `highContrastLight` and
@@ -214,14 +211,13 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; App-wide comp
   `true`, and the page background. The bar mode, the rotation lock, and the app switcher label are set in Dart only
   (see System bars): a `system` set holding `barMode`, `orientations`, or `appSwitcherLabel` throws
   `StratumThemeFormatException` with `unknown_key`, a bad icons value `expected_bar_icons`, and a bad flag
-  `expected_boolean`. A package build that reads only up to `v1.3` refuses a `v1.4` theme as `unsupported_schema`.
+  `expected_boolean`.
 - **Focus ring look** — `focus` in `theme.yaml` (format `stratum-theme/v2.0.0`) sets the focus ring's theme look:
   `light`, `dark`, and the optional partial overlays `highContrastLight` and `highContrastDark`, each with `outside`
   (`color`, `width`, `gap`) and `inside` (`color`, and a `width` of `hovered` and `focused`). Each color is a quoted
   hex color or an alias to a color token; a color whose alpha is 0 is `expected_color`, and a width of 0 is
   `expected_dimension`, since either hides the ring; a gap of 0 loads. A file that leaves the group out keeps the
-  Figma `FocusBorder` look. A package build that reads only up to `v1.4` refuses a `v1.5` theme as
-  `unsupported_schema`. Read it in code as `StratumTheme.of(context).focus`, a `StratumFocusTokens` of the six
+  Figma `FocusBorder` look. Read it in code as `StratumTheme.of(context).focus`, a `StratumFocusTokens` of the six
   values for the active light, dark, or high-contrast data.
 - Read the theme data, its default widget size, and the window size where a widget sits:
   `context.themeData()` (or `context.themeData(ThemeMode.dark)`), `context.defaultWidgetSize()`, and
