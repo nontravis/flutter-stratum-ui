@@ -3,6 +3,7 @@ import 'package:stratum_ui/src/src.dart';
 import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
 import 'package:stratum_ui/src/themes/config/reader.dart';
 import 'package:stratum_ui/src/themes/config/theme_convert.dart';
+import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
 import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
 
 const _yaml = '''
@@ -85,7 +86,14 @@ void main() {
 
     test('oq-b: windowSizeNames is WindowSize.values by name, in order', () {
       expect(windowSizeNames, [
-        for (final size in WindowSize.values) size.name,
+        'watch',
+        'mobile',
+        'tablet',
+        'desktop',
+        'big-desktop',
+      ]);
+      expect(windowSizeNames, [
+        for (final size in WindowSize.values) size.yamlName,
       ]);
     });
   });

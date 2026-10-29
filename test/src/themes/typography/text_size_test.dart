@@ -59,7 +59,7 @@ void main() {
         'desktop': StratumDimension.fixed(1),
       };
       final big = _sizeOf(
-        window: 'bigDesktop',
+        window: 'big-desktop',
         ownScale: own,
         themeScale: themeScale,
       );
@@ -124,7 +124,7 @@ void main() {
       };
       for (final (window, name, size) in [
         ('tablet', 'mobile', 16.0),
-        ('bigDesktop', 'desktop', 17.0),
+        ('big-desktop', 'desktop', 17.0),
       ]) {
         final sizes = _sizeOf(window: window, themeScale: themeScale);
 
@@ -158,7 +158,7 @@ void main() {
         ('mobile', 'tablet', 24.0),
         ('tablet', 'tablet', 24.0),
         ('desktop', 'desktop', 17.0),
-        ('bigDesktop', 'desktop', 17.0),
+        ('big-desktop', 'desktop', 17.0),
       ]) {
         final sizes = _sizeOf(window: window);
 

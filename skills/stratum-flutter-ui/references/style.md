@@ -24,7 +24,7 @@ the recipe resolves; use the fluent getters (`size`, `color*`) instead to change
 - **The theme's transition per window size** — every `MaterialPageRoute` and `MaterialPage` (go_router's default
   page) below `StratumThemeApplication` takes the type the theme names for the window size, with no transition code:
   the application's Material theme installs a Stratum page transitions builder for every platform. Name the types in
-  `theme.yaml` under `animation.transition`, one for each of `watch`, `mobile`, `tablet`, `desktop`, `bigDesktop`; the
+  `theme.yaml` under `animation.transition`, one for each of `watch`, `mobile`, `tablet`, `desktop`, `big-desktop`; the
   package default names `platform` for all five, Flutter's own page motion, so the iOS slide keeps its swipe-back.
   For `platform` and `cupertino`, the builder delegates to Flutter's whole builder, the outgoing page's motion
   included; during a back-swipe the page tracks the finger, with no curve. A layer may change any of the five and

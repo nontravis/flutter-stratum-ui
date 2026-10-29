@@ -1,4 +1,5 @@
 import 'package:stratum_ui/src/src.dart';
+import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
 import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/animation.freezed.dart';
@@ -69,9 +70,9 @@ class const StratumAnimation({
     final exit = curve('exit');
     ScreenTransitionType transition(WindowSize size) {
       final name =
-          config.transitions[size.name] ??
+          config.transitions[size.yamlName] ??
           (throw ArgumentError.value(
-            size.name,
+            size.yamlName,
             'windowSize',
             'no transition for this window size in the animation config',
           ));

@@ -593,7 +593,7 @@ void main() {
             },
             extra:
                 '  scaleByWindowSize: { watch: -14, mobile: 0, tablet: 0, '
-                'desktop: 0, bigDesktop: 0 }',
+                'desktop: 0, big-desktop: 0 }',
           ),
         ),
         [expected],
@@ -739,13 +739,13 @@ void main() {
           'typography.scaleByWindowSize.watch: expected a scaleByWindowSize '
           'that keeps s10 above 0 px, got -14 (s10 draws at -4 px)';
       const bigDesktop =
-          'typography.scaleByWindowSize.bigDesktop: expected a '
+          'typography.scaleByWindowSize.big-desktop: expected a '
           'scaleByWindowSize that keeps s10 above 0 px, got -50 (s10 draws '
           'at -40 px)';
       expect(
         _errors(
           _typography(
-            extra: '  scaleByWindowSize: { watch: -14, bigDesktop: -50 }',
+            extra: '  scaleByWindowSize: { watch: -14, big-desktop: -50 }',
           ),
         ),
         [watch, bigDesktop],

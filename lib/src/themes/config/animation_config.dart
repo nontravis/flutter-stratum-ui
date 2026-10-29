@@ -22,14 +22,14 @@ abstract class StratumAnimationConfig with _$StratumAnimationConfig {
 
     /// `animation.transition`: window size name to page transition type
     /// name, one for each of `watch`, `mobile`, `tablet`, `desktop`, and
-    /// `bigDesktop`. A config built by hand that sets none names
+    /// `big-desktop`. A config built by hand that sets none names
     /// `platform` for all five, as the package default does.
     @Default(<String, String>{
       'watch': 'platform',
       'mobile': 'platform',
       'tablet': 'platform',
       'desktop': 'platform',
-      'bigDesktop': 'platform',
+      'big-desktop': 'platform',
     })
     Map<String, String> transitions,
   }) = _StratumAnimationConfig;

@@ -214,7 +214,7 @@ void main() {
           'mobile': 'platform',
           'tablet': 'platform',
           'desktop': 'platform',
-          'bigDesktop': 'platform',
+          'big-desktop': 'platform',
         },
       ),
     );

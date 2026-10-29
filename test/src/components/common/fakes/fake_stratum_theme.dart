@@ -1,4 +1,5 @@
 import 'package:stratum_ui/src/src.dart';
+import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
 
 import 'default_theme_yaml.g.dart';
 
@@ -87,7 +88,8 @@ Map<String, String> transitionsOf(
   ScreenTransitionType type, {
   Map<WindowSize, ScreenTransitionType> sizes = const {},
 }) => {
-  for (final size in WindowSize.values) size.name: (sizes[size] ?? type).name,
+  for (final size in WindowSize.values)
+    size.yamlName: (sizes[size] ?? type).name,
 };
 
 /// [theme], else [fakeTheme], with its `fast` level at [fast], its `slow`

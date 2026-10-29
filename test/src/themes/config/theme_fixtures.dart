@@ -94,7 +94,7 @@ animation:
     mobile: platform
     tablet: platform
     desktop: platform
-    bigDesktop: platform
+    big-desktop: platform
   curve:
     standard: easeInOutSine
     enter: easeOut

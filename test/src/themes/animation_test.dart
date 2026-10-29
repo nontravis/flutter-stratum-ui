@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/src.dart';
 import 'package:stratum_ui/src/themes/config/transition_names.dart';
+import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 
@@ -409,7 +410,7 @@ void main() {
         (document['animation'] as YamlMap)['transition'] as YamlMap;
 
     expect(transition.keys.toList(), [
-      for (final size in WindowSize.values) size.name,
+      for (final size in WindowSize.values) size.yamlName,
     ]);
     expect(transition.values.toSet(), {'platform'});
   });

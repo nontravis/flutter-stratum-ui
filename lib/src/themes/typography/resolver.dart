@@ -1,4 +1,5 @@
 import 'package:stratum_ui/src/src.dart';
+import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
 import 'package:stratum_ui/src/themes/typography/google_font_weights.dart';
 import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 import 'package:stratum_ui/src/themes/typography/text_size.dart';
@@ -66,14 +67,14 @@ abstract final class TypographyResolver {
 
     final sizes = textSizeOf(
       base: base,
-      window: windowSize?.name,
+      window: windowSize?.yamlName,
       ownScale: windowSize == null ? null : _byName(style.scaleByWindowSize),
       themeScale: windowSize == null
           ? null
           : {
               for (final size in WindowSize.values)
                 if (typography.scaleByWindowSize?.names(size) ?? false)
-                  size.name: typography.scaleByWindowSize!.valueFor(size),
+                  size.yamlName: typography.scaleByWindowSize!.valueFor(size),
             },
       adjustSize: font.adjustSize,
       spaceHeight: metrics.spaceHeight,
@@ -196,7 +197,10 @@ abstract final class TypographyResolver {
     Map<WindowSize, StratumDimension>? scale,
   ) => scale == null
       ? null
-      : {for (final MapEntry(:key, :value) in scale.entries) key.name: value};
+      : {
+          for (final MapEntry(:key, :value) in scale.entries)
+            key.yamlName: value,
+        };
 
   /// The family sets for [locale], most specific first: `<lang>_<country>`,
   /// `<lang>`, then `default`.

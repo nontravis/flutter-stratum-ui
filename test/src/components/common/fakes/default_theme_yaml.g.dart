@@ -651,7 +651,7 @@ typography:
       body: kanit
       table: kanit
 
-  scaleByWindowSize: { watch: 0, mobile: 0, tablet: 0.5, desktop: 1, bigDesktop: 2 }
+  scaleByWindowSize: { watch: 0, mobile: 0, tablet: 0.5, desktop: 1, big-desktop: 2 }
 
   types:
     header:
@@ -712,7 +712,7 @@ animation:
     mobile: platform
     tablet: platform
     desktop: platform
-    bigDesktop: platform
+    big-desktop: platform
   curve:                     # a Flutter Curves name, or "cubic(a, b, c, d)" as Figma and CSS write it
     standard: easeInOutSine  # forward and reverse of every level
     enter: easeOut           # forward of animation.appear

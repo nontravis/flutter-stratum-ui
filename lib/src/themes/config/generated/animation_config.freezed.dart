@@ -22,7 +22,7 @@ mixin _$StratumAnimationConfig {
  double get reverseRatio;/// `animation.curve`: `standard`, `enter`, `exit`.
  Map<String, StratumCurve> get curves;/// `animation.transition`: window size name to page transition type
 /// name, one for each of `watch`, `mobile`, `tablet`, `desktop`, and
-/// `bigDesktop`. A config built by hand that sets none names
+/// `big-desktop`. A config built by hand that sets none names
 /// `platform` for all five, as the package default does.
  Map<String, String> get transitions;
 /// Create a copy of StratumAnimationConfig
@@ -96,7 +96,7 @@ as Map<String, String>,
 
 
 class _StratumAnimationConfig implements StratumAnimationConfig {
-  const _StratumAnimationConfig({required  Map<String, Duration> durations, required this.defaultLevel, required this.reverseRatio, required  Map<String, StratumCurve> curves,  Map<String, String> transitions = const <String, String>{'watch' : 'platform', 'mobile' : 'platform', 'tablet' : 'platform', 'desktop' : 'platform', 'bigDesktop' : 'platform'}}): _durations = durations,_curves = curves,_transitions = transitions;
+  const _StratumAnimationConfig({required  Map<String, Duration> durations, required this.defaultLevel, required this.reverseRatio, required  Map<String, StratumCurve> curves,  Map<String, String> transitions = const <String, String>{'watch' : 'platform', 'mobile' : 'platform', 'tablet' : 'platform', 'desktop' : 'platform', 'big-desktop' : 'platform'}}): _durations = durations,_curves = curves,_transitions = transitions;
   
 
 /// Level name to forward duration: the levels of `animation.duration`
@@ -125,12 +125,12 @@ class _StratumAnimationConfig implements StratumAnimationConfig {
 
 /// `animation.transition`: window size name to page transition type
 /// name, one for each of `watch`, `mobile`, `tablet`, `desktop`, and
-/// `bigDesktop`. A config built by hand that sets none names
+/// `big-desktop`. A config built by hand that sets none names
 /// `platform` for all five, as the package default does.
  final  Map<String, String> _transitions;
 /// `animation.transition`: window size name to page transition type
 /// name, one for each of `watch`, `mobile`, `tablet`, `desktop`, and
-/// `bigDesktop`. A config built by hand that sets none names
+/// `big-desktop`. A config built by hand that sets none names
 /// `platform` for all five, as the package default does.
 @override@JsonKey() Map<String, String> get transitions {
   if (_transitions is EqualUnmodifiableMapView) return _transitions;

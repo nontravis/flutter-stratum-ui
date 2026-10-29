@@ -3,6 +3,7 @@ import 'package:stratum_ui/src/themes/config/focus_names.dart';
 import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
 import 'package:stratum_ui/src/themes/config/plain_theme_config.dart';
 import 'package:stratum_ui/src/themes/config/reader.dart';
+import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
 import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
 
 // The convert of design S2: turns the plain values of stages 1 to 5 into
@@ -45,7 +46,7 @@ Map<WindowSize, StratumDimension> _bySize(
   Map<String, StratumDimension> byName,
 ) => frozenMap({
   for (final MapEntry(:key, :value) in byName.entries)
-    WindowSize.values.byName(key): value,
+    windowSizeOfYamlName(key): value,
 });
 
 /// [plain] as `StratumThemeConfig`, each color a [Color].

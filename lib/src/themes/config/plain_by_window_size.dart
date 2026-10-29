@@ -9,7 +9,7 @@ const windowSizeNames = <String>[
   'mobile',
   'tablet',
   'desktop',
-  'bigDesktop',
+  'big-desktop',
 ];
 
 /// The index, in [windowSizeNames] order, of the entry a per-window-size
