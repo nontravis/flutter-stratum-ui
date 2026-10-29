@@ -201,20 +201,47 @@ void main() {
       WidgetSize.huge: 32.0,
     };
     for (final MapEntry(key: size, value: side) in sides.entries) {
-      testWidgets('co01_03/us01/fr02: ${size.name} gives a $side px box', (
-        tester,
-      ) async {
-        await tester.pumpWidget(themedHost(StratumCaret(size: size)));
+      testWidgets(
+        'co01_03/us01/fr02: ${size.name} gives the theme ladder step, $side px',
+        (tester) async {
+          await tester.pumpWidget(themedHost(StratumCaret(size: size)));
 
-        expect(tester.getSize(find.byType(StratumCaret)), Size.square(side));
-        final (:path, paint: _) = _drawn();
-        final unit = side / 16;
-        expect(
-          path.getBounds(),
-          rectMoreOrLessEquals(
-            Rect.fromLTRB(-5 * unit, -2.5 * unit, 5 * unit, 2.5 * unit),
-          ),
+          expect(fakeTheme.component.caret.side(size), side);
+          expect(tester.getSize(find.byType(StratumCaret)), Size.square(side));
+          final (:path, paint: _) = _drawn();
+          final unit = side / 16;
+          expect(
+            path.getBounds(),
+            rectMoreOrLessEquals(
+              Rect.fromLTRB(-5 * unit, -2.5 * unit, 5 * unit, 2.5 * unit),
+            ),
+          );
+        },
+      );
+    }
+
+    for (final (tag, large) in [
+      ('fo01/us06/fr03/e03', 22.0),
+      ('fo08/us08/s2', 20.0),
+    ]) {
+      testWidgets('$tag: a theme that sets component.caret.side.large to '
+          '${large.toInt()} draws a ${large.toInt()} px side at large, with '
+          'no code change', (tester) async {
+        final theme = fakeTheme.copyWith(
+          ladders: {
+            ...fakeTheme.ladders,
+            'caret.side': {
+              ...fakeTheme.ladders['caret.side']!,
+              WidgetSize.large: large,
+            },
+          },
         );
+
+        await tester.pumpWidget(
+          themedHost(const StratumCaret(size: WidgetSize.large), theme: theme),
+        );
+
+        expect(tester.getSize(find.byType(StratumCaret)), Size.square(large));
       });
     }
 

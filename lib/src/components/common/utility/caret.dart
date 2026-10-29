@@ -189,9 +189,11 @@ class _StratumCaretState extends State<StratumCaret> {
     final remount = reduce && _wasReduced == false;
     if (remount) _reduceKey++;
     _wasReduced = reduce;
-    final motion = widget.resolveTheme(context).animation.fast;
+    final theme = widget.resolveTheme(context);
+    final motion = theme.animation.fast;
     final side =
-        widget.customSize ?? _sideOf(widget.resolveDefaultSize(context));
+        widget.customSize ??
+        theme.component.caret.side(widget.resolveDefaultSize(context));
     final color = _color(context);
     // The caret reads no entry of the componentDefaults styles map (choice
     // (j)); one registered under StratumCaret is a mistake.
@@ -297,18 +299,6 @@ class _StratumCaretState extends State<StratumCaret> {
         widget.resolveTheme(context).color.icon.defaults.primary,
       );
 }
-
-/// The side in logical pixels of each [WidgetSize] (design D4); `medium`
-/// is the Figma 16 px frame.
-double _sideOf(WidgetSize size) => switch (size) {
-  WidgetSize.tiny => 10,
-  WidgetSize.extraSmall => 12,
-  WidgetSize.small => 14,
-  WidgetSize.medium => 16,
-  WidgetSize.large => 20,
-  WidgetSize.extraLarge => 24,
-  WidgetSize.huge => 32,
-};
 
 /// Quarter turns clockwise from pointing down that point [direction]
 /// under [textDirection] (spec `s03_domain.md` INV-7).
