@@ -19,6 +19,20 @@ change it. `StratumTextStyle.copyWith(fontSize:` or `colorRole:)` keeps `customS
 the recipe resolves; use the fluent getters (`size`, `color*`) instead to change one. No value carries `map` or
 `when`: read a sealed one, such as `StratumToastPlacement` or `StratumWebViewSource`, with a Dart `switch`.
 
+## Window-size style overrides
+
+- **`.at()` on a `WidgetStyle`** — a style may carry one optional override per window size: pass
+  `style.at(tablet: WidgetStyle(padding: ...), desktop: WidgetStyle(width: ...))` to layer them over the style
+  (two `.at()` calls merge their overrides per size); the constructor also takes `windowOverrides` directly for a
+  `const` default style. `style.resolve(windowSize)` returns the style with its own fields layered, smallest size
+  first, with every override at or below that window size, so a tablet override keeps applying on desktop and a null
+  override field keeps the value cascaded from smaller sizes; a style with no override resolves to itself
+  (`hasWindowOverrides` tells). Merging two styles where either carries overrides snapshots each size: the merged
+  override at a size is the two styles each resolved for that size then merged, so an instance `customStyle` that
+  sets one field still shows the default's override fields at larger window sizes, and the override's own fields win
+  at every size it sets or below. A widget resolves for the window size from a `WindowSizeScope`/theme window size
+  and rebuilds only when the window crosses a breakpoint.
+
 ## Page transitions
 
 - **The theme's transition per window size** — every `MaterialPageRoute` and `MaterialPage` (go_router's default

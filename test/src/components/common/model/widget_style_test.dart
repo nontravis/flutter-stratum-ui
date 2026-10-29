@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/components/common/model/image_blur_filter.dart';
 import 'package:stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:stratum_ui/src/themes/constant/window_size.dart';
 
 void main() {
   const base = WidgetStyle(
@@ -358,6 +359,157 @@ void main() {
 
       expect(WidgetStyle.lerp(full, fixed, 0.25)!.width, double.infinity);
       expect(WidgetStyle.lerp(full, fixed, 0.75)!.width, 200);
+    });
+  });
+
+  group('window-size overrides', () {
+    test('fo05/us04/fr01/e01: no override, resolve returns the style '
+        'unchanged', () {
+      const style = WidgetStyle(padding: EdgeInsets.all(16));
+
+      expect(style.resolve(WindowSize.tablet), same(style));
+      expect(style.hasWindowOverrides, isFalse);
+    });
+
+    test('fo05/us04/fr01, fo05/us04/s2: a fill with 16 px padding, a tablet '
+        'override of 24 px padding, and a desktop override of a new fill '
+        'resolve on desktop to the desktop fill with 24 px padding', () {
+      final cascaded =
+          const WidgetStyle(
+            padding: EdgeInsets.all(16),
+            backgroundColor: Color(0xFF000000),
+          ).at(
+            tablet: const WidgetStyle(padding: EdgeInsets.all(24)),
+            desktop: const WidgetStyle(backgroundColor: Color(0xFFFFFFFF)),
+          );
+
+      final onDesktop = cascaded.resolve(WindowSize.desktop);
+
+      expect(onDesktop.backgroundColor, const Color(0xFFFFFFFF));
+      expect(onDesktop.padding, const EdgeInsets.all(24));
+    });
+
+    test('fo05/us04/fr01/e02: a window smaller than every override resolves '
+        'to the base', () {
+      final styled = const WidgetStyle(padding: EdgeInsets.all(16))
+          .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32)));
+
+      expect(
+        styled.resolve(WindowSize.mobile),
+        const WidgetStyle(padding: EdgeInsets.all(16)),
+      );
+    });
+
+    test('fo05/us04/fr01/e03: an override null field keeps the cascaded '
+        'value', () {
+      final styled =
+          const WidgetStyle(
+            padding: EdgeInsets.all(16),
+            backgroundColor: Color(0xFF000000),
+          ).at(
+            tablet: const WidgetStyle(padding: EdgeInsets.all(24)),
+            desktop: const WidgetStyle(backgroundColor: Color(0xFFFFFFFF)),
+          );
+
+      expect(
+        styled.resolve(WindowSize.desktop).padding,
+        const EdgeInsets.all(24),
+      );
+    });
+
+    test('fo05/us04/fr01: two .at() calls merge their overrides per window '
+        'size', () {
+      final styled = const WidgetStyle(padding: EdgeInsets.all(16))
+          .at(tablet: const WidgetStyle(width: 320))
+          .at(tablet: const WidgetStyle(height: 48));
+
+      expect(styled.windowOverrides, {
+        WindowSize.tablet: const WidgetStyle(width: 320, height: 48),
+      });
+      expect(
+        styled.resolve(WindowSize.tablet),
+        const WidgetStyle(padding: EdgeInsets.all(16), width: 320, height: 48),
+      );
+    });
+
+    test('fo05/us04/fr03/e01: the override sets only a fill at the base '
+        'level, and the base carries a desktop override of 32 px padding, so '
+        'on a desktop window the merged style shows the override fill with '
+        '32 px padding', () {
+      final base = const WidgetStyle(padding: EdgeInsets.all(16))
+          .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32)));
+      const override = WidgetStyle(backgroundColor: Color(0xFFFFFFFF));
+
+      final onDesktop = base.merge(override).resolve(WindowSize.desktop);
+
+      expect(onDesktop.backgroundColor, const Color(0xFFFFFFFF));
+      expect(onDesktop.padding, const EdgeInsets.all(32));
+    });
+
+    test('fo05/us04/fr03/e02: the override carries a desktop override and '
+        'the base carries none, so the merged style gains the override '
+        'desktop fields', () {
+      const base = WidgetStyle(padding: EdgeInsets.all(16));
+      final override = const WidgetStyle().at(
+        desktop: const WidgetStyle(padding: EdgeInsets.all(32)),
+      );
+
+      final onDesktop = base.merge(override).resolve(WindowSize.desktop);
+
+      expect(onDesktop.padding, const EdgeInsets.all(32));
+      expect(base.merge(override).resolve(WindowSize.mobile), base);
+    });
+
+    test('fo05/us04/fr03/e03: the override sets a fill at its base level and '
+        'the base desktop override sets another fill, so on a desktop window '
+        'the override fill shows', () {
+      final base = const WidgetStyle(padding: EdgeInsets.all(16))
+          .at(desktop: const WidgetStyle(backgroundColor: Color(0xFF000000)));
+      const override = WidgetStyle(backgroundColor: Color(0xFFFFFFFF));
+
+      expect(
+        base.merge(override).resolve(WindowSize.desktop).backgroundColor,
+        const Color(0xFFFFFFFF),
+      );
+    });
+
+    test('fo05/us04/fr03/e04: neither side carries an override, so the '
+        'layering rule of US-01 FR-02 applies unchanged', () {
+      const base = WidgetStyle(padding: EdgeInsets.all(16));
+      const override = WidgetStyle(backgroundColor: Color(0xFFFFFFFF));
+
+      expect(
+        base.merge(override),
+        const WidgetStyle(
+          padding: EdgeInsets.all(16),
+          backgroundColor: Color(0xFFFFFFFF),
+        ),
+      );
+    });
+
+    test('fo05/us04/fr03, s03/inv12: base.merge(o).resolve(W) equals '
+        'base.resolve(W).merge(o.resolve(W)) on all five window sizes', () {
+      final base =
+          const WidgetStyle(
+            padding: EdgeInsets.all(16),
+            backgroundColor: Color(0xFF000000),
+          ).at(
+            tablet: const WidgetStyle(padding: EdgeInsets.all(24)),
+            desktop: const WidgetStyle(width: 320),
+          );
+      final other = const WidgetStyle(opacity: 0.5).at(
+        mobile: const WidgetStyle(height: 48),
+        desktop: const WidgetStyle(backgroundColor: Color(0xFFFFFFFF)),
+      );
+      final merged = base.merge(other);
+
+      for (final size in WindowSize.values) {
+        expect(
+          merged.resolve(size),
+          base.resolve(size).merge(other.resolve(size)),
+          reason: '$size',
+        );
+      }
     });
   });
 }

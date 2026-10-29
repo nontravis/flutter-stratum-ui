@@ -3,6 +3,7 @@ import 'dart:ui' show lerpDouble;
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stratum_ui/src/components/common/model/image_blur_filter.dart';
+import 'package:stratum_ui/src/themes/constant/window_size.dart';
 import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/widget_style.freezed.dart';
@@ -34,6 +35,7 @@ class WidgetStyle with _$WidgetStyle {
     this.innerShadow,
     this.dropShadow,
     this.animationStyle,
+    this.windowOverrides,
   });
   final double? opacity;
   final EdgeInsetsGeometry? padding;
@@ -79,14 +81,88 @@ class WidgetStyle with _$WidgetStyle {
 
   final AnimationStyle? animationStyle;
 
+  /// One optional override per [WindowSize], set through [at].
+  ///
+  /// A component's `const` default style may carry them, so this is a
+  /// constructor field; [at] is the call-site form. [resolve] layers each
+  /// override over this value's own fields.
+  final Map<WindowSize, WidgetStyle>? windowOverrides;
+
+  /// Whether any window size carries an override.
+  bool get hasWindowOverrides => windowOverrides?.isNotEmpty ?? false;
+
+  /// Returns a copy with [watch], [mobile], [tablet], [desktop], and
+  /// [bigDesktop] layered over the override this value already carries at
+  /// that size.
+  WidgetStyle at({
+    WidgetStyle? watch,
+    WidgetStyle? mobile,
+    WidgetStyle? tablet,
+    WidgetStyle? desktop,
+    WidgetStyle? bigDesktop,
+  }) {
+    final added = <WindowSize, WidgetStyle>{
+      WindowSize.watch: ?watch,
+      WindowSize.mobile: ?mobile,
+      WindowSize.tablet: ?tablet,
+      WindowSize.desktop: ?desktop,
+      WindowSize.bigDesktop: ?bigDesktop,
+    };
+    final existing = windowOverrides;
+    if (existing == null) {
+      return copyWith(windowOverrides: added);
+    }
+    return copyWith(
+      windowOverrides: {
+        ...existing,
+        for (final entry in added.entries)
+          entry.key: existing[entry.key]?.merge(entry.value) ?? entry.value,
+      },
+    );
+  }
+
+  /// Returns this value for [size] with every override at or below [size]
+  /// layered on, smallest first (INV-11).
+  ///
+  /// A value with no override returns itself. Each override's null fields
+  /// keep the value layered from smaller window sizes, per [merge].
+  WidgetStyle resolve(WindowSize size) {
+    final overrides = windowOverrides;
+    if (overrides == null) return this;
+    var resolved = copyWith(windowOverrides: null);
+    for (final windowSize in WindowSize.values) {
+      resolved = resolved.merge(overrides[windowSize]);
+      if (windowSize == size) break;
+    }
+    return resolved;
+  }
+
   /// Returns a copy where every non-null field of [other] replaces this one.
   ///
   /// A null field in [other] keeps this value, so null cannot clear a field.
   /// Pass an empty value instead: `[]` for shadows, `EdgeInsets.zero` for
   /// spacing, `AnimationStyle.noAnimation` for [animationStyle]. Lists are
   /// replaced whole, never concatenated.
+  ///
+  /// When either side carries [windowOverrides], the result's own fields are
+  /// the two styles' own fields merged, and its override at each window size
+  /// either side sets is `resolve(s).merge(other.resolve(s))`, a full
+  /// snapshot, so resolving after a merge equals merging after a resolve
+  /// (INV-12).
   WidgetStyle merge(WidgetStyle? other) {
     if (other == null) return this;
+    Map<WindowSize, WidgetStyle>? mergedOverrides;
+    if (hasWindowOverrides || other.hasWindowOverrides) {
+      final sizes = {
+        ...?windowOverrides?.keys,
+        ...?other.windowOverrides?.keys,
+      };
+      mergedOverrides = {
+        for (final size in WindowSize.values)
+          if (sizes.contains(size))
+            size: resolve(size).merge(other.resolve(size)),
+      };
+    }
     return WidgetStyle(
       opacity: other.opacity ?? opacity,
       padding: other.padding ?? padding,
@@ -112,6 +188,7 @@ class WidgetStyle with _$WidgetStyle {
       innerShadow: other.innerShadow ?? innerShadow,
       dropShadow: other.dropShadow ?? dropShadow,
       animationStyle: other.animationStyle ?? animationStyle,
+      windowOverrides: mergedOverrides,
     );
   }
 

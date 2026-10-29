@@ -26,7 +26,7 @@ Open only the reference your task needs.
 |------|------|
 | Install, App assembly, Widget settings, System bars | [references/setup.md](references/setup.md) |
 | Themes: fonts, Material text theme, Custom text size, theme models, controller and preload, splash screen, remote theme zips, disabled opacity, border, shadow, and blur tokens, System bar look, Focus ring look, Widget sizes, app-wide component defaults | [references/theme.md](references/theme.md) |
-| Values, Page transitions | [references/style.md](references/style.md) |
+| Values, Window-size style overrides, Page transitions | [references/style.md](references/style.md) |
 | Screen corner radius, Keyboard visibility, Responsive values | [references/responsive.md](references/responsive.md) |
 | Box layouts, Scroll views, Spacing, Focus ring, `StratumInkWell` tap surface with its ids and screen-reader actions, Show and hide, Modal layout, Split layout, Page layout, Hover and focus observers | [references/layout.md](references/layout.md) |
 | Utilities (CO-01): Slot, Web view, Caret, Web zoom | [references/utility.md](references/utility.md) |
