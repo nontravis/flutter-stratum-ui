@@ -88,10 +88,10 @@ web view takes no pointer input; Overlay (CO-08) owns that.
   so `end` points right in a left-to-right app and left in a right-to-left app), `style` (a `StratumCaretGlyph`:
   `StratumCaretGlyph.regular`, the default, a 1.5 px round chevron; `.light`, 1.0 px; `.fill`, a solid triangle),
   `size` (a `WidgetSize`; the side is the theme's `component.caret.side` step, `tiny` 10 px to `huge` 32 px and `medium`
-  16 px in the default theme; null takes the theme's default widget size for the current window size) or `customSize` (any side in logical pixels, must be finite and >= 0), and `color` (a
-  `ColorEnum`: the theme's `icon.color.<name>` token, else `icon.default.primary`) or `customColor` (any color, as
-  given). The line width stays the same at every size, and the glyph sits centered in its square box and never
-  stretches. Change
+  16 px in the default theme; null takes the theme's default widget size for the current window size) or
+  `customSize` (any side in logical pixels, must be finite and >= 0), and `color` (a `ColorEnum`: the theme's
+  `icon.color.<name>` token, else `icon.default.primary`) or `customColor` (any color, as given). The line width stays
+  the same at every size, and the glyph sits centered in its square box and never stretches. Change
   `direction` to turn it: it turns the short way over the theme's `fast` level, a half turn back the way the last
   half turn came, and shows the new direction at once under reduced motion or when the text direction flips. It
   adds nothing to the semantics tree: announce expanded or collapsed on the component that holds it. It takes no
