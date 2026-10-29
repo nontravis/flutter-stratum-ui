@@ -48,6 +48,8 @@ const _valueModelFiles = [
   'lib/src/components/common/model/page_layout/page_layout_style.dart',
   'lib/src/components/common/model/page_layout/page_safe_area.dart',
   'lib/src/components/common/model/page_layout/page_side.dart',
+  // Window-size style M3-T9: the per-window-size value of FO-07 US-03.
+  'lib/src/components/common/model/responsive/responsive.dart',
   'lib/src/components/common/model/split_layout/split_divider_state.dart',
   'lib/src/components/common/model/split_layout/split_pane.dart',
   // M4-T17: the 5.1 conversions of CO-01-02.
