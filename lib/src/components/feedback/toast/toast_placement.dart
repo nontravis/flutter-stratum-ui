@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:stratum_ui/src/components/common/model/responsive/responsive.dart';
 import 'package:stratum_ui/src/components/common/model/toast/stratum_toast_placement.dart';
 import 'package:stratum_ui/src/themes/constant/window_size.dart';
 
@@ -6,9 +7,12 @@ import 'package:stratum_ui/src/themes/constant/window_size.dart';
 /// the bottom center corner on mobile and tablet, bottom start on
 /// desktop and bigDesktop (US-01 FR-01 E04).
 StratumToastPlacement defaultToastPlacement(WindowSize window) =>
-    window >= WindowSize.desktop
-    ? const StratumToastFloat(StratumToastCorner.bottomStart)
-    : const StratumToastFloat(StratumToastCorner.bottomCenter);
+    _defaultPlacement.resolve(window);
+
+const Responsive<StratumToastPlacement> _defaultPlacement = Responsive(
+  StratumToastFloat(StratumToastCorner.bottomCenter),
+  desktop: StratumToastFloat(StratumToastCorner.bottomStart),
+);
 
 /// The toastification manager key of [placement] under [direction].
 ///

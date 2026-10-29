@@ -936,7 +936,7 @@ final class _FloatFrame {
     final lg = theme.space.lg;
     final size = MediaQuery.sizeOf(context);
     final areas = StratumToastHostState._currentAreasOf(context);
-    final desktop = WindowSize.fromSize(size) >= WindowSize.desktop;
+    final desktop = _narrowsToPageBody.resolve(WindowSize.fromSize(size));
     final body = desktop ? areas?.body : null;
     final from = math.max(viewPadding.left, body?.left ?? 0) + lg;
     final to =
@@ -1012,6 +1012,10 @@ final class _FloatFrame {
           );
   }
 }
+
+/// Whether a float notice narrows to the registered page's body instead
+/// of spanning the window: only on a desktop page (US-01 FR-02 E07).
+const Responsive<bool> _narrowsToPageBody = Responsive(false, desktop: true);
 
 /// Publishes the host state to `context.showToast` callers.
 class _StratumToastHostScope extends InheritedWidget {

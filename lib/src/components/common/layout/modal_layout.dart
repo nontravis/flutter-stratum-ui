@@ -45,11 +45,14 @@ enum ModalLayoutSize {
 ModalLayoutType resolveModalLayoutType(
   ModalLayoutType? type,
   WindowSize window,
-) =>
-    type ??
-    (window < WindowSize.tablet
-        ? ModalLayoutType.bottomSheet
-        : ModalLayoutType.modal);
+) => type ?? _defaultModalType.resolve(window);
+
+/// The layout a call that passes no [ModalLayoutType] gets per window:
+/// a bottom sheet below tablet, a modal from tablet up.
+const Responsive<ModalLayoutType> _defaultModalType = Responsive(
+  ModalLayoutType.bottomSheet,
+  tablet: ModalLayoutType.modal,
+);
 
 /// The content width of a modal layout of [type] and [size] in a window
 /// [windowWidth] wide (US-20 FR-03; layout s03 inv. 71).
@@ -67,7 +70,7 @@ double modalContentWidth({
   required double windowWidth,
   required double edgeMargin,
 }) {
-  if (type != ModalLayoutType.modal && window < WindowSize.tablet) {
+  if (type != ModalLayoutType.modal && _sheetSpansWindow.resolve(window)) {
     return switch (type) {
       ModalLayoutType.floating => math.max(
         0,
@@ -85,6 +88,10 @@ double modalContentWidth({
   };
   return math.min(width, limit);
 }
+
+/// Whether a bottom sheet or floating sheet spans the window, ignoring its
+/// size: true below tablet, false from tablet up.
+const Responsive<bool> _sheetSpansWindow = Responsive(true, tablet: false);
 
 /// The floating sheet's edge margin (US-20 FR-04).
 const double _floatingMargin = 8;

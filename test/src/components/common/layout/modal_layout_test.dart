@@ -473,6 +473,68 @@ void main() {
         );
       },
     );
+    test('fo08/us08/fr02: resolveModalLayoutType with no type gives a bottom '
+        'sheet on watch and mobile and a modal from tablet up', () {
+      for (final window in [WindowSize.watch, WindowSize.mobile]) {
+        expect(
+          resolveModalLayoutType(null, window),
+          ModalLayoutType.bottomSheet,
+          reason: window.name,
+        );
+      }
+      for (final window in [
+        WindowSize.tablet,
+        WindowSize.desktop,
+        WindowSize.bigDesktop,
+      ]) {
+        expect(
+          resolveModalLayoutType(null, window),
+          ModalLayoutType.modal,
+          reason: window.name,
+        );
+      }
+    });
+    test("fo08/us08/fr02: modalContentWidth keeps each sheet type's width on "
+        'every window size', () {
+      // Below tablet a sheet spans the window; from tablet up the size
+      // sets the width, clamped to the window less both margins.
+      double width(ModalLayoutType type, WindowSize window) =>
+          modalContentWidth(
+            type: type,
+            size: ModalLayoutSize.large,
+            window: window,
+            windowWidth: 500,
+            edgeMargin: 20,
+          );
+      for (final window in [WindowSize.watch, WindowSize.mobile]) {
+        expect(
+          width(ModalLayoutType.bottomSheet, window),
+          500,
+          reason: '${window.name} sheet',
+        );
+        expect(
+          width(ModalLayoutType.floating, window),
+          484,
+          reason: '${window.name} floating',
+        );
+      }
+      for (final window in [
+        WindowSize.tablet,
+        WindowSize.desktop,
+        WindowSize.bigDesktop,
+      ]) {
+        expect(
+          width(ModalLayoutType.bottomSheet, window),
+          460,
+          reason: '${window.name} sheet',
+        );
+        expect(
+          width(ModalLayoutType.floating, window),
+          460,
+          reason: '${window.name} floating',
+        );
+      }
+    });
   });
 
   group('ModalLayout', () {

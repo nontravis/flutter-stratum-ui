@@ -1,5 +1,7 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:stratum_ui/src/components/feedback/toast/toast_placement.dart'
+    show defaultToastPlacement;
 import 'package:stratum_ui/src/components/feedback/toast/toast_plain_look.dart'
     show toastCloseTime;
 import 'package:stratum_ui/src/src.dart';
@@ -199,6 +201,31 @@ Widget _systemApp({
 }
 
 void main() {
+  test(
+    'fo08/us08/fr02: defaultToastPlacement keeps bottom center from watch to '
+    'tablet and bottom start on desktop and big desktop',
+    () {
+      for (final window in [
+        WindowSize.watch,
+        WindowSize.mobile,
+        WindowSize.tablet,
+      ]) {
+        expect(
+          defaultToastPlacement(window),
+          const StratumToastFloat(StratumToastCorner.bottomCenter),
+          reason: window.name,
+        );
+      }
+      for (final window in [WindowSize.desktop, WindowSize.bigDesktop]) {
+        expect(
+          defaultToastPlacement(window),
+          const StratumToastFloat(StratumToastCorner.bottomStart),
+          reason: window.name,
+        );
+      }
+    },
+  );
+
   test('co05_07/us01/fr04: close times', () {
     expect(
       toastCloseTime(hasAction: false, screenReader: false),
