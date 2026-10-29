@@ -1,5 +1,14 @@
 # Responsive
 
+## Responsive values
+
+- A component prop that changes from a window size up is a `Responsive<T>`, so a widget can default it to one:
+  `const Responsive(false, tablet: true)`. `value.resolve(windowSize)` answers mobile-first: the override of the
+  largest window size at or below the current one, else the base value, which holds below every override. Name only
+  the window sizes that differ; the watch override stands beside the base. Never compare two `WindowSize` values by
+  order in component code, and never branch on one with a catch-all arm: read the resolved value, or name every window
+  size in a `switch`.
+
 ## Screen corner radius
 
 - `context.deviceWindow.radius` is the screen's corner radii as a `BorderRadius?`: Android API 31+, iOS 26+, and
