@@ -17,12 +17,12 @@ import 'package:stratum_ui_example/font_licenses.dart';
 /// serve it.
 const oceanChecksum =
     'sha256:'
-    '73880efdb3c31880547bbfcac834b05d5ab688ad4a29bbb5b18f118175c124f4';
+    'c8033fe94980f33462736c5b62d01fa23702afcde83b1c28f7047fa86cb1d84e';
 
 /// The checksum of `assets/remote_themes/sunset.zip`.
 const sunsetChecksum =
     'sha256:'
-    '83c45608f854e0e5d6fc6b1fd687a7a761f73c18d8eb121df6970e2eab9916f1';
+    '9fd1bab7784f59a0d24307273c7d93c65047516a864afc0e18bcfaa81ae85fe5';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
