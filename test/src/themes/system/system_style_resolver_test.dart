@@ -19,7 +19,7 @@ final StratumThemeSet _coloredBars = StratumThemeSet.fromConfig(
         id: 'bars',
         folder: 'themes/bars',
         yaml: r'''
-$schema: stratum-theme/v1.3.0
+$schema: stratum-theme/v2.0.0
 system:
   light:
     statusBarColor: "#0000AA"

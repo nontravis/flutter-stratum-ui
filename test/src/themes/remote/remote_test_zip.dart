@@ -5,7 +5,7 @@ import 'package:archive/archive.dart';
 import 'package:crypto/crypto.dart';
 
 /// The `$schema` line every theme file starts with.
-const remoteSchemaLine = r'$schema: stratum-theme/v1.0.0';
+const remoteSchemaLine = r'$schema: stratum-theme/v2.0.0';
 
 /// One entry of a hand-built test zip.
 ///

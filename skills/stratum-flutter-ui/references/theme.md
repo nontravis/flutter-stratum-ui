@@ -177,12 +177,10 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; App-wide comp
   default sets 0.5 for both, and an app theme may leave the group out. Read them as
   `StratumThemeApplication.of(context).opacity.disabled` and `.opacity.scrim`. A value outside 0 to 1 throws
   `StratumThemeFormatException` with `expected_opacity` at its path, and a third key under `opacity` is
-  `unknown_key`. The package default reads `$schema: stratum-theme/v1.5.0`; this package reads every `v1.0` to
-  `v1.5` theme, while a package build that reads only up to `v1.2` refuses a `v1.3` theme as
-  `unsupported_schema`, so a theme that must load on every build writes `v1.0.0` and leaves `opacity` out; one that
-  must load on every build from `v1.1` on writes `v1.1.0` and keeps `disabled` but leaves `scrim` out.
+  `unknown_key`. The package default reads `$schema: stratum-theme/v2.0.0`; this package reads only `v2.0` themes (any
+  patch), and refuses a `v1` theme or a newer minor as `unsupported_schema`.
 - **Border, shadow, and blur tokens** — `border`, `shadow`, and `blur` in `theme.yaml` (format
-  `stratum-theme/v1.2.0`) set every border width, drop shadow, and background blur, and the package default carries
+  `stratum-theme/v2.0.0`) set every border width, drop shadow, and background blur, and the package default carries
   the Figma values. Read them in `build`: `StratumTheme.of(context).border.md` (a `double`; `sm` 0.5, `md` 1, `lg`
   1.5, and `md` is the usual width), `.shadow.level1` to `.level6` (each a `List<BoxShadow>` for
   `WidgetStyle.dropShadow`, colored from the active color set, so dark and high-contrast themes get their own), and
@@ -206,7 +204,7 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; App-wide comp
   `v1.2` theme as `unsupported_schema`, so a theme that must load there writes `v1.1.0` and leaves the three groups
   out. `AppBorder`, `AppShadow`, `AppFilter`, `StratumThemeData.filter`, and `screenBorderRadius` no longer exist;
   read the screen's corner radius from `context.deviceWindow.radius` (see Screen corner radius).
-- **System bar look** — `system` in `theme.yaml` (format `stratum-theme/v1.4.0`) sets how the status bar and the
+- **System bar look** — `system` in `theme.yaml` (format `stratum-theme/v2.0.0`) sets how the status bar and the
   navigation bar look, in `light` and `dark` and the optional partial overlays `highContrastLight` and
   `highContrastDark`, as `color` does: `statusBarIcons` and `navigationBarIcons` (`auto`, `light`, or `dark`; `auto`
   picks the icon color of higher contrast against what the page paints under the bar), `statusBarColor`,
@@ -217,7 +215,7 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; App-wide comp
   (see System bars): a `system` set holding `barMode`, `orientations`, or `appSwitcherLabel` throws
   `StratumThemeFormatException` with `unknown_key`, a bad icons value `expected_bar_icons`, and a bad flag
   `expected_boolean`. A package build that reads only up to `v1.3` refuses a `v1.4` theme as `unsupported_schema`.
-- **Focus ring look** — `focus` in `theme.yaml` (format `stratum-theme/v1.5.0`) sets the focus ring's theme look:
+- **Focus ring look** — `focus` in `theme.yaml` (format `stratum-theme/v2.0.0`) sets the focus ring's theme look:
   `light`, `dark`, and the optional partial overlays `highContrastLight` and `highContrastDark`, each with `outside`
   (`color`, `width`, `gap`) and `inside` (`color`, and a `width` of `hovered` and `focused`). Each color is a quoted
   hex color or an alias to a color token; a color whose alpha is 0 is `expected_color`, and a width of 0 is

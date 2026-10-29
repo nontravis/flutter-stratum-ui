@@ -350,7 +350,7 @@ void main() {
     test('review focus: a block scalar, a folded scalar, a two-line quoted '
         'string, and a two-line plain scalar, then 200 quoted aliases', () {
       final text = [
-        r'$schema: stratum-theme/v1.0.0',
+        r'$schema: stratum-theme/v2.0.0',
         'name: brand',
         'extensions:',
         '  about: |',

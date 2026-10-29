@@ -12,7 +12,7 @@ import 'package:stratum_ui/src/themes/remote/remote_zip_writer.dart';
 
 import '../../bin/stratum_theme.dart';
 
-const _schema = r'$schema: stratum-theme/v1.0.0';
+const _schema = r'$schema: stratum-theme/v2.0.0';
 const _svg = '<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"/>';
 
 /// Whether this process runs as root, which ignores a folder's own write

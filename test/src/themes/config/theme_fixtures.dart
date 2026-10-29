@@ -2,7 +2,7 @@ import 'package:stratum_ui/src/src.dart';
 import 'package:stratum_ui/src/themes/config/reader.dart';
 
 /// The `$schema` line every theme file starts with.
-const schemaLine = r'$schema: stratum-theme/v1.0.0';
+const schemaLine = r'$schema: stratum-theme/v2.0.0';
 
 /// A layer file: [body] below the `$schema` line, so the first line of
 /// [body] is line 2 of the file.
@@ -11,7 +11,7 @@ String layer(String body) => '$schemaLine\n$body';
 /// The small package default most config tests parse over. Line 2 is
 /// `name: base`.
 const baseYaml = r'''
-$schema: stratum-theme/v1.0.0
+$schema: stratum-theme/v2.0.0
 name: base
 assets:
   splash-screen:

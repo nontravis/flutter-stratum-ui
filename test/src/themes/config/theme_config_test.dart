@@ -23,7 +23,7 @@ String _report(List<String> layers, {String base = baseYaml}) {
 
 /// The app theme `ocean` of spec section 9.
 const _ocean = r'''
-$schema: stratum-theme/v1.0.0
+$schema: stratum-theme/v2.0.0
 name: Ocean
 spcae:
   md: 12
@@ -74,7 +74,7 @@ void main() {
 
     test('one stage-1 error and nothing else: the parse stops there, so the '
         'bad color is not reported', () {
-      final newer = _ocean.replaceFirst('v1.0.0', 'v1.6.0');
+      final newer = _ocean.replaceFirst('v2.0.0', 'v2.1.0');
 
       expect(
         () => StratumThemeConfig.parse(
@@ -86,8 +86,8 @@ void main() {
             (exception) => '$exception',
             'toString',
             'StratumThemeFormatException: 1 problem(s) in theme.yaml\n'
-                r'  ocean:1:10 $schema: theme needs stratum-theme v1.6; '
-                'this app reads up to v1.5 [unsupported_schema]',
+                r'  ocean:1:10 $schema: theme needs stratum-theme v2.1; '
+                'this app reads up to v2.0 [unsupported_schema]',
           ),
         ),
       );
@@ -125,7 +125,7 @@ void main() {
     test('the spec section 8.4 sample over the package default, text and '
         'order exactly', () {
       const ocean = r'''
-$schema: stratum-theme/v1.0.0
+$schema: stratum-theme/v2.0.0
 name: Ocean
 space:
   md: 5%

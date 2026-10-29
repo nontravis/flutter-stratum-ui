@@ -58,7 +58,7 @@ void main() {
         id: 'brand',
         folder: 'assets/themes/brand',
         yaml:
-            r'$schema: stratum-theme/v1.0.0'
+            r'$schema: stratum-theme/v2.0.0'
             '\nspace:\n  md: { phablet: 4 }'
             '\ntypography:\n  types:\n    body: { weight: 450 }',
       );

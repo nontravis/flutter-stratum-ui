@@ -1072,13 +1072,13 @@ typography:
       ]);
     });
 
-    test('fo01/us01/fr01/e12: a v1.3 file with scrim 1.2 reports '
+    test('fo01/us01/fr01/e12: a v2.0 file with scrim 1.2 reports '
         'expected_opacity', () {
       const scrimBadValue =
           'layer1 opacity.scrim: expected a number from 0 to 1, got 1.2 '
           '[expected_opacity]';
       final (_, errors) = _read([
-        '\$schema: stratum-theme/v1.3.0\nopacity:\n  scrim: 1.2\n',
+        '\$schema: stratum-theme/v2.0.0\nopacity:\n  scrim: 1.2\n',
       ]);
 
       expect(problems(errors), [scrimBadValue]);
@@ -1750,7 +1750,7 @@ shadow:
     test('fo01/us01/fr01: a file that leaves the group out takes the base '
         'values, so an older file still loads', () {
       const older =
-          r'$schema: stratum-theme/v1.4.0'
+          r'$schema: stratum-theme/v2.0.0'
           '\nname: older';
       final (plain, errors) = _plain([older]);
 
@@ -1758,9 +1758,9 @@ shadow:
       expect(plain.focus['light'], light);
     });
 
-    test('fo01/us01/fr01: a v1.5.0 file loads', () {
+    test('fo01/us01/fr01: a v2.0.0 file loads', () {
       const newer =
-          r'$schema: stratum-theme/v1.5.0'
+          r'$schema: stratum-theme/v2.0.0'
           '\nfocus:\n  dark:\n    inside:\n      width:\n        focused: 1.5';
       final (plain, errors) = _plain([newer]);
 

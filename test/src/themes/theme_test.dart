@@ -17,7 +17,7 @@ final StratumThemeData _data = StratumThemeSet.fromConfig(
         id: 'app',
         folder: 'themes/app',
         yaml:
-            r'$schema: stratum-theme/v1.0.0'
+            r'$schema: stratum-theme/v2.0.0'
             '\nspace:\n  md: { mobile: 16, desktop: 32 }\n'
             'layouts:\n  max-width-content: 80%',
       ),

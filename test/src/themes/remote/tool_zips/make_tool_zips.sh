@@ -23,7 +23,7 @@ done
 src="$work/src"
 mkdir -p "$src/brand/images"
 # shellcheck disable=SC2016 # literal YAML content, not an unexpanded variable
-printf '%s\n' '$schema: stratum-theme/v1.0.0' 'assets:' \
+printf '%s\n' '$schema: stratum-theme/v2.0.0' 'assets:' \
   '  loading: images/logo.svg' >"$src/brand/theme.yaml"
 printf '%s' '<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"/>' \
   >"$src/brand/images/logo.svg"

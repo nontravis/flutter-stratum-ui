@@ -7,7 +7,7 @@ import 'config/theme_fixtures.dart';
 /// An app theme over the package default: app colors, an app ramp, an
 /// asset slot, and extensions.
 const _ocean = r'''
-$schema: stratum-theme/v1.0.0
+$schema: stratum-theme/v2.0.0
 name: Ocean
 assets:
   loading: images/loading.json
@@ -210,7 +210,7 @@ void main() {
               id: 'bars',
               folder: 'themes/bars',
               yaml:
-                  '\$schema: stratum-theme/v1.3.0\n'
+                  '\$schema: stratum-theme/v2.0.0\n'
                   'system:\n'
                   '  highContrastDark:\n'
                   '    statusBarIcons: light\n',
@@ -307,7 +307,7 @@ void main() {
               id: 'dim',
               folder: 'themes/dim',
               yaml:
-                  '\$schema: stratum-theme/v1.1.0\n'
+                  '\$schema: stratum-theme/v2.0.0\n'
                   'opacity:\n'
                   '  disabled: 0.3\n',
             ),
@@ -403,7 +403,7 @@ void main() {
                 id: 'contrast',
                 folder: 'themes/contrast',
                 yaml:
-                    '\$schema: stratum-theme/v1.0.0\n'
+                    '\$schema: stratum-theme/v2.0.0\n'
                     'color:\n'
                     '  highContrastDark:\n'
                     '    shadow:\n'
@@ -440,7 +440,7 @@ void main() {
               StratumThemeSource(
                 id: 'flat',
                 folder: 'themes/flat',
-                yaml: '\$schema: stratum-theme/v1.2.0\nshadow:\n  "3": []\n',
+                yaml: '\$schema: stratum-theme/v2.0.0\nshadow:\n  "3": []\n',
               ),
             ],
           ),

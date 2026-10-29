@@ -197,7 +197,7 @@ void main() {
           id: 'app',
           folder: 'themes/app',
           yaml:
-              r'$schema: stratum-theme/v1.0.0'
+              r'$schema: stratum-theme/v2.0.0'
               '\n'
               'animation:\n  transition:\n    $key: fade\n',
         ),
