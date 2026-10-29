@@ -29,12 +29,10 @@ space:
   7xl: 64
   8xl: 80
   9xl: 96
-  desktop-space: 32
-  desktop-space-half: 16
   lg: 20
   md: 16
-  mobile-space: 16
-  mobile-space-half: 8
+  page-space: { watch: 16, mobile: 16, tablet: 16, desktop: 32, big-desktop: 32 }
+  page-space-half: { watch: 8, mobile: 8, tablet: 8, desktop: 16, big-desktop: 16 }
   sm: 12
   xl: 24
   xs: 10
@@ -61,6 +59,7 @@ radius:
   zero: 0
 
 layouts:
+  left-pane-width: { watch: 260, mobile: 260, tablet: 260, desktop: 260, big-desktop: 280 }
   max-width-content: 1000
   max-width-mobile: 480
   max-width-read: 720
@@ -68,6 +67,8 @@ layouts:
   min-width-desktop: 1280
   min-width-mobile: 320
   min-width-tablet: 480
+  overlay-drawer-width: { watch: 400, mobile: 400, tablet: 400, desktop: 400, big-desktop: 450 }
+  right-pane-width: { watch: 320, mobile: 320, tablet: 320, desktop: 320, big-desktop: 380 }
 
 # Colors are quoted "#RRGGBB" or "#RRGGBBAA". Alpha comes LAST, as in Figma,
 # CSS, and the W3C design tokens format: "#FF000014" is red at alpha 0x14.

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/src.dart';
+import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
 
 /// The WCAG 1.4.11 contrast ratio between [a] and [b].
 double _contrast(Color a, Color b) {
@@ -54,12 +55,65 @@ void main() {
     expect(config.color.highContrastLight, hasLength(192));
     expect(config.color.highContrastDark, hasLength(192));
     expect(config.palette, hasLength(88));
-    expect(config.space, hasLength(27));
     expect(config.radius, hasLength(18));
-    expect(config.layouts, hasLength(7));
     expect(
       config.radius['sheet'],
       const StratumByWindowSize.all(StratumDimension.fixed(40)),
+    );
+  });
+
+  /// The value of [token] for each window size, watch first.
+  List<StratumDimension> bySize(
+    Map<String, StratumByWindowSize<StratumDimension>> group,
+    String token,
+  ) => [for (final size in WindowSize.values) group[token]!.valueFor(size)];
+
+  /// Fixed dimensions of [pixels], in order.
+  List<StratumDimension> fixed(List<double> pixels) => [
+    for (final px in pixels) StratumDimension.fixed(px),
+  ];
+
+  test(
+    'fo01/us06/fr01/e05: page-space is 16, 16, 16, 32, 32 and page-space-half '
+    '8, 8, 8, 16, 16 from watch to big desktop',
+    () {
+      expect(bySize(config.space, 'page-space'), fixed([16, 16, 16, 32, 32]));
+      expect(bySize(config.space, 'page-space-half'), fixed([8, 8, 8, 16, 16]));
+    },
+  );
+
+  test('fo01/us06/fr01/e04: every other space token of the default theme '
+      'holds one value', () {
+    for (final MapEntry(:key, :value) in config.space.entries) {
+      if (key == 'page-space' || key == 'page-space-half') continue;
+      expect(value.isUniform, isTrue, reason: 'space.$key');
+    }
+  });
+
+  test('fo01/us06/fr01: no space token name holds a window size name', () {
+    for (final name in config.space.keys) {
+      for (final size in windowSizeNames) {
+        expect(name.contains(size), isFalse, reason: 'space.$name');
+      }
+    }
+  });
+
+  test('fo01/us01/fr01: space holds 25 tokens and layouts 10, with '
+      'overlay-drawer-width 400, 400, 400, 400, 450, left-pane-width 260, '
+      '260, 260, 260, 280, and right-pane-width 320, 320, 320, 320, 380', () {
+    expect(config.space, hasLength(25));
+    expect(config.layouts, hasLength(10));
+    expect(
+      bySize(config.layouts, 'overlay-drawer-width'),
+      fixed([400, 400, 400, 400, 450]),
+    );
+    expect(
+      bySize(config.layouts, 'left-pane-width'),
+      fixed([260, 260, 260, 260, 280]),
+    );
+    expect(
+      bySize(config.layouts, 'right-pane-width'),
+      fixed([320, 320, 320, 320, 380]),
     );
   });
 

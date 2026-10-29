@@ -1645,23 +1645,17 @@ final class StratumSpaceTokens {
   /// `space.9xl`
   double get xl9 => _read('9xl');
 
-  /// `space.desktop-space`
-  double get desktopSpace => _read('desktop-space');
-
-  /// `space.desktop-space-half`
-  double get desktopSpaceHalf => _read('desktop-space-half');
-
   /// `space.lg`
   double get lg => _read('lg');
 
   /// `space.md`
   double get md => _read('md');
 
-  /// `space.mobile-space`
-  double get mobileSpace => _read('mobile-space');
+  /// `space.page-space`
+  double get pageSpace => _read('page-space');
 
-  /// `space.mobile-space-half`
-  double get mobileSpaceHalf => _read('mobile-space-half');
+  /// `space.page-space-half`
+  double get pageSpaceHalf => _read('page-space-half');
 
   /// `space.sm`
   double get sm => _read('sm');
@@ -1743,6 +1737,9 @@ final class StratumLayoutTokens {
 
   final double Function(String name) _read;
 
+  /// `layouts.left-pane-width`
+  double get leftPaneWidth => _read('left-pane-width');
+
   /// `layouts.max-width-content`
   double get maxWidthContent => _read('max-width-content');
 
@@ -1763,6 +1760,12 @@ final class StratumLayoutTokens {
 
   /// `layouts.min-width-tablet`
   double get minWidthTablet => _read('min-width-tablet');
+
+  /// `layouts.overlay-drawer-width`
+  double get overlayDrawerWidth => _read('overlay-drawer-width');
+
+  /// `layouts.right-pane-width`
+  double get rightPaneWidth => _read('right-pane-width');
 }
 
 /// The asset slots of `assets`.

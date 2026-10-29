@@ -50,6 +50,14 @@ import '../theme_fixtures.dart';
 /// The errors stages 1 to 5 report for one layer of [body].
 List<String> _problems(String body) => problems(_read([layer(body)]).$2);
 
+/// A base whose `space` also holds `page-space: <value>`.
+String _baseWithPageSpace(String value) =>
+    baseYaml.replaceFirst('space:\n', 'space:\n  page-space: $value\n');
+
+/// The errors stages 1 to 5 report for a base holding `page-space: <value>`.
+List<String> _baseProblems(String value) =>
+    problems(_read([], base: _baseWithPageSpace(value)).$2);
+
 const _hex = 'expected "#RRGGBB" or "#RRGGBBAA", got';
 
 const _buttonPrimaryNumber =
@@ -264,6 +272,52 @@ color:
           'layer1 space.md.bigDesktop: unknown window size "bigDesktop" '
           '[unknown_key]';
       expect(problems(errors), [unknown]);
+    });
+
+    test('fo01/us06/s1, fo01/us06/fr01: a semantic token per window size '
+        'loads with both values', () {
+      final (config, errors) = _read(
+        [],
+        base: _baseWithPageSpace('{ mobile: 16, desktop: 32 }'),
+      );
+
+      expect(problems(errors), isEmpty);
+      expect(
+        config.space['page-space']!.valueFor(WindowSize.mobile),
+        const StratumDimension.fixed(16),
+      );
+      expect(
+        config.space['page-space']!.valueFor(WindowSize.desktop),
+        const StratumDimension.fixed(32),
+      );
+    });
+
+    test('fo01/us06/fr01/e01: a laptop entry is unknown_key at '
+        'space.page-space.laptop', () {
+      const expected =
+          'base space.page-space.laptop: unknown window size "laptop" '
+          '[unknown_key]';
+
+      expect(_baseProblems('{ mobile: 16, laptop: 32 }'), [expected]);
+    });
+
+    test('fo01/us06/fr01/e02: a non-dimension entry is expected_dimension '
+        'at its path', () {
+      const expected =
+          'base space.page-space.mobile: expected a number or "N%", got '
+          '"16px" [expected_dimension]';
+
+      expect(_baseProblems('{ mobile: "16px", desktop: 32 }'), [expected]);
+    });
+
+    test('fo01/us06/fr01/e03: one value gives every window size', () {
+      final (config, errors) = _read([], base: _baseWithPageSpace('16'));
+
+      expect(problems(errors), isEmpty);
+      expect(
+        config.space['page-space'],
+        const StratumByWindowSize.all(StratumDimension.fixed(16)),
+      );
     });
 
     test('reports an unknown window size, an empty map, and a bad value; '
