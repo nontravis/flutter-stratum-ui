@@ -57,6 +57,55 @@ Finder _inLayout(Finder matching) {
   return find.descendant(of: find.byType(_Layout), matching: matching);
 }
 
+/// Sizes the test view to [size], reset after the test; a mid-test resize
+/// sets `tester.view.physicalSize` again and pumps, so `WindowSizeScope`
+/// reads the new size.
+void _view(WidgetTester tester, Size size) {
+  tester.view
+    ..physicalSize = size
+    ..devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+}
+
+/// A [BoxLayout] that counts its [buildContent] calls.
+class _CountingLayout extends BoxLayout {
+  const new({super.style, required this.builds});
+
+  final _Builds builds;
+
+  @override
+  Widget buildContent(BuildContext context) {
+    builds.count++;
+    return _content;
+  }
+}
+
+class _Builds {
+  int count = 0;
+}
+
+/// A component probe: a default style of 16 px padding and a fill with a
+/// desktop override of 32 px padding, and an instance custom style layered
+/// over it, as a Stratum component builds its box.
+class _ProbeButton extends StratumStatelessWidget {
+  const new({this.customStyle});
+
+  static final WidgetStyle defaultStyle = const WidgetStyle(
+    padding: EdgeInsets.all(16),
+    backgroundColor: Color(0xFF0000FF),
+  ).at(desktop: const WidgetStyle(padding: EdgeInsets.all(32)));
+
+  final WidgetStyle? customStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return ContainerLayout(
+      style: defaultStyle.merge(customStyle),
+      child: _content,
+    );
+  }
+}
+
 void main() {
   group('BoxLayout bare tier', () {
     testWidgets('builds no AnimatedStyledBox and no StatefulElement', (
@@ -517,6 +566,159 @@ void main() {
       expect(
         tester.widget<AnimatedStyledBox>(find.byType(AnimatedStyledBox)).onEnd,
         _noop,
+      );
+    });
+
+    testWidgets('fo05/us04/s1, fo05/us04/fr02: 16 px padding with a desktop '
+        'override of 32 px places the child 32 px from the box edge on '
+        'desktop', (tester) async {
+      _view(tester, const Size(1300, 800));
+
+      await tester.pumpWidget(
+        themedHost(
+          _Layout(
+            style: const WidgetStyle(padding: EdgeInsets.all(16))
+                .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32))),
+          ),
+        ),
+      );
+
+      expect(
+        tester.getTopLeft(_inLayout(find.byType(SizedBox)).first),
+        tester.getTopLeft(find.byType(_Layout)) + const Offset(32, 32),
+      );
+    });
+
+    testWidgets('fo05/us04/s3: only a desktop override, on mobile, shows the '
+        'base', (tester) async {
+      _view(tester, const Size(400, 800));
+
+      await tester.pumpWidget(
+        themedHost(
+          _Layout(
+            style: const WidgetStyle(padding: EdgeInsets.all(16))
+                .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32))),
+          ),
+        ),
+      );
+
+      final box = tester.widget<AnimatedStyledBox>(
+        find.byType(AnimatedStyledBox),
+      );
+      expect(box.style?.padding, const EdgeInsets.all(16));
+      expect(box.style?.hasWindowOverrides, isFalse);
+    });
+
+    testWidgets('fo05/us04/s4, fo05/us04/fr02/e03: widening a desktop window '
+        'from 1300 to 1500 px does not rebuild the box', (tester) async {
+      _view(tester, const Size(1300, 800));
+      final builds = _Builds();
+
+      await tester.pumpWidget(
+        WindowSizeScope(
+          child: themedHost(
+            _CountingLayout(
+              style: const WidgetStyle(padding: EdgeInsets.all(16))
+                  .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32))),
+              builds: builds,
+            ),
+          ),
+        ),
+      );
+      expect(builds.count, 1);
+
+      tester.view.physicalSize = const Size(1500, 800);
+      await tester.pump();
+
+      expect(builds.count, 1);
+    });
+
+    testWidgets('fo05/us04/fr02/e01, s03/inv84: a style with no overrides '
+        'builds with no WindowSizeScope above', (tester) async {
+      await tester.pumpWidget(
+        const Directionality(
+          textDirection: TextDirection.ltr,
+          child: _Layout(style: WidgetStyle(padding: EdgeInsets.all(16))),
+        ),
+      );
+
+      expect(find.byType(AnimatedStyledBox), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('fo05/us04/s6, fo05/us04/fr02/e02: a style with overrides '
+        'and no WindowSizeScope above throws the scope error, which '
+        'names how to wrap the app', (tester) async {
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: _Layout(
+            style: const WidgetStyle(padding: EdgeInsets.all(16))
+                .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32))),
+          ),
+        ),
+      );
+
+      expect(
+        tester.takeException(),
+        isA<FlutterError>().having(
+          (error) => error.message,
+          'message',
+          allOf(contains('No WindowSizeScope found'), contains('Wrap the app')),
+        ),
+      );
+    });
+
+    testWidgets('fo05/us04/s5: an instance customStyle that sets only a new '
+        'fill, over a component default of 16 px padding, a fill, and a '
+        'desktop override of 32 px padding, shows the new fill with 32 px '
+        'padding on desktop', (tester) async {
+      _view(tester, const Size(1300, 800));
+
+      await tester.pumpWidget(
+        themedHost(
+          const _ProbeButton(
+            customStyle: WidgetStyle(backgroundColor: Color(0xFF00FF00)),
+          ),
+        ),
+      );
+
+      final box = tester.widget<AnimatedStyledBox>(
+        find.byType(AnimatedStyledBox),
+      );
+      expect(box.style?.backgroundColor, const Color(0xFF00FF00));
+      expect(box.style?.padding, const EdgeInsets.all(32));
+      expect(box.style?.hasWindowOverrides, isFalse);
+    });
+
+    testWidgets('fo05/us04, NFR-U03: crossing to a smaller window size jumps '
+        'the padding under reduced motion', (tester) async {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      _view(tester, const Size(1300, 800));
+
+      await tester.pumpWidget(
+        themedHost(
+          _Layout(
+            style: const WidgetStyle(padding: EdgeInsets.all(16))
+                .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32))),
+          ),
+        ),
+      );
+      expect(
+        tester.getTopLeft(_inLayout(find.byType(SizedBox)).first),
+        tester.getTopLeft(find.byType(_Layout)) + const Offset(32, 32),
+      );
+
+      tester.view.physicalSize = const Size(800, 600);
+      await tester.pump();
+
+      expect(
+        tester.getTopLeft(_inLayout(find.byType(SizedBox)).first),
+        tester.getTopLeft(find.byType(_Layout)) + const Offset(16, 16),
       );
     });
   });

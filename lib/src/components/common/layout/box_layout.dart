@@ -155,11 +155,22 @@ abstract class BoxLayout extends StatelessWidget {
     return current;
   }
 
-  /// The style, with the theme's `fast` level when an interaction is set
-  /// and the style has no animation of its own; the package default's
-  /// `fast` level with no theme above (spec section 9).
+  /// The style resolved for the nearest window size scope's size when it
+  /// carries `.at()` overrides, then the theme's `fast` level when an
+  /// interaction is set and the style has no animation of its own; the
+  /// package default's `fast` level with no theme above (spec section 9).
+  ///
+  /// A style with no override reads no window size, so it builds with no
+  /// [WindowSizeScope] above and never throws its error.
   WidgetStyle? _effectiveStyle(BuildContext context) {
-    final style = this.style;
+    final own = this.style;
+    final style = switch (own) {
+      null => null,
+      WidgetStyle(hasWindowOverrides: true) => own.resolve(
+        WindowSizeScope.of(context),
+      ),
+      final bare => bare,
+    };
     if (style == null || interaction == null) return style;
     if (style.animationStyle != null) return style;
     final animation =
