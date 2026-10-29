@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:stratum_ui/src/components/common/responsive/window_size_scope.dart';
 import 'package:stratum_ui/src/components/common/style/style_decoration.dart';
 import 'package:stratum_ui/src/extensions/context_extension.dart';
 import 'package:stratum_ui/src/themes/animation.dart';
@@ -14,6 +15,10 @@ typedef StyledBoxBuilder = Widget Function(WidgetStyle style, Widget box);
 typedef StyledScrollBuilder = Widget Function(Widget content);
 
 /// Paints a [WidgetStyle] around [child] and animates between styles.
+///
+/// A style that still carries `.at()` window-size overrides is resolved
+/// for the nearest window size scope before it is tweened; a style with
+/// none reads no window size.
 ///
 /// Duration and curve come from the target style's
 /// [WidgetStyle.animationStyle]; a null value applies the new style in the
@@ -104,7 +109,16 @@ class _AnimatedStyledBoxState extends State<AnimatedStyledBox>
     end: _target,
   );
 
-  WidgetStyle get _target => widget.style ?? const WidgetStyle();
+  /// The widget's style resolved for the nearest window size scope when
+  /// it still carries `.at()` overrides, so the tween only ever sees a
+  /// resolved style; a style with none reads no window size.
+  WidgetStyle get _target {
+    final style = widget.style;
+    if (style == null || !style.hasWindowOverrides) {
+      return style ?? const WidgetStyle();
+    }
+    return style.resolve(WindowSizeScope.of(context));
+  }
 
   Duration get _duration =>
       widget.style?.animationStyle?.duration ?? Duration.zero;

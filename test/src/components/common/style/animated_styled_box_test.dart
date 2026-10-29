@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/components/common/model/image_blur_filter.dart';
 import 'package:stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:stratum_ui/src/components/common/responsive/window_size_scope.dart';
 import 'package:stratum_ui/src/components/common/style/animated_styled_box.dart';
 import 'package:stratum_ui/src/components/common/style/style_decoration.dart';
 import 'package:stratum_ui/src/themes/config/animation_config.dart';
@@ -194,6 +195,41 @@ void main() {
         tester.getSize(find.byType(AnimatedStyledBox)),
         const Size(40, 20),
       );
+    });
+
+    testWidgets('fo05/us04/fr02: resolves a style that carries overrides '
+        'for the published window size', (tester) async {
+      tester.view
+        ..physicalSize = const Size(1300, 800)
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final style = const WidgetStyle(padding: EdgeInsets.all(16))
+          .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32)));
+
+      await tester.pumpWidget(WindowSizeScope(child: _host(style)));
+
+      expect(
+        tester.widget<Padding>(find.byType(Padding)).padding,
+        const EdgeInsets.all(32),
+      );
+
+      tester.view.physicalSize = const Size(400, 800);
+      await tester.pumpWidget(WindowSizeScope(child: _host(style)));
+
+      expect(
+        tester.widget<Padding>(find.byType(Padding)).padding,
+        const EdgeInsets.all(16),
+      );
+    });
+
+    testWidgets('fo05/us04/fr02/e01, s03/inv84: a style with no overrides '
+        'builds with no WindowSizeScope above', (tester) async {
+      await tester.pumpWidget(
+        _host(const WidgetStyle(padding: EdgeInsets.all(16))),
+      );
+
+      expect(find.byType(Padding), findsOneWidget);
+      expect(tester.takeException(), isNull);
     });
 
     testWidgets('a style with only layout fields builds no background', (

@@ -16,6 +16,7 @@ import 'package:stratum_ui/src/src.dart';
 import '../fakes/fake_stratum_theme.dart';
 
 const _red = Color(0xFFFF0000);
+const _blue = Color(0xFF0000FF);
 
 /// Whether every [_Harness] gives its list `findChildIndexCallback`, for the
 /// groups that rerun with an app index (D19).
@@ -1458,6 +1459,37 @@ void main() {
         final color = (fill.decoration as StyleDecoration).color!;
         expect(color.a, greaterThan(0));
         expect(color.a, lessThan(1));
+
+        await gesture.up();
+        await tester.pumpAndSettle();
+      },
+    );
+
+    testWidgets(
+      'fo05/us04/fr02: a dragStyle with a desktop override lifts with no '
+      'assert and shows the override on desktop',
+      (tester) async {
+        tester.view
+          ..physicalSize = const Size(1300, 800)
+          ..devicePixelRatio = 1;
+        addTearDown(tester.view.reset);
+        final dragStyle = const WidgetStyle(backgroundColor: _red)
+            .at(desktop: const WidgetStyle(backgroundColor: _blue));
+        await tester.pumpWidget(_app(_Harness(count: 5, dragStyle: dragStyle)));
+
+        final gesture = await tester.startGesture(
+          tester.getCenter(find.text('0')),
+        );
+        await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+        await gesture.moveBy(const Offset(0, 30));
+        await tester.pump();
+        await tester.pump();
+
+        final lifted = tester.widget<AnimatedStyledBox>(
+          find.byType(AnimatedStyledBox),
+        );
+        expect(lifted.style!.backgroundColor, _blue);
+        expect(lifted.style!.hasWindowOverrides, isFalse);
 
         await gesture.up();
         await tester.pumpAndSettle();
@@ -15663,36 +15695,35 @@ void main() {
       expect(harness.ends, hasLength(1));
     });
 
-    testWidgets(
-      'R4, INV-28, FR-03 E08: a screen-reader move action on the '
-      'lifted item during its own drag reports the move and ends the '
-      'drag at once, synchronously, never reading as the drop',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(_app(const _Harness(count: 5, handles: true)));
-        final harness = _harness(tester);
-        await _grabHandle(tester, 2);
-        expect(harness.starts, hasLength(1));
-        expect(find.byType(RawImage), findsOne);
+    testWidgets('R4, INV-28, FR-03 E08: a screen-reader move action on the '
+        'lifted item during its own drag reports the move and ends the '
+        'drag at once, synchronously, never reading as the drop', (
+      tester,
+    ) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(_app(const _Harness(count: 5, handles: true)));
+      final harness = _harness(tester);
+      await _grabHandle(tester, 2);
+      expect(harness.starts, hasLength(1));
+      expect(find.byType(RawImage), findsOne);
 
-        // A buggy read of the drop by the last build's look, never the
-        // sliver's own report, only tears the drag down later, in a
-        // frame the SDK's own count-change cancel runs, by which time a
-        // second report on the same stale index would recurse (the drop
-        // this read starves, T15 RCA P5); the fix ends the drag inside
-        // this very call, with no frame between the action and the end
-        // (R4, INV-28, FR-03 E08). Read with no pump between: a
-        // pump would run that same count-change cancel regardless of
-        // which read this proves, and mask the difference. The pointer
-        // this grab started stays down: the drag already ended through
-        // this action, never through that pointer's own up or cancel.
-        moveActionNow(tester, 2, 'Move down');
+      // A buggy read of the drop by the last build's look, never the
+      // sliver's own report, only tears the drag down later, in a
+      // frame the SDK's own count-change cancel runs, by which time a
+      // second report on the same stale index would recurse (the drop
+      // this read starves, T15 RCA P5); the fix ends the drag inside
+      // this very call, with no frame between the action and the end
+      // (R4, INV-28, FR-03 E08). Read with no pump between: a
+      // pump would run that same count-change cancel regardless of
+      // which read this proves, and mask the difference. The pointer
+      // this grab started stays down: the drag already ended through
+      // this action, never through that pointer's own up or cancel.
+      moveActionNow(tester, 2, 'Move down');
 
-        expect(harness.ends, hasLength(1));
-        expect(harness.moves, [(2, 3)]);
-        handle.dispose();
-      },
-    );
+      expect(harness.ends, hasLength(1));
+      expect(harness.moves, [(2, 3)]);
+      handle.dispose();
+    });
 
     // The handle's own listener and the item's long-press listener both
     // arm a recognizer for the one pointer down. A drag ended by a
@@ -17857,49 +17888,46 @@ void main() {
       },
     );
 
-    testWidgets(
-      "INV-30: a lift ends the item's own grow-in through the file's "
-      'own ending path, so a later build reads it at rest, never a '
-      'leftover entry',
-      (tester) async {
-        Animation<double>? incoming;
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 5,
-              handles: true,
-              itemsController: ReorderableItemsController(),
-              itemTransitionBuilder: (context, animation, child) {
-                // R48: the builder wraps every item, at rest with a
-                // completed animation; the entering or leaving one runs.
-                if (animation != kAlwaysCompleteAnimation) incoming = animation;
-                return FadeTransition(opacity: animation, child: child);
-              },
-            ),
-            theme: _normalTheme(const Duration(seconds: 2)),
+    testWidgets("INV-30: a lift ends the item's own grow-in through the file's "
+        'own ending path, so a later build reads it at rest, never a '
+        'leftover entry', (tester) async {
+      Animation<double>? incoming;
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 5,
+            handles: true,
+            itemsController: ReorderableItemsController(),
+            itemTransitionBuilder: (context, animation, child) {
+              // R48: the builder wraps every item, at rest with a
+              // completed animation; the entering or leaving one runs.
+              if (animation != kAlwaysCompleteAnimation) incoming = animation;
+              return FadeTransition(opacity: animation, child: child);
+            },
           ),
-        );
-        _harness(tester).insert(1, 9);
-        await tester.pump();
-        await tester.pump(const Duration(seconds: 1));
-        expect(incoming, isNotNull);
+          theme: _normalTheme(const Duration(seconds: 2)),
+        ),
+      );
+      _harness(tester).insert(1, 9);
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+      expect(incoming, isNotNull);
 
-        final gesture = await _grabHandle(tester, 9);
-        incoming = null;
-        await gesture.up();
-        await tester.pumpAndSettle();
+      final gesture = await _grabHandle(tester, 9);
+      incoming = null;
+      await gesture.up();
+      await tester.pumpAndSettle();
 
-        expect(
-          incoming,
-          isNull,
-          reason:
-              "a lift ends the item's own grow-in through _finishInsert, so "
-              'a later build of it reads the default kAlwaysCompleteAnimation, '
-              'never the incoming entry the lift only froze in place',
-        );
-        expect(tester.takeException(), isNull);
-      },
-    );
+      expect(
+        incoming,
+        isNull,
+        reason:
+            "a lift ends the item's own grow-in through _finishInsert, so "
+            'a later build of it reads the default kAlwaysCompleteAnimation, '
+            'never the incoming entry the lift only froze in place',
+      );
+      expect(tester.takeException(), isNull);
+    });
 
     final starters = ValueVariant<String>({'long press', 'handle'});
     testWidgets(
