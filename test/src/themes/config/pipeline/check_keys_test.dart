@@ -17,20 +17,9 @@ import '../theme_fixtures.dart';
 /// The errors stage 2 reports for one layer of [body].
 List<String> _problems(String body) => problems(_check([layer(body)]).$2);
 
-/// A base that also holds the default `component` group.
-final String _componentBase = baseYaml.replaceFirst(
-  'extensions: {}',
-  'component:\n'
-      '  default-size: medium\n'
-      '  caret:\n'
-      '    side: { tiny: 10, extra-small: 12, small: 14, medium: 16, '
-      'large: 20, extra-large: 24, huge: 32 }\n'
-      'extensions: {}',
-);
-
 /// Runs stages 1 and 2 on the component base and [layers].
 (CheckedThemes, ThemeErrors) _checkComponent(List<String> layers) {
-  final all = sources(layers, base: _componentBase);
+  final all = sources(layers, base: componentBaseYaml);
   final errors = errorsFor(all);
   final roots = loadThemes(all, errors);
   expect(problems(errors), isEmpty, reason: 'stage 1');

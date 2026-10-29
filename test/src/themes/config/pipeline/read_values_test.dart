@@ -74,21 +74,10 @@ final String _baseWithSplash = baseYaml.replaceFirst(
   '  splash-screen: images/splash.svg\n',
 );
 
-/// A base that also holds the default `component` group.
-final String _componentBase = baseYaml.replaceFirst(
-  'extensions: {}',
-  'component:\n'
-      '  default-size: medium\n'
-      '  caret:\n'
-      '    side: { tiny: 10, extra-small: 12, small: 14, medium: 16, '
-      'large: 20, extra-large: 24, huge: 32 }\n'
-      'extensions: {}',
-);
-
 /// The errors stages 1 to 5 report for one layer of [body] over
-/// [_componentBase].
+/// [componentBaseYaml].
 List<String> _componentProblems(String body) =>
-    problems(_read([layer(body)], base: _componentBase).$2);
+    problems(_read([layer(body)], base: componentBaseYaml).$2);
 
 const _widgetSizes =
     'expected one of tiny, extra-small, small, medium, large, extra-large, '
@@ -1946,7 +1935,7 @@ shadow:
         'window sizes', () {
       final (config, errors) = _read([
         layer('component:\n  default-size: { mobile: medium, desktop: large }'),
-      ], base: _componentBase);
+      ], base: componentBaseYaml);
 
       expect(problems(errors), isEmpty);
       expect(
@@ -1963,7 +1952,7 @@ shadow:
         'size on all five window sizes', () {
       final (config, errors) = _read([
         layer('component:\n  default-size: small'),
-      ], base: _componentBase);
+      ], base: componentBaseYaml);
 
       expect(problems(errors), isEmpty);
       for (final size in WindowSize.values) {
@@ -1973,7 +1962,7 @@ shadow:
 
     test('fo01/us06/fr02/e05: the base default-size gives medium on all five '
         'window sizes', () {
-      final (config, errors) = _read([], base: _componentBase);
+      final (config, errors) = _read([], base: componentBaseYaml);
 
       expect(problems(errors), isEmpty);
       for (final size in WindowSize.values) {
@@ -1986,7 +1975,7 @@ shadow:
       () {
         final (config, _) = _read([
           layer('component:\n  default-size: { desktop: large }'),
-        ], base: _componentBase);
+        ], base: componentBaseYaml);
 
         expect(
           config.defaultWidgetSize.valueFor(WindowSize.watch),
@@ -2039,7 +2028,7 @@ shadow:
     test('fo01/us06/s4, fo01/us06/fr03: a step reads as its fixed px', () {
       final (config, errors) = _read([
         layer('component:\n  caret:\n    side: { large: 20 }'),
-      ], base: _componentBase);
+      ], base: componentBaseYaml);
 
       expect(problems(errors), isEmpty);
       expect(config.ladders['caret.side']![WidgetSize.large], 20);
@@ -2088,7 +2077,7 @@ shadow:
 
     test('fo01/us06/fr03/e04: a base ladder without huge is required at the '
         'missing step', () {
-      final base = _componentBase.replaceFirst(', huge: 32', '');
+      final base = componentBaseYaml.replaceFirst(', huge: 32', '');
       final (_, errors) = _read([], base: base);
 
       expect(problems(errors), [
@@ -2099,7 +2088,7 @@ shadow:
     test('fo01/us06/fr03/e05: a layer step merges over the other six', () {
       final (config, errors) = _read([
         layer('component:\n  caret:\n    side: { medium: 18 }'),
-      ], base: _componentBase);
+      ], base: componentBaseYaml);
 
       expect(problems(errors), isEmpty);
       expect(config.ladders['caret.side'], {
@@ -2129,7 +2118,7 @@ shadow:
 
     test('fo01/us06/fr03/e07: the default ladder reads 10 to 32 from tiny to '
         'huge', () {
-      final (config, errors) = _read([], base: _componentBase);
+      final (config, errors) = _read([], base: componentBaseYaml);
 
       expect(problems(errors), isEmpty);
       expect(
@@ -2142,7 +2131,7 @@ shadow:
     });
 
     test('fo01/us06/fr03: the ladders are unmodifiable', () {
-      final (config, _) = _read([], base: _componentBase);
+      final (config, _) = _read([], base: componentBaseYaml);
 
       expect(() => config.ladders.clear(), throwsUnsupportedError);
       expect(

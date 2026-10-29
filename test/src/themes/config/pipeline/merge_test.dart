@@ -24,20 +24,9 @@ Object? _at(Map<String, Object?> tree, String path) {
   return node;
 }
 
-/// A base that also holds the default `component` group.
-final String _componentBase = baseYaml.replaceFirst(
-  'extensions: {}',
-  'component:\n'
-      '  default-size: medium\n'
-      '  caret:\n'
-      '    side: { tiny: 10, extra-small: 12, small: 14, medium: 16, '
-      'large: 20, extra-large: 24, huge: 32 }\n'
-      'extensions: {}',
-);
-
 /// Runs stages 1 to 3 on the component base and [layers].
 MergedTheme _mergeComponent(List<String> layers) {
-  final all = sources(layers, base: _componentBase);
+  final all = sources(layers, base: componentBaseYaml);
   final errors = errorsFor(all);
   final roots = loadThemes(all, errors);
   expect(problems(errors), isEmpty, reason: 'stage 1');
@@ -209,7 +198,7 @@ color:
         'not key by key', () {
       final all = sources(
         [layer('component:\n  default-size: { tablet: small }')],
-        base: _componentBase.replaceFirst(
+        base: componentBaseYaml.replaceFirst(
           'default-size: medium',
           'default-size: { mobile: large, desktop: huge }',
         ),

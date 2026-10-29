@@ -154,6 +154,18 @@ focus:
   highContrastDark: {}
 ''';
 
+/// [baseYaml] with the default `component` group: `default-size: medium` and
+/// the caret's side ladder.
+final String componentBaseYaml = baseYaml.replaceFirst(
+  'extensions: {}',
+  'component:\n'
+      '  default-size: medium\n'
+      '  caret:\n'
+      '    side: { tiny: 10, extra-small: 12, small: 14, medium: 16, '
+      'large: 20, extra-large: 24, huge: 32 }\n'
+      'extensions: {}',
+);
+
 /// The folder of the package default in [sources].
 const baseFolder = 'packages/stratum_ui/assets/themes/default';
 
