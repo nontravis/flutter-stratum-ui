@@ -245,20 +245,25 @@ color:
       );
     });
 
-    test('fo01/us05/fr01: big-desktop reads and the v1 key bigDesktop is '
-        'an unknown window size', () {
+    test('fo01/us05/fr01: big-desktop reads as the big desktop entry', () {
       final (config, errors) = _read([
-        layer('space:\n  md: { mobile: 12, big-desktop: 20, bigDesktop: 30 }'),
+        layer('space:\n  md: { big-desktop: 20 }'),
       ]);
 
-      expect(problems(errors), [
-        'layer1 space.md.bigDesktop: unknown window size "bigDesktop" '
-            '[unknown_key]',
-      ]);
+      expect(problems(errors), isEmpty);
       expect(
         config.space['md']!.valueFor(WindowSize.bigDesktop),
         const StratumDimension.fixed(20),
       );
+    });
+
+    test('fo01/us05/fr01/e05: bigDesktop is unknown_key, with no alias', () {
+      final (_, errors) = _read([layer('space:\n  md: { bigDesktop: 20 }')]);
+
+      const unknown =
+          'layer1 space.md.bigDesktop: unknown window size "bigDesktop" '
+          '[unknown_key]';
+      expect(problems(errors), [unknown]);
     });
 
     test('reports an unknown window size, an empty map, and a bad value; '

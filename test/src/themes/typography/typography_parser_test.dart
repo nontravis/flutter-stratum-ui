@@ -84,17 +84,21 @@ void main() {
       }
     });
 
-    test('oq-b: windowSizeNames is WindowSize.values by name, in order', () {
-      expect(windowSizeNames, [
-        'watch',
-        'mobile',
-        'tablet',
-        'desktop',
-        'big-desktop',
-      ]);
-      expect(windowSizeNames, [
-        for (final size in WindowSize.values) size.yamlName,
-      ]);
-    });
+    test(
+      'oq-b: windowSizeNames is WindowSize.values by yamlName, in order',
+      () {
+        expect(windowSizeNames, [
+          'watch',
+          'mobile',
+          'tablet',
+          'desktop',
+          'big-desktop',
+        ]);
+        expect(windowSizeNames, [
+          for (final size in WindowSize.values) size.yamlName,
+        ]);
+        expect(windowSizeOfYamlName('big-desktop'), WindowSize.bigDesktop);
+      },
+    );
   });
 }

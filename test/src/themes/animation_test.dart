@@ -185,6 +185,50 @@ void main() {
     });
   });
 
+  group('animation.transition window size keys', () {
+    StratumThemeConfig parse(String key) => StratumThemeConfig.parse(
+      base: StratumThemeSource(
+        id: 'stratum-default',
+        folder: 'packages/stratum_ui/assets/themes/default',
+        yaml: File('assets/themes/default/theme.yaml').readAsStringSync(),
+      ),
+      layers: [
+        StratumThemeSource(
+          id: 'app',
+          folder: 'themes/app',
+          yaml:
+              r'$schema: stratum-theme/v1.0.0'
+              '\n'
+              'animation:\n  transition:\n    $key: fade\n',
+        ),
+      ],
+    );
+
+    test('fo05/us05/fr04: animation.transition.big-desktop sets the big '
+        'desktop transition', () {
+      final animation = StratumAnimation.fromConfig(
+        parse('big-desktop').animation,
+      );
+
+      expect(animation.transition.bigDesktop, ScreenTransitionType.fade);
+      expect(animation.transition.desktop, ScreenTransitionType.platform);
+    });
+
+    test('fo01/us05/fr01/e05: animation.transition.bigDesktop is '
+        'unknown_key', () {
+      expect(
+        () => parse('bigDesktop'),
+        throwsA(
+          isA<StratumThemeFormatException>().having(
+            (e) => [for (final error in e.errors) error.code],
+            'codes',
+            [StratumThemeErrorCode.unknownKey],
+          ),
+        ),
+      );
+    });
+  });
+
   group('StratumAnimation.packageDefault', () {
     test('equals fromConfig of the package default yaml', () {
       expect(

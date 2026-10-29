@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/src.dart';
 
+import '../../components/common/fakes/fake_stratum_theme.dart';
+
 /// A valid style for each type except `table`, which takes no `types` entry;
 /// a test replaces or removes entries.
 const _validTypes = <String, String?>{
@@ -404,6 +406,28 @@ void main() {
         expect(_errors(node), [error]);
       });
     }
+  });
+
+  group('fo02/us07/fr01: big-desktop scale entry', () {
+    test('fo02/us07/fr01: scaleByWindowSize.big-desktop scales text on a '
+        'big desktop window', () {
+      final theme = fakeStratumTheme(
+        typography: StratumTypography.fromYaml(
+          _typography(
+            extra: '  scaleByWindowSize: { mobile: 0, big-desktop: 2 }',
+          ),
+        ),
+      );
+      double sizeAt(WindowSize size) => TypographyResolver.resolve(
+        StratumTextStyle.body,
+        theme: theme,
+        locale: const Locale('en'),
+        windowSize: size,
+        textScaler: TextScaler.noScaling,
+      ).fontSize!;
+
+      expect(sizeAt(WindowSize.bigDesktop), sizeAt(WindowSize.mobile) + 2);
+    });
   });
 
   group('StratumTypography.fromYaml length bound', () {
