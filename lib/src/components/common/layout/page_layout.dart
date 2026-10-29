@@ -71,8 +71,8 @@ class PageLayoutController extends ChangeNotifier {
   }
 
   /// Opens the start drawer and reports it open. Does nothing while `left`
-  /// is null or shows inline, at or above the drawer cut, or its drawer is
-  /// already open (US-19 FR-03 E01; R21).
+  /// is null or shows inline, where `inlinePanes` resolves yes, or its
+  /// drawer is already open (US-19 FR-03 E01; R21).
   void openLeft() => _layout?._open(PageDrawerSide.left);
 
   /// Opens the end drawer and reports it open, as [openLeft] does for the
@@ -987,8 +987,8 @@ class _PageLayoutState extends State<PageLayout>
   }
 
   /// Closes the drawer of a side that no longer opens as one, since the
-  /// window crossed into inline panes or the app moved the cut or the
-  /// overlay choice (US-19 FR-01 E05; Q26).
+  /// window crossed into inline panes or the app turned `inlinePanes` or
+  /// the overlay choice (US-19 FR-01 E05; Q26).
   ///
   /// It closes at once and reports once the frame ends, so an app that sets
   /// its own state from `onDrawerChanged` never does so during a build.
@@ -1328,8 +1328,9 @@ class _PageLayoutState extends State<PageLayout>
   ///
   /// The pane opens at the controller's chosen width, so a width set from
   /// code moves it, with no rebuild of any slot. The split stays in the tree
-  /// on both sides of the drawer cut, with the pane null below it, so
-  /// crossing the cut remounts nothing in [column] (US-19 FR-01 E05).
+  /// with the pane inline and as a drawer alike, null where the panes sit
+  /// as drawers, so `inlinePanes` flipping remounts nothing in [column]
+  /// (US-19 FR-01 E05).
   Widget _sideSplit(
     PageDrawerSide side, {
     required Widget column,

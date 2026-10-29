@@ -495,7 +495,8 @@ beside `style`, which draws the box.
   drawers; pass your own `PageLayoutController(leftWidth:, rightWidth:)` to restore kept side pane widths, listen to
   it to save `leftWidth` and `rightWidth`, and set them from code. It notifies once per settled resize (a drag's end,
   a key step, or a code set), never per drag frame and never when a narrow window only squeezes a pane. A saved
-  width that is NaN, infinite, or negative reads as null, so a corrupt value opens Figma's width. The page disposes
+  width that is NaN, infinite, or negative reads as null, so a corrupt value falls back to the theme's pane width
+  token for the window size. The page disposes
   only the one it makes.
 - **Keep widths** — pass `setting: WidgetSettingKey.global()` (every instance) or `setting:
   WidgetSettingKey.id('mail')` (instances sharing that id) to have Stratum remember and restore `leftWidth` and

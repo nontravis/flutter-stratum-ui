@@ -1431,8 +1431,8 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us19/fr01/e03: with the cut at desktop a tablet keeps both '
-      'sides as drawers',
+      'fo06/us19/fr01/e03: inlinePanes Responsive(false, desktop: true) on a '
+      'tablet keeps both sides as drawers',
       (tester) async {
         await _pump(
           tester,
@@ -1446,8 +1446,8 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us19/fr01: a cut at mobile shows the sides inline on a '
-        'landscape phone', (tester) async {
+    testWidgets('fo06/us19/fr01: inlinePanes from mobile shows the sides '
+        'inline on a landscape phone', (tester) async {
       await _pump(
         tester,
         _sides(
@@ -1476,9 +1476,9 @@ void main() {
     );
 
     testWidgets(
-      'review focus 2: fo06/us19/fr01/e05: crossing the cut with a drawer '
-      'open closes it once the frame ends, so a parent can set its state, '
-      'and shows the pane (Q26)',
+      'review focus 2: fo06/us19/fr01/e05: crossing into inline panes with a '
+      'drawer open closes it once the frame ends, so a parent can set its '
+      'state, and shows the pane (Q26)',
       (tester) async {
         final reports = <PageDrawerSide?>[];
         Widget page() => StatefulBuilder(
@@ -1502,8 +1502,8 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us19/fr01/e05: crossing the cut both ways remounts no '
-        'center slot (Q14)', (tester) async {
+    testWidgets('fo06/us19/fr01/e05: inlinePanes flipping both ways remounts '
+        'no center slot (Q14)', (tester) async {
       final made = [0];
       await _pump(tester, _sides(body: _Kept(made)));
       _view(tester, _tablet);
@@ -1663,8 +1663,8 @@ void main() {
       expect(tester.widget(outer), same(built));
     });
 
-    testWidgets('fo06/us19/fr01: below the cut an overlay right is a plain '
-        'drawer with no close button', (tester) async {
+    testWidgets('fo06/us19/fr01: where inlinePanes resolves no an overlay '
+        'right is a plain drawer with no close button', (tester) async {
       await _pump(tester, _sides(overlay: true));
       await _openRight(tester);
       expect(tester.getRect(_box('right pane')).width, 288);

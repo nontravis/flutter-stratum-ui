@@ -10,6 +10,7 @@ import '../fakes/fake_stratum_theme.dart';
 // it holds answer theirs under US-19 (M3-T19, M3-T20).
 
 const _desktop = Size(1400, 900);
+const _tablet = Size(1000, 800);
 const _phone = Size(390, 844);
 const _landscape = Size(844, 390);
 
@@ -1208,7 +1209,7 @@ void main() {
       'fo07/us03/s2: the same page shows the side panes inline beside the body '
       'on a tablet window',
       (tester) async {
-        _view(tester);
+        _view(tester, size: _tablet);
         await tester.pumpWidget(
           _host(
             const PageLayout(
