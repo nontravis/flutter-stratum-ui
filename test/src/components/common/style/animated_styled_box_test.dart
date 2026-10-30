@@ -251,6 +251,39 @@ void main() {
       );
     });
 
+    testWidgets('fo05/us04/fr02: a retarget across a breakpoint tweens '
+        "with the override size's animation style", (tester) async {
+      tester.view
+        ..physicalSize = const Size(400, 800)
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      // One instance held across the resize, so didUpdateWidget never runs
+      // and only the scope's notification retargets the box.
+      final tree = WindowSizeScope(
+        child: _host(
+          const WidgetStyle(backgroundColor: _red).at(
+            desktop: const WidgetStyle(
+              backgroundColor: _blue,
+              animationStyle: AnimationStyle(duration: Duration(seconds: 1)),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(tree);
+      expect(_fillColor(tester), _red);
+
+      tester.view.physicalSize = const Size(1300, 800);
+      await tester.pumpWidget(tree);
+      await tester.pump(const Duration(milliseconds: 500));
+
+      // Mid-way: each channel within 1%, so the tween runs the override's
+      // full second. The unfixed instant jump lands on _blue exactly.
+      final color = _fillColor(tester)!;
+      expect(color.r, moreOrLessEquals(0.5, epsilon: 0.01));
+      expect(color.b, moreOrLessEquals(0.5, epsilon: 0.01));
+    });
+
     testWidgets('fo05/us04/fr02/e01, s03/inv84: a style with no overrides '
         'builds with no WindowSizeScope above', (tester) async {
       await tester.pumpWidget(

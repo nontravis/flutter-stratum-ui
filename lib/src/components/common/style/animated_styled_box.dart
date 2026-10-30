@@ -96,7 +96,8 @@ class _AnimatedStyledBoxState extends State<AnimatedStyledBox>
   );
 
   late final AnimationController _controller = AnimationController(
-    duration: _duration,
+    // Set before every forward; a resolved duration needs context.
+    duration: Duration.zero,
     animationBehavior: AnimationBehavior.preserve,
     vsync: this,
   );
@@ -115,10 +116,12 @@ class _AnimatedStyledBoxState extends State<AnimatedStyledBox>
   WidgetStyle get _target =>
       widget.style?.resolvedIn(context) ?? const WidgetStyle();
 
-  Duration get _duration =>
-      widget.style?.animationStyle?.duration ?? Duration.zero;
+  /// Duration and curve come from the resolved target style, so a
+  /// retarget that crosses into a size override also picks up that
+  /// override's [WidgetStyle.animationStyle].
+  Duration get _duration => _target.animationStyle?.duration ?? Duration.zero;
 
-  Curve get _curve => widget.style?.animationStyle?.curve ?? _themeCurve;
+  Curve get _curve => _target.animationStyle?.curve ?? _themeCurve;
 
   /// The `standard` curve of the theme above, read in
   /// [didChangeDependencies]; every level of a theme uses it.
@@ -168,6 +171,8 @@ class _AnimatedStyledBoxState extends State<AnimatedStyledBox>
     _style
       ..begin = begin
       ..end = target;
+    _syncCurve();
+    _controller.duration = _duration;
     _controller.forward(from: 0);
   }
 
