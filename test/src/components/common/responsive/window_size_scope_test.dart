@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:stratum_ui/src/components/common/model/widget_style.dart';
 import 'package:stratum_ui/src/components/common/responsive/window_size_scope.dart';
 import 'package:stratum_ui/src/themes/constant/window_size.dart';
 
@@ -162,5 +163,76 @@ void main() {
     await tester.pump();
 
     expect(seen, [WindowSize.mobile, WindowSize.desktop]);
+  });
+
+  group('resolvedIn', () {
+    final style = const WidgetStyle(padding: EdgeInsets.all(16))
+        .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32)));
+
+    testWidgets('fo05/us04/fr02: resolves .at() overrides for the scope and '
+        'rebuilds its caller when a breakpoint is crossed', (tester) async {
+      setWindowSize(tester, const Size(400, 800));
+      addTearDown(tester.view.reset);
+      final seen = <WidgetStyle>[];
+
+      await tester.pumpWidget(
+        WindowSizeScope(
+          child: Builder(
+            builder: (context) {
+              seen.add(style.resolvedIn(context));
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+      setWindowSize(tester, const Size(1300, 800));
+      await tester.pump();
+
+      expect(seen, [
+        style.resolve(WindowSize.mobile),
+        style.resolve(WindowSize.desktop),
+      ]);
+      expect(seen.last.padding, const EdgeInsets.all(32));
+      expect(seen.last.hasWindowOverrides, isFalse);
+    });
+
+    testWidgets('fo05/us04/fr02/e01: a style with no overrides returns itself '
+        'and reads no scope', (tester) async {
+      const bare = WidgetStyle(padding: EdgeInsets.all(16));
+      late WidgetStyle resolved;
+
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            resolved = bare.resolvedIn(context);
+            return const SizedBox();
+          },
+        ),
+      );
+
+      expect(resolved, same(bare));
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('fo05/us04/fr02/e02: a style with overrides and no scope '
+        "throws the scope's error", (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            style.resolvedIn(context);
+            return const SizedBox();
+          },
+        ),
+      );
+
+      expect(
+        tester.takeException(),
+        isA<FlutterError>().having(
+          (error) => error.message,
+          'message',
+          contains('No WindowSizeScope found'),
+        ),
+      );
+    });
   });
 }

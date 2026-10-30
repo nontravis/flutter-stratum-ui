@@ -100,6 +100,85 @@ import 'package:stratum_ui/src/src.dart';
 double f(WindowSize w) => w == WindowSize.desktop ? 1 : 2;
 ''';
 
+/// A component-tree probe that compares window sizes by their `.index`
+/// (rule a).
+const String _indexOrderProbe = '''
+import 'package:stratum_ui/src/themes/constant/window_size.dart';
+
+bool f(WindowSize w) => w.index >= WindowSize.desktop.index;
+''';
+
+/// A component-tree probe whose switch statement over `WindowSize` returns a
+/// number per case (rule c).
+const String _switchStatementTableProbe = '''
+import 'package:stratum_ui/src/themes/constant/window_size.dart';
+
+double f(WindowSize w) {
+  switch (w) {
+    case WindowSize.watch:
+    case WindowSize.mobile:
+      return 8;
+    case WindowSize.tablet:
+    case WindowSize.desktop:
+    case WindowSize.bigDesktop:
+      return 16;
+  }
+}
+''';
+
+/// A component-tree probe that keys a map literal by `WindowSize` with
+/// number values (rule c).
+const String _mapTableProbe = '''
+import 'package:stratum_ui/src/themes/constant/window_size.dart';
+
+const space = {
+  WindowSize.watch: 8.0,
+  WindowSize.mobile: 8.0,
+  WindowSize.tablet: 16.0,
+  WindowSize.desktop: 32.0,
+  WindowSize.bigDesktop: 32.0,
+};
+''';
+
+/// A component-tree probe whose if chain branches on a `WindowSize` by `==`
+/// and returns a number (rule c), one hit at the chain's head.
+const String _ifChainTableProbe = '''
+import 'package:stratum_ui/src/themes/constant/window_size.dart';
+
+double f(WindowSize w) {
+  if (w == WindowSize.desktop) {
+    return 32;
+  } else if (w == WindowSize.tablet) {
+    return 24;
+  }
+  return 16;
+}
+''';
+
+/// A component-tree probe that maps window and widget sizes to text, not to
+/// numbers, through a map literal, a switch statement, and an if chain:
+/// allowed.
+const String _textTableProbe = '''
+import 'package:stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:stratum_ui/src/themes/constant/window_size.dart';
+
+const names = {WindowSize.watch: 'watch', WindowSize.mobile: 'mobile'};
+
+String f(WidgetSize s) {
+  switch (s) {
+    case WidgetSize.tiny:
+      return 'tiny';
+    default:
+      return 'other';
+  }
+}
+
+String g(WindowSize w) {
+  if (w == WindowSize.desktop) return 'desktop';
+  return 'other';
+}
+''';
+
 void main() {
   test('fo08/us08/fr02/e02, s03/inv23: no component code compares window sizes by order', () async {
     final hits = await _checker.windowSizeRuleHits(root: 'lib/src/components');
@@ -257,5 +336,49 @@ void main() {
     final tables = hits.where((hit) => hit.contains('size-to-number')).toList();
     expect(tables, hasLength(1));
     expect(tables.single, contains('lib/src/components/policy_probe.dart:3'));
+  });
+
+  test('fo08/us08/fr02/e02, s03/inv23: an order comparison of window sizes by .index fails the rule', () async {
+    final hits = await _checker.windowSizeRuleHits(
+      root: 'lib/src/components',
+      overlays: {'lib/src/components/policy_probe.dart': _indexOrderProbe},
+    );
+    final order = hits
+        .where((hit) => hit.contains('order comparison'))
+        .toList();
+    expect(order, hasLength(1));
+    expect(order.single, contains('lib/src/components/policy_probe.dart:3'));
+  });
+
+  for (final (form, probe, line) in [
+    ('a switch statement', _switchStatementTableProbe, 4),
+    ('a map literal', _mapTableProbe, 3),
+    ('an if chain', _ifChainTableProbe, 4),
+  ]) {
+    test(
+      'fo08/us08/fr01, s03/inv22: $form that maps a window size to a number fails the rule',
+      () async {
+        final hits = await _checker.windowSizeRuleHits(
+          root: 'lib/src/components',
+          overlays: {'lib/src/components/policy_probe.dart': probe},
+        );
+        final tables = hits
+            .where((hit) => hit.contains('size-to-number'))
+            .toList();
+        expect(tables, hasLength(1));
+        expect(
+          tables.single,
+          contains('lib/src/components/policy_probe.dart:$line'),
+        );
+      },
+    );
+  }
+
+  test('fo08/us08/fr01, s03/inv22: a map literal, switch statement, or if chain that maps a size to text passes', () async {
+    final hits = await _checker.windowSizeRuleHits(
+      root: 'lib/src/components',
+      overlays: {'lib/src/components/policy_probe.dart': _textTableProbe},
+    );
+    expect(hits.where((hit) => hit.contains('size-to-number')), isEmpty);
   });
 }

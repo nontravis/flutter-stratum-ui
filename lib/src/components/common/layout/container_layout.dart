@@ -83,7 +83,7 @@ class ContainerLayout extends BoxLayout {
     if (fit == null) return content;
     return FittedBox(
       fit: fit,
-      alignment: style?.alignment ?? Alignment.center,
+      alignment: style?.resolvedIn(context).alignment ?? Alignment.center,
       child: content,
     );
   }

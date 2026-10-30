@@ -58,6 +58,30 @@ void main() {
       });
     }
 
+    testWidgets('fo05/us04/fr02: a main-axis size set only in an .at() '
+        'override forces MainAxisSize.max at that window size', (tester) async {
+      tester.view
+        ..physicalSize = const Size(1300, 800)
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        WindowSizeScope(
+          child: _host(
+            FlexLayout(
+              direction: Axis.horizontal,
+              style: const WidgetStyle().at(
+                desktop: const WidgetStyle(width: 200),
+              ),
+              mainAxisSize: MainAxisSize.min,
+              children: const [_child],
+            ),
+          ),
+        ),
+      );
+
+      expect(_flex(tester).mainAxisSize, MainAxisSize.max);
+    });
+
     for (final (direction, style) in const [
       (Axis.vertical, WidgetStyle(width: 200)),
       (Axis.horizontal, WidgetStyle(height: 200)),

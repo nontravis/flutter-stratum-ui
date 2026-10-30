@@ -368,6 +368,38 @@ void main() {
     );
   });
 
+  testWidgets('fo05/us04/fr02, n23: under an app wrapper above the app, a '
+      'customStyle with .at() overrides resolves for the window size', (
+    tester,
+  ) async {
+    _view(tester, const Size(1300, 800));
+    const black = Color(0xFF000000);
+    await tester.pumpWidget(
+      ToastificationWrapper(
+        child: _app(
+          _button(
+            'go',
+            (c) => c.showToast(
+              message: 'W',
+              customStyle: const WidgetStyle(backgroundColor: Color(0xFFFFFFFF))
+                  .at(desktop: const WidgetStyle(backgroundColor: black)),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('go'));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    final surface = tester.widget<ContainerLayout>(
+      find
+          .ancestor(of: find.text('W'), matching: find.byType(ContainerLayout))
+          .last,
+    );
+    expect(surface.style?.backgroundColor, black);
+  });
+
   testWidgets(
     'co05_07/us01/fr02/e06: a solid bottom notice rides above the keyboard',
     (tester) async {

@@ -102,6 +102,60 @@ void main() {
     },
   );
 
+  for (final (size, windowSize, fill) in const [
+    (Size(1300, 800), 'desktop', Color(0xFF000000)),
+    (Size(400, 800), 'mobile', Color(0xFFFFFFFF)),
+  ]) {
+    testWidgets('fo05/us04/fr02, co05_07/us01/fr02/e08: a solid notice whose '
+        'customStyle sets a fill in an .at(desktop:) override paints and '
+        'declares the $windowSize fill', (tester) async {
+      tester.view
+        ..physicalSize = size
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        _app(
+          (_) => StratumToastPlainLook(
+            notice: StratumToastNotice(
+              message: 'Could not save',
+              kind: FeedbackState.negative,
+              placement: const StratumToastPlacement.solid(
+                StratumToastEdge.bottom,
+              ),
+              insets: EdgeInsets.zero,
+              pageSnack: null,
+              customStyle: const WidgetStyle(backgroundColor: Color(0xFFFFFFFF))
+                  .at(
+                    desktop: const WidgetStyle(
+                      backgroundColor: Color(0xFF000000),
+                    ),
+                  ),
+              close: () {},
+              closeLabel: 'Close it',
+              kindLabel: 'Error',
+              action: null,
+            ),
+          ),
+        ),
+      );
+
+      final look = find.byType(StratumToastPlainLook);
+      final surface = tester.widget<ContainerLayout>(
+        find.descendant(of: look, matching: find.byType(ContainerLayout)).first,
+      );
+      expect(surface.style?.backgroundColor, fill);
+      expect(surface.style?.hasWindowOverrides, isFalse);
+      expect(
+        tester
+            .widget<SystemBarFill>(
+              find.descendant(of: look, matching: find.byType(SystemBarFill)),
+            )
+            .color,
+        fill,
+      );
+    });
+  }
+
   testWidgets(
     'co05_07/us01/fr06/e07: drawn alone in a bounded width, a long message '
     'wraps and the close button keeps its label and tap target',

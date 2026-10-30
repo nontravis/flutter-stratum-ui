@@ -112,13 +112,8 @@ class _AnimatedStyledBoxState extends State<AnimatedStyledBox>
   /// The widget's style resolved for the nearest window size scope when
   /// it still carries `.at()` overrides, so the tween only ever sees a
   /// resolved style; a style with none reads no window size.
-  WidgetStyle get _target {
-    final style = widget.style;
-    if (style == null || !style.hasWindowOverrides) {
-      return style ?? const WidgetStyle();
-    }
-    return style.resolve(WindowSizeScope.of(context));
-  }
+  WidgetStyle get _target =>
+      widget.style?.resolvedIn(context) ?? const WidgetStyle();
 
   Duration get _duration =>
       widget.style?.animationStyle?.duration ?? Duration.zero;
@@ -150,6 +145,9 @@ class _AnimatedStyledBoxState extends State<AnimatedStyledBox>
             .curve ??
         _packageCurve;
     _syncCurve();
+    // The window size scope above notifies with no new widget when the
+    // window crosses a breakpoint, so a style with overrides retargets here.
+    _retarget();
   }
 
   @override
@@ -157,6 +155,12 @@ class _AnimatedStyledBoxState extends State<AnimatedStyledBox>
     super.didUpdateWidget(oldWidget);
     _syncCurve();
     _controller.duration = _duration;
+    _retarget();
+  }
+
+  /// Animates from the current frame to [_target] when the target moved,
+  /// with size, spacing, and alignment jumping under reduced motion.
+  void _retarget() {
     final target = _target;
     if (target == _style.end) return;
     var begin = _style.evaluate(_animation);

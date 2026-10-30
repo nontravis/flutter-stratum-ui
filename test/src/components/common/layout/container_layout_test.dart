@@ -272,6 +272,32 @@ void main() {
       expect(_inside(Align), findsNothing);
     });
 
+    testWidgets('fo05/us04/fr02: an alignment set only in an .at() override '
+        'reaches FittedBox.alignment at that window size', (tester) async {
+      tester.view
+        ..physicalSize = const Size(1300, 800)
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        WindowSizeScope(
+          child: _host(
+            ContainerLayout(
+              style: const WidgetStyle(width: 200, height: 100).at(
+                desktop: const WidgetStyle(alignment: Alignment.bottomRight),
+              ),
+              fit: BoxFit.contain,
+              child: const SizedBox(width: 50, height: 50),
+            ),
+          ),
+        ),
+      );
+
+      expect(
+        tester.widget<FittedBox>(find.byType(FittedBox)).alignment,
+        Alignment.bottomRight,
+      );
+    });
+
     testWidgets('fit with scroll fails the assertion', (tester) async {
       expect(
         () => ContainerLayout(

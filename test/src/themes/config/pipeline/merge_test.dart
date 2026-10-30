@@ -211,6 +211,24 @@ color:
       expect(_at(merged.tree, 'component.default-size'), {'tablet': 'small'});
     });
 
+    test('fo01/us06/fr02: a layer scalar replaces a base default-size map '
+        'whole, dropping its per-size entries', () {
+      final all = sources(
+        [layer('component:\n  default-size: large')],
+        base: componentBaseYaml.replaceFirst(
+          'default-size: medium',
+          'default-size: { mobile: large, desktop: huge }',
+        ),
+      );
+      final errors = errorsFor(all);
+      final roots = loadThemes(all, errors);
+      final merged = mergeThemes(checkThemeKeys(roots, errors), errors);
+
+      expect(problems(errors), isEmpty);
+      expect(_at(merged.tree, 'component.default-size'), 'large');
+      expect(merged.origins['component.default-size']?.source, 1);
+    });
+
     test('fo01/us06/fr03/e05: a ladder merges step by step', () {
       final merged = _mergeComponent([
         layer('component:\n  caret:\n    side: { medium: 18 }'),

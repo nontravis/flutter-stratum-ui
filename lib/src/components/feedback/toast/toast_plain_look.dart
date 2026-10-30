@@ -49,7 +49,10 @@ class StratumToastPlainLook extends StatelessWidget {
 
   /// The notice's surface style, each later source winning: theme tokens,
   /// the app-wide notice defaults, the page's `snack` layer, then the
-  /// call's `customStyle` (s03 INV-16).
+  /// call's `customStyle` (s03 INV-16), resolved for the window size.
+  ///
+  /// Resolved before the surface declares its fill to the system bars and
+  /// sets its width: an `.at()` override replaces the whole field.
   WidgetStyle _style(BuildContext context) {
     final theme = context.theme;
     return WidgetStyle(
@@ -66,7 +69,8 @@ class StratumToastPlainLook extends StatelessWidget {
           ),
         )
         .merge(notice.pageSnack)
-        .merge(notice.customStyle);
+        .merge(notice.customStyle)
+        .resolvedIn(context);
   }
 
   /// The kind's border color, `info` reading brand (s03 INV-12).

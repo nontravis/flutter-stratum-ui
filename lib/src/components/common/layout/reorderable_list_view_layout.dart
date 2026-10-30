@@ -3921,14 +3921,11 @@ class _ReorderableBodyState extends State<_ReorderableBody>
   }
 
   Widget _proxy(Widget child, int index, Animation<double> animation) {
-    final style = _layout.dragStyle!;
     // The lifted item mounts in the reorderable's overlay, above every
     // WindowSizeScope of the app body, so its own context cannot resolve
     // the style; resolve it here, where the scope is above.
     return _LiftedItem(
-      style: style.hasWindowOverrides
-          ? style.resolve(WindowSizeScope.of(context))
-          : style,
+      style: _layout.dragStyle!.resolvedIn(context),
       fast: _motion.fast,
       child: child,
     );

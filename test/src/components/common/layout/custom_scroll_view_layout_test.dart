@@ -94,6 +94,32 @@ void main() {
       expect(tester.takeException(), isAssertionError);
     });
 
+    testWidgets('fo05/us04/fr02: asserts that slivers take no style padding '
+        'from an .at() override at the window size', (tester) async {
+      tester.view
+        ..physicalSize = const Size(1300, 800)
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(
+        WindowSizeScope(
+          child: themedHost(
+            _sized(
+              CustomScrollViewLayout(
+                style: const WidgetStyle().at(
+                  desktop: const WidgetStyle(padding: EdgeInsets.all(16)),
+                ),
+                slivers: const [
+                  SliverToBoxAdapter(child: SizedBox(height: 40)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+      expect(tester.takeException(), isAssertionError);
+    });
+
     test('asserts exactly one of slivers and children', () {
       expect(CustomScrollViewLayout.new, throwsAssertionError);
       expect(

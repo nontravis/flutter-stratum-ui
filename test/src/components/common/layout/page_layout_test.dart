@@ -362,6 +362,28 @@ void main() {
       expect(tester.getRect(_fill('top')).top, 0);
     });
 
+    testWidgets('fo05/us04/fr02, fo06/us18/fr04/e01: a top padding set in an '
+        '.at() override adds to the top inset at that window size', (
+      tester,
+    ) async {
+      _view(tester, size: _tablet, padding: const FakeViewPadding(top: 24));
+      await tester.pumpWidget(
+        _host(
+          PageLayout(
+            top: _slot('top'),
+            body: const Text('b'),
+            customStyle: PageLayoutStyle(
+              top: const WidgetStyle(padding: EdgeInsets.all(8))
+                  .at(tablet: const WidgetStyle(padding: EdgeInsets.all(16))),
+            ),
+          ),
+        ),
+      );
+
+      expect(_rect(tester, 'top').top, 16 + 24);
+      expect(_style(tester, 'top').hasWindowOverrides, isFalse);
+    });
+
     testWidgets(
       'fo06/us18/s3: fo06/us18/fr04/e02: a body list scrolls under the home '
       'indicator and its last row scrolls clear of it',

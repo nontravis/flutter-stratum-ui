@@ -537,5 +537,46 @@ void main() {
         );
       }
     });
+
+    test('fo05/us04/fr03, s03/inv12: when both sides override the same '
+        'field at the same size, the override wins there and above', () {
+      final base = const WidgetStyle(padding: EdgeInsets.all(16))
+          .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32)));
+      final other = const WidgetStyle().at(
+        desktop: const WidgetStyle(padding: EdgeInsets.all(24)),
+      );
+      final merged = base.merge(other);
+
+      expect(
+        merged.resolve(WindowSize.tablet).padding,
+        const EdgeInsets.all(16),
+      );
+      expect(
+        merged.resolve(WindowSize.desktop).padding,
+        const EdgeInsets.all(24),
+      );
+      expect(
+        merged.resolve(WindowSize.bigDesktop).padding,
+        const EdgeInsets.all(24),
+      );
+      for (final size in WindowSize.values) {
+        expect(
+          merged.resolve(size),
+          base.resolve(size).merge(other.resolve(size)),
+          reason: '$size',
+        );
+      }
+    });
+
+    test('fo05/us04/fr01, s03/inv11: a watch-only override applies on every '
+        'window size up to big desktop', () {
+      final style = const WidgetStyle(padding: EdgeInsets.all(1))
+          .at(watch: const WidgetStyle(padding: EdgeInsets.all(2)));
+
+      expect(
+        style.resolve(WindowSize.bigDesktop).padding,
+        const EdgeInsets.all(2),
+      );
+    });
   });
 }

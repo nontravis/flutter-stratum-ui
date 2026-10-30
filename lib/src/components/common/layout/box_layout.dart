@@ -163,14 +163,7 @@ abstract class BoxLayout extends StatelessWidget {
   /// A style with no override reads no window size, so it builds with no
   /// [WindowSizeScope] above and never throws its error.
   WidgetStyle? _effectiveStyle(BuildContext context) {
-    final own = this.style;
-    final style = switch (own) {
-      null => null,
-      WidgetStyle(hasWindowOverrides: true) => own.resolve(
-        WindowSizeScope.of(context),
-      ),
-      final bare => bare,
-    };
+    final style = this.style?.resolvedIn(context);
     if (style == null || interaction == null) return style;
     if (style.animationStyle != null) return style;
     final animation =

@@ -222,6 +222,35 @@ void main() {
       );
     });
 
+    testWidgets('fo05/us04/fr02: retargets when only the window size scope '
+        'changes, with no new widget from above', (tester) async {
+      tester.view
+        ..physicalSize = const Size(400, 800)
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      // One instance held across the resize, so didUpdateWidget never runs.
+      final tree = WindowSizeScope(
+        child: _host(
+          const WidgetStyle(padding: EdgeInsets.all(16))
+              .at(desktop: const WidgetStyle(padding: EdgeInsets.all(32))),
+        ),
+      );
+
+      await tester.pumpWidget(tree);
+      expect(
+        tester.widget<Padding>(find.byType(Padding)).padding,
+        const EdgeInsets.all(16),
+      );
+
+      tester.view.physicalSize = const Size(1300, 800);
+      await tester.pumpWidget(tree);
+
+      expect(
+        tester.widget<Padding>(find.byType(Padding)).padding,
+        const EdgeInsets.all(32),
+      );
+    });
+
     testWidgets('fo05/us04/fr02/e01, s03/inv84: a style with no overrides '
         'builds with no WindowSizeScope above', (tester) async {
       await tester.pumpWidget(

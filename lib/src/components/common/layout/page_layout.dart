@@ -802,12 +802,35 @@ class _PageLayoutState extends State<PageLayout>
   );
 
   /// Each part's style at [context]: the theme defaults, then the app-wide
-  /// [PageLayoutStyle], then [PageLayout.customStyle] (FO-08 US-06 FR-01).
-  PageLayoutStyle _style(BuildContext context) => _themeStyle(context.theme)
-      .merge(
-        StratumComponentDefaults.partsOf<PageLayoutStyle>(context, PageLayout),
-      )
-      .merge(widget.customStyle);
+  /// [PageLayoutStyle], then [PageLayout.customStyle] (FO-08 US-06 FR-01),
+  /// resolved for the window size.
+  ///
+  /// Resolved before any slot reads a field: a slot adds the safe-area
+  /// insets to its part's padding and declares its fill to the system bars,
+  /// and an override replaces the whole field.
+  PageLayoutStyle _style(BuildContext context) {
+    final style = _themeStyle(context.theme)
+        .merge(
+          StratumComponentDefaults.partsOf<PageLayoutStyle>(
+            context,
+            PageLayout,
+          ),
+        )
+        .merge(widget.customStyle);
+    WidgetStyle? resolved(WidgetStyle? part) => part?.resolvedIn(context);
+    return style.copyWith(
+      outer: resolved(style.outer),
+      header: resolved(style.header),
+      top: resolved(style.top),
+      tab: resolved(style.tab),
+      left: resolved(style.left),
+      body: resolved(style.body),
+      right: resolved(style.right),
+      bottom: resolved(style.bottom),
+      footer: resolved(style.footer),
+      snack: resolved(style.snack),
+    );
+  }
 
   /// The slots' text style at [context]: the body text in the theme's
   /// primary text color.
@@ -1379,8 +1402,9 @@ class _PageLayoutState extends State<PageLayout>
   }
 
   /// The width [side]'s inline pane opens at: the controller's chosen
-  /// width, else the Figma width of [side] at the window size; the split
-  /// bounds either by the side's width bounds and the window.
+  /// width, else the theme's `layouts.left-pane-width` or
+  /// `layouts.right-pane-width` for the window size; the split bounds
+  /// either by the side's width bounds and the window.
   ///
   /// A chosen width that is not a finite number of at least 0 reads as
   /// none here too, so a controller whose getter skips the check still

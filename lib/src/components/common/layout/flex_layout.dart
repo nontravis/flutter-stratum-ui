@@ -71,24 +71,27 @@ class FlexLayout extends BoxLayout {
 
   bool get _vertical => direction == Axis.vertical;
 
-  MainAxisSize get _mainAxisSize {
-    final style = this.style;
+  /// [mainAxisSize], or max when [style], resolved for the window size,
+  /// sets the size along [direction].
+  MainAxisSize _mainAxisSize(WidgetStyle? style) {
     final fills = _vertical
         ? style?.height != null || style?.maxHeight != null
         : style?.width != null || style?.maxWidth != null;
     return fills ? MainAxisSize.max : mainAxisSize;
   }
 
-  /// Whether [style] sets the size across [direction].
-  bool get _hasCrossSize =>
+  /// Whether [style], resolved for the window size, sets the size across
+  /// [direction].
+  bool _hasCrossSize(WidgetStyle? style) =>
       _vertical ? style?.width != null : style?.height != null;
 
   @override
   Widget buildContent(BuildContext context) {
+    final style = this.style?.resolvedIn(context);
     Widget content = Flex(
       direction: direction,
       mainAxisAlignment: mainAxisAlignment,
-      mainAxisSize: _mainAxisSize,
+      mainAxisSize: _mainAxisSize(style),
       crossAxisAlignment: crossAxisAlignment,
       textDirection: textDirection,
       verticalDirection: verticalDirection,
@@ -99,7 +102,7 @@ class FlexLayout extends BoxLayout {
     if (crossAxisIntrinsic) {
       content = _CrossIntrinsic(
         direction: direction,
-        sizesCross: !_hasCrossSize,
+        sizesCross: !_hasCrossSize(style),
         child: content,
       );
     }

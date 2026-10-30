@@ -56,7 +56,7 @@ class CustomScrollViewLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = this.style;
+    final style = this.style?.resolvedIn(context);
     final slivers = this.slivers;
     assert(
       slivers == null || style?.padding == null,

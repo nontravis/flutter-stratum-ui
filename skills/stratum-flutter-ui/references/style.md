@@ -29,9 +29,14 @@ the recipe resolves; use the fluent getters (`size`, `color*`) instead to change
   override field keeps the value cascaded from smaller sizes; a style with no override resolves to itself
   (`hasWindowOverrides` tells). Merging two styles where either carries overrides snapshots each size: the merged
   override at a size is the two styles each resolved for that size then merged, so an instance `customStyle` that
-  sets one field still shows the default's override fields at larger window sizes, and the override's own fields win
-  at every size it sets or below. A widget resolves for the window size from a `WindowSizeScope`/theme window size
-  and rebuilds only when the window crosses a breakpoint.
+  sets one field still shows the default's override fields at larger window sizes; the instance style's own fields
+  win at every window size, and its own overrides apply from their size up. A widget resolves for the window size
+  from a `WindowSizeScope`/theme window size and rebuilds only when the window crosses a breakpoint.
+- **`style.resolvedIn(context)`** — in a widget of your own that reads or rewrites a style's fields (`padding`,
+  `backgroundColor`, `copyWith`), resolve first: an override replaces the whole field, so a field read from the
+  unresolved style is wrong at every size the override sets. It returns the style resolved for the nearest
+  `WindowSizeScope`, or the style itself with no scope read when it has no override; a style with overrides and no
+  scope above throws the scope's error. Stratum's layouts and `AnimatedStyledBox` already resolve the styles you pass.
 
 ## Page transitions
 

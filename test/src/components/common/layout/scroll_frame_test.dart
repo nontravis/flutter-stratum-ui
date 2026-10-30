@@ -549,6 +549,45 @@ void main() {
       expect(received.first, same(controller));
     });
 
+    testWidgets('fo05/us04/fr02: resolves .at() overrides before it splits '
+        'the style between the view and the box', (tester) async {
+      tester.view
+        ..physicalSize = const Size(1300, 800)
+        ..devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      const radius = BorderRadius.all(Radius.circular(16));
+      final received = <Object?>[];
+      await tester.pumpWidget(
+        WindowSizeScope(
+          child: themedHost(
+            box(
+              style: const WidgetStyle(padding: EdgeInsets.all(8)).at(
+                desktop: const WidgetStyle(
+                  padding: EdgeInsets.all(24),
+                  borderRadius: radius,
+                ),
+              ),
+              received: received,
+            ),
+          ),
+        ),
+      );
+
+      // The desktop padding scrolls with the list and never insets the box.
+      expect(received.last, const EdgeInsets.all(24));
+      final boxStyle = tester
+          .widget<ContainerLayout>(find.byType(ContainerLayout))
+          .style!;
+      expect(boxStyle.padding, isNull);
+      expect(boxStyle.hasWindowOverrides, isFalse);
+      // A radius set only in the override clips and shapes the focus ring.
+      expect(boxStyle.clipBehavior, Clip.antiAlias);
+      expect(
+        tester.widget<ScrollFocus>(find.byType(ScrollFocus)).borderRadius,
+        radius,
+      );
+    });
+
     testWidgets('scrollsPadding: false keeps the padding on the box', (
       tester,
     ) async {

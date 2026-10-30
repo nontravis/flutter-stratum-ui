@@ -285,17 +285,20 @@ class ModalLayout extends StatelessWidget {
     final fullHeight = this.fullHeight ?? scope?.fullHeight ?? false;
     final onClose = this.onClose ?? scope?.onDismiss;
     final labels = builtInLabelsOf(context);
-    final style = _themeStyle(context, theme, type, fullHeight, scope)
-        .merge(
-          StratumComponentDefaults.partsOf<ModalLayoutStyle>(
-            context,
-            ModalLayout,
-          ),
-        )
-        .merge(
-          ModalLayoutStyle(surface: WidgetStyle(borderRadius: borderRadius)),
-        )
-        .merge(customStyle);
+    final style = _resolved(
+      context,
+      _themeStyle(context, theme, type, fullHeight, scope)
+          .merge(
+            StratumComponentDefaults.partsOf<ModalLayoutStyle>(
+              context,
+              ModalLayout,
+            ),
+          )
+          .merge(
+            ModalLayoutStyle(surface: WidgetStyle(borderRadius: borderRadius)),
+          )
+          .merge(customStyle),
+    );
     final surface = style.surface ?? const WidgetStyle();
     final insets = _insets(window.safeArea, type, fullHeight);
 
@@ -362,6 +365,26 @@ class ModalLayout extends StatelessWidget {
       // point, else fully transparent, which blends as nothing
       // (system_bars.dart:269; US-20 FR-06 E08).
       child: SystemBarFill(color: solidFillColor(surface), child: surfaceBox()),
+    );
+  }
+
+  /// [style] with each part resolved for the window size.
+  ///
+  /// Resolved before any part's field is read: the surface adds the
+  /// safe-area insets to its padding and declares its fill to the system
+  /// bars, and an override replaces the whole field.
+  static ModalLayoutStyle _resolved(
+    BuildContext context,
+    ModalLayoutStyle style,
+  ) {
+    WidgetStyle? resolved(WidgetStyle? part) => part?.resolvedIn(context);
+    return style.copyWith(
+      surface: resolved(style.surface),
+      top: resolved(style.top),
+      tab: resolved(style.tab),
+      body: resolved(style.body),
+      handle: resolved(style.handle),
+      close: resolved(style.close),
     );
   }
 

@@ -771,6 +771,51 @@ void main() {
       },
     );
 
+    testWidgets('fo05/us04/fr02, fo06/us20/fr05/e01, fo06/us20/fr06/e08: a '
+        'surface padding and fill set in an .at() override add to the inset '
+        'and declare the painted color at that window size', (tester) async {
+      _view(tester, _phone);
+      const white = Color(0xFFFFFFFF);
+      const black = Color(0xFF000000);
+      await tester.pumpWidget(
+        themedHost(
+          _media(
+            _modal(
+              type: ModalLayoutType.bottomSheet,
+              style: ModalLayoutStyle(
+                surface:
+                    const WidgetStyle(
+                      padding: EdgeInsets.all(8),
+                      backgroundColor: white,
+                    ).at(
+                      mobile: const WidgetStyle(
+                        padding: EdgeInsets.all(16),
+                        backgroundColor: black,
+                      ),
+                    ),
+              ),
+            ),
+            (data) => data.copyWith(padding: const EdgeInsets.only(bottom: 34)),
+          ),
+        ),
+      );
+
+      final surface = _surfaceStyle(tester);
+      expect(surface.padding, const EdgeInsets.fromLTRB(16, 16, 16, 16 + 34.0));
+      expect(surface.hasWindowOverrides, isFalse);
+      expect(
+        tester
+            .widget<SystemBarFill>(
+              find.descendant(
+                of: find.byType(ModalLayout),
+                matching: find.byType(SystemBarFill),
+              ),
+            )
+            .color,
+        black,
+      );
+    });
+
     testWidgets('fo06/us20/fr05: a modal adds no inset by default; e03: with '
         'safeArea it keeps clear of every inset', (tester) async {
       const insets = EdgeInsets.fromLTRB(10, 20, 30, 40);

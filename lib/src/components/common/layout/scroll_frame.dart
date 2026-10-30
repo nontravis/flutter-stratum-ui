@@ -1308,7 +1308,9 @@ class ScrollViewBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = this.style;
+    // Resolved before the split: an override's padding or radius replaces
+    // the whole field, so it must reach the view, the box, and the ring.
+    final style = this.style?.resolvedIn(context);
     final focusable =
         this.focusable ??
         defaultScrollFocusable(isWeb: kIsWeb, platform: defaultTargetPlatform);

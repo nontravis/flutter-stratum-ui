@@ -256,6 +256,27 @@ void main() {
     expect(SystemChrome.latestStyle?.statusBarIconBrightness, Brightness.dark);
   });
 
+  testWidgets('fo05/us04/fr02, fo06/us18/fr07/e02: a top fill set in an .at() '
+      'override declares the color the slot paints at that window size', (
+    tester,
+  ) async {
+    // The 800 by 600 test view is a tablet window.
+    systemBarsView(tester);
+    await tester.pumpWidget(
+      systemStyleApp(
+        home: _page(
+          top: const SizedBox(),
+          customStyle: PageLayoutStyle(
+            top: const WidgetStyle(backgroundColor: _white)
+                .at(tablet: const WidgetStyle(backgroundColor: _black)),
+          ),
+        ),
+      ),
+    );
+
+    expect(SystemChrome.latestStyle?.statusBarIconBrightness, Brightness.light);
+  });
+
   testWidgets('fo06/us18/fr07/e02: with no header, top, or tab, a body fill at '
       'the top edge declares itself', (tester) async {
     systemBarsView(tester);
