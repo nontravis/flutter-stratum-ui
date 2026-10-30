@@ -1,3 +1,9 @@
+// The file analyzes the whole package: a cold analysis context resolves the
+// SDK, Flutter, and every component file, about 20 s alone and past the 30 s
+// default when the full suite runs test files in parallel.
+@Timeout(Duration(minutes: 3))
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/themes/constant/window_size.dart';
 
@@ -5,6 +11,12 @@ import 'window_size_policy.dart';
 
 /// One warm analysis context serves every test in this file.
 final WindowSizePolicyChecker _checker = WindowSizePolicyChecker();
+
+/// The real component tree's hits, resolved once for every test that reads
+/// them.
+final Future<List<String>> _componentTreeHits = _checker.windowSizeRuleHits(
+  root: 'lib/src/components',
+);
 
 /// A component-tree probe that compares window sizes by order (rule a).
 const String _orderProbe = '''
@@ -181,7 +193,7 @@ String g(WindowSize w) {
 
 void main() {
   test('fo08/us08/fr02/e02, s03/inv23: no component code compares window sizes by order', () async {
-    final hits = await _checker.windowSizeRuleHits(root: 'lib/src/components');
+    final hits = await _componentTreeHits;
     final orderOrCatchAll = hits
         .where((hit) => hit.contains('INV-23'))
         .toList();
@@ -195,7 +207,7 @@ void main() {
   });
 
   test('fo08/us08/fr01, s03/inv22: no component maps a window or widget size to a number', () async {
-    final hits = await _checker.windowSizeRuleHits(root: 'lib/src/components');
+    final hits = await _componentTreeHits;
     final tables = hits.where((hit) => hit.contains('INV-22')).toList();
     expect(
       tables,
