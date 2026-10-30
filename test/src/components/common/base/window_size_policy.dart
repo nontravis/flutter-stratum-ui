@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:analyzer/dart/analysis/analysis_context_collection.dart';
 import 'package:analyzer/dart/analysis/results.dart'
-    show ErrorsResult, ResolvedUnitResult;
+    show ErrorsResult, LibraryElementResult, ResolvedUnitResult;
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
@@ -53,20 +53,25 @@ final class WindowSizePolicyChecker {
 
   final List<String> _appliedOverlays = [];
 
+  EnumElement? _windowSize;
+
+  EnumElement? _widgetSize;
+
   /// The rule hits under `root`, one `path:line: <source>` per break.
-  Future<List<String>> ruleHits({
+  Future<List<String>> windowSizeRuleHits({
     required String root,
     Map<String, String> overlays = const {},
   }) async {
     await _applyOverlays(overlays);
+    await _resolveEnums();
     final hits = <String>[];
     for (final file in _dartFilesUnder(root, overlays: overlays)) {
       final context = _collection.contextFor(file);
       final result = await context.currentSession.getResolvedUnit(file);
       if (result is! ResolvedUnitResult) continue;
       final visitor = _PolicyVisitor(
-        windowSize: _enumElement(result, 'WindowSize'),
-        widgetSize: _enumElement(result, 'WidgetSize'),
+        windowSize: _windowSize,
+        widgetSize: _widgetSize,
       );
       result.unit.accept(visitor);
       for (final hit in visitor.hits) {
@@ -142,15 +147,25 @@ final class WindowSizePolicyChecker {
       ..addAll(next.keys);
   }
 
-  /// The `EnumElement` named `name` reachable from this unit's library, or
-  /// `null` when the unit does not see it.
-  EnumElement? _enumElement(ResolvedUnitResult result, String name) {
-    final library = result.libraryElement;
-    for (final import in result.libraryFragment.libraryImports) {
-      final imported = import.importedLibrary?.getEnum(name);
-      if (imported != null) return imported;
-    }
-    return library.getEnum(name);
+  /// Resolves the `WindowSize` and `WidgetSize` enum elements from their
+  /// declaring libraries, once, so every unit matches by element identity
+  /// however it imports them: directly, or through any barrel's `export`
+  /// chain (`LibraryImport.importedLibrary.getEnum` stops at the first hop).
+  Future<void> _resolveEnums() async {
+    if (_windowSize != null && _widgetSize != null) return;
+    final session = _collection.contexts.first.currentSession;
+    final windowLibrary = await session.getLibraryByUri(
+      'package:stratum_ui/src/themes/constant/window_size.dart',
+    );
+    final widgetLibrary = await session.getLibraryByUri(
+      'package:stratum_ui/src/themes/constant/widget_size.dart',
+    );
+    _windowSize = windowLibrary is LibraryElementResult
+        ? windowLibrary.element.getEnum('WindowSize')
+        : null;
+    _widgetSize = widgetLibrary is LibraryElementResult
+        ? widgetLibrary.element.getEnum('WidgetSize')
+        : null;
   }
 }
 
@@ -165,14 +180,14 @@ class _Hit {
 
 /// Walks a resolved unit and records one [_Hit] per rule break.
 class _PolicyVisitor extends RecursiveAstVisitor<void> {
-  /// Records hits while walking the unit that sees [windowSize] and
-  /// [widgetSize].
+  /// Records hits while walking a unit that names [windowSize] or
+  /// [widgetSize], however it imports them.
   new({required this.windowSize, required this.widgetSize});
 
-  /// The `WindowSize` enum the unit sees, or `null` when it is not imported.
+  /// The declaring `WindowSize` enum element, or `null` while unresolved.
   final EnumElement? windowSize;
 
-  /// The `WidgetSize` enum the unit sees, or `null` when it is not imported.
+  /// The declaring `WidgetSize` enum element, or `null` while unresolved.
   final EnumElement? widgetSize;
 
   /// One entry per rule break the unit holds.

@@ -72,9 +72,37 @@ import 'package:stratum_ui/src/components/common/model/responsive/responsive.dar
 Widget f() => const PageLayout(rightAsOverlay: Responsive(false));
 ''';
 
+/// A component-tree probe importing only the barrel, the repo convention,
+/// that compares window sizes by order (rule a through `export`).
+const String _barrelOrderProbe = '''
+import 'package:stratum_ui/src/src.dart';
+
+bool f(WindowSize w) => w >= WindowSize.desktop;
+''';
+
+/// A barrel-importing probe whose switch over `WindowSize` keeps a `_`
+/// catch-all (rule b through `export`).
+const String _barrelCatchAllProbe = '''
+import 'package:stratum_ui/src/src.dart';
+
+String f(WindowSize w) => switch (w) {
+      WindowSize.watch => 'watch',
+      WindowSize.mobile => 'mobile',
+      _ => 'other',
+    };
+''';
+
+/// A barrel-importing probe that maps a `WindowSize` to a number through a
+/// conditional expression (rule c through `export`).
+const String _barrelConditionalProbe = '''
+import 'package:stratum_ui/src/src.dart';
+
+double f(WindowSize w) => w == WindowSize.desktop ? 1 : 2;
+''';
+
 void main() {
   test('fo08/us08/fr02/e02, s03/inv23: no component code compares window sizes by order', () async {
-    final hits = await _checker.ruleHits(root: 'lib/src/components');
+    final hits = await _checker.windowSizeRuleHits(root: 'lib/src/components');
     final orderOrCatchAll = hits
         .where((hit) => hit.contains('INV-23'))
         .toList();
@@ -88,7 +116,7 @@ void main() {
   });
 
   test('fo08/us08/fr01, s03/inv22: no component maps a window or widget size to a number', () async {
-    final hits = await _checker.ruleHits(root: 'lib/src/components');
+    final hits = await _checker.windowSizeRuleHits(root: 'lib/src/components');
     final tables = hits.where((hit) => hit.contains('INV-22')).toList();
     expect(
       tables,
@@ -100,7 +128,7 @@ void main() {
   });
 
   test('fo08/us08/s4: a component that compares window sizes by order fails the rule', () async {
-    final hits = await _checker.ruleHits(
+    final hits = await _checker.windowSizeRuleHits(
       root: 'lib/src/components',
       overlays: {'lib/src/components/policy_probe.dart': _orderProbe},
     );
@@ -112,7 +140,7 @@ void main() {
   });
 
   test('fo08/us08/s3, fo08/us08/fr02/e01: a switch over WindowSize with a catch-all fails the rule', () async {
-    final hits = await _checker.ruleHits(
+    final hits = await _checker.windowSizeRuleHits(
       root: 'lib/src/components',
       overlays: {'lib/src/components/policy_probe.dart': _catchAllProbe},
     );
@@ -126,7 +154,7 @@ void main() {
   test(
     'fo08/us08/s6, fo08/us08/fr02/e04: a widget-size comparison passes',
     () async {
-      final hits = await _checker.ruleHits(
+      final hits = await _checker.windowSizeRuleHits(
         root: 'lib/src/components',
         overlays: {'lib/src/components/policy_probe.dart': _widgetOrderProbe},
       );
@@ -137,7 +165,7 @@ void main() {
   test(
     'fo08/us08/s5, fo08/us08/fr02/e03: app code may compare window sizes',
     () async {
-      final hits = await _checker.ruleHits(
+      final hits = await _checker.windowSizeRuleHits(
         root: 'lib/src/components',
         overlays: {'lib/src/application/policy_probe.dart': _appOrderProbe},
       );
@@ -147,7 +175,7 @@ void main() {
   );
 
   test('s03/inv22: a widget-size switch that maps every size to a number fails the rule', () async {
-    final hits = await _checker.ruleHits(
+    final hits = await _checker.windowSizeRuleHits(
       root: 'lib/src/components',
       overlays: {'lib/src/components/policy_probe.dart': _widgetTableProbe},
     );
@@ -159,7 +187,7 @@ void main() {
   test(
     's03/inv22: a window-size conditional that yields a number fails the rule',
     () async {
-      final hits = await _checker.ruleHits(
+      final hits = await _checker.windowSizeRuleHits(
         root: 'lib/src/components',
         overlays: {
           'lib/src/components/policy_probe.dart': _windowConditionalProbe,
@@ -182,5 +210,52 @@ void main() {
         .toList();
     expect(typeErrors, isNotEmpty);
     expect(typeErrors.first, contains('bool'));
+  });
+
+  test(
+    's03/inv23: an order comparison through the barrel import fails the rule',
+    () async {
+      final hits = await _checker.windowSizeRuleHits(
+        root: 'lib/src/components',
+        overlays: {'lib/src/components/policy_probe.dart': _barrelOrderProbe},
+      );
+      final order = hits
+          .where((hit) => hit.contains('order comparison'))
+          .toList();
+      expect(order, hasLength(1));
+      expect(order.single, contains('lib/src/components/policy_probe.dart:3'));
+    },
+  );
+
+  test(
+    's03/inv23: a catch-all switch through the barrel import fails the rule',
+    () async {
+      final hits = await _checker.windowSizeRuleHits(
+        root: 'lib/src/components',
+        overlays: {
+          'lib/src/components/policy_probe.dart': _barrelCatchAllProbe,
+        },
+      );
+      final catchAll = hits
+          .where((hit) => hit.contains('catch-all switch'))
+          .toList();
+      expect(catchAll, hasLength(1));
+      expect(
+        catchAll.single,
+        contains('lib/src/components/policy_probe.dart:3'),
+      );
+    },
+  );
+
+  test('s03/inv22: a size-to-number conditional through the barrel import fails the rule', () async {
+    final hits = await _checker.windowSizeRuleHits(
+      root: 'lib/src/components',
+      overlays: {
+        'lib/src/components/policy_probe.dart': _barrelConditionalProbe,
+      },
+    );
+    final tables = hits.where((hit) => hit.contains('size-to-number')).toList();
+    expect(tables, hasLength(1));
+    expect(tables.single, contains('lib/src/components/policy_probe.dart:3'));
   });
 }
