@@ -77,10 +77,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "0d58d1fa1fddf6588251ccf2819f3fb3b6d0452c1b2813ac7413a05592bfbefe"
+      sha256: de5ac590b8155e4e676088d714bd41ea620449a6adc0f7950c5073874b287ddb
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.2"
+    version: "4.6.0"
   args:
     dependency: transitive
     description:
@@ -751,10 +751,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_svg
-      sha256: "35882981abcbfb8c15b286f0cd690ff25bac12d95eff3e25ee207f37d4c42e7f"
+      sha256: "100c19dcc4ff60083e95a44a6f44f3a1bb887d353c5d86f6a9b688aa3cb46236"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1009,10 +1009,10 @@ packages:
     dependency: transitive
     description:
       name: lottie
-      sha256: d20f4d75fcab2f27e039c33d6d0ee923a9da3dc8579d59454188a2714a5cce84
+      sha256: "245b0659d48384165b073415ebe14d82b3b2862b90b756cd413e8d058aae3645"
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.0"
+    version: "3.8.1"
   matcher:
     dependency: transitive
     description:
@@ -1725,18 +1725,18 @@ packages:
     dependency: transitive
     description:
       name: webview_all_linux
-      sha256: e85f0b52d34ff0439acdf1f07602b44f58987046d4241aeb217059a68176d95a
+      sha256: be506cbf90a140d54e0ccde4e43d5f0795309242fd85ba3cc7564382087e443c
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.7"
+    version: "1.4.9"
   webview_all_windows:
     dependency: transitive
     description:
       name: webview_all_windows
-      sha256: cd1d7723d6028515427a072bed119513e7fe1b3f69b70339cf04c11b4add15b9
+      sha256: "5bd9013eb33a711cbdeffe95faa42619c63f187519dec93cd4c9e6d41dcfd683"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.7"
+    version: "1.4.9"
   webview_flutter:
     dependency: transitive
     description:
@@ -1773,10 +1773,10 @@ packages:
     dependency: transitive
     description:
       name: webview_platform_interface
-      sha256: aa452be6b70044d95597b7e92830fbac7c18c301e3c5eae391496415d0256fd9
+      sha256: "1972aec36e718faa216df014917bf760bf18eb5bad8e73a73833345836da64b6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.7"
+    version: "1.4.9"
   widgetbook:
     dependency: "direct main"
     description:

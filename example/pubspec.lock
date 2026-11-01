@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "0d58d1fa1fddf6588251ccf2819f3fb3b6d0452c1b2813ac7413a05592bfbefe"
+      sha256: de5ac590b8155e4e676088d714bd41ea620449a6adc0f7950c5073874b287ddb
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.2"
+    version: "4.6.0"
   args:
     dependency: transitive
     description:
@@ -205,10 +205,10 @@ packages:
     dependency: transitive
     description:
       name: crypto
-      sha256: c8ea0233063ba03258fbcf2ca4d6dadfefe14f02fab57702265467a19f27fadf
+      sha256: e3626ae6270383c9e3a549f34c9e4cd26c09ae6a9adaab2bf4737a00340efdc4
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.7"
+    version: "3.0.8"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -221,16 +221,16 @@ packages:
     dependency: transitive
     description:
       name: cupertino_ui
-      sha256: a47c4e7c66fd7444a063a602597fceb238f705c3f6b1322bc0053d0a2638ee6e
+      sha256: e003b87afde18cb396ec15928c7894063d64af04462c68df9a1404c461316dd2
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.4"
+    version: "1.1.5"
   dart_falconnect:
     dependency: transitive
     description:
       path: dart_falconnect
       ref: "2.4.0"
-      resolved-ref: "9fe212a209c0f357629ed0ecf46e0bb8959c3f60"
+      resolved-ref: "0ecf69009db6008492ff2e6ea22194e9061b57ab"
       url: "https://github.com/Nextzy/dart-falconx"
     source: git
     version: "2.4.0"
@@ -239,7 +239,7 @@ packages:
     description:
       path: dart_falmodel
       ref: "2.4.0"
-      resolved-ref: "9fe212a209c0f357629ed0ecf46e0bb8959c3f60"
+      resolved-ref: "0ecf69009db6008492ff2e6ea22194e9061b57ab"
       url: "https://github.com/Nextzy/dart-falconx"
     source: git
     version: "2.4.0"
@@ -248,7 +248,7 @@ packages:
     description:
       path: dart_faltool
       ref: "2.4.0"
-      resolved-ref: "9fe212a209c0f357629ed0ecf46e0bb8959c3f60"
+      resolved-ref: "0ecf69009db6008492ff2e6ea22194e9061b57ab"
       url: "https://github.com/Nextzy/dart-falconx"
     source: git
     version: "2.4.0"
@@ -333,7 +333,7 @@ packages:
     source: hosted
     version: "2.2.1"
   equatable:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: equatable
       sha256: ea36e500cbf0ec18361deabca755434f73e42fe53c5130021c7e2d6b5ebe1702
@@ -427,7 +427,7 @@ packages:
     description:
       path: flutter_falconnect
       ref: "4.1.0"
-      resolved-ref: a19ff45e4019b89247c4dc5e27e6b0343a819821
+      resolved-ref: "325a4e5ad92c0cbfaf98d0f1e08e8ee9ca5b8f09"
       url: "https://github.com/Nextzy/flutter-falconx"
     source: git
     version: "4.1.0"
@@ -436,7 +436,7 @@ packages:
     description:
       path: flutter_falconx
       ref: "4.1.0"
-      resolved-ref: a19ff45e4019b89247c4dc5e27e6b0343a819821
+      resolved-ref: "325a4e5ad92c0cbfaf98d0f1e08e8ee9ca5b8f09"
       url: "https://github.com/Nextzy/flutter-falconx"
     source: git
     version: "4.1.0"
@@ -445,7 +445,7 @@ packages:
     description:
       path: flutter_falmodel
       ref: "4.1.0"
-      resolved-ref: a19ff45e4019b89247c4dc5e27e6b0343a819821
+      resolved-ref: "325a4e5ad92c0cbfaf98d0f1e08e8ee9ca5b8f09"
       url: "https://github.com/Nextzy/flutter-falconx"
     source: git
     version: "4.1.0"
@@ -454,7 +454,7 @@ packages:
     description:
       path: flutter_falstore
       ref: "4.1.0"
-      resolved-ref: a19ff45e4019b89247c4dc5e27e6b0343a819821
+      resolved-ref: "325a4e5ad92c0cbfaf98d0f1e08e8ee9ca5b8f09"
       url: "https://github.com/Nextzy/flutter-falconx"
     source: git
     version: "4.1.0"
@@ -463,7 +463,7 @@ packages:
     description:
       path: flutter_faltool
       ref: "4.1.0"
-      resolved-ref: a19ff45e4019b89247c4dc5e27e6b0343a819821
+      resolved-ref: "325a4e5ad92c0cbfaf98d0f1e08e8ee9ca5b8f09"
       url: "https://github.com/Nextzy/flutter-falconx"
     source: git
     version: "4.1.0"
@@ -676,10 +676,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_svg
-      sha256: "35882981abcbfb8c15b286f0cd690ff25bac12d95eff3e25ee207f37d4c42e7f"
+      sha256: "100c19dcc4ff60083e95a44a6f44f3a1bb887d353c5d86f6a9b688aa3cb46236"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -731,10 +731,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "07089be6dc124eb9596a51b5e359c657f30a59929287f11b126c2cd13eaaece0"
+      sha256: f1c2d3c2b0b2096b435d7af033dd4e586fa31f51d988c5985e64495cd926d872
       url: "https://pub.dev"
     source: hosted
-    version: "18.1.1"
+    version: "18.1.2"
   google_fonts:
     dependency: transitive
     description:
@@ -816,10 +816,10 @@ packages:
     dependency: transitive
     description:
       name: jni
-      sha256: "6b9ca0602fef0230e83149afbe3f9f8227e94f2bbe84a1da4f14d699742f402d"
+      sha256: d8df6dab6847855512fe44dd9032b0bbe34dda7bf7597e41d30750879779813f
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   jni_flutter:
     dependency: transitive
     description:
@@ -920,10 +920,10 @@ packages:
     dependency: transitive
     description:
       name: lottie
-      sha256: "0bd56a8c5c2944386313588408bf93a379e6fca69f736d585c538e35e72ccd5c"
+      sha256: "245b0659d48384165b073415ebe14d82b3b2862b90b756cd413e8d058aae3645"
       url: "https://pub.dev"
     source: hosted
-    version: "3.6.1"
+    version: "3.8.1"
   matcher:
     dependency: transitive
     description:
@@ -944,10 +944,10 @@ packages:
     dependency: transitive
     description:
       name: material_ui
-      sha256: e4031746f96c8316864d9b92bce375f1320a36ed56e166307e1e1bda9d90b4ab
+      sha256: feb289df1e5f9ed9522f9fe3d909432a7f7bc76943f16abad09f80a16cd25196
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.0"
+    version: "1.9.0"
   measure_size:
     dependency: transitive
     description:
@@ -1152,10 +1152,10 @@ packages:
     dependency: transitive
     description:
       name: posix
-      sha256: bc1bad54ad2b735816e31f8d4600cfde6c7839975085ddfbca48b6c9f7c4044e
+      sha256: "613646d076944f3acc125830af935b48d4b8a57a388691547bbfd25b434f4d63"
       url: "https://pub.dev"
     source: hosted
-    version: "6.5.2"
+    version: "6.5.4"
   process:
     dependency: transitive
     description:
@@ -1264,18 +1264,18 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: "593034a16e82953ca31145db6c85174286262715f9c5e6a9d8c65ffd9fcdce09"
+      sha256: "33b38b07d9ac7d16aff0426c61418752fd3e7a8c7dc8be786c875d6ce673b002"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.3"
+    version: "2.5.4"
   shared_preferences_foundation:
     dependency: transitive
     description:
       name: shared_preferences_foundation
-      sha256: c2c02dd59bd7b3bb6bfb77aa7ad4a7886b24ee40e95dcaea754b83274b567ff5
+      sha256: "4e396ac6f8751ab7d2d6e27f22f32c8350b07006028d534f5221503382f1fa69"
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.0"
+    version: "2.6.1"
   shared_preferences_linux:
     dependency: transitive
     description:
@@ -1428,10 +1428,10 @@ packages:
     dependency: transitive
     description:
       name: toastification
-      sha256: cb37a5714144a992cdf0e21054a4569239b277846c678d77acc2e4d8e0807fcd
+      sha256: e06b82a66dffb866af2923cc04012f52ae96ec50ab9215efa07be8d6ec6486fb
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "3.2.2"
   typed_data:
     dependency: transitive
     description:
@@ -1492,10 +1492,10 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "0964703d02677ac8636b4aef95de0b7e816224ff0082908c2c950529cb9a2f5e"
+      sha256: "4e5f106dfc6f0e4e7efe11603e38c34352d912905320b930128a9b1ad61363f4"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.4"
+    version: "1.2.5"
   vector_graphics_codec:
     dependency: transitive
     description:
@@ -1508,18 +1508,18 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: a8e2c19796144da2f81bcc96dad1bb19c4677b561c452081b97ee737b9faed65
+      sha256: "4c9d2e7121eea8b4f160e6e435900a0ae7214cfc97c2d6cf84c25532b789b50d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.2"
+    version: "1.3.4"
   vector_math:
     dependency: transitive
     description:
       name: vector_math
-      sha256: "92b9910f66ed1057fd4da7b040ae7c74cafacf885bdc81be496928d5049b032d"
+      sha256: fa49e1674cb84acb900141714e6c6e1f9ae099827c24d141430ff6819db4e1bc
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.3"
+    version: "2.4.4"
   version:
     dependency: transitive
     description:
@@ -1572,18 +1572,18 @@ packages:
     dependency: transitive
     description:
       name: webview_all_linux
-      sha256: c009f3ac350be13923bc918bc8d3ea859265cd94be394f7f0ae35e8e17fcba04
+      sha256: be506cbf90a140d54e0ccde4e43d5f0795309242fd85ba3cc7564382087e443c
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.6"
+    version: "1.4.9"
   webview_all_windows:
     dependency: transitive
     description:
       name: webview_all_windows
-      sha256: "63fce396ab64333ca8c9638784a07a74098e370a01e02329b6de9cc4768c828f"
+      sha256: "5bd9013eb33a711cbdeffe95faa42619c63f187519dec93cd4c9e6d41dcfd683"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.6"
+    version: "1.4.9"
   webview_flutter:
     dependency: transitive
     description:
@@ -1620,10 +1620,10 @@ packages:
     dependency: transitive
     description:
       name: webview_platform_interface
-      sha256: "56f7c12d241023795a3d9308334229bef5690db9968a25fb5dd941b0165c2eab"
+      sha256: "1972aec36e718faa216df014917bf760bf18eb5bad8e73a73833345836da64b6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.6"
+    version: "1.4.9"
   win32:
     dependency: transitive
     description:

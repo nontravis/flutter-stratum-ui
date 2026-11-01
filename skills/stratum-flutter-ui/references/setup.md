@@ -2,21 +2,10 @@
 
 ## Install
 
-- Stratum's notices wrap `toastification`, which pins `equatable ^2.0.5`, while Stratum's own `flutter_falconx`
-  needs `equatable ^3.0.0`. pub reads overrides only in the app, so add these two lines to the app's `pubspec.yaml`
-  when you add stratum_ui, and run `flutter pub get`:
-
-  ```yaml
-  dependency_overrides:
-    equatable: ^3.0.0
-  ```
-
-  Remove them once stratum_ui's own `pubspec.yaml` no longer carries the override.
-
-- Before adding the override, check what else in the app graph reads `equatable`: run `flutter pub deps --style=list` and
-  look for other `equatable` dependents. The override silences every package's `equatable` constraint, and `equatable`
-  3.0.0 is breaking (removed `EquatableMixin`, changed `toString`, dropped the `runtimeType` comparison of props), so a
-  dependency still on `^2.x` runs on 3.0.0 untested. Run the app's tests after adding it.
+- Add stratum_ui to the app's `pubspec.yaml` and run `flutter pub get`; it needs no `dependency_overrides`.
+- An app that carries `dependency_overrides: equatable: ^3.0.0` for stratum_ui alone drops those two lines: Stratum's
+  `toastification ^3.2.2` accepts `equatable` 3. Keep them only when another package in the app graph still pins
+  `equatable ^2.x` (`flutter pub deps --style=list` lists its dependents).
 
 ## App assembly
 

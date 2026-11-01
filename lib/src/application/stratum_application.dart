@@ -7,9 +7,6 @@ import 'package:stratum_ui/src/src.dart';
 /// the notice host, and [webZoom], around the app widget [appBuilder]
 /// returns (themes s03 INV-34).
 ///
-/// - Add the two `## Install` override lines to the app's `pubspec.yaml`
-///   (`dependency_overrides: equatable: ^3.0.0`) per US-13 FR-01's last
-///   sentence.
 /// - Mount ONE per process with [notices] true, since toastification under
 ///   the notice host is process-wide (CO-05-07); every other view's
 ///   wrapper passes `notices: false`.

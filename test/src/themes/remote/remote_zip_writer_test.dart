@@ -70,7 +70,7 @@ void main() {
 
       expect([for (final file in zip.files) file.name], _sorted);
       for (final file in zip.files) {
-        expect(file.lastModTime, 0x00210000, reason: file.name);
+        expect(file.lastModDosTime, 0x00210000, reason: file.name);
       }
     });
 
