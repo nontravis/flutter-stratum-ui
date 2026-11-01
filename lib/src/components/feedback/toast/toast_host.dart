@@ -377,7 +377,7 @@ class StratumToastHostState extends State<StratumToastHost> {
       // alignment, each holding its overlay entry and the running close
       // timers, so they outlive any host and fail the test teardown; remove
       // when a toastification release owns its managers' lifecycle.
-      // ignore: invalid_use_of_visible_for_testing_member, reads the process-wide managers of toastification 3.2.0
+      // ignore: invalid_use_of_visible_for_testing_member, reads toastification's process-wide managers
       for (final manager in toastification.managers.values) {
         // ignore: invalid_use_of_visible_for_testing_member, see above.
         for (final item in manager.notifications) {
@@ -434,7 +434,7 @@ class StratumToastHostState extends State<StratumToastHost> {
   // alignment, so an item shown this frame needs its own manager after
   // the add; remove when toastification adds items synchronously.
   void _dismissWhereverAdded(ToastificationItem item, {required bool animate}) {
-    // ignore: invalid_use_of_visible_for_testing_member, reads the process-wide managers of toastification 3.2.0
+    // ignore: invalid_use_of_visible_for_testing_member, reads toastification's process-wide managers
     final manager = toastification.managers[item.alignment];
     if (manager == null) return;
     // ignore: invalid_use_of_visible_for_testing_member, see above.
@@ -690,7 +690,7 @@ class StratumToastHostState extends State<StratumToastHost> {
   void _retireManagerOf(ToastificationItem item) {
     final alignment = item.alignment;
     if (_open.keys.any((open) => open.alignment == alignment)) return;
-    // ignore: invalid_use_of_visible_for_testing_member, reads the process-wide managers of toastification 3.2.0
+    // ignore: invalid_use_of_visible_for_testing_member, reads toastification's process-wide managers
     final manager = toastification.managers[alignment];
     // ignore: invalid_use_of_visible_for_testing_member, see above.
     if (manager == null || manager.notifications.isNotEmpty) return;
