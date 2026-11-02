@@ -19,7 +19,7 @@ NativeSenderChannel? debugNativeSenderChannel;
 
 /// Carries page-to-app bridge messages on Android, iOS, and macOS through
 /// the package's own native code, which names each message's sender
-/// (US-03 FR-01, `s01_architecture.md` Native sender channel).
+/// (US-03 FR-01, `ARCHITECTURE.md` Native sender channel).
 abstract interface class NativeSenderChannel {
   /// The channel new adapters use: [debugNativeSenderChannel] when a test
   /// set one, else the channel backed by the package's Kotlin and Swift

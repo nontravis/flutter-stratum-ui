@@ -1,11 +1,10 @@
 // Proves, in code, on every target, the reorder live-region leaf queued
 // from the reorder a11y gate round (master 69019c8; INV-60 and INV-58 of
-// docs/specs/stratum_ui/components/common/layout/reorderable_list_view_layout/
-// s03_domain.md):
+// docs/specs/foundation/f06_layout_primitives/DOMAIN.md):
 //
 // - a screen-reader move announces within the leaf's 4 s hold
 //   (`_liveHold`), gone right after (INV-60; FR-06 E06:
-//   `functional_requirements/fr06_screen_reader_hears_size_and_moves.md:37`);
+//   `us11_reorder_list_items/fr06_screen_reader_hears_size_and_moves.md:44`);
 // - the leaf sits beside the scroll view's own item-count node, which still
 //   reports the right count while the leaf shows (INV-58;
 //   `_ReorderScrollView.semanticChildCount`,

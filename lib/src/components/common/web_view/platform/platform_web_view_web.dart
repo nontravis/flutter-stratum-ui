@@ -319,7 +319,7 @@ final class WebPlatformStratumWebView implements PlatformStratumWebView {
     // reads the nonce off `frameElement.srcdoc` can still win a real
     // handshake by navigating this frame to a page of its own, which posts
     // it for real; the web row of `## Platform limits` in
-    // s01_architecture.md covers that co-tenancy case, not this guard.
+    // ARCHITECTURE.md covers that co-tenancy case, not this guard.
     if (!event.isTrusted) return;
     final frameWindow = _iframe.contentWindow;
     if (frameWindow == null) return;

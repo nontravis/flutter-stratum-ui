@@ -154,7 +154,7 @@ class _StratumCaretState extends State<StratumCaret> {
   /// Runs in `build`, which sees a new `direction` and a new
   /// [Directionality] of one frame together. A new direction turns the
   /// shorter way, and a half turn the way opposite to the last half turn,
-  /// the first one clockwise (spec `s03_domain.md` INV-7 and INV-8).
+  /// the first one clockwise (spec `DOMAIN.md` INV-7 and INV-8).
   /// With the direction unchanged, a text-direction flip moves a `start`
   /// or `end` glyph at once (INV-10), and any other rebuild changes
   /// nothing.
@@ -301,7 +301,7 @@ class _StratumCaretState extends State<StratumCaret> {
 }
 
 /// Quarter turns clockwise from pointing down that point [direction]
-/// under [textDirection] (spec `s03_domain.md` INV-7).
+/// under [textDirection] (spec `DOMAIN.md` INV-7).
 int _quarterTurnsOf(
   StratumCaretDirection direction,
   TextDirection textDirection,

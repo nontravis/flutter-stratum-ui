@@ -13,7 +13,7 @@ import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:path/path.dart' as p;
 
 /// The window-size policy checker over the resolved AST (FO-08 US-08 FR-01,
-/// FR-02; base `s03_domain.md` INV-22, INV-23).
+/// FR-02; base `DOMAIN.md` INV-22, INV-23).
 ///
 /// Every Dart file under `root` is resolved by `package:analyzer`, with
 /// overlays standing in for files that exist only in memory. A rule hit is

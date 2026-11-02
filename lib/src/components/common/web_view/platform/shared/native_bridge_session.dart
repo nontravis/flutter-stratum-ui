@@ -53,7 +53,7 @@ Future<Object?> dispatchScriptAnswer(Future<Object> evaluation) async {
 const int _secretLength = 32;
 
 /// Resource error codes that report a navigation a newer one replaced, per
-/// platform (`s03_domain.md` INV-10): `NSURLErrorCancelled` on WebKit,
+/// platform (`DOMAIN.md` INV-10): `NSURLErrorCancelled` on WebKit,
 /// and the index of `WebErrorStatusOperationCanceled`, which
 /// `webview_all_windows` reports with type `unknown`, on WebView2. Linux
 /// emits no cancelled load, and Android has no cancel code.
@@ -143,7 +143,7 @@ final class NativeBridgeSession {
   /// one's load is `_loads + 1`.
   int _loads = 0;
 
-  /// The native HTML proof (US-03 FR-04, `s03_domain.md` `## Lifecycle`).
+  /// The native HTML proof (US-03 FR-04, `DOMAIN.md` `## Lifecycle`).
   /// Only [willLoadHtml], [willLoadUrl], [willDispose], and a `hello` or
   /// `bye` envelope move it, never a page start.
   _Proof _proof = const _NoNonce();
@@ -586,7 +586,7 @@ final class NativeBridgeSession {
   }
 }
 
-/// Where the native HTML proof stands (`s03_domain.md` `## Lifecycle`).
+/// Where the native HTML proof stands (`DOMAIN.md` `## Lifecycle`).
 sealed class _Proof {
   const new();
 }

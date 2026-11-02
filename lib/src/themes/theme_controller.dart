@@ -453,7 +453,7 @@ class StratumThemeController extends ChangeNotifier {
   /// The package's embedded default theme read alone, with neither the
   /// app's `default` nor a start theme over it: the theme of the splash
   /// screen's frames after a theme-phase failure (FO-03 US-12 FR-07 E01;
-  /// themes `s03_domain.md` INV-29). [bundle] defaults to
+  /// FO-03 `DOMAIN.md` INV-29). [bundle] defaults to
   /// [rootBundle]. Registers no font file and waits for no Google font.
   @internal
   static Future<StratumThemeSet> packageDefaultThemes({

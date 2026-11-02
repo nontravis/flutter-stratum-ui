@@ -136,7 +136,7 @@ void main() {
   //   takes no instance-level style override."
   //
   // `us13/s7` (splash in front) is out of scope for this task: `splash`
-  // stays `planned` (themes `s01_architecture.md:183`); M5-T31 defers it.
+  // stays `planned` (FO-03 `ARCHITECTURE.md:44`); M5-T31 defers it.
 
   testWidgets(
     'fo03/us13/s1: fo03/us13/fr02: the app builds its MaterialApp from '
