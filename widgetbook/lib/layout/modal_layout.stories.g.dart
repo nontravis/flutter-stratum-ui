@@ -20,18 +20,19 @@ final ModalLayoutComponent = Component<ModalLayout, StoryArgs<ModalLayout>>(
   name: componentMeta.name ?? 'ModalLayout',
   path: componentMeta.path ?? 'layout',
   docsBuilder: componentMeta.docsBuilder,
-  docComment: r'''The slot widget of a sheet or a modal (US-20 FR-01): an optional [top],
-an optional [tab], and a required [body], in that order, on a surface
+  docComment: r'''The slot widget of a sheet or a modal (FO-06-04 US-03 FR-01): an optional
+[top], an optional [tab], and a required [body], in that order, on a surface
 drawn from theme tokens.
 
 A bottom sheet shows a drag handle above the slots, and [showClose]
 shows a close button at the surface's top end corner. Place it inline
 in a page, where it draws no scrim and no route, or show it through
 `showModalLayout`, whose route state it reads where its own fields are
-null. Inline with no [onClose], nothing closes: no close button shows
-and the handle is decoration that screen readers and Tab skip (US-20
-FR-01 E06). With a bounded height the [body] takes the height left under the
-other slots and, unless [scrollBody] is false, scrolls inside it.
+null. Inline with no [onClose], nothing closes: no close button shows and
+the handle is decoration that screen readers and Tab skip
+(FO-06-04 US-03 FR-01 E06). With a bounded height the [body] takes the
+height left under the other slots and, unless [scrollBody] is false, scrolls
+inside it.
 
 Each part's style layers the theme defaults, then the app-wide
 [ModalLayoutStyle] the application registers for [ModalLayout], then
@@ -41,7 +42,7 @@ Tab visits [top], [tab], and [body], then the handle and the close
 button, whatever their place on screen (NFR-U02).
 
 The surface declares the solid color it paints wherever it covers a
-system bar's point (US-20 FR-06 E08).''',
+system bar's point (FO-06-04 US-03 FR-06 E08).''',
   stories: [
     $Playground..$generatedName = 'Playground',
     $RecipeFormRow..$generatedName = 'RecipeFormRow',

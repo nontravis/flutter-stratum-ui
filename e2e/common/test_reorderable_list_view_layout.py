@@ -1,6 +1,6 @@
 """Reorder list: the screen reader takes Alt+Up (TalkBack), offers valid moves, moves and speaks.
 
-Drives the `common/reorderable_list_view_layout` fixture (FO-06 US-11; US-04 FR-02 E11: each
+Drives the `common/reorderable_list_view_layout` fixture (FO-06-03 US-05; FO-06-02 US-01 FR-02 E11: each
 row, the disabled one too, is one stop that reads its role, state, moves and tap). TalkBack's actions
 for the focused item open through its own keyboard shortcuts on the uhid keyboard, measured
 on the e2e AVD (TalkBack 15): Alt+Space opens the TalkBack menu, Alt+Enter on its `Actions`
@@ -464,7 +464,7 @@ def _close_actions(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us11/fr02/e10")
+@pytest.mark.req("fo06_03/us05/fr02/e10")
 def test_talkback_takes_alt_up_before_the_app(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -488,7 +488,7 @@ def test_talkback_takes_alt_up_before_the_app(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us11/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
 def test_talkback_offers_only_valid_moves(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -509,8 +509,8 @@ def test_talkback_offers_only_valid_moves(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us11/fr03/e03")
-@pytest.mark.req("fo06/us11/fr06/e01")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr06/e01")
 def test_talkback_move_up_moves_item_and_speaks_position(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -536,7 +536,7 @@ def test_talkback_move_up_moves_item_and_speaks_position(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us04/fr02/e11")
+@pytest.mark.req("fo06_02/us01/fr02/e11")
 def test_talkback_reads_a_root_row_with_its_role_moves_and_tap_at_one_stop(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -567,7 +567,7 @@ def test_talkback_reads_a_root_row_with_its_role_moves_and_tap_at_one_stop(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us04/fr02/e11")
+@pytest.mark.req("fo06_02/us01/fr02/e11")
 def test_talkback_reads_the_disabled_root_row_with_its_moves_and_no_tap(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -597,7 +597,7 @@ def test_talkback_reads_the_disabled_root_row_with_its_moves_and_no_tap(
 
 @pytest.mark.android
 @pytest.mark.level1
-@pytest.mark.req("fo06/us11/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
 def test_os_tree_exposes_items_and_disabled_item_6(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -615,7 +615,7 @@ def test_os_tree_exposes_items_and_disabled_item_6(
 
 @pytest.mark.ios
 @pytest.mark.level1
-@pytest.mark.req("fo06/us11/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
 def test_ios_tree_exposes_items_and_disabled_item_6(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -631,8 +631,8 @@ def test_ios_tree_exposes_items_and_disabled_item_6(
 
 @pytest.mark.ios
 @pytest.mark.level2
-@pytest.mark.req("fo06/us11/fr03/e03")
-@pytest.mark.req("fo06/us04/fr02/e11")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
+@pytest.mark.req("fo06_02/us01/fr02/e11")
 def test_voiceover_reads_each_item_at_one_stop(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -646,7 +646,7 @@ def test_voiceover_reads_each_item_at_one_stop(
 
 @pytest.mark.macos
 @pytest.mark.level1
-@pytest.mark.req("fo06/us11/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
 def test_macos_tree_exposes_the_six_items_as_buttons(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -664,7 +664,7 @@ def test_macos_tree_exposes_the_six_items_as_buttons(
 # (flutter#190353, in 3.48.0-0.1.pre); strict=True fails the run once the fix lands.
 @pytest.mark.macos
 @pytest.mark.level1
-@pytest.mark.req("fo06/us11/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
 @pytest.mark.xfail(
     strict=True,
     reason="Flutter desktop < 3.48 maps no disabled state to the AX node (flutter#190353)",
@@ -681,7 +681,7 @@ def test_macos_tree_exposes_item_6_as_disabled(
 
 @pytest.mark.web
 @pytest.mark.level1
-@pytest.mark.req("fo06/us11/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
 def test_web_snapshot_exposes_items_and_disabled_item_6(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -696,7 +696,7 @@ def test_web_snapshot_exposes_items_and_disabled_item_6(
 @pytest.mark.macos
 @pytest.mark.level2
 @pytest.mark.level2_host
-@pytest.mark.req("fo06/us11/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
 def test_host_voiceover_reads_the_items_and_their_moves_on_macos(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -727,7 +727,7 @@ def test_host_voiceover_reads_the_items_and_their_moves_on_macos(
 @pytest.mark.web
 @pytest.mark.level2
 @pytest.mark.level2_host
-@pytest.mark.req("fo06/us11/fr03/e03")
+@pytest.mark.req("fo06_03/us05/fr03/e03")
 def test_host_voiceover_reads_the_items_and_their_moves_on_web(
     static_server: StaticServer, browser_name: str
 ) -> None:

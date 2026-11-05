@@ -29,7 +29,7 @@ mixin _$Scroll {
  ScrollPhysics? get physics;/// Null keeps the scroll behavior's choice: a scrollbar on desktop.
  bool? get showScrollbar; ScrollViewKeyboardDismissBehavior? get keyboardDismissBehavior; String? get restorationId;/// A scrolling box's focus ring style, level 3, beside the box layout's
 /// `style`, which draws the box; the box hands it to its `ScrollFocus`
-/// as `customStyle` (FO-06 US-07 FR-03).
+/// as `customStyle` (FO-06-03 US-03 FR-03).
  ScrollFocusStyle? get scrollFocusStyle;
 /// Create a copy of Scroll
 /// with the given fields replaced by the non-null parameter values.
@@ -145,7 +145,7 @@ class _Scroll implements Scroll {
 @override final  String? restorationId;
 /// A scrolling box's focus ring style, level 3, beside the box layout's
 /// `style`, which draws the box; the box hands it to its `ScrollFocus`
-/// as `customStyle` (FO-06 US-07 FR-03).
+/// as `customStyle` (FO-06-03 US-03 FR-03).
 @override final  ScrollFocusStyle? scrollFocusStyle;
 
 /// Create a copy of Scroll

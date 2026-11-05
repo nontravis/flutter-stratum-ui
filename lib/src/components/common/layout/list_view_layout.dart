@@ -86,7 +86,7 @@ class ListViewLayout extends StatelessWidget {
   /// Names the focusable list for a screen reader.
   final String? semanticsLabel;
 
-  /// The view's focus ring style, level 3 (FO-06 US-07 FR-03), beside
+  /// The view's focus ring style, level 3 (FO-06-03 US-03 FR-03), beside
   /// `style`, which draws the box.
   final ScrollFocusStyle? scrollFocusStyle;
 

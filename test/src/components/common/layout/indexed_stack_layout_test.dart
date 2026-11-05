@@ -113,7 +113,7 @@ Future<void> _switchIntoList(
 
 void main() {
   group('IndexedStackLayout', () {
-    testWidgets('fo06/us09/fr01: shows the child at index', (tester) async {
+    testWidgets('fo06_01/us03/fr01: shows the child at index', (tester) async {
       await tester.pumpWidget(
         _host(
           const IndexedStackLayout(
@@ -230,35 +230,32 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets(
-      'fo06/us09/fr02, fo06/us09/s1: focus inside the outgoing child moves '
-      "to the incoming child's first node",
-      (tester) async {
-        final outgoing = _node('outgoing');
-        final first = _node('incoming first');
-        final second = _node('incoming second');
-        Widget build(int index) => _host(
-          IndexedStackLayout(
-            index: index,
-            children: [
-              _focusable(outgoing),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [_focusable(first), _focusable(second)],
-              ),
-            ],
-          ),
-        );
-        await tester.pumpWidget(build(0));
-        outgoing.requestFocus();
-        await tester.pump();
+    testWidgets('fo06_01/us03/fr02, fo06_01/us03/s1: focus inside the outgoing child moves '
+        "to the incoming child's first node", (tester) async {
+      final outgoing = _node('outgoing');
+      final first = _node('incoming first');
+      final second = _node('incoming second');
+      Widget build(int index) => _host(
+        IndexedStackLayout(
+          index: index,
+          children: [
+            _focusable(outgoing),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [_focusable(first), _focusable(second)],
+            ),
+          ],
+        ),
+      );
+      await tester.pumpWidget(build(0));
+      outgoing.requestFocus();
+      await tester.pump();
 
-        await tester.pumpWidget(build(1));
-        await tester.pump();
+      await tester.pumpWidget(build(1));
+      await tester.pump();
 
-        expect(_focused(), 'incoming first');
-      },
-    );
+      expect(_focused(), 'incoming first');
+    });
 
     testWidgets("focus moves to the Tab stop of the incoming child's scrolled "
         'focusable list, on screen', (tester) async {

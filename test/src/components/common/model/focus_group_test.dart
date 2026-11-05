@@ -20,7 +20,7 @@ void main() {
       expect(copy.role, SemanticsRole.list);
     });
 
-    test('fo06/us06/fr01: loop defaults to false and role to none', () {
+    test('fo06_02/us03/fr01: loop defaults to false and role to none', () {
       const value = FocusGroup();
 
       expect(value.loop, isFalse);

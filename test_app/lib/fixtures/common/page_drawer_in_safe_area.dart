@@ -1,7 +1,7 @@
 import 'package:stratum_ui/stratum_ui.dart';
 
 /// Drawer fixture for a `PageLayout` whose box is smaller than the screen
-/// (FO-06 US-19 FR-04).
+/// (FO-06-04 US-02 FR-04).
 ///
 /// Registered with `edgeToEdge: false`, so the host `SafeArea` stays above
 /// the page and narrows its box by the system-bar insets. The box node reads

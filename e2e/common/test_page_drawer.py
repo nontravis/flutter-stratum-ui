@@ -1,6 +1,6 @@
 """An open drawer reads alone: its own named screen, its scrim as a dismiss control, no page.
 
-Drives the `common/page_drawer` fixture (FO-06 US-19 FR-05; design section 10, US-13 scenario 3).
+Drives the `common/page_drawer` fixture (FO-06-04 US-02 FR-05; design section 10, US-13 scenario 3).
 `PageLayout` shows `left` as a drawer on every window. The page behind it holds `Page body`,
 `Open drawer`, and `Open drawer when VoiceOver is on`. The drawer reads `Navigation menu`, holds
 `Drawer link A` and `Drawer link B`, and its scrim reads `Dismiss`. A screen reader reads those and
@@ -95,7 +95,7 @@ def _mentions_any(utterance: str, words: set[str]) -> bool:
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us19/fr05")
+@pytest.mark.req("fo06_04/us02/fr05")
 def test_talkback_reads_the_drawer_and_its_scrim_and_never_the_page(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -151,7 +151,7 @@ def test_talkback_reads_the_drawer_and_its_scrim_and_never_the_page(
 
 @pytest.mark.ios
 @pytest.mark.level2
-@pytest.mark.req("fo06/us19/fr05")
+@pytest.mark.req("fo06_04/us02/fr05")
 def test_voiceover_reads_the_drawer_and_its_scrim_and_never_the_page(
     driver: Any, platform: str, app_id: str
 ) -> None:

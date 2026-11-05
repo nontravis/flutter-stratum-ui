@@ -69,8 +69,8 @@ class _FocusBuilderState extends State<FocusBuilder> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // A disabled flip reads the new value and calls no listener (US-16
-    // FR-05 E03).
+    // A disabled flip reads the new value and calls no listener
+    // (FO-06-02 US-04 FR-05 E03).
     _disabled = StratumDisabledScope.of(context);
     _focused = _node.hasFocus && !_disabled;
   }
@@ -101,7 +101,7 @@ class _FocusBuilderState extends State<FocusBuilder> {
     // Always built as the same widget type, so toggling [semantics] null
     // <-> a value keeps the wrapped subtree mounted instead of remounting
     // it (Minor 2); `container: false` with no properties set still adds
-    // no semantics node (US-16 FR-04 E02 stays green).
+    // no semantics node (FO-06-02 US-04 FR-04 E02 stays green).
     return Semantics.fromProperties(
       container: semantics != null,
       properties: semantics ?? const SemanticsProperties(),

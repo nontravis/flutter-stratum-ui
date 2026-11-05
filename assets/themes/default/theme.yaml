@@ -715,7 +715,7 @@ animation:
 
 opacity:
   disabled: 0.5              # a disabled component's opacity, from 0 to 1 (FO-08 US-07)
-  scrim: 0.5                 # a modal layout's background scrim, from 0 to 1 (FO-06 US-20)
+  scrim: 0.5                 # a modal layout's background scrim, from 0 to 1 (FO-06-04 US-03)
 
 border:                      # border widths in logical pixels, the Figma Border collection
   sm: 0.5
@@ -772,7 +772,7 @@ system:                      # the look of the status bar and the navigation bar
   highContrastLight: {}      # partial overlays on light and dark, as in color
   highContrastDark: {}
 
-focus:                       # the focus ring's level 0 (FO-06 US-04 FR-03), the Figma FocusBorder look
+focus:                       # the focus ring's level 0 (FO-06-02 US-01 FR-03), the Figma FocusBorder look
   light:
     outside:                 # every interaction the user does not type into
       color: "{color.light.border.subtle.blue}"

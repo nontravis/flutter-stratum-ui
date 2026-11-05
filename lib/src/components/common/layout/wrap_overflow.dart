@@ -22,7 +22,7 @@ import 'package:stratum_ui/src/components/common/layout/focus_group.dart';
 import 'package:stratum_ui/src/components/common/layout/wrap_cut.dart';
 import 'package:stratum_ui/src/src.dart';
 
-/// The content of a [WrapLayout] in overflow mode (s03 INV-36 to INV-38):
+/// The content of a [WrapLayout] in overflow mode (FO-06-01 INV-36 to INV-38):
 /// [Wrap]'s run rules, cut by [maxRuns] and [maxChildren] at the
 /// limit that hides more, and the overflow child of [overflowBuilder],
 /// built during layout from the exact hidden count.
@@ -86,7 +86,7 @@ class WrapOverflowFrame extends StatefulWidget {
 class _WrapOverflowFrameState extends State<WrapOverflowFrame>
     with SingleTickerProviderStateMixin {
   /// Takes focus when no node can after a collapse hides the focused child
-  /// (US-14 FR-03 E06) or an expand removes the focused overflow child
+  /// (FO-06-01 US-05 FR-03 E06) or an expand removes the focused overflow child
   /// (owner ruling R5); skipped by Tab, so the next Tab moves on from the
   /// wrap's place.
   final _wrapNode = FocusNode(debugLabel: 'WrapLayout', skipTraversal: true);
@@ -554,13 +554,13 @@ class _WrapOverflowElement extends RenderObjectElement {
 
   /// Shows the first [shown] children and hides the rest, inside the
   /// render object's layout, so a child the cut hides stops ticking and
-  /// leaves focus in the frame of the cut (s03 INV-39), which
+  /// leaves focus in the frame of the cut (FO-06-01 INV-39), which
   /// [handOffFocus] then hands on. The one place a built child's flag
   /// flips.
   ///
   /// Returns the index of the first child it hid that was shown, so
-  /// measured shown before this cut (US-14 FR-01 E08); null when it hid
-  /// none.
+  /// measured shown before this cut (FO-06-01 US-05 FR-01 E08); null when
+  /// it hid none.
   int? applyCut(int shown) {
     _shown = shown;
     int? hid;
@@ -581,9 +581,9 @@ class _WrapOverflowElement extends RenderObjectElement {
     return hid;
   }
 
-  /// Hands focus on after the frame when this layout dropped it (s03
-  /// INV-39); the render object calls it once per layout, after its
-  /// last cut.
+  /// Hands focus on after the frame when this layout dropped it
+  /// (FO-06-01 INV-39); the render object calls it once per layout, after
+  /// its last cut.
   ///
   /// When an update dropped the overflow child's focus, an expand that
   /// showed hidden children hands it to the first of them (owner ruling
@@ -617,7 +617,7 @@ class _WrapOverflowElement extends RenderObjectElement {
   }
 
   /// Focuses the first Tab stop of the overflow child, else of the last
-  /// shown child, else the wrap's own node (US-14 FR-03 E01, E06), as
+  /// shown child, else the wrap's own node (FO-06-01 US-05 FR-03 E01, E06), as
   /// `IndexedStackLayout` hands focus after a switch.
   void _handOff() {
     if (!mounted) return;
@@ -630,9 +630,9 @@ class _WrapOverflowElement extends RenderObjectElement {
   }
 
   /// Focuses the first Tab stop of the child in [slot], the first child an
-  /// expand showed, else the wrap's own node (owner ruling R5), as US-09
-  /// FR-02 hands focus to the incoming child, after the frame whose expand
-  /// dropped the focus of the overflow child.
+  /// expand showed, else the wrap's own node (owner ruling R5), as
+  /// FO-06-01 US-03 FR-02 hands focus to the incoming child, after the frame
+  /// whose expand dropped the focus of the overflow child.
   void _handOffToShown(Element slot) {
     if (!mounted) return;
     final target = slot.mounted ? firstTabStopIn(_nodeOf(slot)) : null;
@@ -726,10 +726,10 @@ class _WrapSlotState extends State<_WrapSlot> {
 }
 
 /// [child] with its tickers stopped and out of focus, an enclosing
-/// [SelectionArea], and Hero flights while [hidden] (US-14 FR-03 E09); the
-/// one wrapper of a [_WrapSlot] and of the probe (owner ruling R8), so
-/// both leave them the same way. Only flags flip, so the child keeps the
-/// same element tree, and its State, whether hidden or shown.
+/// [SelectionArea], and Hero flights while [hidden] (FO-06-01 US-05 FR-03
+/// E09); the one wrapper of a [_WrapSlot] and of the probe (owner ruling
+/// R8), so both leave them the same way. Only flags flip, so the child
+/// keeps the same element tree, and its State, whether hidden or shown.
 Widget _hideable(Widget child, {required bool hidden}) => TickerMode(
   enabled: !hidden,
   child: ExcludeFocus(
@@ -785,8 +785,8 @@ class _WrapOverflowParentData extends ContainerBoxParentData<RenderBox> {
 typedef _Measured = ({List<RenderBox> boxes, List<Size> sizes});
 
 /// What the probe measured of a "+N" child: its size and its baselines,
-/// for the intrinsic sizes and the dry layout and baseline (US-14 FR-02
-/// E07).
+/// for the intrinsic sizes and the dry layout and baseline (FO-06-01 US-05
+/// FR-02 E07).
 typedef _ProbeMeasure = ({Size size, double? alphabetic, double? ideographic});
 
 extension on _ProbeMeasure {
@@ -840,9 +840,9 @@ class _RenderWrapOverflow extends RenderBox
   /// Whether the last [configure] changed `maxRuns` or `maxChildren`.
   bool _limitsChanged = false;
 
-  /// How many children an unsettled cut left shown (US-14 FR-01 E08): a
-  /// child that showing or hiding resizes, and that does not fit shown,
-  /// stays hidden though it fits hidden. Caps every cut under the child
+  /// How many children an unsettled cut left shown (FO-06-01 US-05 FR-01
+  /// E08): a child that showing or hiding resizes, and that does not fit
+  /// shown, stays hidden though it fits hidden. Caps every cut under the child
   /// constraints [_settledConstraints] until the children change in
   /// number, order, key, or type, or the limits or the gaps change
   /// ([configure]); null caps none.
@@ -938,7 +938,7 @@ class _RenderWrapOverflow extends RenderBox
   bool _childrenChanging = false;
 
   /// The "+N" size and baselines the probe measured in the last layout,
-  /// by hidden count and child constraints (US-14 FR-02 E07): the
+  /// by hidden count and child constraints (FO-06-01 US-05 FR-02 E07): the
   /// intrinsic sizes, the dry layout, and the dry baseline read them
   /// ([_dryRuns], [_unboundedOverflow]), since they cannot build the
   /// overflow child; only the last layout's, so it holds one constraints'
@@ -1255,7 +1255,8 @@ class _RenderWrapOverflow extends RenderBox
       measured = now;
       cut = _cutMeasuring(measured.sizes, childConstraints, cap);
       // A child the first cut hid while it measured shown does not fit
-      // shown, though it may fit hidden: it stays hidden (US-14 FR-01 E08).
+      // shown, though it may fit hidden: it stays hidden (FO-06-01 US-05
+      // FR-01 E08).
       final keptHidden = hid != null && cut.shown > hid;
       if (keptHidden) {
         cut = _cutMeasuring(measured.sizes, childConstraints, hid);
@@ -1326,7 +1327,7 @@ class _RenderWrapOverflow extends RenderBox
     return hid;
   }
 
-  /// Caps every later cut under [childConstraints] at [shown] (US-14
+  /// Caps every later cut under [childConstraints] at [shown] (FO-06-01 US-05
   /// FR-01 E08), so a child that showing or hiding resizes stays where
   /// this cut left it, and the layout flips nothing and schedules no
   /// frame; reports the misuse, debug-only, once until the children, the
@@ -1440,7 +1441,7 @@ class _RenderWrapOverflow extends RenderBox
     });
   }
 
-  /// The size to show for the laid-out [target] (s03 INV-40): a
+  /// The size to show for the laid-out [target] (FO-06-01 INV-40): a
   /// `maxRuns` or `maxChildren` change starts a move from the size shown
   /// now to [target] over the theme's default level on its `standard`
   /// curve; under reduced motion, or on any other change, the frame shows
@@ -1504,18 +1505,18 @@ class _RenderWrapOverflow extends RenderBox
   ///
   /// The runs are placed in the target [box]; while the frame shows
   /// another size, [shown], they shift by part of `shown - box` on each
-  /// axis, so no run jumps when a move starts (US-14 FR-04, FR-01 E07),
-  /// and by nothing once it ends:
+  /// axis, so no run jumps when a move starts (FO-06-01 US-05 FR-04, FR-01
+  /// E07), and by nothing once it ends:
   ///
   /// * Along a run, [WrapOverflowFrame.alignment] spreads the free space
   ///   the run has in the shown size, its free space in [box] plus
-  ///   `shown - box`, so the `space*` alignments keep their gaps too (US-14
-  ///   FR-04 E06): a run keeps its own items, so it keeps the place its
-  ///   alignment gives it in the shown size. A run wider than the shown
-  ///   size shifts by the [_leadingShare] of that negative free space for
-  ///   the alignment it takes with no free space ([_withNoFreeSpace]), so
-  ///   its start edge holds for the start and `space*` alignments, the
-  ///   right edge under right-to-left text.
+  ///   `shown - box`, so the `space*` alignments keep their gaps too
+  ///   (FO-06-01 US-05 FR-04 E06): a run keeps its own items, so it keeps
+  ///   the place its alignment gives it in the shown size. A run wider than
+  ///   the shown size shifts by the [_leadingShare] of that negative free
+  ///   space for the alignment it takes with no free space
+  ///   ([_withNoFreeSpace]), so its start edge holds for the start and
+  ///   `space*` alignments, the right edge under right-to-left text.
   /// * Across the runs, by the share of [WrapAlignment.start]: a limit
   ///   change adds or drops runs at the end, so the runs hold their start
   ///   edge, the bottom under [VerticalDirection.up]. The share of
@@ -1603,9 +1604,9 @@ class _RenderWrapOverflow extends RenderBox
   }
 
   /// The runs of the cut over the children's dry [sizes] under
-  /// [childConstraints] (US-14 FR-02 E07), with the [overflow] the probe
-  /// measured for each count the cut tries under those constraints in the
-  /// last layout ([_overflowSizes]); when it measured none for a count,
+  /// [childConstraints] (FO-06-01 US-05 FR-02 E07), with the [overflow] the
+  /// probe measured for each count the cut tries under those constraints in
+  /// the last layout ([_overflowSizes]); when it measured none for a count,
   /// the runs leave the overflow child out, since an intrinsic size query
   /// cannot build it.
   ({List<_Run> runs, _ProbeMeasure? overflow}) _dryRuns(
@@ -1685,7 +1686,7 @@ class _RenderWrapOverflow extends RenderBox
 
   /// The main-axis extent of the "+N" child when [shown] children show:
   /// the one a layout under an unbounded main axis measured, as the
-  /// main-axis intrinsics measure the children unbounded (US-14 FR-02
+  /// main-axis intrinsics measure the children unbounded (FO-06-01 US-05 FR-02
   /// E07); null when no child hides or no layout measured that count.
   double? _unboundedOverflow(int shown) {
     final count = childCount - shown;
@@ -1783,7 +1784,7 @@ class _RenderWrapOverflow extends RenderBox
     return false;
   }
 
-  /// The clip of the content: the animating size while it moves (US-14
+  /// The clip of the content: the animating size while it moves (FO-06-01 US-05
   /// FR-04), with [Clip.hardEdge] when [WrapOverflowFrame.clipBehavior] is
   /// none; else [WrapOverflowFrame.clipBehavior] when the content
   /// overflows, as [Wrap] clips; null paints with no clip.
@@ -1850,7 +1851,7 @@ class _RenderWrapOverflow extends RenderBox
 /// The alignment [alignment] places a run with no free space by: the
 /// `space*` alignments place it from the start, as [_distribute] does
 /// for a free space of 0, so a run wider than the size shown holds its
-/// start edge (US-14 FR-04 E06).
+/// start edge (FO-06-01 US-05 FR-04 E06).
 WrapAlignment _withNoFreeSpace(WrapAlignment alignment) => switch (alignment) {
   WrapAlignment.spaceBetween ||
   WrapAlignment.spaceAround ||

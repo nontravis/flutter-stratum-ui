@@ -1,7 +1,7 @@
 """Edge-strip pixel judge for the e2e suite: does anything paint beside a box?
 
 `PageLayout` in a box smaller than the window must leave the strip outside the box
-untouched when its drawer opens (FO-06 US-19 FR-04, E09). The probe shoots the screen
+untouched when its drawer opens (FO-06-04 US-02 FR-04, E09). The probe shoots the screen
 closed and open and compares the pixels on that strip. Stdlib only, as `system_bars.py`.
 """
 

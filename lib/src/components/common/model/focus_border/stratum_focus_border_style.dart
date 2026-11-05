@@ -4,8 +4,8 @@ import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/stratum_focus_border_style.freezed.dart';
 
-/// Where a `StratumFocusBorder` ring sits, picked by component kind (FO-06
-/// US-04 FR-03).
+/// Where a `StratumFocusBorder` ring sits, picked by component kind
+/// (FO-06-02 US-01 FR-03).
 enum StratumFocusBorderPlacement {
   /// For every interaction the user does not type into: `StratumInkWell`,
   /// `ScrollFocus`, and buttons. By default a 3 px `border.subtle.blue`
@@ -19,8 +19,8 @@ enum StratumFocusBorderPlacement {
 }
 
 /// The look of a `StratumFocusBorder` ring at one of its four levels, low
-/// to high, a higher level winning field by field (FO-06 US-04 FR-03; layout
-/// s03 INV-80): the theme's `focus` group, the app-wide style of every
+/// to high, a higher level winning field by field (FO-06-02 US-01 FR-03;
+/// FO-06 INV-80): the theme's `focus` group, the app-wide style of every
 /// ring, the app-wide style of the ring's host type, and one host instance.
 ///
 /// Every field is optional; a null field takes the next lower level. Every

@@ -60,8 +60,8 @@ final class _EmptyPlatformWebView implements PlatformStratumWebView {
 }
 
 /// The fixtures that keep the host `SafeArea` above their `PageLayout` on
-/// purpose, to prove a drawer stays inside the smaller box (FO-06 US-19 FR-04
-/// E09).
+/// purpose, to prove a drawer stays inside the smaller box (FO-06-04 US-02
+/// FR-04 E09).
 const _keepsHostSafeArea = {'common/page_drawer_in_safe_area'};
 
 void main() {

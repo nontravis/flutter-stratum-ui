@@ -1,13 +1,13 @@
 import 'package:stratum_ui/stratum_ui.dart';
 
-/// The value the modal's first control closes it with (FO-06 US-20 FR-02).
+/// The value the modal's first control closes it with (FO-06-04 US-03 FR-02).
 const _chooseA = 'Choose A';
 
 /// The value the modal's second control closes it with.
 const _chooseB = 'Choose B';
 
 /// Modal fixture for the page-behind block and the result of a
-/// `ModalLayout` shown by `showModalLayout` (FO-06 US-20 FR-02 E03, E04).
+/// `ModalLayout` shown by `showModalLayout` (FO-06-04 US-03 FR-02 E03, E04).
 ///
 /// A page with button `Page control` that counts in text `page taps: <n>`
 /// (id `modal_layout.page_taps`), button `Open modal`, and text `result: none`,

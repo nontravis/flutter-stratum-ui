@@ -42,13 +42,13 @@ Future<void> _pumpDemo(WidgetTester tester) async {
 const _checks = [
   (
     '1. Reorder.',
-    'Stratum UI FO-06 US-04 FR-02 E11; US-11 FR-03 E03; FR-06, Scenarios 16 '
-        'and 17',
+    'Stratum UI FO-06-02 US-01 FR-02 E11; FO-06-03 US-05 FR-03 E03; FR-06, '
+        'Scenarios 16 and 17',
   ),
-  ('2. Modal.', 'Stratum UI FO-06 US-20 FR-02; FR-06 E04'),
-  ('3. Drawer.', 'Stratum UI FO-06 US-19 FR-05'),
-  ('4. Divider.', 'Stratum UI FO-06 US-21 FR-04 E01; Scenario 4'),
-  ('5. Page busy.', 'Stratum UI FO-06 US-18 Scenario 7'),
+  ('2. Modal.', 'Stratum UI FO-06-04 US-03 FR-02; FR-06 E04'),
+  ('3. Drawer.', 'Stratum UI FO-06-04 US-02 FR-05'),
+  ('4. Divider.', 'Stratum UI FO-06-04 US-04 FR-04 E01; Scenario 4'),
+  ('5. Page busy.', 'Stratum UI FO-06-04 US-01 Scenario 7'),
   ('6. Update gate.', 'Stratum UI CO-05-09 US-01 FR-02 E06; US-02 FR-01 E07'),
   ('7. Splash.', 'Stratum UI FO-03 US-12 FR-08'),
 ];

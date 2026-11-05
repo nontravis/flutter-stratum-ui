@@ -9,9 +9,10 @@ import 'package:stratum_ui/src/src.dart';
 /// width, wraps into runs, and scrolls vertically.
 ///
 /// [maxRuns], [maxChildren], and [overflowBuilder] cut the wrap and count
-/// what they hide (US-14). With all three null the wrap builds Flutter's
-/// [Wrap], unchanged; otherwise it lays out by [Wrap]'s run rules and cuts
-/// its children. A limit or [overflowBuilder] cannot go with `scroll`.
+/// what they hide (FO-06-01 US-05). With all three null the wrap builds
+/// Flutter's [Wrap], unchanged; otherwise it lays out by [Wrap]'s run rules
+/// and cuts its children. A limit or [overflowBuilder] cannot go with
+/// `scroll`.
 class WrapLayout extends BoxLayout {
   const new({
     super.key,
@@ -128,7 +129,7 @@ class WrapLayout extends BoxLayout {
   final Widget Function(BuildContext context, int hiddenCount)? overflowBuilder;
   final List<Widget> children;
 
-  /// Overflow mode (s03 INV-36): a limit or [overflowBuilder] set.
+  /// Overflow mode (FO-06-01 INV-36): a limit or [overflowBuilder] set.
   bool get _cuts =>
       overflowBuilder != null || maxRuns != null || maxChildren != null;
 

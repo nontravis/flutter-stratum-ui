@@ -5,7 +5,7 @@ import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/focus_tokens.freezed.dart';
 
-/// The focus ring's level 0 (FO-06 US-04 FR-03): the theme file's `focus`
+/// The focus ring's level 0 (FO-06-02 US-01 FR-03): the theme file's `focus`
 /// set for one theme data's mode, each color from that data's own color
 /// set (themes s03 INV-46). It holds the outside ring's color, width,
 /// and gap and the inside ring's color and its hovered and focused widths,

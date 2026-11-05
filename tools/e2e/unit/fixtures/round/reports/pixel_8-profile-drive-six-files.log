@@ -51,9 +51,9 @@ KV-DIAG build=false ms=14
 I/ImeTracker( 8647): system_server:d7f577c8: onCancelled at PHASE_CLIENT_ON_CONTROLS_CHANGED
 W/RemoteInputConnectionImpl( 8647): requestCursorUpdates on inactive InputConnection
 KV-DIAG inset==0 ms=345
-00:01 +1: common/reorderable_list_view_layout_test.dart s03/inv60 and fo06/us11/fr06/e01: a screen-reader move announces through a 1x1 live-region leaf beside the item-count node
+00:01 +1: common/reorderable_list_view_layout_test.dart fo06_03/inv60 and fo06_03/us05/fr06/e01: a screen-reader move announces through a 1x1 live-region leaf beside the item-count node
 D/ProfileInstaller( 8647): Installing profile for dev.stratum.stratum_ui_test_app
-00:06 +2: common/reorderable_list_view_layout_test.dart fo06/us11/fr01/e14, d5, d16: lifting an item with a running spinner and a focused caret freezes a still raster at the item size and place, with its screen-reader node kept at its slot
+00:06 +2: common/reorderable_list_view_layout_test.dart fo06_03/us05/fr01/e14, d5, d16: lifting an item with a running spinner and a focused caret freezes a still raster at the item size and place, with its screen-reader node kept at its slot
 I/ImeTracker( 8647): dev.stratum.stratum_ui_test_app:7898ed0b: onRequestShow at ORIGIN_CLIENT reason SHOW_SOFT_INPUT fromUser false userId 0 displayId 0
 D/InsetsController( 8647): show(ime())
 D/InsetsController( 8647): Setting requestedVisibleTypes to 511 (was 503)

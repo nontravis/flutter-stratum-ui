@@ -332,8 +332,8 @@ class _ScreenReaderDemoPage extends StatelessWidget {
               'tap; moving "Item 3" down: "Moved to position 4 of 6"; the '
               'move-up key on the first row: "Already at the start of the '
               'list"; activating "Item 2" adds "Item 2 tapped" to the log '
-              '(Stratum UI FO-06 US-04 FR-02 E11; US-11 FR-03 E03; FR-06, '
-              'Scenarios 16 and 17).',
+              '(Stratum UI FO-06-02 US-01 FR-02 E11; FO-06-03 US-05 FR-03 '
+              'E03; FR-06, Scenarios 16 and 17).',
             ),
             ReorderableListViewLayout.builder(
               shrinkWrap: true,
@@ -367,7 +367,7 @@ class _ScreenReaderDemoPage extends StatelessWidget {
               'Expected speech: the built-in dialog or sheet label; the '
               'page behind stays silent; the scrim reads the built-in '
               'dismiss label, none on Windows and Linux; closing returns '
-              'focus to the opener (Stratum UI FO-06 US-20 FR-02; FR-06 '
+              'focus to the opener (Stratum UI FO-06-04 US-03 FR-02; FR-06 '
               'E04).',
             ),
             OutlinedButton(
@@ -393,8 +393,8 @@ class _ScreenReaderDemoPage extends StatelessWidget {
             ),
             const Text(
               'Expected speech: the built-in drawer label; the scrim reads '
-              'dismiss; the page behind stays silent (Stratum UI FO-06 '
-              'US-19 FR-05).',
+              'dismiss; the page behind stays silent (Stratum UI '
+              'FO-06-04 US-02 FR-05).',
             ),
             Builder(
               builder: (context) => IconButton(
@@ -411,7 +411,7 @@ class _ScreenReaderDemoPage extends StatelessWidget {
             const Text(
               'Expected speech: the built-in divider label, "slider", '
               '"30%"; the increase and decrease actions read the new '
-              'percent (Stratum UI FO-06 US-21 FR-04 E01; Scenario 4).',
+              'percent (Stratum UI FO-06-04 US-04 FR-04 E01; Scenario 4).',
             ),
             SizedBox(
               height: 120,
@@ -430,7 +430,7 @@ class _ScreenReaderDemoPage extends StatelessWidget {
             ),
             const Text(
               'Expected speech: busy, with the built-in loading label '
-              '(Stratum UI FO-06 US-18 Scenario 7).',
+              '(Stratum UI FO-06-04 US-01 Scenario 7).',
             ),
             OutlinedButton(
               onPressed: checks.loadPage,

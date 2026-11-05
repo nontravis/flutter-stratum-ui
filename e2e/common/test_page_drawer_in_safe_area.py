@@ -1,6 +1,6 @@
 """An open drawer paints nothing on the strip beside `PageLayout`'s box.
 
-Drives the `common/page_drawer_in_safe_area` fixture (FO-06 US-19 FR-04 E09). `PageLayout` sits
+Drives the `common/page_drawer_in_safe_area` fixture (FO-06-04 US-02 FR-04 E09). `PageLayout` sits
 in a box narrower than the window (the iPhone Duo's side inset). Opening its drawer must leave
 the strip beside the box as the closed screen shows it: no scrim, no dimmed page. The test shoots
 the screen closed and open and compares the pixels on that strip, and on a column just inside the
@@ -69,7 +69,7 @@ def _link_a_on_screen(driver: Any, platform: str) -> bool:
 
 @pytest.mark.ios
 @pytest.mark.level1
-@pytest.mark.req("fo06/us19/fr04/e09")
+@pytest.mark.req("fo06_04/us02/fr04/e09")
 def test_an_open_drawer_paints_nothing_on_the_strip_beside_the_box(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -104,7 +104,7 @@ def test_an_open_drawer_paints_nothing_on_the_strip_beside_the_box(
     painted = changed_points(closed, opened, strip_pts)
     assert not painted, (
         f"scrim or page painted on the strip beside the box at {painted[:REPORTED_POINTS]} "
-        "(FO-06 US-19 FR-04 E09)"
+        "(FO-06-04 US-02 FR-04 E09)"
     )
     assert changed_points(closed, opened, inner_pts), (
         "the dimmed page did not show inside the box; the shot missed the open drawer"

@@ -4,8 +4,8 @@ import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
 import 'package:stratum_ui/src/components/common/model/solid_fill.dart';
 import 'package:stratum_ui/src/src.dart';
 
-/// How a [ModalLayout] sits on the screen (US-20 FR-03), the Figma `type`
-/// values `BOTTOM_SHEET`, `FLOATING`, and `MODAL`.
+/// How a [ModalLayout] sits on the screen (FO-06-04 US-03 FR-03), the Figma
+/// `type` values `BOTTOM_SHEET`, `FLOATING`, and `MODAL`.
 enum ModalLayoutType {
   /// Rises from the bottom edge across the window, with a drag handle.
   bottomSheet,
@@ -18,8 +18,8 @@ enum ModalLayoutType {
   modal,
 }
 
-/// The content width of a [ModalLayout] (US-20 FR-03), the Figma `size`
-/// values `MEDIUM`, `LARGE`, `EXTRA_LARGE`, and `FILL_WIDTH`.
+/// The content width of a [ModalLayout] (FO-06-04 US-03 FR-03), the Figma
+/// `size` values `MEDIUM`, `LARGE`, `EXTRA_LARGE`, and `FILL_WIDTH`.
 ///
 /// Below [WindowSize.tablet] a sheet takes the full window width and
 /// ignores the size.
@@ -39,7 +39,7 @@ enum ModalLayoutSize {
 
 /// The [ModalLayoutType] shown for [type] in a [window]: [type] when set,
 /// else a bottom sheet below [WindowSize.tablet] and a modal at tablet and
-/// above (US-20 FR-03; layout s03 inv. 71).
+/// above (FO-06-04 US-03 FR-03; FO-06-04 INV-71).
 ///
 /// Internal: `layout.dart` hides it; `showModalLayout` imports this file.
 ModalLayoutType resolveModalLayoutType(
@@ -55,7 +55,7 @@ const Responsive<ModalLayoutType> _defaultModalType = Responsive(
 );
 
 /// The content width of a modal layout of [type] and [size] in a window
-/// [windowWidth] wide (US-20 FR-03; layout s03 inv. 71).
+/// [windowWidth] wide (FO-06-04 US-03 FR-03; FO-06-04 INV-71).
 ///
 /// Below [WindowSize.tablet] a bottom sheet takes [windowWidth] and a
 /// floating sheet [windowWidth] less its 8 px edge margin on each side,
@@ -93,11 +93,12 @@ double modalContentWidth({
 /// size: true below tablet, false from tablet up.
 const Responsive<bool> _sheetSpansWindow = Responsive(true, tablet: false);
 
-/// The floating sheet's edge margin (US-20 FR-04).
+/// The floating sheet's edge margin (FO-06-04 US-03 FR-04).
 const double _floatingMargin = 8;
 
 /// The corners of a modal layout of [type], concentric with the [screen]
-/// corners where it sits on or near them (US-20 FR-04; layout s03 inv. 70).
+/// corners where it sits on or near them (FO-06-04 US-03 FR-04;
+/// FO-06-04 INV-70).
 ///
 /// A bottom sheet's top corners take [sheetTop], or at [fullHeight] the
 /// screen radius, else [sheetTop]; its bottom corners take the screen
@@ -134,9 +135,9 @@ BorderRadius modalCorners({
   };
 }
 
-/// The state a modal route hands the [ModalLayout] it shows (US-20 FR-02
-/// to FR-06): a [ModalLayout] reads each value where its own field is
-/// null.
+/// The state a modal route hands the [ModalLayout] it shows
+/// (FO-06-04 US-03 FR-02 to FR-06): a [ModalLayout] reads each value where its
+/// own field is null.
 ///
 /// Internal: `layout.dart` hides it; `showModalLayout` publishes it.
 class ModalLayoutScope extends InheritedWidget {
@@ -160,7 +161,7 @@ class ModalLayoutScope extends InheritedWidget {
   /// draws its outline (NFR-U08).
   final bool showBackground;
 
-  /// Whether the sheet is dragged to full height (US-20 FR-04 E03,
+  /// Whether the sheet is dragged to full height (FO-06-04 US-03 FR-04 E03,
   /// FR-05 E02).
   final bool fullHeight;
 
@@ -177,18 +178,19 @@ class ModalLayoutScope extends InheritedWidget {
       fullHeight != oldWidget.fullHeight;
 }
 
-/// The slot widget of a sheet or a modal (US-20 FR-01): an optional [top],
-/// an optional [tab], and a required [body], in that order, on a surface
+/// The slot widget of a sheet or a modal (FO-06-04 US-03 FR-01): an optional
+/// [top], an optional [tab], and a required [body], in that order, on a surface
 /// drawn from theme tokens.
 ///
 /// A bottom sheet shows a drag handle above the slots, and [showClose]
 /// shows a close button at the surface's top end corner. Place it inline
 /// in a page, where it draws no scrim and no route, or show it through
 /// `showModalLayout`, whose route state it reads where its own fields are
-/// null. Inline with no [onClose], nothing closes: no close button shows
-/// and the handle is decoration that screen readers and Tab skip (US-20
-/// FR-01 E06). With a bounded height the [body] takes the height left under the
-/// other slots and, unless [scrollBody] is false, scrolls inside it.
+/// null. Inline with no [onClose], nothing closes: no close button shows and
+/// the handle is decoration that screen readers and Tab skip
+/// (FO-06-04 US-03 FR-01 E06). With a bounded height the [body] takes the
+/// height left under the other slots and, unless [scrollBody] is false, scrolls
+/// inside it.
 ///
 /// Each part's style layers the theme defaults, then the app-wide
 /// [ModalLayoutStyle] the application registers for [ModalLayout], then
@@ -198,7 +200,7 @@ class ModalLayoutScope extends InheritedWidget {
 /// button, whatever their place on screen (NFR-U02).
 ///
 /// The surface declares the solid color it paints wherever it covers a
-/// system bar's point (US-20 FR-06 E08).
+/// system bar's point (FO-06-04 US-03 FR-06 E08).
 class ModalLayout extends StatelessWidget {
   const new({
     super.key,
@@ -226,10 +228,11 @@ class ModalLayout extends StatelessWidget {
   final Widget body;
 
   /// The type shown; null takes the route's, else a bottom sheet below
-  /// [WindowSize.tablet] and a modal at tablet and above (US-20 FR-03).
+  /// [WindowSize.tablet] and a modal at tablet and above
+  /// (FO-06-04 US-03 FR-03).
   final ModalLayoutType? type;
 
-  /// The content width (US-20 FR-03).
+  /// The content width (FO-06-04 US-03 FR-03).
   final ModalLayoutSize size;
 
   /// Whether the close button shows, when it has an action: [onClose] or
@@ -238,28 +241,28 @@ class ModalLayout extends StatelessWidget {
 
   /// Called by the close button and the handle. Null dismisses the route
   /// that shows this layout; inline, with no route, it shows no close
-  /// button and leaves the handle as decoration (US-20 FR-01 E06).
+  /// button and leaves the handle as decoration (FO-06-04 US-03 FR-01 E06).
   final VoidCallback? onClose;
 
   /// The surface's corners, winning over the concentric-corner rule of
-  /// US-20 FR-04; [customStyle]'s surface radius wins over it.
+  /// FO-06-04 US-03 FR-04; [customStyle]'s surface radius wins over it.
   final BorderRadiusGeometry? borderRadius;
 
   /// Whether the content keeps clear of the system insets: the home
   /// indicator for a sheet, and the status bar once [fullHeight]; every
   /// inset for a modal. Null is true for a sheet and false for a modal
-  /// (US-20 FR-05).
+  /// (FO-06-04 US-03 FR-05).
   final bool? safeArea;
 
   /// Whether a bottom sheet is dragged to full height, so its top corners
-  /// take the screen radius (US-20 FR-04 E03). Null takes the route's,
+  /// take the screen radius (FO-06-04 US-03 FR-04 E03). Null takes the route's,
   /// else false.
   final bool? fullHeight;
 
   /// Whether a scroll view wraps [body], so a body taller than the height
   /// left scrolls, as at large text. Pass false for a body that scrolls
   /// itself, such as a list view: it then gets that height unwrapped
-  /// (US-20 FR-01 E05). The wrapper takes the route's primary scroll
+  /// (FO-06-04 US-03 FR-01 E05). The wrapper takes the route's primary scroll
   /// controller under `showModalLayout`, and never inline, where it would
   /// take the host page's.
   final bool scrollBody;
@@ -363,7 +366,7 @@ class ModalLayout extends StatelessWidget {
       // line resets no State (performance review Minor); the surface
       // declares the solid color it paints wherever it covers a bar's
       // point, else fully transparent, which blends as nothing
-      // (system_bars.dart:269; US-20 FR-06 E08).
+      // (system_bars.dart:269; FO-06-04 US-03 FR-06 E08).
       child: SystemBarFill(color: solidFillColor(surface), child: surfaceBox()),
     );
   }
@@ -445,7 +448,7 @@ class ModalLayout extends StatelessWidget {
     );
   }
 
-  /// The system insets the content keeps clear of (US-20 FR-05).
+  /// The system insets the content keeps clear of (FO-06-04 US-03 FR-05).
   EdgeInsets _insets(EdgeInsets system, ModalLayoutType type, bool fullHeight) {
     final isModal = type == ModalLayoutType.modal;
     if (!(safeArea ?? !isModal)) return EdgeInsets.zero;

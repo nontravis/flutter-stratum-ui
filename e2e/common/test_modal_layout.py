@@ -1,6 +1,6 @@
 """Modal: Tab and the screen reader never reach the page behind an open modal.
 
-Drives the `common/modal_layout` fixture (FO-06 US-20 FR-02 E03 and E04). The fixture's
+Drives the `common/modal_layout` fixture (FO-06-04 US-03 FR-02 E03 and E04). The fixture's
 page holds `Page control`, `page taps`, `Open modal` and `result`; the open modal holds
 `Choose A`, `Choose B` and the built-in `Close`, over a `Dismiss` scrim. The buttons carry no
 id (an id would split a button's label from its tap), so every step finds one by its label.
@@ -75,7 +75,7 @@ def _open_modal(driver: Any, platform: str, app_id: str) -> None:
 
 @pytest.mark.android
 @pytest.mark.level1
-@pytest.mark.req("fo06/us20/fr02/e04")
+@pytest.mark.req("fo06_04/us03/fr02/e04")
 def test_os_tree_holds_only_the_modal_controls_while_the_modal_is_open(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -94,7 +94,7 @@ def test_os_tree_holds_only_the_modal_controls_while_the_modal_is_open(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us20/fr02/e03")
+@pytest.mark.req("fo06_04/us03/fr02/e03")
 def test_tab_cycles_inside_the_modal_and_never_reaches_the_page(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -113,7 +113,7 @@ def test_tab_cycles_inside_the_modal_and_never_reaches_the_page(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us20/fr02/e04")
+@pytest.mark.req("fo06_04/us03/fr02/e04")
 def test_talkback_swiping_past_the_last_modal_node_never_reads_the_page(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -144,7 +144,7 @@ def test_talkback_swiping_past_the_last_modal_node_never_reads_the_page(
 
 @pytest.mark.ios
 @pytest.mark.level1
-@pytest.mark.req("fo06/us20/fr02/e04")
+@pytest.mark.req("fo06_04/us03/fr02/e04")
 def test_ios_tree_holds_only_the_modal_controls_while_the_modal_is_open(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -161,7 +161,7 @@ def test_ios_tree_holds_only_the_modal_controls_while_the_modal_is_open(
 
 @pytest.mark.ios
 @pytest.mark.level2
-@pytest.mark.req("fo06/us20/fr02/e04")
+@pytest.mark.req("fo06_04/us03/fr02/e04")
 def test_voiceover_walks_the_modal_controls_and_never_reads_the_page(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -176,7 +176,7 @@ def test_voiceover_walks_the_modal_controls_and_never_reads_the_page(
 
 @pytest.mark.macos
 @pytest.mark.level1
-@pytest.mark.req("fo06/us20/fr02/e04")
+@pytest.mark.req("fo06_04/us03/fr02/e04")
 def test_macos_tree_holds_only_the_modal_controls_while_the_modal_is_open(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -192,7 +192,7 @@ def test_macos_tree_holds_only_the_modal_controls_while_the_modal_is_open(
 
 @pytest.mark.web
 @pytest.mark.level1
-@pytest.mark.req("fo06/us20/fr02/e04")
+@pytest.mark.req("fo06_04/us03/fr02/e04")
 def test_web_snapshot_holds_only_the_modal_controls_while_the_modal_is_open(
     driver: Any, platform: str, app_id: str
 ) -> None:

@@ -44,19 +44,16 @@ void main() {
       expect(Scroll(controller: a), isNot(Scroll(controller: b)));
     });
 
-    test(
-      'R1, fo06/us02/fr01/e01: copyWith keeps the controller and the primary '
-      'assertion',
-      () {
-        final controller = ScrollController();
-        addTearDown(controller.dispose);
-        final copy = Scroll(controller: controller).copyWith(reverse: true);
+    test('R1, fo06_03/us01/fr01/e01: copyWith keeps the controller and the primary '
+        'assertion', () {
+      final controller = ScrollController();
+      addTearDown(controller.dispose);
+      final copy = Scroll(controller: controller).copyWith(reverse: true);
 
-        expect(copy.controller, same(controller));
-        expect(copy.reverse, isTrue);
-        expect(() => copy.copyWith(primary: true), throwsAssertionError);
-      },
-    );
+      expect(copy.controller, same(controller));
+      expect(copy.reverse, isTrue);
+      expect(() => copy.copyWith(primary: true), throwsAssertionError);
+    });
 
     test('5.3: copyWith(controller: null) clears controller and keeps the '
         'rest', () {

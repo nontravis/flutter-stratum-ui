@@ -245,7 +245,7 @@ void main() {
       );
     });
 
-    test('fo06/us04/fr03: themes s03 INV-46, each data takes the '
+    test('fo06_02/us01/fr03: themes s03 INV-46, each data takes the '
         'focus set of its own name', () {
       final set = defaultThemeSet;
 
@@ -264,7 +264,7 @@ void main() {
       }
     });
 
-    test('fo06/us04/fr03: a config with no focus set throws an '
+    test('fo06_02/us01/fr03: a config with no focus set throws an '
         'ArgumentError naming it', () {
       final config = defaultThemeConfig.copyWith(focus: const {});
 

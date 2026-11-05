@@ -1,10 +1,11 @@
 // Proves, in code, on every target, the reorder live-region leaf queued
 // from the reorder a11y gate round (master 69019c8; INV-60 and INV-58 of
-// docs/specs/foundation/f06_layout_primitives/DOMAIN.md):
+// docs/specs/foundation/f06_layout_primitives/f03_scrolling/DOMAIN.md):
 //
 // - a screen-reader move announces within the leaf's 4 s hold
 //   (`_liveHold`), gone right after (INV-60; FR-06 E06:
-//   `us11_reorder_list_items/fr06_screen_reader_hears_size_and_moves.md:44`);
+//   `f03_scrolling/us05_reorder_list_items/
+//   fr06_screen_reader_hears_size_and_moves.md:44`);
 // - the leaf sits beside the scroll view's own item-count node, which still
 //   reports the right count while the leaf shows (INV-58;
 //   `_ReorderScrollView.semanticChildCount`,
@@ -37,7 +38,7 @@
 // collection announcement. A person judges both only in this device
 // round, by ear.
 //
-// The raster test below proves FO-06 US-11 FR-01 E14 (design D5, D16): the
+// The raster test below proves FO-06-03 US-05 FR-01 E14 (design D5, D16): the
 // still raster under the pointer keeps the lifted item's size and place
 // while a spinner and a caret run inside it. Chrome needs both renderers
 // checked explicitly, `--web-renderer=canvaskit` and `--web-renderer=skwasm`.
@@ -126,7 +127,7 @@ Widget _plainItem(int id, double height) =>
 
 /// The lifted item for group A: a drag handle, a running spinner, and a
 /// focused text field, so its raster carries both a still spinner and a
-/// still caret (US-11 FR-01 E14, design D5, D16).
+/// still caret (FO-06-03 US-05 FR-01 E14, design D5, D16).
 Widget _liftedItem() => SizedBox(
   key: const ValueKey('lifted'),
   height: 56,
@@ -204,7 +205,7 @@ void _expectCloseOffset(
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('s03/inv60 and fo06/us11/fr06/e01: a screen-reader move announces through a 1x1 '
+  testWidgets('fo06_03/inv60 and fo06_03/us05/fr06/e01: a screen-reader move announces through a 1x1 '
       'live-region leaf beside the item-count node', (tester) async {
     final handle = tester.ensureSemantics();
     final controller = await StratumThemeController.preload();
@@ -311,114 +312,108 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets(
-    'fo06/us11/fr01/e14, d5, d16: lifting an item with a running spinner and a '
-    'focused caret freezes a still raster at the item size and place, with '
-    'its screen-reader node kept at its slot',
-    (tester) async {
-      final handle = tester.ensureSemantics();
-      try {
-        await tester.pumpWidget(_groupAApp());
-        await tester.pump();
+  testWidgets('fo06_03/us05/fr01/e14, d5, d16: lifting an item with a running spinner and a '
+      'focused caret freezes a still raster at the item size and place, with '
+      'its screen-reader node kept at its slot', (tester) async {
+    final handle = tester.ensureSemantics();
+    try {
+      await tester.pumpWidget(_groupAApp());
+      await tester.pump();
 
-        // Autofocus resolves on a post-frame callback; prove the field
-        // already holds focus before the drag starts (FR-01 E14). The
-        // `isFocused` flag sits on `EditableText`'s own render object, one
-        // level inside `TextField`, which `getSemantics`'s parent-only walk
-        // from `find.byType(TextField)` would never reach.
-        expect(
-          tester
-              .getSemantics(find.byType(EditableText))
-              .flagsCollection
-              .isFocused,
-          Tristate.isTrue,
-        );
+      // Autofocus resolves on a post-frame callback; prove the field
+      // already holds focus before the drag starts (FR-01 E14). The
+      // `isFocused` flag sits on `EditableText`'s own render object, one
+      // level inside `TextField`, which `getSemantics`'s parent-only walk
+      // from `find.byType(TextField)` would never reach.
+      expect(
+        tester
+            .getSemantics(find.byType(EditableText))
+            .flagsCollection
+            .isFocused,
+        Tristate.isTrue,
+      );
 
-        // Item 0's list has no nested scrollable, but filter the same way
-        // group B must, so a future nested scrollable here fails with a
-        // clear `expect`, never a bare `StateError`.
-        final scrollNode = find.semantics
-            .byFlag(SemanticsFlag.hasImplicitScrolling)
-            .evaluate()
-            .where(
-              (node) =>
-                  node.scrollChildCount != null && node.scrollChildCount! > 1,
-            )
-            .single;
-        final slot = tester.getRect(find.byKey(const ValueKey('lifted')));
+      // Item 0's list has no nested scrollable, but filter the same way
+      // group B must, so a future nested scrollable here fails with a
+      // clear `expect`, never a bare `StateError`.
+      final scrollNode = find.semantics
+          .byFlag(SemanticsFlag.hasImplicitScrolling)
+          .evaluate()
+          .where(
+            (node) =>
+                node.scrollChildCount != null && node.scrollChildCount! > 1,
+          )
+          .single;
+      final slot = tester.getRect(find.byKey(const ValueKey('lifted')));
 
-        final gesture = await tester.startGesture(
-          tester.getCenter(find.byKey(const ValueKey('handle'))),
-        );
-        await tester.pump();
-        await gesture.moveBy(const Offset(0, 20));
-        await tester.pump();
-        await gesture.moveBy(const Offset(0, 10));
-        await tester.pump();
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.byKey(const ValueKey('handle'))),
+      );
+      await tester.pump();
+      await gesture.moveBy(const Offset(0, 20));
+      await tester.pump();
+      await gesture.moveBy(const Offset(0, 10));
+      await tester.pump();
 
-        final rawImage = find.byType(RawImage);
-        expect(rawImage, findsOne);
-        final image = tester.widget<RawImage>(rawImage).image;
-        expect(image, isNotNull);
-        _expectCloseSize(tester.getSize(rawImage), slot.size);
+      final rawImage = find.byType(RawImage);
+      expect(rawImage, findsOne);
+      final image = tester.widget<RawImage>(rawImage).image;
+      expect(image, isNotNull);
+      _expectCloseSize(tester.getSize(rawImage), slot.size);
 
-        // The raster stays the same frame while the spinner's own animation
-        // keeps ticking: the proxy is a still snapshot, not a rebuild (D5).
-        var framesChecked = 0;
-        for (var i = 0; i < 4; i++) {
-          await gesture.moveBy(const Offset(0, 5));
-          await tester.pump(const Duration(milliseconds: 200));
-          expect(tester.widget<RawImage>(rawImage).image, same(image));
-          framesChecked += 1;
-        }
-
-        const totalDrag = Offset(0, 20 + 10 + 5 * 4);
-        _expectCloseOffset(
-          tester.getTopLeft(rawImage),
-          slot.topLeft + totalDrag,
-        );
-
-        // The fixture opted out of the platform's own outside-tap unfocus
-        // above, so this now proves only what Stratum owns: the lift,
-        // raster, and overlay take no focus from a field inside the item
-        // across the drag (FR-03 `:12`, D5), not the platform's separate
-        // desktop tap-outside rule.
-        expect(
-          tester
-              .getSemantics(find.byType(EditableText))
-              .flagsCollection
-              .isFocused,
-          Tristate.isTrue,
-        );
-
-        // The item's own screen-reader node stays in the list at its slot
-        // for the whole drag (D5): it never moves into the overlay.
-        final node = tester.getSemantics(find.byKey(const ValueKey('lifted')));
-        var inList = false;
-        for (var up = node.parent; up != null; up = up.parent) {
-          if (identical(up, scrollNode)) inList = true;
-        }
-        expect(inList, isTrue);
-        expect(tester.getRect(find.byKey(const ValueKey('lifted'))), slot);
-
-        binding.reportData = {
-          'rasterWidth': slot.size.width,
-          'rasterHeight': slot.size.height,
-          'framesChecked': framesChecked,
-        };
-
-        await gesture.up();
-        // The running spinner keeps scheduling frames forever, so the drop
-        // settles over a few fixed pumps, never `pumpAndSettle`.
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 500));
-        // No app Material of its own reaches the raster: nothing rebuilds
-        // the lifted item's text field into the overlay, so a missing
-        // ancestor Material asserts nothing either (FR-01 E14).
-        expect(tester.takeException(), isNull);
-      } finally {
-        handle.dispose();
+      // The raster stays the same frame while the spinner's own animation
+      // keeps ticking: the proxy is a still snapshot, not a rebuild (D5).
+      var framesChecked = 0;
+      for (var i = 0; i < 4; i++) {
+        await gesture.moveBy(const Offset(0, 5));
+        await tester.pump(const Duration(milliseconds: 200));
+        expect(tester.widget<RawImage>(rawImage).image, same(image));
+        framesChecked += 1;
       }
-    },
-  );
+
+      const totalDrag = Offset(0, 20 + 10 + 5 * 4);
+      _expectCloseOffset(tester.getTopLeft(rawImage), slot.topLeft + totalDrag);
+
+      // The fixture opted out of the platform's own outside-tap unfocus
+      // above, so this now proves only what Stratum owns: the lift,
+      // raster, and overlay take no focus from a field inside the item
+      // across the drag (FR-03 `:12`, D5), not the platform's separate
+      // desktop tap-outside rule.
+      expect(
+        tester
+            .getSemantics(find.byType(EditableText))
+            .flagsCollection
+            .isFocused,
+        Tristate.isTrue,
+      );
+
+      // The item's own screen-reader node stays in the list at its slot
+      // for the whole drag (D5): it never moves into the overlay.
+      final node = tester.getSemantics(find.byKey(const ValueKey('lifted')));
+      var inList = false;
+      for (var up = node.parent; up != null; up = up.parent) {
+        if (identical(up, scrollNode)) inList = true;
+      }
+      expect(inList, isTrue);
+      expect(tester.getRect(find.byKey(const ValueKey('lifted'))), slot);
+
+      binding.reportData = {
+        'rasterWidth': slot.size.width,
+        'rasterHeight': slot.size.height,
+        'framesChecked': framesChecked,
+      };
+
+      await gesture.up();
+      // The running spinner keeps scheduling frames forever, so the drop
+      // settles over a few fixed pumps, never `pumpAndSettle`.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+      // No app Material of its own reaches the raster: nothing rebuilds
+      // the lifted item's text field into the overlay, so a missing
+      // ancestor Material asserts nothing either (FR-01 E14).
+      expect(tester.takeException(), isNull);
+    } finally {
+      handle.dispose();
+    }
+  });
 }

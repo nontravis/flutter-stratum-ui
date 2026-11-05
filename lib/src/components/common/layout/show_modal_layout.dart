@@ -17,14 +17,14 @@ import 'package:stratum_ui/src/src.dart';
 
 /// Shows the [ModalLayout] that [builder] builds above the current page
 /// and completes with the value it pops with, else with null when the
-/// EndUser dismisses it (US-20 FR-02).
+/// EndUser dismisses it (FO-06-04 US-03 FR-02).
 ///
-/// A null [type] shows a bottom sheet below [WindowSize.tablet] and a
-/// centered modal at tablet and above (US-20 FR-03). The route sits over a
+/// A null [type] shows a bottom sheet below [WindowSize.tablet] and a centered
+/// modal at tablet and above (FO-06-04 US-03 FR-03). The route sits over a
 /// scrim of the theme's `background/default/normal-inverse` color at its
 /// `opacity.scrim` opacity, blurred by `blur/1`; with [showBackground]
 /// false no scrim draws, while the page behind still refuses every tap and
-/// a tap on it dismisses (US-20 FR-06).
+/// a tap on it dismisses (FO-06-04 US-03 FR-06).
 ///
 /// The route blocks the page behind for screen readers, reads as a named
 /// screen labeled [semanticsLabel], else the built-in dialog or sheet
@@ -42,7 +42,7 @@ import 'package:stratum_ui/src/src.dart';
 /// nearest resting height, hidden, half, or full, over the theme's `fast`
 /// level, at once under reduced motion; settling hidden dismisses it. It
 /// rises by the keyboard height, and a modal moves clear of the keyboard
-/// (US-20 FR-05, FR-07).
+/// (FO-06-04 US-03 FR-05, FR-07).
 Future<T?> showModalLayout<T>(
   BuildContext context, {
   ModalLayoutType? type,
@@ -94,7 +94,7 @@ Future<T?> showModalLayout<T>(
 
 /// The centered modal's route: a fade over the theme's `normal` level on
 /// its `standard` curve, the [Scrim] as its barrier, and the modal
-/// layout centered above the keyboard (US-20 FR-02, FR-05 E05).
+/// layout centered above the keyboard (FO-06-04 US-03 FR-02, FR-05 E05).
 class _ModalLayoutRoute<T> extends PopupRoute<T> {
   new({
     required this.builder,
@@ -167,18 +167,18 @@ class _ModalLayoutRoute<T> extends PopupRoute<T> {
     child: child,
   );
 
-  /// Dismisses this route when it is the top one (US-20 FR-02).
+  /// Dismisses this route when it is the top one (FO-06-04 US-03 FR-02).
   void _dismiss() {
     if (isCurrent) navigator?.maybePop();
   }
 }
 
 /// The sheet's route: a slide on the theme's `standard` curve, or a fade
-/// with no slide under reduced motion (US-20 FR-02 E05).
+/// with no slide under reduced motion (FO-06-04 US-03 FR-02 E05).
 ///
 /// The package's swipe dismissal stays off: a drag never drives the route
 /// animation, and the sheet dismisses by settling on its hidden resting
-/// height through [_SnapPhysics] instead (US-20 FR-07).
+/// height through [_SnapPhysics] instead (FO-06-04 US-03 FR-07).
 class _SheetLayoutRoute<T> extends ModalSheetRoute<T> {
   new({
     required super.builder,
@@ -217,7 +217,7 @@ class _SheetLayoutRoute<T> extends ModalSheetRoute<T> {
 /// The sheet: hidden, half, and full resting heights, the settle of
 /// [_SnapPhysics] after every release, a dismissal when it settles hidden,
 /// the scroll handoff to the body, the keyboard lift, and the full-height
-/// state the [ModalLayout] reads (US-20 FR-04 E03, FR-05, FR-07).
+/// state the [ModalLayout] reads (FO-06-04 US-03 FR-04 E03, FR-05, FR-07).
 class _SheetContent extends StatefulWidget {
   const new({
     required this.type,
@@ -288,13 +288,13 @@ class _SheetContentState extends State<_SheetContent> {
     if (reaches != _fullHeight) setState(() => _fullHeight = reaches);
   }
 
-  /// Pops the route with null once the sheet settles hidden (US-20 FR-07
-  /// E02). It never pops another route: a route already popped stays as
-  /// it is, and a route that another route covers, or that is still
-  /// active after the pop attempt, brings the sheet back to full height
-  /// (E07). A refusal through a `PopScope`, a deprecated `WillPopScope`,
-  /// or any later refusal takes that one path, also when the refusal
-  /// opens a dialog over the sheet, and a scope still hears the attempt.
+  /// Pops the route with null once the sheet settles hidden
+  /// (FO-06-04 US-03 FR-07 E02). It never pops another route: a route already
+  /// popped stays as it is, and a route that another route covers, or that is
+  /// still active after the pop attempt, brings the sheet back to full height
+  /// (E07). A refusal through a `PopScope`, a deprecated `WillPopScope`, or any
+  /// later refusal takes that one path, also when the refusal opens a dialog
+  /// over the sheet, and a scope still hears the attempt.
   Future<void> _settleHidden() async {
     final route = ModalRoute.of(context);
     if (route == null || !route.isActive) return;
@@ -330,7 +330,7 @@ class _SheetContentState extends State<_SheetContent> {
       });
   }
 
-  /// Dismisses this route when it is the top one (US-20 FR-02).
+  /// Dismisses this route when it is the top one (FO-06-04 US-03 FR-02).
   void _dismiss() {
     if (ModalRoute.of(context)?.isCurrent ?? false) {
       Navigator.maybePop(context);
@@ -356,7 +356,7 @@ class _SheetContentState extends State<_SheetContent> {
       physics: _physics,
       scrollConfiguration: const SheetScrollConfiguration(),
       // Only the drawn modal layout takes a drag, so a press beside a
-      // narrower one reaches the scrim (US-20 FR-07 E08).
+      // narrower one reaches the scrim (FO-06-04 US-03 FR-07 E08).
       dragConfiguration: const SheetDragConfiguration(
         hitTestBehavior: HitTestBehavior.deferToChild,
       ),
@@ -395,7 +395,7 @@ class _SheetContentState extends State<_SheetContent> {
 
 /// A sheet physics that settles a released drag on the nearest resting
 /// height over [duration] on [curve], and at once when [duration] is zero
-/// (US-20 FR-07 E01, E03), instead of the package spring.
+/// (FO-06-04 US-03 FR-07 E01, E03), instead of the package spring.
 class _SnapPhysics extends BouncingSheetPhysics {
   const new({required this.duration, required this.curve});
 
@@ -453,11 +453,11 @@ class _CurveSimulation extends Simulation {
   bool isDone(double time) => time >= _seconds;
 }
 
-/// The route state and semantics around the modal layout: a named route
-/// scope labeled [label], a focus scope that takes focus when it shows,
-/// Esc as a dismissal, a transparent [Material] so an SDK widget such as a
-/// list tile works in it, and the [ModalLayoutScope] (US-20 FR-02, FR-07
-/// E05; layout s03 inv. 73).
+/// The route state and semantics around the modal layout: a named route scope
+/// labeled [label], a focus scope that takes focus when it shows, Esc as a
+/// dismissal, a transparent [Material] so an SDK widget such as a list tile
+/// works in it, and the [ModalLayoutScope] (FO-06-04 US-03 FR-02, FR-07 E05;
+/// FO-06-04 INV-73).
 class _RouteScope extends StatelessWidget {
   const new({
     required this.type,

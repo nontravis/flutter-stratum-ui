@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/src.dart';
 
 void main() {
-  test('fo06/us18/fr04: PageSafeArea has value equality and copyWith', () {
+  test('fo06_04/us01/fr04: PageSafeArea has value equality and copyWith', () {
     // Built at run time from a parameter, so no const canonicalization
     // makes them one instance and the check reads `==`, not identity.
     PageSafeArea make(bool top) => PageSafeArea(top: top, left: false);

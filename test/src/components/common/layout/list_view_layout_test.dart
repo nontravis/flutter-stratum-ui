@@ -195,45 +195,42 @@ void main() {
       expect(find.byType(AnimatedStyledBox), findsNothing);
     });
 
-    testWidgets(
-      'fo06/us03/fr01, fo06/us03/s1: scrolls style padding with the items '
-      'and keeps the box',
-      (tester) async {
-        await tester.pumpWidget(
-          themedHost(
-            _sized(
-              const ListViewLayout.builder(
-                style: WidgetStyle(
-                  padding: EdgeInsets.all(16),
-                  backgroundColor: Color(0xFFFFFFFF),
-                ),
-                itemCount: 50,
-                itemBuilder: _item,
+    testWidgets('fo06_03/us02/fr01, fo06_03/us02/s1: scrolls style padding with the items '
+        'and keeps the box', (tester) async {
+      await tester.pumpWidget(
+        themedHost(
+          _sized(
+            const ListViewLayout.builder(
+              style: WidgetStyle(
+                padding: EdgeInsets.all(16),
+                backgroundColor: Color(0xFFFFFFFF),
               ),
+              itemCount: 50,
+              itemBuilder: _item,
             ),
           ),
-        );
+        ),
+      );
 
-        final list = tester.widget<ListView>(find.byType(ListView));
-        expect(list.padding, const EdgeInsets.all(16));
-        final box = tester.widget<AnimatedStyledBox>(
-          find.byType(AnimatedStyledBox),
-        );
-        expect(box.style?.padding, isNull);
-        final boxTop = tester.getTopLeft(find.byType(AnimatedStyledBox));
-        final itemTop = tester.getTopLeft(find.byKey(const ValueKey(0)));
-        expect(itemTop.dy - boxTop.dy, 16);
+      final list = tester.widget<ListView>(find.byType(ListView));
+      expect(list.padding, const EdgeInsets.all(16));
+      final box = tester.widget<AnimatedStyledBox>(
+        find.byType(AnimatedStyledBox),
+      );
+      expect(box.style?.padding, isNull);
+      final boxTop = tester.getTopLeft(find.byType(AnimatedStyledBox));
+      final itemTop = tester.getTopLeft(find.byKey(const ValueKey(0)));
+      expect(itemTop.dy - boxTop.dy, 16);
 
-        await tester.drag(find.byType(ListView), const Offset(0, -40));
-        await tester.pump();
+      await tester.drag(find.byType(ListView), const Offset(0, -40));
+      await tester.pump();
 
-        expect(tester.getTopLeft(find.byType(AnimatedStyledBox)), boxTop);
-        expect(
-          tester.getTopLeft(find.byKey(const ValueKey(0))).dy,
-          lessThan(itemTop.dy),
-        );
-      },
-    );
+      expect(tester.getTopLeft(find.byType(AnimatedStyledBox)), boxTop);
+      expect(
+        tester.getTopLeft(find.byKey(const ValueKey(0))).dy,
+        lessThan(itemTop.dy),
+      );
+    });
 
     testWidgets('clips a rounded box with antiAlias', (tester) async {
       await tester.pumpWidget(
@@ -264,7 +261,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us03/fr02: applies the physics parameter on top of the theme',
+      'fo06_03/us02/fr02: applies the physics parameter on top of the theme',
       (tester) async {
         await tester.pumpWidget(
           themedHost(
@@ -555,7 +552,7 @@ void main() {
         ])
           (focusable: focusable, move: move),
     });
-    testWidgets('fo06/us07/fr01/e07 and fo06/us07/fr01/e08: a move from a focused item kept '
+    testWidgets('fo06_03/us03/fr01/e07 and fo06_03/us03/fr01/e08: a move from a focused item kept '
         'alive off screen brings it back first, then moves', (tester) async {
       final (:focusable, :move) = moves.currentValue!;
       await tester.pumpWidget(
@@ -597,7 +594,7 @@ void main() {
       expect(position.pixels, back ? 4080 : 4120);
     }, variant: moves);
 
-    testWidgets('fo06/us07/fr01/e07: Tab from a focused text field scrolled far away brings '
+    testWidgets('fo06_03/us03/fr01/e07: Tab from a focused text field scrolled far away brings '
         'its row back, then moves to the next row', (tester) async {
       final fields = [
         for (var index = 0; index < 1000; index++)
@@ -640,7 +637,7 @@ void main() {
           (focusable: focusable, key: key),
     });
     testWidgets(
-      'fo06/us07/fr01/e07: when the app holds the scroll so a focused text field '
+      'fo06_03/us03/fr01/e07: when the app holds the scroll so a focused text field '
       'kept alive off screen cannot come back and no other node in the list '
       'shows, Tab or Shift+Tab leaves the list in its direction',
       (tester) async {
@@ -713,7 +710,7 @@ void main() {
       'previousFocus',
       'focusInDirection down',
     });
-    testWidgets('fo06/us07/fr01/e07 and fo06/us07/fr01/e08: a move from a focus group inside a '
+    testWidgets('fo06_03/us03/fr01/e07 and fo06_03/us03/fr01/e08: a move from a focus group inside a '
         'focused item kept alive off screen brings the item back, then leaves '
         'the group for the item next in order', (tester) async {
       await tester.pumpWidget(
@@ -763,7 +760,7 @@ void main() {
 
     final appGroupMoves = ValueVariant<String>({'Tab', 'Shift+Tab'});
     testWidgets(
-      'fo06/us07/fr01/e07 and fo06/us07/fr01/e08: Tab or Shift+Tab from a node inside '
+      'fo06_03/us03/fr01/e07 and fo06_03/us03/fr01/e08: Tab or Shift+Tab from a node inside '
       "an app's own FocusTraversalGroup, inside an item kept alive off "
       'screen, brings the item back before moving inside its own order',
       (tester) async {
@@ -803,7 +800,7 @@ void main() {
       variant: appGroupMoves,
     );
 
-    testWidgets('fo06/us07/fr01/e07: Tab from a text field that a row scrolled away, inside '
+    testWidgets('fo06_03/us03/fr01/e07: Tab from a text field that a row scrolled away, inside '
         'an item kept alive off screen, brings back the item and then the '
         'field, then moves to the next field and shows it', (tester) async {
       final fields = [
@@ -869,7 +866,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us07/fr01/e07: a focus the app moves before the frame that brings a '
+      'fo06_03/us03/fr01/e07: a focus the app moves before the frame that brings a '
       'focused item kept alive off screen back stays where the app put it',
       (tester) async {
         await tester.pumpWidget(

@@ -45,7 +45,7 @@ class FixtureEntry {
 /// `PageLayout` pads its own slots by the insets, and a host `SafeArea` would
 /// shrink its box below the screen. `common/page_drawer_in_safe_area` keeps
 /// the host `SafeArea` on purpose: it proves a drawer stays inside that
-/// smaller box (FO-06 US-19 FR-04 E09).
+/// smaller box (FO-06-04 US-02 FR-04 E09).
 final Map<String, FixtureEntry> fixtures = <String, FixtureEntry>{
   'common/focus_builder': FixtureEntry(
     builder: (context) => const FocusBuilderFixture(),

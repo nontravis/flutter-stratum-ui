@@ -10,8 +10,8 @@ const pageLayoutLoadingFixtureIdle = Duration(seconds: 3);
 /// in every cycle.
 const pageLayoutLoadingFixtureBusy = Duration(seconds: 4);
 
-/// Fixture for the loading layer a busy `PageLayout` shows (FO-06 US-18
-/// FR-06).
+/// Fixture for the loading layer a busy `PageLayout` shows
+/// (FO-06-04 US-01 FR-06).
 ///
 /// A page whose body is text `Page body`. From mount until dispose its
 /// `loading` cycles: false for [pageLayoutLoadingFixtureIdle], then true for

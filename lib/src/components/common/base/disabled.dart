@@ -15,7 +15,7 @@ import 'package:stratum_ui/src/themes/theme_application.dart';
 /// is right in every frame, outside a reorder item root. At a
 /// `ReorderableListViewLayout` item root the item's marker joins this
 /// node to the item's node instead, whether or not a `StratumInkWell`
-/// sits below it (layout s03 INV-81).
+/// sits below it (FO-06-03 INV-81).
 ///
 /// It extends no component base, so the bases never wrap it in itself.
 ///

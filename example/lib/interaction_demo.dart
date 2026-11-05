@@ -266,7 +266,7 @@ class _InteractionDemoPageState extends State<_InteractionDemoPage> {
               children: [
                 // Its own semantics node, so it joins, rather than merges
                 // into, the group label above (the `ถนน` field precedent
-                // of focus_builder_test.dart's us16/s7).
+                // of focus_builder_test.dart's fo06_02/us04/s7).
                 Semantics(
                   container: true,
                   child: Text(

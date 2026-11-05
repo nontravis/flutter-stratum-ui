@@ -413,7 +413,7 @@ class _ItemState extends State<_Item> with AutomaticKeepAliveClientMixin {
     // its semantics boundary, as the RCA probe's own SizedBox(key: id) ...
     // boundary wrapper sits: `Semantics(container: true)` and
     // `_innerInkWellBoundary`'s surface repro R1's bug only with one above
-    // them (fr05/e04, fr04/e05); a nested ListView's own RenderObjects
+    // them (fo06_03/us05/fr05/e04, fo06_03/us05/fr04/e05); a nested ListView's own RenderObjects
     // stand in for it.
     if (boundary != null) {
       item = SizedBox(height: widget.height, child: boundary(item));
@@ -898,13 +898,13 @@ Widget _semanticsContainerBoundary(Widget child) =>
 
 /// Wraps [child] in a tappable [StratumInkWell] that holds the whole item,
 /// so the surface is item 100's root and joins the item's node, not its
-/// own (s03 INV-81).
+/// own (FO-06-03 INV-81).
 Widget _inkWellBoundary(Widget child) =>
     StratumInkWell(onTap: () {}, child: child);
 
 /// Wraps [child] in a tappable [StratumInkWell] beside a spacer, so the
 /// surface does not hold the whole item and keeps its own container node
-/// (s03 INV-81).
+/// (FO-06-03 INV-81).
 Widget _innerInkWellBoundary(Widget child) => RowLayout(
   children: [
     const SizedBox(width: 4, height: 4),
@@ -945,7 +945,7 @@ Widget _constSurface() =>
 
 /// A sibling beside [surface] that shows [extra] while [_extra] is true,
 /// so a flip pin can join and split the item's root on the same item
-/// (layout s03 INV-81's one-frame window).
+/// (FO-06-03 INV-81's one-frame window).
 class _Sibling extends StatelessWidget {
   const new({required this.surface, this.extra = const Text('Extra')});
 
@@ -1044,7 +1044,7 @@ Widget _row(int id) => RowLayout(
 void _tapRow() => _rootLog.add('row');
 
 /// What a joined root row's node reads: label, tap, button, enabled, and
-/// the item's 4 move actions (s03/inv81).
+/// the item's 4 move actions (fo06_03/inv81).
 const String _joined =
     'label=Item 2 tap=true button=true enabled=isTrue moves=4';
 
@@ -1359,7 +1359,7 @@ final ValueNotifier<int> _rootShape = ValueNotifier<int>(0);
 void main() {
   void pointerTests() {
     testWidgets(
-      'fo06/us11/fr01: every item finds one and the same list through '
+      'fo06_03/us05/fr01: every item finds one and the same list through '
       'SliverReorderableList.maybeOf, as an app drag handle does',
       (tester) async {
         await tester.pumpWidget(_app(const _Harness(count: 3)));
@@ -1496,7 +1496,7 @@ void main() {
       },
     );
 
-    testWidgets("fo06/us11/fr01: the lift takes the theme's fast level", (
+    testWidgets("fo06_03/us05/fr01: the lift takes the theme's fast level", (
       tester,
     ) async {
       const dragStyle = WidgetStyle(backgroundColor: _red);
@@ -1646,7 +1646,7 @@ void main() {
       expect(state.expanded, isTrue);
     });
 
-    testWidgets('fo06/us11/fr03: a count change with no call during a drag ends the drag, '
+    testWidgets('fo06_03/us05/fr03: a count change with no call during a drag ends the drag, '
         'the dragged item back in its slot with its State', (tester) async {
       await tester.pumpWidget(_app(const _Harness(count: 5)));
       final state = _itemState(tester, 0)..expanded = true;
@@ -1682,7 +1682,7 @@ void main() {
     // bottom edge at 0 px, or the top edge after a scroll to 800 px.
     final viewportEdges = ValueVariant<String>({'bottom edge', 'top edge'});
     testWidgets(
-      'fo06/us11/fr01/e08: a drag held near a viewport edge scrolls the list '
+      'fo06_03/us05/fr01/e08: a drag held near a viewport edge scrolls the list '
       'toward that edge, farther under a larger autoScrollerVelocityScalar',
       (tester) async {
         final bottom = viewportEdges.currentValue == 'bottom edge';
@@ -1745,7 +1745,7 @@ void main() {
       variant: viewportEdges,
     );
 
-    testWidgets('fo06/us11/fr01 and fo06/us11/fr04/e02 (R48): under a caller transition that pads '
+    testWidgets('fo06_03/us05/fr01 and fo06_03/us05/fr04/e02 (R48): under a caller transition that pads '
         'each item, the drag gap takes the slot the lifted item fills, and the '
         'drop settles its image where the item lands', (tester) async {
       await tester.pumpWidget(
@@ -2128,7 +2128,7 @@ void main() {
 
   void insertAndRemoveTests() {
     testWidgets(
-      'fo06/us11/fr04/e07: an out-of-range index fails a debug assert',
+      'fo06_03/us05/fr04/e07: an out-of-range index fails a debug assert',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -2144,48 +2144,38 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr04/e08: one controller on two lists at once fails a debug '
-      'assert',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            Column(
-              children: [
-                Expanded(
-                  child: _Harness(count: 2, itemsController: controller),
-                ),
-                Expanded(
-                  child: _Harness(count: 2, itemsController: controller),
-                ),
-              ],
-            ),
+    testWidgets('fo06_03/us05/fr04/e08: one controller on two lists at once fails a debug '
+        'assert', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          Column(
+            children: [
+              Expanded(child: _Harness(count: 2, itemsController: controller)),
+              Expanded(child: _Harness(count: 2, itemsController: controller)),
+            ],
           ),
-        );
+        ),
+      );
 
-        expect(tester.takeException(), isAssertionError);
-      },
-    );
+      expect(tester.takeException(), isAssertionError);
+    });
 
-    testWidgets(
-      'fo06/us11/fr04/e09: a call on a controller attached to no list fails a '
-      'debug assert',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        expect(() => controller.insertItem(0), throwsAssertionError);
-        expect(() => controller.removeItem(0), throwsAssertionError);
+    testWidgets('fo06_03/us05/fr04/e09: a call on a controller attached to no list fails a '
+        'debug assert', (tester) async {
+      final controller = ReorderableItemsController();
+      expect(() => controller.insertItem(0), throwsAssertionError);
+      expect(() => controller.removeItem(0), throwsAssertionError);
 
-        await tester.pumpWidget(
-          _app(_Harness(count: 2, itemsController: controller)),
-        );
-        await tester.pumpWidget(_app(const SizedBox()));
+      await tester.pumpWidget(
+        _app(_Harness(count: 2, itemsController: controller)),
+      );
+      await tester.pumpWidget(_app(const SizedBox()));
 
-        expect(() => controller.insertItem(0), throwsAssertionError);
-      },
-    );
+      expect(() => controller.insertItem(0), throwsAssertionError);
+    });
 
-    testWidgets('fo06/us11/fr04/e09: a controller handed to another list detaches from the '
+    testWidgets('fo06_03/us05/fr04/e09: a controller handed to another list detaches from the '
         'first', (tester) async {
       final first = ReorderableItemsController();
       final second = ReorderableItemsController();
@@ -2202,7 +2192,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e10: without an itemsController an added item shows at once',
+      'fo06_03/us05/fr04/e10: without an itemsController an added item shows at once',
       (tester) async {
         await tester.pumpWidget(_app(const _Harness(count: 3)));
 
@@ -2215,38 +2205,35 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/s8: an added item grows into its slot and fades in over the '
-      'normal level',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            _Harness(count: 3, itemsController: controller),
-            theme: _normalTheme(const Duration(milliseconds: 250)),
-          ),
-        );
-        final mid = Curves.easeInOutSine.transform(0.5);
+    testWidgets('fo06_03/us05/s8: an added item grows into its slot and fades in over the '
+        'normal level', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          _Harness(count: 3, itemsController: controller),
+          theme: _normalTheme(const Duration(milliseconds: 250)),
+        ),
+      );
+      final mid = Curves.easeInOutSine.transform(0.5);
 
-        _harness(tester).insert(1, 9);
-        await tester.pump();
-        expect(_offsetBetween(tester, 0, 1), 40);
-        expect(_opacity(tester, 9), 0);
+      _harness(tester).insert(1, 9);
+      await tester.pump();
+      expect(_offsetBetween(tester, 0, 1), 40);
+      expect(_opacity(tester, 9), 0);
 
-        await tester.pump(const Duration(milliseconds: 125));
-        expect(_offsetBetween(tester, 0, 1), moreOrLessEquals(40 + 40 * mid));
-        expect(_opacity(tester, 9), moreOrLessEquals(mid));
+      await tester.pump(const Duration(milliseconds: 125));
+      expect(_offsetBetween(tester, 0, 1), moreOrLessEquals(40 + 40 * mid));
+      expect(_opacity(tester, 9), moreOrLessEquals(mid));
 
-        await tester.pump(const Duration(milliseconds: 125));
-        expect(_offsetBetween(tester, 0, 1), 80);
-        await tester.pumpAndSettle();
-        // R48: at rest every item sits inside a completed transition.
-        expect(_runningTransitions(tester), isEmpty);
-      },
-    );
+      await tester.pump(const Duration(milliseconds: 125));
+      expect(_offsetBetween(tester, 0, 1), 80);
+      await tester.pumpAndSettle();
+      // R48: at rest every item sits inside a completed transition.
+      expect(_runningTransitions(tester), isEmpty);
+    });
 
     testWidgets(
-      'fo06/us11/s9: a removed item shrinks and fades out while its gap closes',
+      'fo06_03/us05/s9: a removed item shrinks and fades out while its gap closes',
       (tester) async {
         final controller = ReorderableItemsController();
         final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -2272,7 +2259,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e15: an insert or a remove the app defers from inside a '
+      'fo06_03/us05/fr04/e15: an insert or a remove the app defers from inside a '
       'build to after the frame animates as calls made outside',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -2338,7 +2325,7 @@ void main() {
     );
 
     testWidgets(
-      "fo06/us11/fr04: insert and remove take the theme's normal level",
+      "fo06_03/us05/fr04: insert and remove take the theme's normal level",
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -2363,54 +2350,52 @@ void main() {
       },
     );
 
+    testWidgets('fo06_03/us05/fr04/e03: a removed item keeps the look and State it had at '
+        'removeItem', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller)),
+      );
+      final state = _itemState(tester, 2)..expanded = true;
+
+      _harness(tester).remove(2);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
+
+      expect(find.text('2'), findsOneWidget);
+      expect(identical(_itemState(tester, 2), state), isTrue);
+      expect(state.expanded, isTrue);
+      await tester.pumpAndSettle();
+      expect(find.text('2'), findsNothing);
+    });
+
     testWidgets(
-      'fo06/us11/fr04/e03: a removed item keeps the look and State it had at '
-      'removeItem',
+      'fo06_03/us05/fr04/e03: a removeItem builder replaces the look',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
           _app(_Harness(count: 5, itemsController: controller)),
         );
-        final state = _itemState(tester, 2)..expanded = true;
 
-        _harness(tester).remove(2);
+        _harness(tester).remove(
+          2,
+          builder: (context) => const SizedBox(
+            key: ValueKey('gone'),
+            height: 40,
+            child: Text('gone'),
+          ),
+        );
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 50));
 
-        expect(find.text('2'), findsOneWidget);
-        expect(identical(_itemState(tester, 2), state), isTrue);
-        expect(state.expanded, isTrue);
-        await tester.pumpAndSettle();
+        expect(find.text('gone'), findsOneWidget);
         expect(find.text('2'), findsNothing);
+        await tester.pumpAndSettle();
+        expect(find.text('gone'), findsNothing);
       },
     );
 
-    testWidgets('fo06/us11/fr04/e03: a removeItem builder replaces the look', (
-      tester,
-    ) async {
-      final controller = ReorderableItemsController();
-      await tester.pumpWidget(
-        _app(_Harness(count: 5, itemsController: controller)),
-      );
-
-      _harness(tester).remove(
-        2,
-        builder: (context) => const SizedBox(
-          key: ValueKey('gone'),
-          height: 40,
-          child: Text('gone'),
-        ),
-      );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 50));
-
-      expect(find.text('gone'), findsOneWidget);
-      expect(find.text('2'), findsNothing);
-      await tester.pumpAndSettle();
-      expect(find.text('gone'), findsNothing);
-    });
-
-    testWidgets('fo06/us11/fr04: adding back the key of a leaving item ends its old copy at '
+    testWidgets('fo06_03/us05/fr04: adding back the key of a leaving item ends its old copy at '
         'once, and the new item takes the State', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -2432,7 +2417,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04: a list unmounted mid-animation leaves no running ticker',
+      'fo06_03/us05/fr04: a list unmounted mid-animation leaves no running ticker',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -2451,7 +2436,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e12: a count change with no call ends the running '
+      'fo06_03/us05/fr04/e12: a count change with no call ends the running '
       'animations and shows the data at once',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -2475,7 +2460,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e05: calls in one turn take indices of the data the calls '
+    testWidgets('fo06_03/us05/fr04/e05: calls in one turn take indices of the data the calls '
         'before them left', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -2497,7 +2482,7 @@ void main() {
       expect(find.text('3'), findsNothing);
     });
 
-    testWidgets('fo06/us11/fr04: removing an item still growing in shrinks it from where it '
+    testWidgets('fo06_03/us05/fr04: removing an item still growing in shrinks it from where it '
         'stands', (tester) async {
       final controller = ReorderableItemsController();
       final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -2522,7 +2507,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04: the last item left in a list shrinks out too',
+      'fo06_03/us05/fr04: the last item left in a list shrinks out too',
       (tester) async {
         final controller = ReorderableItemsController();
         final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -2545,7 +2530,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04: a horizontal list shrinks a removed item along its width',
+      'fo06_03/us05/fr04: a horizontal list shrinks a removed item along its width',
       (tester) async {
         final controller = ReorderableItemsController();
         final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -2573,7 +2558,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04: items removed bottom-up in two turns leave in list order',
+      'fo06_03/us05/fr04: items removed bottom-up in two turns leave in list order',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -2594,7 +2579,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04: items removed bottom-up in one turn leave in list order',
+      'fo06_03/us05/fr04: items removed bottom-up in one turn leave in list order',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -2614,74 +2599,68 @@ void main() {
       },
     );
 
-    testWidgets(
-      "fo06/us11/fr04: an item added at a leaving item's gap in a later turn "
-      'lands after it',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 5, itemsController: controller)),
-        );
+    testWidgets("fo06_03/us05/fr04: an item added at a leaving item's gap in a later turn "
+        'lands after it', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller)),
+      );
 
-        _harness(tester).remove(2);
-        await tester.pump();
-        _harness(tester).insert(2, 9);
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 50));
+      _harness(tester).remove(2);
+      await tester.pump();
+      _harness(tester).insert(2, 9);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
 
-        expect(_offsetBetween(tester, 2, 9), greaterThan(0));
-        expect(_offsetBetween(tester, 9, 3), greaterThan(0));
-        await tester.pumpAndSettle();
-        expect(_harness(tester).ids, [0, 1, 9, 3, 4]);
-      },
-    );
+      expect(_offsetBetween(tester, 2, 9), greaterThan(0));
+      expect(_offsetBetween(tester, 9, 3), greaterThan(0));
+      await tester.pumpAndSettle();
+      expect(_harness(tester).ids, [0, 1, 9, 3, 4]);
+    });
 
-    testWidgets(
-      'fo06/us11/fr04: adding back a GlobalKey item while its old copy leaves '
-      'raises no duplicate key',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        final keys = [
-          for (var id = 0; id < 3; id++) GlobalKey(debugLabel: 'item $id'),
-        ];
-        final ids = [0, 1, 2];
-        late StateSetter setIds;
-        await tester.pumpWidget(
-          _app(
-            StatefulBuilder(
-              builder: (context, setState) {
-                setIds = setState;
-                return ReorderableListViewLayout.builder(
-                  itemCount: ids.length,
-                  itemsController: controller,
-                  onReorderItem: (from, to) {},
-                  itemBuilder: (context, index) => SizedBox(
-                    key: keys[ids[index]],
-                    height: 40,
-                    child: Text('${ids[index]}'),
-                  ),
-                );
-              },
-            ),
+    testWidgets('fo06_03/us05/fr04: adding back a GlobalKey item while its old copy leaves '
+        'raises no duplicate key', (tester) async {
+      final controller = ReorderableItemsController();
+      final keys = [
+        for (var id = 0; id < 3; id++) GlobalKey(debugLabel: 'item $id'),
+      ];
+      final ids = [0, 1, 2];
+      late StateSetter setIds;
+      await tester.pumpWidget(
+        _app(
+          StatefulBuilder(
+            builder: (context, setState) {
+              setIds = setState;
+              return ReorderableListViewLayout.builder(
+                itemCount: ids.length,
+                itemsController: controller,
+                onReorderItem: (from, to) {},
+                itemBuilder: (context, index) => SizedBox(
+                  key: keys[ids[index]],
+                  height: 40,
+                  child: Text('${ids[index]}'),
+                ),
+              );
+            },
           ),
-        );
+        ),
+      );
 
-        setIds(() => ids.removeAt(1));
-        controller.removeItem(1);
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 50));
-        setIds(() => ids.insert(0, 1));
-        controller.insertItem(0);
-        await tester.pump();
+      setIds(() => ids.removeAt(1));
+      controller.removeItem(1);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
+      setIds(() => ids.insert(0, 1));
+      controller.insertItem(0);
+      await tester.pump();
 
-        expect(tester.takeException(), isNull);
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-        expect(find.text('1'), findsOneWidget);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(find.text('1'), findsOneWidget);
+    });
 
-    testWidgets("NFR-U03 and fo06/us11/s10: under the app's reduced motion the gap closes "
+    testWidgets("NFR-U03 and fo06_03/us05/s10: under the app's reduced motion the gap closes "
         'at once and the removed item fades out', (tester) async {
       final controller = ReorderableItemsController();
       final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -2709,36 +2688,33 @@ void main() {
       expect(find.byKey(const ValueKey(2)), findsNothing);
     });
 
-    testWidgets(
-      "NFR-U03 and fo06/us11/fr04/e01: under the platform's reduced motion an "
-      'added item takes its size at once and fades in',
-      (tester) async {
-        tester.platformDispatcher.accessibilityFeaturesTestValue =
-            const FakeAccessibilityFeatures(reduceMotion: true);
-        addTearDown(
-          tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
-        );
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            _Harness(count: 3, itemsController: controller),
-            theme: _normalTheme(const Duration(milliseconds: 250)),
-          ),
-        );
-        final mid = Curves.easeInOutSine.transform(0.5);
+    testWidgets("NFR-U03 and fo06_03/us05/fr04/e01: under the platform's reduced motion an "
+        'added item takes its size at once and fades in', (tester) async {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(reduceMotion: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          _Harness(count: 3, itemsController: controller),
+          theme: _normalTheme(const Duration(milliseconds: 250)),
+        ),
+      );
+      final mid = Curves.easeInOutSine.transform(0.5);
 
-        _harness(tester).insert(1, 9);
-        await tester.pump();
-        expect(_offsetBetween(tester, 0, 1), 80);
-        expect(_opacity(tester, 9), 0);
-        await tester.pump(const Duration(milliseconds: 125));
-        expect(_opacity(tester, 9), moreOrLessEquals(mid));
+      _harness(tester).insert(1, 9);
+      await tester.pump();
+      expect(_offsetBetween(tester, 0, 1), 80);
+      expect(_opacity(tester, 9), 0);
+      await tester.pump(const Duration(milliseconds: 125));
+      expect(_opacity(tester, 9), moreOrLessEquals(mid));
 
-        await tester.pumpAndSettle();
-      },
-    );
+      await tester.pumpAndSettle();
+    });
 
-    testWidgets('fo06/us11/fr04/e02: an itemTransitionBuilder replaces the size and fade on '
+    testWidgets('fo06_03/us05/fr04/e02: an itemTransitionBuilder replaces the size and fade on '
         'insert and remove', (tester) async {
       final controller = ReorderableItemsController();
       final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -2798,7 +2774,7 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('fo06/us11/fr04/e02: under reduced motion an itemTransitionBuilder gets the '
+    testWidgets('fo06_03/us05/fr04/e02: under reduced motion an itemTransitionBuilder gets the '
         'animation unchanged', (tester) async {
       tester.platformDispatcher.accessibilityFeaturesTestValue =
           const FakeAccessibilityFeatures(reduceMotion: true);
@@ -2833,7 +2809,7 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('fo06/us11/fr04/e11: with a fixed item extent the size jumps and the fade '
+    testWidgets('fo06_03/us05/fr04/e11: with a fixed item extent the size jumps and the fade '
         'plays', (tester) async {
       final controller = ReorderableItemsController();
       final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -2862,7 +2838,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e01: under reduced motion a removed item paints over the '
+      'fo06_03/us05/fr04/e01: under reduced motion a removed item paints over the '
       'item that takes its place, and a removed last item just past it',
       (tester) async {
         tester.platformDispatcher.accessibilityFeaturesTestValue =
@@ -2900,7 +2876,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e01: in a reversed list under reduced motion a removed item '
+      'fo06_03/us05/fr04/e01: in a reversed list under reduced motion a removed item '
       "lies over its host from the host's edge nearest index 0",
       (tester) async {
         tester.platformDispatcher.accessibilityFeaturesTestValue =
@@ -2933,7 +2909,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e11: with a fixed item extent a removed last item leaves at '
+    testWidgets('fo06_03/us05/fr04/e11: with a fixed item extent a removed last item leaves at '
         'once and a quick insert never shows it again', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -2961,7 +2937,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e11: with a fixed item extent a removed item takes no room '
+      'fo06_03/us05/fr04/e11: with a fixed item extent a removed item takes no room '
       'under a caller transition, along a horizontal list too',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -2990,33 +2966,30 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr04/e11: with a fixed item extent a removed item lays out at '
-      'the extent of the slot it fills',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 5,
-              itemsController: controller,
-              itemExtent: 56,
-              fillItems: true,
-            ),
+    testWidgets('fo06_03/us05/fr04/e11: with a fixed item extent a removed item lays out at '
+        'the extent of the slot it fills', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 5,
+            itemsController: controller,
+            itemExtent: 56,
+            fillItems: true,
           ),
-        );
+        ),
+      );
 
-        _harness(tester).remove(2);
-        await tester.pump();
+      _harness(tester).remove(2);
+      await tester.pump();
 
-        expect(tester.takeException(), isNull);
-        final host = tester.getRect(find.byKey(const ValueKey(3)));
-        expect(host.height, 56);
-        expect(tester.getRect(find.byKey(const ValueKey(2))), host);
-        await tester.pumpAndSettle();
-        expect(find.byKey(const ValueKey(2)), findsNothing);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      final host = tester.getRect(find.byKey(const ValueKey(3)));
+      expect(host.height, 56);
+      expect(tester.getRect(find.byKey(const ValueKey(2))), host);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey(2)), findsNothing);
+    });
 
     // How the extent is fixed.
     final shrinkWrapExtents = ValueVariant<String>({
@@ -3024,59 +2997,55 @@ void main() {
       'itemExtentBuilder',
       'prototypeItem',
     });
-    testWidgets(
-      'fo06/us11/fr04/e11: a shrink-wrapped list with a fixed item extent in '
-      'an unbounded scroll view lays out through a move, an insert, and a '
-      'remove',
-      (tester) async {
-        final shape = shrinkWrapExtents.currentValue!;
-        await tester.pumpWidget(
-          _app(
-            SingleChildScrollView(
-              child: _Harness(
-                count: 6,
-                shrinkWrap: true,
-                itemsController: ReorderableItemsController(),
-                itemExtent: shape == 'itemExtent' ? 40 : null,
-                itemExtentBuilder: shape == 'itemExtentBuilder'
-                    ? (index, dimensions) => 40
-                    : null,
-                prototypeItem: shape == 'prototypeItem'
-                    ? const SizedBox(height: 40)
-                    : null,
-              ),
+    testWidgets('fo06_03/us05/fr04/e11: a shrink-wrapped list with a fixed item extent in '
+        'an unbounded scroll view lays out through a move, an insert, and a '
+        'remove', (tester) async {
+      final shape = shrinkWrapExtents.currentValue!;
+      await tester.pumpWidget(
+        _app(
+          SingleChildScrollView(
+            child: _Harness(
+              count: 6,
+              shrinkWrap: true,
+              itemsController: ReorderableItemsController(),
+              itemExtent: shape == 'itemExtent' ? 40 : null,
+              itemExtentBuilder: shape == 'itemExtentBuilder'
+                  ? (index, dimensions) => 40
+                  : null,
+              prototypeItem: shape == 'prototypeItem'
+                  ? const SizedBox(height: 40)
+                  : null,
             ),
-            theme: _normalTheme(const Duration(milliseconds: 250)),
           ),
+          theme: _normalTheme(const Duration(milliseconds: 250)),
+        ),
+      );
+      expect(tester.takeException(), isNull);
+      final top = tester.getTopLeft(find.byKey(const ValueKey(0))).dy;
+      expect(tester.getTopLeft(find.byKey(const ValueKey(5))).dy - top, 200);
+
+      // The leaving item takes a slot of the plan while it leaves; under
+      // a fixed extent the move's old slot closes at once.
+      _harness(tester)
+        ..move(0, 3)
+        ..insert(1, 9)
+        ..remove(5);
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.takeException(), isNull);
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      final ids = _harness(tester).ids;
+      expect(ids, [1, 9, 2, 3, 0, 5]);
+      for (var index = 0; index < ids.length; index += 1) {
+        expect(
+          tester.getTopLeft(find.byKey(ValueKey(ids[index]))).dy - top,
+          index * 40,
         );
-        expect(tester.takeException(), isNull);
-        final top = tester.getTopLeft(find.byKey(const ValueKey(0))).dy;
-        expect(tester.getTopLeft(find.byKey(const ValueKey(5))).dy - top, 200);
-
-        // The leaving item takes a slot of the plan while it leaves; under
-        // a fixed extent the move's old slot closes at once.
-        _harness(tester)
-          ..move(0, 3)
-          ..insert(1, 9)
-          ..remove(5);
-        await tester.pump();
-        expect(tester.takeException(), isNull);
-        await tester.pump(const Duration(milliseconds: 100));
-        expect(tester.takeException(), isNull);
-        await tester.pumpAndSettle();
-
-        expect(tester.takeException(), isNull);
-        final ids = _harness(tester).ids;
-        expect(ids, [1, 9, 2, 3, 0, 5]);
-        for (var index = 0; index < ids.length; index += 1) {
-          expect(
-            tester.getTopLeft(find.byKey(ValueKey(ids[index]))).dy - top,
-            index * 40,
-          );
-        }
-      },
-      variant: shrinkWrapExtents,
-    );
+      }
+    }, variant: shrinkWrapExtents);
 
     /// A shrink-wrapped [_Harness] of [count] items with the fixed extent
     /// of 40 the current [shrinkWrapExtents] value names, laid along [axis]
@@ -3123,7 +3092,7 @@ void main() {
     }
 
     testWidgets(
-      'fo06/us11/fr04/e11: an empty shrink-wrapped list with a fixed item '
+      'fo06_03/us05/fr04/e11: an empty shrink-wrapped list with a fixed item '
       'extent in an unbounded scroll view lays out, and then takes an insert',
       (tester) async {
         await tester.pumpWidget(shrinkWrapped(count: 0));
@@ -3138,7 +3107,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e11: a shrink-wrapped list with a fixed item extent '
+      'fo06_03/us05/fr04/e11: a shrink-wrapped list with a fixed item extent '
       'of one item in an unbounded scroll view lays out through a remove '
       'and an insert',
       (tester) async {
@@ -3156,7 +3125,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e11: a shrink-wrapped list with a fixed item extent '
+      'fo06_03/us05/fr04/e11: a shrink-wrapped list with a fixed item extent '
       'in an unbounded scroll view lays out while every item leaves at once',
       (tester) async {
         await tester.pumpWidget(shrinkWrapped(count: 3));
@@ -3176,7 +3145,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e11: a reversed shrink-wrapped list with a fixed item '
+      'fo06_03/us05/fr04/e11: a reversed shrink-wrapped list with a fixed item '
       'extent in an unbounded scroll view lays out through a move, an '
       'insert, and a remove',
       (tester) async {
@@ -3203,7 +3172,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e11: a horizontal shrink-wrapped list with a fixed '
+      'fo06_03/us05/fr04/e11: a horizontal shrink-wrapped list with a fixed '
       'item extent in an unbounded scroll view lays out through a move, an '
       'insert, and a remove',
       (tester) async {
@@ -3232,7 +3201,7 @@ void main() {
       'itemExtentBuilder',
       'prototypeItem',
     });
-    testWidgets('fo06/us11/fr04/e11: itemExtentBuilder and prototypeItem fix the extent as '
+    testWidgets('fo06_03/us05/fr04/e11: itemExtentBuilder and prototypeItem fix the extent as '
         'itemExtent does', (tester) async {
       final byBuilder = fixedBy.currentValue == 'itemExtentBuilder';
       final controller = ReorderableItemsController();
@@ -3267,7 +3236,7 @@ void main() {
     }, variant: fixedBy);
 
     testWidgets(
-      'fo06/us11/fr04/e02: under reduced motion a removed item keeps its room '
+      'fo06_03/us05/fr04/e02: under reduced motion a removed item keeps its room '
       'under a caller transition, which gets the animation unchanged',
       (tester) async {
         tester.platformDispatcher.accessibilityFeaturesTestValue =
@@ -3309,7 +3278,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e05: a leaving item takes no pointer and starts no drag',
+      'fo06_03/us05/fr04/e05: a leaving item takes no pointer and starts no drag',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -3348,7 +3317,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e05: a leaving item takes no focus and has no screen-reader '
+    testWidgets('fo06_03/us05/fr04/e05: a leaving item takes no focus and has no screen-reader '
         'node from its first frame', (tester) async {
       final handle = tester.ensureSemantics();
       final controller = ReorderableItemsController();
@@ -3382,7 +3351,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e05: removeItem and a reorder key skip a leaving item',
+      'fo06_03/us05/fr04/e05: removeItem and a reorder key skip a leaving item',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -3410,7 +3379,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/s11: focus on a removed item moves to the first control of the '
+    testWidgets('fo06_03/us05/s11: focus on a removed item moves to the first control of the '
         'item after it', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -3425,7 +3394,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e04: with no item after it, focus moves to the item before',
+      'fo06_03/us05/fr04/e04: with no item after it, focus moves to the item before',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -3440,7 +3409,7 @@ void main() {
       },
     );
 
-    testWidgets("fo06/us11/fr04/e04: with no other item, focus moves to the list's own Tab "
+    testWidgets("fo06_03/us05/fr04/e04: with no other item, focus moves to the list's own Tab "
         'stop', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -3454,7 +3423,7 @@ void main() {
       expect(FocusManager.instance.primaryFocus?.debugLabel, 'ScrollFocus');
     });
 
-    testWidgets('fo06/us11/fr04/e04: the item that takes focus from a removed item shows on '
+    testWidgets('fo06_03/us05/fr04/e04: the item that takes focus from a removed item shows on '
         'screen', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -3472,7 +3441,7 @@ void main() {
       expect(_itemInView(tester, 8), isTrue);
     });
 
-    testWidgets('fo06/us11/fr04/e05: a tap on a fixed-extent slot reaches the item under a '
+    testWidgets('fo06_03/us05/fr04/e05: a tap on a fixed-extent slot reaches the item under a '
         'leaving item, past the caller transition', (tester) async {
       final controller = ReorderableItemsController();
       var transitionTaps = 0;
@@ -3524,36 +3493,32 @@ void main() {
       'insert at the gap': 9,
     };
     final secondCall = ValueVariant<String>(takesFocus.keys.toSet());
-    testWidgets(
-      'fo06/us11/fr04/e04: focus goes to the item after a removed one as the '
-      'later calls of the same turn leave it',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 6, itemsController: controller)),
-        );
-        await _focusItem(tester, 3);
+    testWidgets('fo06_03/us05/fr04/e04: focus goes to the item after a removed one as the '
+        'later calls of the same turn leave it', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 6, itemsController: controller)),
+      );
+      await _focusItem(tester, 3);
 
-        _harness(tester).remove(3);
-        switch (secondCall.currentValue) {
-          case 'remove before':
-            _harness(tester).remove(0);
-          case 'insert before':
-            _harness(tester).insert(0, 9);
-          case 'remove at the gap':
-            _harness(tester).remove(3);
-          case 'insert at the gap':
-            _harness(tester).insert(3, 9);
-        }
-        await tester.pumpAndSettle();
+      _harness(tester).remove(3);
+      switch (secondCall.currentValue) {
+        case 'remove before':
+          _harness(tester).remove(0);
+        case 'insert before':
+          _harness(tester).insert(0, 9);
+        case 'remove at the gap':
+          _harness(tester).remove(3);
+        case 'insert at the gap':
+          _harness(tester).insert(3, 9);
+      }
+      await tester.pumpAndSettle();
 
-        final id = takesFocus[secondCall.currentValue]!;
-        expect(_itemState(tester, id).node.hasPrimaryFocus, isTrue);
-      },
-      variant: secondCall,
-    );
+      final id = takesFocus[secondCall.currentValue]!;
+      expect(_itemState(tester, id).node.hasPrimaryFocus, isTrue);
+    }, variant: secondCall);
 
-    testWidgets('fo06/us11/s12: a removal during a drag ends the drag with the dragged item '
+    testWidgets('fo06_03/us05/s12: a removal during a drag ends the drag with the dragged item '
         'back in its slot', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -3582,7 +3547,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e06: an insert during a drag ends the drag first',
+      'fo06_03/us05/fr04/e06: an insert during a drag ends the drag first',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -3608,36 +3573,33 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr04/e06: a drag its gesture canceled fires one onReorderEnd, '
-      'and none at a later removal',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 5, itemsController: controller)),
-        );
+    testWidgets('fo06_03/us05/fr04/e06: a drag its gesture canceled fires one onReorderEnd, '
+        'and none at a later removal', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller)),
+      );
 
-        final gesture = await tester.startGesture(
-          tester.getCenter(find.text('0')),
-        );
-        await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
-        await gesture.moveBy(const Offset(0, 30));
-        await tester.pump();
-        await gesture.cancel();
-        await tester.pumpAndSettle();
-        expect(_harness(tester).starts, [0]);
-        expect(_harness(tester).ends, [0]);
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.text('0')),
+      );
+      await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+      await gesture.moveBy(const Offset(0, 30));
+      await tester.pump();
+      await gesture.cancel();
+      await tester.pumpAndSettle();
+      expect(_harness(tester).starts, [0]);
+      expect(_harness(tester).ends, [0]);
 
-        _harness(tester).remove(3);
-        await tester.pumpAndSettle();
+      _harness(tester).remove(3);
+      await tester.pumpAndSettle();
 
-        expect(_harness(tester).ends, [0]);
-        expect(_harness(tester).ids, [0, 1, 2, 4]);
-      },
-    );
+      expect(_harness(tester).ends, [0]);
+      expect(_harness(tester).ids, [0, 1, 2, 4]);
+    });
 
     testWidgets(
-      'fo06/us11/fr04/e06: a count change with no call ends a drag with one '
+      'fo06_03/us05/fr04/e06: a count change with no call ends a drag with one '
       'onReorderEnd, and a removal while the pointer stays down fires none',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -3668,7 +3630,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e06: a removal while a dropped item settles ends the drop '
+    testWidgets('fo06_03/us05/fr04/e06: a removal while a dropped item settles ends the drop '
         'with no onReorderItem and no second onReorderEnd', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -3698,7 +3660,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e06: a count change with no call while a dropped item '
+      'fo06_03/us05/fr04/e06: a count change with no call while a dropped item '
       'settles fires no second onReorderEnd',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -3729,65 +3691,62 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr04/e06: drag chrome that the app hides in onReorderEnd goes '
-      'after a count change with no call',
-      (tester) async {
-        final ids = [0, 1, 2, 3, 4];
-        final ends = <int>[];
-        var dragging = false;
-        late StateSetter setApp;
-        await tester.pumpWidget(
-          _app(
-            StatefulBuilder(
-              builder: (context, setState) {
-                setApp = setState;
-                return Column(
-                  children: [
-                    if (dragging) const Text('dragging'),
-                    Expanded(
-                      child: ReorderableListViewLayout.builder(
-                        itemCount: ids.length,
-                        onReorderItem: (from, to) {},
-                        onReorderStart: (_) => setState(() => dragging = true),
-                        onReorderEnd: (index) => setState(() {
-                          dragging = false;
-                          ends.add(index);
-                        }),
-                        itemBuilder: (context, index) => SizedBox(
-                          key: ValueKey(ids[index]),
-                          height: 40,
-                          child: Text('${ids[index]}'),
-                        ),
+    testWidgets('fo06_03/us05/fr04/e06: drag chrome that the app hides in onReorderEnd goes '
+        'after a count change with no call', (tester) async {
+      final ids = [0, 1, 2, 3, 4];
+      final ends = <int>[];
+      var dragging = false;
+      late StateSetter setApp;
+      await tester.pumpWidget(
+        _app(
+          StatefulBuilder(
+            builder: (context, setState) {
+              setApp = setState;
+              return Column(
+                children: [
+                  if (dragging) const Text('dragging'),
+                  Expanded(
+                    child: ReorderableListViewLayout.builder(
+                      itemCount: ids.length,
+                      onReorderItem: (from, to) {},
+                      onReorderStart: (_) => setState(() => dragging = true),
+                      onReorderEnd: (index) => setState(() {
+                        dragging = false;
+                        ends.add(index);
+                      }),
+                      itemBuilder: (context, index) => SizedBox(
+                        key: ValueKey(ids[index]),
+                        height: 40,
+                        child: Text('${ids[index]}'),
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           ),
-        );
-        final gesture = await tester.startGesture(
-          tester.getCenter(find.text('1')),
-        );
-        await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
-        await gesture.moveBy(const Offset(0, 30));
-        await tester.pump();
-        expect(find.text('dragging'), findsOneWidget);
+        ),
+      );
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.text('1')),
+      );
+      await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+      await gesture.moveBy(const Offset(0, 30));
+      await tester.pump();
+      expect(find.text('dragging'), findsOneWidget);
 
-        setApp(() => ids.insert(0, 9));
-        await tester.pump();
-        expect(ends, [1]);
-        await tester.pump();
+      setApp(() => ids.insert(0, 9));
+      await tester.pump();
+      expect(ends, [1]);
+      await tester.pump();
 
-        expect(find.text('dragging'), findsNothing);
-        await gesture.up();
-        await tester.pumpAndSettle();
-        expect(ends, [1]);
-      },
-    );
+      expect(find.text('dragging'), findsNothing);
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(ends, [1]);
+    });
 
-    testWidgets('fo06/us11/fr04/e06: removing the dragged item ends the drag, then the item '
+    testWidgets('fo06_03/us05/fr04/e06: removing the dragged item ends the drag, then the item '
         'leaves from its slot', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -3818,7 +3777,7 @@ void main() {
     });
 
     testWidgets(
-      "NFR-U03 and fo06/us11/fr04/e01: under the platform's disableAnimations "
+      "NFR-U03 and fo06_03/us05/fr04/e01: under the platform's disableAnimations "
       "flag an insert and a remove still fade over the theme's durations",
       (tester) async {
         tester.platformDispatcher.accessibilityFeaturesTestValue =
@@ -3848,31 +3807,28 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr04: a removal in the turn of a move with no call ends the '
-      'leaving copy of an item the data still holds',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 4, itemsController: controller)),
-        );
+    testWidgets('fo06_03/us05/fr04: a removal in the turn of a move with no call ends the '
+        'leaving copy of an item the data still holds', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 4, itemsController: controller)),
+      );
 
-        // The move gives index 2 to item 1, which the app removes; the last
-        // build drew item 2 there, so its copy is the one that leaves.
-        _harness(tester)
-          ..moveData(3, 0)
-          ..remove(2);
-        await tester.pump();
+      // The move gives index 2 to item 1, which the app removes; the last
+      // build drew item 2 there, so its copy is the one that leaves.
+      _harness(tester)
+        ..moveData(3, 0)
+        ..remove(2);
+      await tester.pump();
 
-        expect(tester.takeException(), isNull);
-        expect(find.text('2'), findsOneWidget);
-        await tester.pumpAndSettle();
-        expect(find.text('1'), findsNothing);
-        expect(_harness(tester).ids, [3, 0, 2]);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(find.text('2'), findsOneWidget);
+      await tester.pumpAndSettle();
+      expect(find.text('1'), findsNothing);
+      expect(_harness(tester).ids, [3, 0, 2]);
+    });
 
-    testWidgets('fo06/us11/fr04: adding back an item whose look holds an app GlobalKey ends '
+    testWidgets('fo06_03/us05/fr04: adding back an item whose look holds an app GlobalKey ends '
         'its leaving copy at once', (tester) async {
       final controller = ReorderableItemsController();
       final rows = [
@@ -3919,7 +3875,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e03: adding back the key of an item that leaves in a '
+      'fo06_03/us05/fr04/e03: adding back the key of an item that leaves in a '
       'builder look keeps that look leaving',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -3948,7 +3904,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e13: a leaving key the data holds again with no insertItem '
+    testWidgets('fo06_03/us05/fr04/e13: a leaving key the data holds again with no insertItem '
         'fails a debug assert when its item builds', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -3973,26 +3929,23 @@ void main() {
       expect(tester.takeException(), isAssertionError);
     });
 
-    testWidgets(
-      'fo06/us11/fr04/e04: focus the app moves in the turn of a removal stays '
-      'where the app put it',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 5, itemsController: controller, fieldAt: 4)),
-        );
-        await _focusItem(tester, 2);
-        final field = _itemState(tester, 4).node;
+    testWidgets('fo06_03/us05/fr04/e04: focus the app moves in the turn of a removal stays '
+        'where the app put it', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller, fieldAt: 4)),
+      );
+      await _focusItem(tester, 2);
+      final field = _itemState(tester, 4).node;
 
-        _harness(tester).remove(2);
-        field.requestFocus();
-        await tester.pumpAndSettle();
+      _harness(tester).remove(2);
+      field.requestFocus();
+      await tester.pumpAndSettle();
 
-        expect(field.hasPrimaryFocus, isTrue);
-      },
-    );
+      expect(field.hasPrimaryFocus, isTrue);
+    });
 
-    testWidgets('fo06/us11/fr04/e16: a focused item removed and inserted back at its index '
+    testWidgets('fo06_03/us05/fr04/e16: a focused item removed and inserted back at its index '
         'with its key in one turn keeps its State and focus', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -4011,7 +3964,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e16: a focused item removed in a builder look and inserted '
+      'fo06_03/us05/fr04/e16: a focused item removed in a builder look and inserted '
       'back at its index with its key in one turn keeps its State and focus',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -4041,7 +3994,7 @@ void main() {
     // Where focused item 2 of five goes back, after its removal leaves four.
     final returnsAt = ValueVariant<int>({0, 4});
     testWidgets(
-      'fo06/us11/fr04/e16: a focused item removed and inserted back at another '
+      'fo06_03/us05/fr04/e16: a focused item removed and inserted back at another '
       'index with its key in one turn keeps its State and focus',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -4063,7 +4016,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e16: a focused node inside an item removed and inserted '
+      'fo06_03/us05/fr04/e16: a focused node inside an item removed and inserted '
       'back at its index with its key in one turn keeps focus',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -4089,7 +4042,7 @@ void main() {
     // top: slot 0 and slot 40 lie far before the viewport and its cache
     // extent, so the list has not built them.
     final returnsUnbuilt = ValueVariant<int>({0, 40});
-    testWidgets('fo06/us11/fr04/e17: a focused item removed and inserted back with its key '
+    testWidgets('fo06_03/us05/fr04/e17: a focused item removed and inserted back with its key '
         'in one turn at a slot the list has not built takes focus on its first '
         'control and shows on screen', (tester) async {
       final controller = ReorderableItemsController();
@@ -4112,7 +4065,7 @@ void main() {
       expect(_itemInView(tester, 100), isTrue);
     }, variant: returnsUnbuilt);
 
-    testWidgets('fo06/us11/fr04/e16: a focused item removed and inserted back with its key '
+    testWidgets('fo06_03/us05/fr04/e16: a focused item removed and inserted back with its key '
         'in one turn at a slot built past the viewport keeps its State and '
         'focus and shows on screen', (tester) async {
       final controller = ReorderableItemsController();
@@ -4134,33 +4087,30 @@ void main() {
       expect(_itemInView(tester, 2), isTrue);
     });
 
-    testWidgets(
-      'fo06/us11/fr04/e18: a focused node inside an item removed and inserted '
-      'back with its key in one turn, gone while the item keeps its State, '
-      "hands focus to the item's first node",
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 5, itemsController: controller, innerAt: 2)),
-        );
-        final state = _itemState(tester, 2);
-        state.inner.requestFocus();
-        await tester.pump();
-        expect(state.inner.hasPrimaryFocus, isTrue);
+    testWidgets('fo06_03/us05/fr04/e18: a focused node inside an item removed and inserted '
+        'back with its key in one turn, gone while the item keeps its State, '
+        "hands focus to the item's first node", (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller, innerAt: 2)),
+      );
+      final state = _itemState(tester, 2);
+      state.inner.requestFocus();
+      await tester.pump();
+      expect(state.inner.hasPrimaryFocus, isTrue);
 
-        _harness(tester)
-          ..remove(2)
-          ..insert(4, 2)
-          ..hideInner();
-        await tester.pumpAndSettle();
+      _harness(tester)
+        ..remove(2)
+        ..insert(4, 2)
+        ..hideInner();
+      await tester.pumpAndSettle();
 
-        expect(_itemState(tester, 2), same(state));
-        expect(FocusManager.instance.primaryFocus, same(state.node));
-        expect(_itemInView(tester, 2), isTrue);
-      },
-    );
+      expect(_itemState(tester, 2), same(state));
+      expect(FocusManager.instance.primaryFocus, same(state.node));
+      expect(_itemInView(tester, 2), isTrue);
+    });
 
-    testWidgets('fo06/us11/fr04/e16: focus the app moves in the turn it removes a focused '
+    testWidgets('fo06_03/us05/fr04/e16: focus the app moves in the turn it removes a focused '
         'item and inserts it back stays where the app put it', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -4178,7 +4128,7 @@ void main() {
       expect(field.hasPrimaryFocus, isTrue);
     });
 
-    testWidgets('fo06/us11/s13: a button inside an item the app takes out and puts back at '
+    testWidgets('fo06_03/us05/s13: a button inside an item the app takes out and puts back at '
         'the fifth slot keeps focus, and the item shows there', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -4199,7 +4149,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e17: in a reversed list a focused item inserted back at a '
+      'fo06_03/us05/fr04/e17: in a reversed list a focused item inserted back at a '
       'slot the list has not built takes focus and shows on screen',
       (tester) async {
         await _returnFocused(
@@ -4222,7 +4172,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e17: in a horizontal list a focused item inserted back at '
+      'fo06_03/us05/fr04/e17: in a horizontal list a focused item inserted back at '
       'a slot the list has not built takes focus and shows on screen',
       (tester) async {
         await _returnFocused(
@@ -4245,7 +4195,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e17: in a horizontal list under right-to-left text a '
+      'fo06_03/us05/fr04/e17: in a horizontal list under right-to-left text a '
       'focused item inserted back at an unbuilt slot takes focus and shows '
       'on screen',
       (tester) async {
@@ -4268,7 +4218,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e17: in a list of varied item extents the list jumps again '
+    testWidgets('fo06_03/us05/fr04/e17: in a list of varied item extents the list jumps again '
         'after a missed estimate and reaches the slot', (tester) async {
       // Slots before index 100 are 80 px and the rest 40 px, so the items
       // built around index 100 put slot 40 too far down; the items built
@@ -4290,7 +4240,7 @@ void main() {
       expect(_itemInView(tester, 100), isTrue);
     });
 
-    testWidgets('fo06/us11/fr04/e17: the list calls itemBuilder only inside a build while '
+    testWidgets('fo06_03/us05/fr04/e17: the list calls itemBuilder only inside a build while '
         'it reaches an unbuilt slot', (tester) async {
       var outside = 0;
       await _returnFocused(
@@ -4312,7 +4262,7 @@ void main() {
       expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 100');
     });
 
-    testWidgets('fo06/us11/fr04/e17: a node that takes focus while the list reaches a slot '
+    testWidgets('fo06_03/us05/fr04/e17: a node that takes focus while the list reaches a slot '
         'ends the reach and keeps that focus', (tester) async {
       await _returnFocused(
         tester,
@@ -4329,7 +4279,7 @@ void main() {
       expect(other.hasPrimaryFocus, isTrue);
     });
 
-    testWidgets('fo06/us11/fr04/e17: an insert while the list reaches a slot puts another '
+    testWidgets('fo06_03/us05/fr04/e17: an insert while the list reaches a slot puts another '
         'key there, so the list returns to its offset and hands focus to the '
         'item after the gap', (tester) async {
       await _returnFocused(
@@ -4358,7 +4308,7 @@ void main() {
       expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
     });
 
-    testWidgets('fo06/us11/fr04/e17: a slot the list does not reach in 4 frames hands focus '
+    testWidgets('fo06_03/us05/fr04/e17: a slot the list does not reach in 4 frames hands focus '
         'on from the gap', (tester) async {
       var jumps = 0;
       await _returnFocused(
@@ -4376,34 +4326,31 @@ void main() {
       expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
     });
 
-    testWidgets(
-      'fo06/us11/fr04/e17: focus Flutter hands back to an item focused earlier '
-      'does not end the reach',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 200, itemsController: controller)),
-        );
-        tester
-            .state<ScrollableState>(find.byType(Scrollable))
-            .position
-            .jumpTo(4000);
-        await tester.pump();
-        // Item 99 sits in the cache extent just above the viewport.
-        await _focusItem(tester, 99);
-        await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr04/e17: focus Flutter hands back to an item focused earlier '
+        'does not end the reach', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 200, itemsController: controller)),
+      );
+      tester
+          .state<ScrollableState>(find.byType(Scrollable))
+          .position
+          .jumpTo(4000);
+      await tester.pump();
+      // Item 99 sits in the cache extent just above the viewport.
+      await _focusItem(tester, 99);
+      await _focusItem(tester, 100);
 
-        _harness(tester)
-          ..remove(100)
-          ..insert(0, 100);
-        await tester.pumpAndSettle();
+      _harness(tester)
+        ..remove(100)
+        ..insert(0, 100);
+      await tester.pumpAndSettle();
 
-        expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 100');
-        expect(_itemInView(tester, 100), isTrue);
-      },
-    );
+      expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 100');
+      expect(_itemInView(tester, 100), isTrue);
+    });
 
-    testWidgets('fo06/us11/fr04/e17: a list taken out of the tree while it reaches a slot '
+    testWidgets('fo06_03/us05/fr04/e17: a list taken out of the tree while it reaches a slot '
         'stops reaching', (tester) async {
       await _returnFocused(
         tester,
@@ -4424,7 +4371,7 @@ void main() {
     // position the reach in flight still holds.
     const swapPhysics = NeverScrollableScrollPhysics();
 
-    testWidgets("fo06/us11/fr04/e17: a reach that gives up after the app swaps the list's "
+    testWidgets("fo06_03/us05/fr04/e17: a reach that gives up after the app swaps the list's "
         'scroll physics returns on the live position and hands focus off with '
         'no exception', (tester) async {
       // Slots before index 100 are 80 px and the rest 40 px, so the jump in
@@ -4492,7 +4439,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/s14: a button inside the first item of a long list the app '
+      'fo06_03/us05/s14: a button inside the first item of a long list the app '
       'takes out and puts back at the last slot: the list scrolls there, the '
       'button keeps focus, and the item shows on screen',
       (tester) async {
@@ -4515,7 +4462,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e14: a reorder key on the item a leaving item is drawn beside '
+    testWidgets('fo06_03/us05/fr04/e14: a reorder key on the item a leaving item is drawn beside '
         'ends that leaving item at once', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -4540,74 +4487,68 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets(
-      'fo06/us11/fr04/e11: under an itemExtentBuilder a removed item keeps its '
-      'own extent, clipped to the slot it fades over',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        final ids = [0, 1, 2, 3];
-        late StateSetter setIds;
-        await tester.pumpWidget(
-          _app(
-            StatefulBuilder(
-              builder: (context, setState) {
-                setIds = setState;
-                return ReorderableListViewLayout.builder(
-                  itemCount: ids.length,
-                  itemsController: controller,
-                  // Item 1 is a header twice the height of a row.
-                  itemExtentBuilder: (index, dimensions) =>
-                      index < ids.length && ids[index] == 1 ? 80 : 40,
-                  onReorderItem: (from, to) {},
-                  itemBuilder: (context, index) => SizedBox(
-                    key: ValueKey(ids[index]),
-                    child: Text('${ids[index]}'),
-                  ),
-                );
-              },
-            ),
+    testWidgets('fo06_03/us05/fr04/e11: under an itemExtentBuilder a removed item keeps its '
+        'own extent, clipped to the slot it fades over', (tester) async {
+      final controller = ReorderableItemsController();
+      final ids = [0, 1, 2, 3];
+      late StateSetter setIds;
+      await tester.pumpWidget(
+        _app(
+          StatefulBuilder(
+            builder: (context, setState) {
+              setIds = setState;
+              return ReorderableListViewLayout.builder(
+                itemCount: ids.length,
+                itemsController: controller,
+                // Item 1 is a header twice the height of a row.
+                itemExtentBuilder: (index, dimensions) =>
+                    index < ids.length && ids[index] == 1 ? 80 : 40,
+                onReorderItem: (from, to) {},
+                itemBuilder: (context, index) => SizedBox(
+                  key: ValueKey(ids[index]),
+                  child: Text('${ids[index]}'),
+                ),
+              );
+            },
           ),
-        );
+        ),
+      );
 
-        setIds(() => ids.removeAt(1));
-        controller.removeItem(1);
-        await tester.pump();
+      setIds(() => ids.removeAt(1));
+      controller.removeItem(1);
+      await tester.pump();
 
-        expect(tester.takeException(), isNull);
-        final host = tester.getRect(find.byKey(const ValueKey(2)));
-        expect(host.height, 40);
-        expect(
-          tester.getRect(find.byKey(const ValueKey(1))),
-          Rect.fromLTWH(host.left, host.top, host.width, 80),
-        );
-        await tester.pumpAndSettle();
-        expect(find.byKey(const ValueKey(1)), findsNothing);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      final host = tester.getRect(find.byKey(const ValueKey(2)));
+      expect(host.height, 40);
+      expect(
+        tester.getRect(find.byKey(const ValueKey(1))),
+        Rect.fromLTWH(host.left, host.top, host.width, 80),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey(1)), findsNothing);
+    });
 
-    testWidgets(
-      'fo06/us11/fr04: in a reversed list a removed item shrinks out below the '
-      'item after it',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 5, itemsController: controller, reverse: true)),
-        );
+    testWidgets('fo06_03/us05/fr04: in a reversed list a removed item shrinks out below the '
+        'item after it', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller, reverse: true)),
+      );
 
-        _harness(tester).remove(2);
-        await tester.pump();
+      _harness(tester).remove(2);
+      await tester.pump();
 
-        final host = tester.getRect(find.byKey(const ValueKey(3)));
-        final exit = tester.getRect(find.byKey(const ValueKey(2)));
-        expect(exit.top, host.bottom);
-        expect(tester.getRect(find.byKey(const ValueKey(1))).top, exit.bottom);
-        await tester.pumpAndSettle();
-        expect(find.byKey(const ValueKey(2)), findsNothing);
-      },
-    );
+      final host = tester.getRect(find.byKey(const ValueKey(3)));
+      final exit = tester.getRect(find.byKey(const ValueKey(2)));
+      expect(exit.top, host.bottom);
+      expect(tester.getRect(find.byKey(const ValueKey(1))).top, exit.bottom);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey(2)), findsNothing);
+    });
 
     testWidgets(
-      'fo06/us11/fr04/e01: in a horizontal right-to-left list under reduced '
+      'fo06_03/us05/fr04/e01: in a horizontal right-to-left list under reduced '
       "motion a removed item lies from its host's right edge, and a removed "
       'last item just left of it',
       (tester) async {
@@ -4651,7 +4592,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e06: an insert from onReorderStart ends the drag it starts, '
+    testWidgets('fo06_03/us05/fr04/e06: an insert from onReorderStart ends the drag it starts, '
         'the dragged item keeping its State', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -4677,7 +4618,7 @@ void main() {
       expect(state.expanded, isTrue);
     });
 
-    testWidgets('fo06/us11/fr04/e06: a remove and an insert from onReorderStart end the drag '
+    testWidgets('fo06_03/us05/fr04/e06: a remove and an insert from onReorderStart end the drag '
         'they start, so the drop moves nothing', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -4704,7 +4645,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e06: a drag that starts between a call and its frame ends '
+      'fo06_03/us05/fr04/e06: a drag that starts between a call and its frame ends '
       'at once, and a later removal fires no second onReorderEnd',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -4733,7 +4674,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e06: a drag that starts between the removal of its item and '
+      'fo06_03/us05/fr04/e06: a drag that starts between the removal of its item and '
       'the frame ends at once, the item leaving from its slot',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -4763,7 +4704,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e06: a drag that starts between an insert and the frame ends '
+    testWidgets('fo06_03/us05/fr04/e06: a drag that starts between an insert and the frame ends '
         'at once when its slot holds a leaving item', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -4802,7 +4743,7 @@ void main() {
 
   void moveItemTests() {
     testWidgets(
-      'fo06/us11/s15: the app moves the third item to the first slot: the third '
+      'fo06_03/us05/s15: the app moves the third item to the first slot: the third '
       'slot closes, the item grows and fades in, and its button keeps focus',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -4842,7 +4783,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05: a move down closes the old slot as the item grows into '
+      'fo06_03/us05/fr05: a move down closes the old slot as the item grows into '
       'its new one, and the items past both slots hold still',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -4868,7 +4809,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05: in a reversed list a move to an earlier index closes the '
+    testWidgets('fo06_03/us05/fr05: in a reversed list a move to an earlier index closes the '
         "old slot at the data's last slot as the item grows into its new one, "
         'and the items past both slots hold still', (tester) async {
       final controller = ReorderableItemsController();
@@ -4896,26 +4837,27 @@ void main() {
       expect(_harness(tester).ids, [0, 4, 1, 2, 3]);
     });
 
-    testWidgets('fo06/us11/fr05/e01: a move to the same index does nothing', (
-      tester,
-    ) async {
-      final controller = ReorderableItemsController();
-      await tester.pumpWidget(
-        _app(_Harness(count: 5, itemsController: controller)),
-      );
-      final state = _itemState(tester, 2);
+    testWidgets(
+      'fo06_03/us05/fr05/e01: a move to the same index does nothing',
+      (tester) async {
+        final controller = ReorderableItemsController();
+        await tester.pumpWidget(
+          _app(_Harness(count: 5, itemsController: controller)),
+        );
+        final state = _itemState(tester, 2);
 
-      _harness(tester).move(2, 2);
-      await tester.pump();
+        _harness(tester).move(2, 2);
+        await tester.pump();
 
-      // R48: at rest every item sits inside a completed transition.
-      expect(_runningTransitions(tester), isEmpty);
-      expect(_itemState(tester, 2), same(state));
-      expect(_harness(tester).ids, [0, 1, 2, 3, 4]);
-    });
+        // R48: at rest every item sits inside a completed transition.
+        expect(_runningTransitions(tester), isEmpty);
+        expect(_itemState(tester, 2), same(state));
+        expect(_harness(tester).ids, [0, 1, 2, 3, 4]);
+      },
+    );
 
     testWidgets(
-      'NFR-U03 and fo06/us11/fr05/e02: under reduced motion the old slot closes '
+      'NFR-U03 and fo06_03/us05/fr05/e02: under reduced motion the old slot closes '
       'at once and the moved item fades in over the full forward duration',
       (tester) async {
         tester.platformDispatcher.accessibilityFeaturesTestValue =
@@ -4943,37 +4885,34 @@ void main() {
       },
     );
 
-    testWidgets(
-      "NFR-U03 and fo06/us11/fr05/e02: under the platform's disableAnimations "
-      'flag the old slot closes at once and the moved item fades in over '
-      'the full forward duration',
-      (tester) async {
-        tester.platformDispatcher.accessibilityFeaturesTestValue =
-            const FakeAccessibilityFeatures(disableAnimations: true);
-        addTearDown(
-          tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
-        );
-        final controller = ReorderableItemsController();
-        final theme = _normalTheme(const Duration(milliseconds: 250));
-        await tester.pumpWidget(
-          _app(_Harness(count: 5, itemsController: controller), theme: theme),
-        );
-        final mid = Curves.easeInOutSine.transform(0.5);
+    testWidgets("NFR-U03 and fo06_03/us05/fr05/e02: under the platform's disableAnimations "
+        'flag the old slot closes at once and the moved item fades in over '
+        'the full forward duration', (tester) async {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      final controller = ReorderableItemsController();
+      final theme = _normalTheme(const Duration(milliseconds: 250));
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller), theme: theme),
+      );
+      final mid = Curves.easeInOutSine.transform(0.5);
 
-        _harness(tester).move(2, 0);
-        await tester.pump();
-        expect(_top(tester, 0), 40);
-        expect(_top(tester, 3), 120);
-        expect(_opacity(tester, 2), 0);
+      _harness(tester).move(2, 0);
+      await tester.pump();
+      expect(_top(tester, 0), 40);
+      expect(_top(tester, 3), 120);
+      expect(_opacity(tester, 2), 0);
 
-        await tester.pump(_halfForward(theme));
-        expect(_opacity(tester, 2), moreOrLessEquals(mid));
-        await tester.pumpAndSettle();
-        expect(_top(tester, 3), 120);
-      },
-    );
+      await tester.pump(_halfForward(theme));
+      expect(_opacity(tester, 2), moreOrLessEquals(mid));
+      await tester.pumpAndSettle();
+      expect(_top(tester, 3), 120);
+    });
 
-    testWidgets('fo06/us11/fr05/e02: reduced motion switched on mid-move leaves the running '
+    testWidgets('fo06_03/us05/fr05/e02: reduced motion switched on mid-move leaves the running '
         'fade to finish and settles the list right', (tester) async {
       final controller = ReorderableItemsController();
       final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -5037,7 +4976,7 @@ void main() {
       expect(_top(tester, 4), 160);
     });
 
-    testWidgets('fo06/us11/fr05/e02: with a fixed item extent the old slot closes at once '
+    testWidgets('fo06_03/us05/fr05/e02: with a fixed item extent the old slot closes at once '
         'and the moved item fades in', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5062,53 +5001,49 @@ void main() {
       expect(_sizeBox(tester, 2).size.height, 40);
     });
 
-    testWidgets(
-      'fo06/us11/fr05/e03: a caller itemTransitionBuilder wraps the entering '
-      'item and never the slot it left',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 5,
-              itemsController: controller,
-              itemTransitionBuilder: (context, animation, child) =>
-                  KeyedSubtree(
-                    key: const ValueKey('caller'),
-                    child: FadeTransition(opacity: animation, child: child),
-                  ),
+    testWidgets('fo06_03/us05/fr05/e03: a caller itemTransitionBuilder wraps the entering '
+        'item and never the slot it left', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 5,
+            itemsController: controller,
+            itemTransitionBuilder: (context, animation, child) => KeyedSubtree(
+              key: const ValueKey('caller'),
+              child: FadeTransition(opacity: animation, child: child),
             ),
           ),
-        );
+        ),
+      );
 
-        _harness(tester).move(2, 0);
-        await tester.pump();
+      _harness(tester).move(2, 0);
+      await tester.pump();
 
-        // R48: the caller wraps every item; only the entering one runs.
-        expect(
-          find.byWidgetPredicate(
-            (widget) =>
-                widget is KeyedSubtree &&
-                widget.key == const ValueKey('caller') &&
-                (widget.child as FadeTransition).opacity !=
-                    kAlwaysCompleteAnimation,
-          ),
-          findsOneWidget,
-        );
-        expect(
-          find.ancestor(
-            of: find.byKey(const ValueKey(2)),
-            matching: find.byKey(const ValueKey('caller')),
-          ),
-          findsOneWidget,
-        );
-        // Item 1's top to item 3's top: item 1, then the 40 px old slot.
-        expect(_offsetBetween(tester, 1, 3), 80);
-      },
-    );
+      // R48: the caller wraps every item; only the entering one runs.
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is KeyedSubtree &&
+              widget.key == const ValueKey('caller') &&
+              (widget.child as FadeTransition).opacity !=
+                  kAlwaysCompleteAnimation,
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.ancestor(
+          of: find.byKey(const ValueKey(2)),
+          matching: find.byKey(const ValueKey('caller')),
+        ),
+        findsOneWidget,
+      );
+      // Item 1's top to item 3's top: item 1, then the 40 px old slot.
+      expect(_offsetBetween(tester, 1, 3), 80);
+    });
 
     testWidgets(
-      'fo06/us11/fr05/e06: a move during a drag ends the drag first',
+      'fo06_03/us05/fr05/e06: a move during a drag ends the drag first',
       (tester) async {
         final controller = ReorderableItemsController();
         await tester.pumpWidget(
@@ -5134,7 +5069,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05/e07: an out-of-range index or a controller attached to no '
+    testWidgets('fo06_03/us05/fr05/e07: an out-of-range index or a controller attached to no '
         'list fails a debug assert', (tester) async {
       final controller = ReorderableItemsController();
       expect(() => controller.moveItem(0, 1), throwsAssertionError);
@@ -5151,7 +5086,7 @@ void main() {
       expect(_harness(tester).ids, [0, 1, 2]);
     });
 
-    testWidgets('fo06/us11/fr05/e08: a move the app defers to after the frame animates as '
+    testWidgets('fo06_03/us05/fr05/e08: a move the app defers to after the frame animates as '
         'a move made outside a build', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5171,7 +5106,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr05/e08: a moveItem the app defers from inside a build to '
+      'fo06_03/us05/fr05/e08: a moveItem the app defers from inside a build to '
       'after the frame animates as a call made outside',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -5215,7 +5150,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05/e09: a move ends at once the leaving item drawn beside the '
+    testWidgets('fo06_03/us05/fr05/e09: a move ends at once the leaving item drawn beside the '
         'moved item', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5233,7 +5168,7 @@ void main() {
       expect(_harness(tester).ids, [4, 0, 1, 2]);
     });
 
-    testWidgets('fo06/us11/fr05/e10: a moved item still growing in starts its entry again '
+    testWidgets('fo06_03/us05/fr05/e10: a moved item still growing in starts its entry again '
         'at its new slot', (tester) async {
       final controller = ReorderableItemsController();
       final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -5255,27 +5190,24 @@ void main() {
       expect(_top(tester, 9), 120);
     });
 
-    testWidgets(
-      'fo06/us11/fr04/e05: an item playing its remove animation counts in no '
-      'index of moveItem',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 5, itemsController: controller)),
-        );
+    testWidgets('fo06_03/us05/fr04/e05: an item playing its remove animation counts in no '
+        'index of moveItem', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller)),
+      );
 
-        _harness(tester).remove(1);
-        await tester.pump();
-        _harness(tester).move(2, 0);
-        await tester.pumpAndSettle();
+      _harness(tester).remove(1);
+      await tester.pump();
+      _harness(tester).move(2, 0);
+      await tester.pumpAndSettle();
 
-        expect(_harness(tester).ids, [3, 0, 2, 4]);
-        expect(_top(tester, 3), 0);
-        expect(find.byKey(const ValueKey(1)), findsNothing);
-      },
-    );
+      expect(_harness(tester).ids, [3, 0, 2, 4]);
+      expect(_top(tester, 3), 0);
+      expect(find.byKey(const ValueKey(1)), findsNothing);
+    });
 
-    testWidgets('fo06/us11/fr05: a remove and a move in one turn read the move against the '
+    testWidgets('fo06_03/us05/fr05: a remove and a move in one turn read the move against the '
         'data after the remove', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5293,7 +5225,7 @@ void main() {
       expect(find.byKey(const ValueKey(0)), findsNothing);
     });
 
-    testWidgets('fo06/us11/fr05: an item moved from beyond the built slots grows in at its '
+    testWidgets('fo06_03/us05/fr05: an item moved from beyond the built slots grows in at its '
         'new slot with no closing slot and no scroll', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5314,27 +5246,24 @@ void main() {
       expect(position.pixels, 0);
     });
 
-    testWidgets(
-      'fo06/us11/fr05/e04: a focused item moved to the unbuilt last slot keeps '
-      'its State and focus, and shows on screen',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 200, itemsController: controller)),
-        );
-        final state = _itemState(tester, 0);
-        final focused = await _focusItem(tester, 0);
+    testWidgets('fo06_03/us05/fr05/e04: a focused item moved to the unbuilt last slot keeps '
+        'its State and focus, and shows on screen', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 200, itemsController: controller)),
+      );
+      final state = _itemState(tester, 0);
+      final focused = await _focusItem(tester, 0);
 
-        _harness(tester).move(0, 199);
-        await tester.pumpAndSettle();
+      _harness(tester).move(0, 199);
+      await tester.pumpAndSettle();
 
-        expect(_itemState(tester, 0), same(state));
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(_itemInView(tester, 0), isTrue);
-      },
-    );
+      expect(_itemState(tester, 0), same(state));
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(_itemInView(tester, 0), isTrue);
+    });
 
-    testWidgets('fo06/us11/fr05/e04: a focused item moved to the unbuilt first slot keeps '
+    testWidgets('fo06_03/us05/fr05/e04: a focused item moved to the unbuilt first slot keeps '
         'its State and focus, and shows on screen', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5358,7 +5287,7 @@ void main() {
 
     // The axis of a list whose focused item moves to an unbuilt middle slot.
     final moveAxes = ValueVariant<Axis>({Axis.vertical, Axis.horizontal});
-    testWidgets('fo06/us11/fr05/e04: a focused item moved to an unbuilt middle slot keeps '
+    testWidgets('fo06_03/us05/fr05/e04: a focused item moved to an unbuilt middle slot keeps '
         'its State and focus, and the list calls itemBuilder only inside a '
         'build', (tester) async {
       var outside = 0;
@@ -5392,38 +5321,35 @@ void main() {
       expect(_itemInView(tester, 100), isTrue);
     }, variant: moveAxes);
 
-    testWidgets(
-      'fo06/us11/fr05/e04: after a missed estimate the list reaches the moved '
-      "item's slot and focuses its first node",
-      (tester) async {
-        // Slots before index 100 are 80 px and the rest 40 px, so the jump
-        // in the call turn lands short of slot 40 and the State is lost.
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 200,
-              itemsController: controller,
-              itemExtentBuilder: (index, dimensions) => index < 100 ? 80 : 40,
-            ),
+    testWidgets('fo06_03/us05/fr05/e04: after a missed estimate the list reaches the moved '
+        "item's slot and focuses its first node", (tester) async {
+      // Slots before index 100 are 80 px and the rest 40 px, so the jump
+      // in the call turn lands short of slot 40 and the State is lost.
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 200,
+            itemsController: controller,
+            itemExtentBuilder: (index, dimensions) => index < 100 ? 80 : 40,
           ),
-        );
-        tester
-            .state<ScrollableState>(find.byType(Scrollable))
-            .position
-            .jumpTo(8000);
-        await tester.pump();
-        await _focusItem(tester, 100);
+        ),
+      );
+      tester
+          .state<ScrollableState>(find.byType(Scrollable))
+          .position
+          .jumpTo(8000);
+      await tester.pump();
+      await _focusItem(tester, 100);
 
-        _harness(tester).move(100, 40);
-        await tester.pumpAndSettle();
+      _harness(tester).move(100, 40);
+      await tester.pumpAndSettle();
 
-        expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 100');
-        expect(_itemInView(tester, 100), isTrue);
-      },
-    );
+      expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 100');
+      expect(_itemInView(tester, 100), isTrue);
+    });
 
-    testWidgets('fo06/us11/fr05/e04: when the reach after a move fails, the list returns to '
+    testWidgets('fo06_03/us05/fr05/e04: when the reach after a move fails, the list returns to '
         'its offset from before the move and hands focus on from the slot the '
         'item left', (tester) async {
       // As above, the jump at the next frame's start lands short of slot
@@ -5471,7 +5397,7 @@ void main() {
       expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
     });
 
-    testWidgets('fo06/us11/fr05/e04: a focused item moved to a slot built past the viewport '
+    testWidgets('fo06_03/us05/fr05/e04: a focused item moved to a slot built past the viewport '
         'shows on screen once it has grown in', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5490,91 +5416,85 @@ void main() {
       expect(_itemInView(tester, 2), isTrue);
     });
 
-    testWidgets(
-      'fo06/us11/fr05/e04: an insert in the same turn as a focused move whose '
-      'estimate misses hands focus off from the shifted gap',
-      (tester) async {
-        // Slots before index 100 are 80 px and the rest 40 px, so the jump in
-        // the call turn lands short of slot 40 and the State is lost.
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 200,
-              itemsController: controller,
-              itemExtentBuilder: (index, dimensions) => index < 100 ? 80 : 40,
-            ),
+    testWidgets('fo06_03/us05/fr05/e04: an insert in the same turn as a focused move whose '
+        'estimate misses hands focus off from the shifted gap', (tester) async {
+      // Slots before index 100 are 80 px and the rest 40 px, so the jump in
+      // the call turn lands short of slot 40 and the State is lost.
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 200,
+            itemsController: controller,
+            itemExtentBuilder: (index, dimensions) => index < 100 ? 80 : 40,
           ),
-        );
-        tester
-            .state<ScrollableState>(find.byType(Scrollable))
-            .position
-            .jumpTo(8000);
-        await tester.pump();
-        await _focusItem(tester, 100);
+        ),
+      );
+      tester
+          .state<ScrollableState>(find.byType(Scrollable))
+          .position
+          .jumpTo(8000);
+      await tester.pump();
+      await _focusItem(tester, 100);
 
-        _harness(tester)
-          ..move(100, 40)
-          ..insert(0, 500);
-        // Each jump of the reach springs back to where the move's jump at
-        // the next frame's start landed, so the reach gives up and the E04
-        // handoff runs.
-        final position = tester
-            .state<ScrollableState>(find.byType(Scrollable))
-            .position;
-        expect(position.pixels, 8000);
-        double? landing;
-        var springs = 0;
-        position.addListener(() {
-          final at = landing;
-          if (at == null) {
-            landing = position.pixels;
-            return;
-          }
-          if (springs == 4 || position.pixels == at) return;
-          springs += 1;
-          position.jumpTo(at);
-        });
-        await tester.pumpAndSettle();
+      _harness(tester)
+        ..move(100, 40)
+        ..insert(0, 500);
+      // Each jump of the reach springs back to where the move's jump at
+      // the next frame's start landed, so the reach gives up and the E04
+      // handoff runs.
+      final position = tester
+          .state<ScrollableState>(find.byType(Scrollable))
+          .position;
+      expect(position.pixels, 8000);
+      double? landing;
+      var springs = 0;
+      position.addListener(() {
+        final at = landing;
+        if (at == null) {
+          landing = position.pixels;
+          return;
+        }
+        if (springs == 4 || position.pixels == at) return;
+        springs += 1;
+        position.jumpTo(at);
+      });
+      await tester.pumpAndSettle();
 
-        // The reach never reaches the moved item, so the list returns to the
-        // offset from before the move and hands focus on from the gap the
-        // insert shifted, the item after it (E04): the data now holds item
-        // 101 right after the gap.
-        expect(springs, 4);
-        expect(position.pixels, 8000);
-        expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
-      },
-    );
+      // The reach never reaches the moved item, so the list returns to the
+      // offset from before the move and hands focus on from the gap the
+      // insert shifted, the item after it (E04): the data now holds item
+      // 101 right after the gap.
+      expect(springs, 4);
+      expect(position.pixels, 8000);
+      expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
+    });
 
-    testWidgets(
-      'fo06/us11/fr05/e04: a focused item moved and then removed in one turn '
-      'hands focus off, never to the scope',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 5, itemsController: controller)),
-        );
-        await _focusItem(tester, 3);
+    testWidgets('fo06_03/us05/fr05/e04: a focused item moved and then removed in one turn '
+        'hands focus off, never to the scope', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: controller)),
+      );
+      await _focusItem(tester, 3);
 
-        // The remove takes the moved item back out in the same turn; the
-        // follow finds no settled slot for it, so the list returns and hands
-        // focus on from the gap.
-        _harness(tester)
-          ..move(3, 1)
-          ..remove(1);
-        await tester.pumpAndSettle();
-        final primary = FocusManager.instance.primaryFocus;
+      // The remove takes the moved item back out in the same turn; the
+      // follow finds no settled slot for it, so the list returns and hands
+      // focus on from the gap.
+      _harness(tester)
+        ..move(3, 1)
+        ..remove(1);
+      await tester.pumpAndSettle();
+      final primary = FocusManager.instance.primaryFocus;
 
-        expect(tester.takeException(), isNull);
-        expect(primary, isA<FocusNode>());
-        expect(primary, isNot(isA<FocusScopeNode>()));
-        expect(primary?.debugLabel, 'item 4');
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(primary, isA<FocusNode>());
+      expect(primary, isNot(isA<FocusScopeNode>()));
+      expect(primary?.debugLabel, 'item 4');
+    });
 
     testWidgets(
-      'fo06/us11/fr05/e04: a focused move with a missed estimate and an '
+      'fo06_03/us05/fr05/e04: a focused move with a missed estimate and an '
       'unexplained count change in one turn hands focus off, never to the '
       'scope',
       (tester) async {
@@ -5613,7 +5533,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05/e05: the list never scrolls for a moved item that does not '
+    testWidgets('fo06_03/us05/fr05/e05: the list never scrolls for a moved item that does not '
         'hold focus', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5633,73 +5553,70 @@ void main() {
       expect(find.byKey(const ValueKey(100)), findsNothing);
     });
 
-    testWidgets(
-      'fo06/us11/fr05/e04: handing the controller to a second list in the turn '
-      'of a focused move to an unbuilt slot keeps focus on a live item of '
-      'the first list, never on the second list',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        // List A of 200 above list B of three items; the rebuild that builds
-        // A's move also takes the controller off A and gives it to B.
-        late StateSetter setHandOff;
-        var onB = false;
-        await tester.pumpWidget(
-          _app(
-            StatefulBuilder(
-              builder: (context, setState) {
-                setHandOff = setState;
-                return Column(
-                  children: [
-                    Expanded(
-                      child: _Harness(
-                        count: 200,
-                        itemsController: onB ? null : controller,
-                        // Slots before index 100 are 80 px and the rest
-                        // 40 px, so the jump in the call turn lands short
-                        // of slot 40 and the reach runs.
-                        itemExtentBuilder: (index, dimensions) =>
-                            index < 100 ? 80 : 40,
-                      ),
+    testWidgets('fo06_03/us05/fr05/e04: handing the controller to a second list in the turn '
+        'of a focused move to an unbuilt slot keeps focus on a live item of '
+        'the first list, never on the second list', (tester) async {
+      final controller = ReorderableItemsController();
+      // List A of 200 above list B of three items; the rebuild that builds
+      // A's move also takes the controller off A and gives it to B.
+      late StateSetter setHandOff;
+      var onB = false;
+      await tester.pumpWidget(
+        _app(
+          StatefulBuilder(
+            builder: (context, setState) {
+              setHandOff = setState;
+              return Column(
+                children: [
+                  Expanded(
+                    child: _Harness(
+                      count: 200,
+                      itemsController: onB ? null : controller,
+                      // Slots before index 100 are 80 px and the rest
+                      // 40 px, so the jump in the call turn lands short
+                      // of slot 40 and the reach runs.
+                      itemExtentBuilder: (index, dimensions) =>
+                          index < 100 ? 80 : 40,
                     ),
-                    Expanded(
-                      child: _Harness(
-                        count: 3,
-                        itemsController: onB ? controller : null,
-                      ),
+                  ),
+                  Expanded(
+                    child: _Harness(
+                      count: 3,
+                      itemsController: onB ? controller : null,
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           ),
-        );
-        tester
-            .state<ScrollableState>(find.byType(Scrollable).first)
-            .position
-            .jumpTo(8000);
-        await tester.pump();
-        await _focusItem(tester, 100);
+        ),
+      );
+      tester
+          .state<ScrollableState>(find.byType(Scrollable).first)
+          .position
+          .jumpTo(8000);
+      await tester.pump();
+      await _focusItem(tester, 100);
 
-        // The move and the hand-off in one turn: the frame that builds the
-        // move also re-attaches the controller to B, and A's post-frame
-        // follow and its reach then run while B holds the controller.
-        setHandOff(() => onB = true);
-        _harnessA(tester).move(100, 40);
-        await tester.pumpAndSettle();
-        final primary = FocusManager.instance.primaryFocus;
+      // The move and the hand-off in one turn: the frame that builds the
+      // move also re-attaches the controller to B, and A's post-frame
+      // follow and its reach then run while B holds the controller.
+      setHandOff(() => onB = true);
+      _harnessA(tester).move(100, 40);
+      await tester.pumpAndSettle();
+      final primary = FocusManager.instance.primaryFocus;
 
-        expect(tester.takeException(), isNull);
-        expect(primary, isA<FocusNode>());
-        expect(primary, isNot(isA<FocusScopeNode>()));
-        expect(primary?.debugLabel, 'item 100');
-        // The node lives in list A, the list that owns the moved item, and
-        // never in B, which now holds the controller.
-        expect(
-          primary?.context?.findAncestorStateOfType<_HarnessState>(),
-          same(_harnessA(tester)),
-        );
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(primary, isA<FocusNode>());
+      expect(primary, isNot(isA<FocusScopeNode>()));
+      expect(primary?.debugLabel, 'item 100');
+      // The node lives in list A, the list that owns the moved item, and
+      // never in B, which now holds the controller.
+      expect(
+        primary?.context?.findAncestorStateOfType<_HarnessState>(),
+        same(_harnessA(tester)),
+      );
+    });
   }
 
   group('ReorderableListViewLayout moveItem', moveItemTests);
@@ -5744,33 +5661,30 @@ void main() {
       await tester.sendKeyUpEvent(LogicalKeyboardKey.altLeft);
     }
 
-    testWidgets(
-      'fo06/us11/fr05/e04: a focused move down past the built slots after an '
-      'insertItem in the same turn scrolls nothing in the call turn and '
-      'keeps its State',
-      (tester) async {
-        final position = await pumpAt4000(tester);
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e04: a focused move down past the built slots after an '
+        'insertItem in the same turn scrolls nothing in the call turn and '
+        'keeps its State', (tester) async {
+      final position = await pumpAt4000(tester);
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // After three inserts item 100 sits at index 103; slot 116, the slot
-        // it enters, is 3 slots past the built 93 to 113: near.
-        _harness(tester)
-          ..insert(0, 1000)
-          ..insert(0, 1001)
-          ..insert(0, 1002)
-          ..move(103, 115);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // After three inserts item 100 sits at index 103; slot 116, the slot
+      // it enters, is 3 slots past the built 93 to 113: near.
+      _harness(tester)
+        ..insert(0, 1000)
+        ..insert(0, 1001)
+        ..insert(0, 1002)
+        ..move(103, 115);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-      },
-    );
+      expect(statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+    });
 
     testWidgets(
-      'fo06/us11/fr05/e04: a focused move up into a built slot after an '
+      'fo06_03/us05/fr05/e04: a focused move up into a built slot after an '
       'insertItem in the same turn does not scroll in the call turn',
       (tester) async {
         final position = await pumpAt4000(tester);
@@ -5791,32 +5705,29 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr05/e04: a focused move down to the last built slot scrolls '
-      'nothing in the call turn, since the item enters the slot after it, '
-      'and keeps its State',
-      (tester) async {
-        final position = await pumpAt4000(tester);
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e04: a focused move down to the last built slot scrolls '
+        'nothing in the call turn, since the item enters the slot after it, '
+        'and keeps its State', (tester) async {
+      final position = await pumpAt4000(tester);
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // A move down to 113 enters slot 114, which the frame did not build.
-        _harness(tester).move(100, 113);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // A move down to 113 enters slot 114, which the frame did not build.
+      _harness(tester).move(100, 113);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-      },
-    );
+      expect(statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+    });
 
     // The reorder key pressed between an insertItem call and its frame.
     final windowKeys = ValueVariant<LogicalKeyboardKey>({
       LogicalKeyboardKey.arrowUp,
       LogicalKeyboardKey.end,
     });
-    testWidgets('fo06/us11/fr02/e07: a reorder key between an insertItem call and its frame '
+    testWidgets('fo06_03/us05/fr02/e07: a reorder key between an insertItem call and its frame '
         "moves the focused item by indices of the app's data", (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -5852,7 +5763,7 @@ void main() {
     };
     final windowAction = ValueVariant<String>(windowActions.keys.toSet());
     testWidgets(
-      'fo06/us11/fr03/e07: a screen-reader move between an insertItem call and '
+      'fo06_03/us05/fr03/e07: a screen-reader move between an insertItem call and '
       "its frame moves the item it names by indices of the app's data",
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -5875,7 +5786,7 @@ void main() {
     // The input that tries to move an item the app removed in that turn.
     final removedInput = ValueVariant<String>({'Alt+Up', 'Move up'});
     testWidgets(
-      'fo06/us11/fr03/e07: a key or screen-reader move on an item the app '
+      'fo06_03/us05/fr03/e07: a key or screen-reader move on an item the app '
       'removed in the same turn moves nothing',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -5905,7 +5816,7 @@ void main() {
     // The input that moves an item the app moved in that turn.
     final movedInput = ValueVariant<String>({'Alt+Up', 'Move up'});
     testWidgets(
-      'fo06/us11/fr03/e07: a key or screen-reader move on an item the app '
+      'fo06_03/us05/fr03/e07: a key or screen-reader move on an item the app '
       'moved in the same turn moves it from its new index',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -5940,7 +5851,7 @@ void main() {
     };
     final growIn = ValueVariant<String>(growIns.keys.toSet());
     testWidgets(
-      's03/inv29: a key or screen-reader move between a call and its frame '
+      'fo06_03/inv29: a key or screen-reader move between a call and its frame '
       'leaves each grow-in on its own item',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -5980,7 +5891,7 @@ void main() {
       variant: growIn,
     );
 
-    testWidgets('fo06/us11/fr04/e06: a drag that starts between a reorder key and its frame '
+    testWidgets('fo06_03/us05/fr04/e06: a drag that starts between a reorder key and its frame '
         'ends at once, and the key move stands', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -6007,7 +5918,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e04: a focused item a reorder key moved and the app then '
+      'fo06_03/us05/fr04/e04: a focused item a reorder key moved and the app then '
       'removed in the same turn leaves from there and hands focus on',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -6032,7 +5943,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05: a moveItem of an item a reorder key moved in the same turn '
+    testWidgets('fo06_03/us05/fr05: a moveItem of an item a reorder key moved in the same turn '
         'closes the slot the key moved it to, and the items past both slots '
         'hold still', (tester) async {
       final controller = ReorderableItemsController();
@@ -6059,7 +5970,7 @@ void main() {
       expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 5');
     });
 
-    testWidgets('fo06/us11/fr02: a reorder key the app does not apply leaves the next key '
+    testWidgets('fo06_03/us05/fr02: a reorder key the app does not apply leaves the next key '
         'on the indices the frame shows', (tester) async {
       final moves = <(int, int)>[];
       await tester.pumpWidget(
@@ -6082,7 +5993,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e04: an app call earlier in the same post-frame batch '
+      'fo06_03/us05/fr04/e04: an app call earlier in the same post-frame batch '
       'leaves focus on the item after a removed one',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -6104,7 +6015,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e04: the handoff skips an item an insertItem call after '
+      'fo06_03/us05/fr04/e04: the handoff skips an item an insertItem call after '
       'the frame adds at the gap and goes to the next item the frame shows',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -6130,7 +6041,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e04: the handoff skips an item a moveItem call after the '
+      'fo06_03/us05/fr04/e04: the handoff skips an item a moveItem call after the '
       'frame brings to the gap and goes to the next item the frame shows',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -6151,7 +6062,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05: an item moved and then removed in one turn shows no '
+      'fo06_03/us05/fr05: an item moved and then removed in one turn shows no '
       'leaving copy at its new index',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -6174,7 +6085,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05: a second moveItem of an item in the same turn closes only '
+    testWidgets('fo06_03/us05/fr05: a second moveItem of an item in the same turn closes only '
         'the slot the frame drew it in, and the items past both slots hold '
         'still', (tester) async {
       final controller = ReorderableItemsController();
@@ -6198,7 +6109,7 @@ void main() {
       expect(_itemState(tester, 0), same(state));
     });
 
-    testWidgets('fo06/us11/fr04/e17: a reach that gives up where it started hands focus on '
+    testWidgets('fo06_03/us05/fr04/e17: a reach that gives up where it started hands focus on '
         'from the gap an app call in its last frame moved', (tester) async {
       final controller = ReorderableItemsController();
       await _returnFocused(
@@ -6231,45 +6142,42 @@ void main() {
       expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 6');
     });
 
-    testWidgets(
-      'fo06/us11/fr03: an insert the app defers from onReorderItem leaves the '
-      'reveal on the moved item',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 20, itemsController: controller)),
+    testWidgets('fo06_03/us05/fr03: an insert the app defers from onReorderItem leaves the '
+        'reveal on the moved item', (tester) async {
+      final handle = tester.ensureSemantics();
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 20, itemsController: controller)),
+      );
+      final position = tester
+          .state<ScrollableState>(find.byType(Scrollable))
+          .position;
+      // The app defers its insert from inside onReorderItem (FR-04 E15),
+      // so it runs before the move's reveal, in the same post-frame batch.
+      final harness = _harness(tester)
+        ..onMove = (from, to) => WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _harness(tester).insert(0, 500),
         );
-        final position = tester
-            .state<ScrollableState>(find.byType(Scrollable))
-            .position;
-        // The app defers its insert from inside onReorderItem (FR-04 E15),
-        // so it runs before the move's reveal, in the same post-frame batch.
-        final harness = _harness(tester)
-          ..onMove = (from, to) => WidgetsBinding.instance.addPostFrameCallback(
-            (_) => _harness(tester).insert(0, 500),
-          );
-        // Item 6 fills 240 to 280 of the 300 px viewport; slot 7 ends 20 px
-        // past it.
-        final node = tester.getSemantics(find.byKey(const ValueKey(6)));
-        node.owner!.performAction(
-          node.id,
-          SemanticsAction.customAction,
-          CustomSemanticsAction.getIdentifier(
-            const CustomSemanticsAction(label: 'Move down'),
-          ),
-        );
-        await tester.pump();
+      // Item 6 fills 240 to 280 of the 300 px viewport; slot 7 ends 20 px
+      // past it.
+      final node = tester.getSemantics(find.byKey(const ValueKey(6)));
+      node.owner!.performAction(
+        node.id,
+        SemanticsAction.customAction,
+        CustomSemanticsAction.getIdentifier(
+          const CustomSemanticsAction(label: 'Move down'),
+        ),
+      );
+      await tester.pump();
 
-        expect(harness.ids.indexOf(6), 8);
-        // R56: the list commits its scroll at the next frame's start
-        // (D13 frame shift).
-        await tester.pump();
-        expect(position.pixels, 20);
-        await tester.pumpAndSettle();
-        handle.dispose();
-      },
-    );
+      expect(harness.ids.indexOf(6), 8);
+      // R56: the list commits its scroll at the next frame's start
+      // (D13 frame shift).
+      await tester.pump();
+      expect(position.pixels, 20);
+      await tester.pumpAndSettle();
+      handle.dispose();
+    });
 
     // An app call that lands after a reach gave up away from where it
     // started: while the list jumps back, or after the frame that jump asks
@@ -6279,7 +6187,7 @@ void main() {
       'after the jump back frame',
     });
     testWidgets(
-      'fo06/us11/fr05/e04: a reach that gives up away from where it started hands '
+      'fo06_03/us05/fr05/e04: a reach that gives up away from where it started hands '
       'focus on from the gap an app call before the handoff moved',
       (tester) async {
         // Slots before index 100 are 80 px and the rest 40 px, so the jump in
@@ -6350,32 +6258,28 @@ void main() {
       'a built item',
       'an item the frame did not build',
     });
-    testWidgets(
-      's03/inv35: a focused move down past the leaving copy of a built item '
-      'removed in the same turn scrolls nothing in the call turn and keeps '
-      'its State',
-      (tester) async {
-        final position = await pumpAt4000(tester);
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/inv35: a focused move down past the leaving copy of a built item '
+        'removed in the same turn scrolls nothing in the call turn and keeps '
+        'its State', (tester) async {
+      final position = await pumpAt4000(tester);
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // Either remove puts item 100 at index 99. The leaving copy of item
-        // 95 and the closing slot both sit before index 112, so item 100
-        // enters slot 114, past the built 93 to 113; with item 10 gone, only
-        // the closing slot does, and the item enters the built slot 113.
-        final built = removedAbove.currentValue == 'a built item';
-        _harness(tester)
-          ..remove(built ? 95 : 10)
-          ..move(99, 112);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // Either remove puts item 100 at index 99. The leaving copy of item
+      // 95 and the closing slot both sit before index 112, so item 100
+      // enters slot 114, past the built 93 to 113; with item 10 gone, only
+      // the closing slot does, and the item enters the built slot 113.
+      final built = removedAbove.currentValue == 'a built item';
+      _harness(tester)
+        ..remove(built ? 95 : 10)
+        ..move(99, 112);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-      },
-      variant: removedAbove,
-    );
+      expect(statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+    }, variant: removedAbove);
 
     // A move down that draws no closing slot: under a fixed item extent or
     // reduced motion the slot the item left closes at once.
@@ -6383,40 +6287,33 @@ void main() {
       'a fixed item extent',
       'reduced motion',
     });
-    testWidgets(
-      's03/inv35: a focused move down to the last built slot with no closing '
-      'slot keeps the list still and the item its State',
-      (tester) async {
-        final fixed = noClosingSlot.currentValue == 'a fixed item extent';
-        if (!fixed) {
-          tester.platformDispatcher.accessibilityFeaturesTestValue =
-              const FakeAccessibilityFeatures(disableAnimations: true);
-          addTearDown(
-            tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
-          );
-        }
-        final position = await pumpAt4000(
-          tester,
-          itemExtent: fixed ? 40 : null,
+    testWidgets('fo06_03/inv35: a focused move down to the last built slot with no closing '
+        'slot keeps the list still and the item its State', (tester) async {
+      final fixed = noClosingSlot.currentValue == 'a fixed item extent';
+      if (!fixed) {
+        tester.platformDispatcher.accessibilityFeaturesTestValue =
+            const FakeAccessibilityFeatures(disableAnimations: true);
+        addTearDown(
+          tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
         );
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+      }
+      final position = await pumpAt4000(tester, itemExtent: fixed ? 40 : null);
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // With nothing drawn before it, item 100 enters slot 113 itself,
-        // which the frame built.
-        _harness(tester).move(100, 113);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // With nothing drawn before it, item 100 enters slot 113 itself,
+      // which the frame built.
+      _harness(tester).move(100, 113);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-      },
-      variant: noClosingSlot,
-    );
+      expect(statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+    }, variant: noClosingSlot);
 
     testWidgets(
-      's03/inv35: a focused move up past the leaving copy of a built item '
+      'fo06_03/inv35: a focused move up past the leaving copy of a built item '
       'removed in the same turn scrolls nothing in the call turn and keeps '
       'its State',
       (tester) async {
@@ -6442,34 +6339,31 @@ void main() {
       },
     );
 
-    testWidgets(
-      's03/inv35: a focused move up to a slot before the first one the frame '
-      'built scrolls nothing in the call turn and keeps its State, '
-      'though a leaving copy sits before the target',
-      (tester) async {
-        final position = await pumpAt4000(tester);
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/inv35: a focused move up to a slot before the first one the frame '
+        'built scrolls nothing in the call turn and keeps its State, '
+        'though a leaving copy sits before the target', (tester) async {
+      final position = await pumpAt4000(tester);
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // The removes of item 93, the first built, and item 10 put item 100
-        // at index 98 and item 93's leaving copy at 92. The move up to 92
-        // enters before slot 93, where the next frame anchors its layout,
-        // so the box before it does not carry it into the built slots.
-        _harness(tester)
-          ..remove(93)
-          ..remove(10)
-          ..move(98, 92);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // The removes of item 93, the first built, and item 10 put item 100
+      // at index 98 and item 93's leaving copy at 92. The move up to 92
+      // enters before slot 93, where the next frame anchors its layout,
+      // so the box before it does not carry it into the built slots.
+      _harness(tester)
+        ..remove(93)
+        ..remove(10)
+        ..move(98, 92);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-      },
-    );
+      expect(statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+    });
 
     testWidgets(
-      's03/inv35: a focused move down past an item inserted in view in the '
+      'fo06_03/inv35: a focused move down past an item inserted in view in the '
       'same turn keeps the list still when the slot it enters is built',
       (tester) async {
         final position = await pumpAt4000(tester);
@@ -6497,7 +6391,7 @@ void main() {
       'the item removed',
       'the item left',
     });
-    testWidgets('fo06/us11/fr02/e02: a reorder key on an item the app removed in the same '
+    testWidgets('fo06_03/us05/fr02/e02: a reorder key on an item the app removed in the same '
         'turn is handled with no move even with one item left, and a key on '
         'that item left is not handled', (tester) async {
       final controller = ReorderableItemsController();
@@ -6515,7 +6409,7 @@ void main() {
       expect(harness.ids, [if (removed) 0 else 1]);
     }, variant: removedOfTwo);
 
-    testWidgets('fo06/us11/fr03/e07: a screen-reader move on an item the app removed in the '
+    testWidgets('fo06_03/us05/fr03/e07: a screen-reader move on an item the app removed in the '
         'same turn moves nothing even with one item left', (tester) async {
       final handle = tester.ensureSemantics();
       final controller = ReorderableItemsController();
@@ -6594,7 +6488,7 @@ void main() {
     }
 
     testWidgets(
-      'fo06/us11/fr02/e08 (R52): a reorder key during a pointer drag ends it first, '
+      'fo06_03/us05/fr02/e08 (R52): a reorder key during a pointer drag ends it first, '
       'or while a drop settles completes it first, and then moves the focused '
       'item',
       (tester) async {
@@ -6616,7 +6510,7 @@ void main() {
       variant: dragPhase,
     );
 
-    testWidgets('fo06/us11/fr03/e08 (R52): a screen-reader move during a pointer drag ends it '
+    testWidgets('fo06_03/us05/fr03/e08 (R52): a screen-reader move during a pointer drag ends it '
         'first, or while a drop settles completes it first, and then moves the '
         'item', (tester) async {
       final handle = tester.ensureSemantics();
@@ -6644,7 +6538,7 @@ void main() {
     // carried item 3 past it still settles.
     final crossedInput = ValueVariant<String>({'Alt+Up', 'Move up'});
     testWidgets(
-      'fo06/us11/fr02/e08 and fo06/us11/fr03/e08 (R52): a key or screen-reader move of '
+      'fo06_03/us05/fr02/e08 and fo06_03/us05/fr03/e08 (R52): a key or screen-reader move of '
       'the focused item a settling drop carried an item past reads the data '
       "after the drop's move, so the item moves up from its new slot",
       (tester) async {
@@ -6703,7 +6597,7 @@ void main() {
     // an item at the end of its data.
     final endInput = ValueVariant<String>({'Alt+End', 'Move to the end'});
     testWidgets(
-      'fo06/us11/fr03/e07: a key or screen-reader move to the end past an item a '
+      'fo06_03/us05/fr03/e07: a key or screen-reader move to the end past an item a '
       'call of its turn grows in shows the moved item once that grow-in ends',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -6731,7 +6625,7 @@ void main() {
     );
 
     testWidgets(
-      's03/inv29: a moved item the app removes before a grow-in before it '
+      'fo06_03/inv29: a moved item the app removes before a grow-in before it '
       'ends takes no second reveal',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -6769,55 +6663,52 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr05/e04: an app insert from the scroll listener of a focused '
-      "move's jump at the next frame's start leaves the give-up handoff on "
-      'the item after the gap',
-      (tester) async {
-        // Slots before index 100 are 80 px and the rest 40 px, so the jump at
-        // the next frame's start lands short of slot 40.
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 200,
-              itemsController: controller,
-              itemExtentBuilder: (index, dimensions) => index < 100 ? 80 : 40,
-            ),
+    testWidgets('fo06_03/us05/fr05/e04: an app insert from the scroll listener of a focused '
+        "move's jump at the next frame's start leaves the give-up handoff on "
+        'the item after the gap', (tester) async {
+      // Slots before index 100 are 80 px and the rest 40 px, so the jump at
+      // the next frame's start lands short of slot 40.
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 200,
+            itemsController: controller,
+            itemExtentBuilder: (index, dimensions) => index < 100 ? 80 : 40,
           ),
-        );
-        final position =
-            tester.state<ScrollableState>(find.byType(Scrollable)).position
-              ..jumpTo(8000);
-        await tester.pump();
-        await _focusItem(tester, 100);
+        ),
+      );
+      final position =
+          tester.state<ScrollableState>(find.byType(Scrollable)).position
+            ..jumpTo(8000);
+      await tester.pump();
+      await _focusItem(tester, 100);
 
-        // The app inserts at the start from inside the scroll notification
-        // of the move's jump at the next frame's start; each jump of the
-        // reach then springs back to where that jump landed, so the reach
-        // gives up and hands focus on.
-        final harness = _harness(tester);
-        double? landing;
-        var springs = 0;
-        position.addListener(() {
-          if (landing == null) {
-            landing = position.pixels;
-            harness.insert(0, 900);
-            return;
-          }
-          if (springs == 4 || position.pixels == landing) return;
-          springs += 1;
-          position.jumpTo(landing!);
-        });
-        harness.move(100, 40);
-        await tester.pumpAndSettle();
+      // The app inserts at the start from inside the scroll notification
+      // of the move's jump at the next frame's start; each jump of the
+      // reach then springs back to where that jump landed, so the reach
+      // gives up and hands focus on.
+      final harness = _harness(tester);
+      double? landing;
+      var springs = 0;
+      position.addListener(() {
+        if (landing == null) {
+          landing = position.pixels;
+          harness.insert(0, 900);
+          return;
+        }
+        if (springs == 4 || position.pixels == landing) return;
+        springs += 1;
+        position.jumpTo(landing!);
+      });
+      harness.move(100, 40);
+      await tester.pumpAndSettle();
 
-        // The data holds item 101 right after the gap item 100 left.
-        expect(springs, 4);
-        expect(harness.ids[harness.ids.indexOf(99) + 1], 101);
-        expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
-      },
-    );
+      // The data holds item 101 right after the gap item 100 left.
+      expect(springs, 4);
+      expect(harness.ids[harness.ids.indexOf(99) + 1], 101);
+      expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
+    });
   });
 
   group('ReorderableListViewLayout unbuilt slots of moveItem', () {
@@ -6843,7 +6734,7 @@ void main() {
     // Slots past the last laid-out one that item 100 enters.
     final pastLast = ValueVariant<int>({1, 2, 5});
     testWidgets(
-      'fo06/us11/fr05/e04: a focused move to a near slot past the last laid-out '
+      'fo06_03/us05/fr05/e04: a focused move to a near slot past the last laid-out '
       'one scrolls nothing in the call turn and keeps State and focus',
       (tester) async {
         final position = await _pumpScrolled(tester, list());
@@ -6869,7 +6760,7 @@ void main() {
     // Slots before the first laid-out one that item 100 enters.
     final beforeFirst = ValueVariant<int>({1, 2});
     testWidgets(
-      'fo06/us11/fr05/e04: a focused move to a near slot before the first '
+      'fo06_03/us05/fr05/e04: a focused move to a near slot before the first '
       'laid-out one scrolls nothing in the call turn and keeps State '
       'and focus',
       (tester) async {
@@ -6894,7 +6785,7 @@ void main() {
 
     // (k + 1) x 40 px past one 300 px viewport: k = 7 is the first far one.
     final farPast = ValueVariant<int>({7, 10, 30});
-    testWidgets('fo06/us11/fr05/e04: a focused move to a slot whose distance plus one slot '
+    testWidgets('fo06_03/us05/fr05/e04: a focused move to a slot whose distance plus one slot '
         'exceeds one viewport scrolls nothing in the call turn, jumps at the '
         "next frame's start, and keeps State and focus", (tester) async {
       final position = await _pumpScrolled(tester, list());
@@ -6912,175 +6803,156 @@ void main() {
       expect(_builtInView(tester, 100), isTrue);
     }, variant: farPast);
 
-    testWidgets(
-      'fo06/us11/fr05/e04: a near move whose unbuilt items run taller than the '
-      'laid-out average falls back to the reach, and the item keeps its '
-      'State and focus off screen and shows on screen',
-      (tester) async {
-        // Items 114 and 115 are 200 px, so slot 117, which item 100 enters,
-        // lies past the frame that the 40 px average lays out.
-        final position = await _pumpScrolled(
-          tester,
-          list(heights: const {114: 200, 115: 200}),
-        );
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e04: a near move whose unbuilt items run taller than the '
+        'laid-out average falls back to the reach, and the item keeps its '
+        'State and focus off screen and shows on screen', (tester) async {
+      // Items 114 and 115 are 200 px, so slot 117, which item 100 enters,
+      // lies past the frame that the 40 px average lays out.
+      final position = await _pumpScrolled(
+        tester,
+        list(heights: const {114: 200, 115: 200}),
+      );
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        _harness(tester).move(100, 116);
-        expect(position.pixels, 4000);
-        await tester.pumpAndSettle();
+      _harness(tester).move(100, 116);
+      expect(position.pixels, 4000);
+      await tester.pumpAndSettle();
 
-        expect(_statesOf(tester, 100), [same(state)]);
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(_builtInView(tester, 100), isTrue);
-      },
-    );
+      expect(_statesOf(tester, 100), [same(state)]);
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(_builtInView(tester, 100), isTrue);
+    });
 
-    testWidgets(
-      'fo06/us11/fr05/e04: under a fixed item extent the estimate is exact, so '
-      'the same tall items never make the move miss',
-      (tester) async {
-        final position = await _pumpScrolled(
-          tester,
-          list(heights: const {114: 200, 115: 200}, itemExtent: 40),
-        );
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e04: under a fixed item extent the estimate is exact, so '
+        'the same tall items never make the move miss', (tester) async {
+      final position = await _pumpScrolled(
+        tester,
+        list(heights: const {114: 200, 115: 200}, itemExtent: 40),
+      );
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // No closing slot under a fixed extent: item 100 enters slot 116.
-        _harness(tester).move(100, 116);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // No closing slot under a fixed extent: item 100 enters slot 116.
+      _harness(tester).move(100, 116);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(_statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(_builtInView(tester, 100), isTrue);
-      },
-    );
+      expect(_statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(_builtInView(tester, 100), isTrue);
+    });
 
-    testWidgets(
-      's03/inv35: a same-turn removeItem and insertItem of one key before a '
-      "focused near move books one unneeded jump at the next frame's start, "
-      'with State and focus kept',
-      (tester) async {
-        final position = await _pumpScrolled(tester, list());
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/inv35: a same-turn removeItem and insertItem of one key before a '
+        "focused near move books one unneeded jump at the next frame's start, "
+        'with State and focus kept', (tester) async {
+      final position = await _pumpScrolled(tester, list());
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // The leaving copy of item 95 over-counts one box: the entered-slot
-        // count reads 114 where the frame puts item 100 at 113.
-        _harness(tester)
-          ..remove(95)
-          ..insert(95, 95)
-          ..move(100, 113);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // The leaving copy of item 95 over-counts one box: the entered-slot
+      // count reads 114 where the frame puts item 100 at 113.
+      _harness(tester)
+        ..remove(95)
+        ..insert(95, 95)
+        ..move(100, 113);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(position.pixels, isNot(4000));
-        expect(_statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-      },
-    );
+      expect(position.pixels, isNot(4000));
+      expect(_statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+    });
 
-    testWidgets(
-      's03/inv35: when two average extents exceed one viewport, the same-turn '
-      'remove and insert over-count can still book one jump for the '
-      "next frame's start, with State and focus kept",
-      (tester) async {
-        // 200 px items: the sliver lays out 18 to 22 at 4000 px, and one slot
-        // plus the margin, 400 px, exceeds the 300 px viewport.
-        final position = await _pumpScrolled(
-          tester,
-          list(heights: {for (var id = 0; id < 200; id++) id: 200}),
-        );
-        expect(_laidOut(tester), (first: 18, last: 22, count: 5));
-        final state = _itemState(tester, 20);
-        final focused = await _focusItem(tester, 20);
+    testWidgets('fo06_03/inv35: when two average extents exceed one viewport, the same-turn '
+        'remove and insert over-count can still book one jump for the '
+        "next frame's start, with State and focus kept", (tester) async {
+      // 200 px items: the sliver lays out 18 to 22 at 4000 px, and one slot
+      // plus the margin, 400 px, exceeds the 300 px viewport.
+      final position = await _pumpScrolled(
+        tester,
+        list(heights: {for (var id = 0; id < 200; id++) id: 200}),
+      );
+      expect(_laidOut(tester), (first: 18, last: 22, count: 5));
+      final state = _itemState(tester, 20);
+      final focused = await _focusItem(tester, 20);
 
-        // Item 20 enters slot 22, which the frame laid out, but the leaving
-        // copy of item 19 over-counts one box and reads slot 23.
-        _harness(tester)
-          ..remove(19)
-          ..insert(19, 19)
-          ..move(20, 22);
-        expect(position.pixels, 4000);
-        await tester.pump();
-        expect(position.pixels, isNot(4000));
+      // Item 20 enters slot 22, which the frame laid out, but the leaving
+      // copy of item 19 over-counts one box and reads slot 23.
+      _harness(tester)
+        ..remove(19)
+        ..insert(19, 19)
+        ..move(20, 22);
+      expect(position.pixels, 4000);
+      await tester.pump();
+      expect(position.pixels, isNot(4000));
 
-        expect(_statesOf(tester, 20), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-      },
-    );
+      expect(_statesOf(tester, 20), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+    });
 
-    testWidgets(
-      'fo06/us11/fr05/e04: a viewport-relative scrollCacheExtent reaches the '
-      'viewport unchanged: a focused move just past the laid-out slots lays '
-      'out no more slots and keeps State and focus',
-      (tester) async {
-        // Half a 300 px viewport, 150 px: the sliver lays out 96 to 111.
-        final position = await _pumpScrolled(
-          tester,
-          list(scrollCacheExtent: const ScrollCacheExtent.viewport(0.5)),
-        );
-        expect(_laidOut(tester), (first: 96, last: 111, count: 16));
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e04: a viewport-relative scrollCacheExtent reaches the '
+        'viewport unchanged: a focused move just past the laid-out slots lays '
+        'out no more slots and keeps State and focus', (tester) async {
+      // Half a 300 px viewport, 150 px: the sliver lays out 96 to 111.
+      final position = await _pumpScrolled(
+        tester,
+        list(scrollCacheExtent: const ScrollCacheExtent.viewport(0.5)),
+      );
+      expect(_laidOut(tester), (first: 96, last: 111, count: 16));
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // Item 100 enters slot 113, 2 slots past 111.
-        _harness(tester).move(100, 112);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // Item 100 enters slot 113, 2 slots past 111.
+      _harness(tester).move(100, 112);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(_laidOut(tester).count, lessThanOrEqualTo(17));
-        expect(_statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-      },
-    );
+      expect(_laidOut(tester).count, lessThanOrEqualTo(17));
+      expect(_statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+    });
 
     final axes = ValueVariant<String>({
       'horizontal',
       'reversed',
       'right-to-left',
     });
-    testWidgets(
-      'fo06/us11/fr05/e04: a focused move past the last laid-out slot scrolls '
-      'nothing in the call turn and keeps State and focus on a horizontal, '
-      'reversed, or right-to-left list',
-      (tester) async {
-        final variant = axes.currentValue!;
-        final position = await _pumpScrolled(
-          tester,
-          list(
-            axis: variant == 'reversed' ? Axis.vertical : Axis.horizontal,
-            reverse: variant == 'reversed',
-          ),
-          textDirection: variant == 'right-to-left'
-              ? TextDirection.rtl
-              : TextDirection.ltr,
-        );
-        final state = _itemState(tester, 100);
-        final focused = await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e04: a focused move past the last laid-out slot scrolls '
+        'nothing in the call turn and keeps State and focus on a horizontal, '
+        'reversed, or right-to-left list', (tester) async {
+      final variant = axes.currentValue!;
+      final position = await _pumpScrolled(
+        tester,
+        list(
+          axis: variant == 'reversed' ? Axis.vertical : Axis.horizontal,
+          reverse: variant == 'reversed',
+        ),
+        textDirection: variant == 'right-to-left'
+            ? TextDirection.rtl
+            : TextDirection.ltr,
+      );
+      final state = _itemState(tester, 100);
+      final focused = await _focusItem(tester, 100);
 
-        // Item 100 enters the slot after the last laid-out one.
-        _harness(tester).move(100, _laidOut(tester).last);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      // Item 100 enters the slot after the last laid-out one.
+      _harness(tester).move(100, _laidOut(tester).last);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(_statesOf(tester, 100), contains(state));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(_builtInView(tester, 100), isTrue);
-      },
-      variant: axes,
-    );
+      expect(_statesOf(tester, 100), contains(state));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(_builtInView(tester, 100), isTrue);
+    }, variant: axes);
 
     final motion = ValueVariant<String>({'motion', 'reduced motion'});
     testWidgets(
-      's03/inv35: a focused move to a near unbuilt slot lays out the base '
+      'fo06_03/inv35: a focused move to a near unbuilt slot lays out the base '
       "cache extent in the move's frame and after it, never a wider one",
       (tester) async {
         if (motion.currentValue == 'reduced motion') {
@@ -7114,42 +6986,39 @@ void main() {
       variant: motion,
     );
 
-    testWidgets(
-      'fo06/us11/fr05/e08: a second focused move the app defers into the first '
-      "move's post-frame batch keeps its own State, as the first move kept "
-      'its own',
-      (tester) async {
-        await _pumpScrolled(tester, list());
-        final stateA = _itemState(tester, 100);
-        await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e08: a second focused move the app defers into the first '
+        "move's post-frame batch keeps its own State, as the first move kept "
+        'its own', (tester) async {
+      await _pumpScrolled(tester, list());
+      final stateA = _itemState(tester, 100);
+      await _focusItem(tester, 100);
 
-        // The first move books its jump for the frame this pump builds.
-        _harness(tester).move(100, 114);
-        // The app's own deferred call (FR-05 E08): item 120, a different
-        // item that frame 1 lays out, takes focus and moves far, but only
-        // once frame 1's post-frame batch runs, so its jump is booked for
-        // frame 2.
-        late _ItemState stateB;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          stateB = _itemState(tester, 120);
-          stateB.node.requestFocus();
-          FocusManager.instance.applyFocusChangesIfNeeded();
-          _harness(tester).move(_harness(tester).ids.indexOf(120), 170);
-        });
-        await tester.pump();
+      // The first move books its jump for the frame this pump builds.
+      _harness(tester).move(100, 114);
+      // The app's own deferred call (FR-05 E08): item 120, a different
+      // item that frame 1 lays out, takes focus and moves far, but only
+      // once frame 1's post-frame batch runs, so its jump is booked for
+      // frame 2.
+      late _ItemState stateB;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        stateB = _itemState(tester, 120);
+        stateB.node.requestFocus();
+        FocusManager.instance.applyFocusChangesIfNeeded();
+        _harness(tester).move(_harness(tester).ids.indexOf(120), 170);
+      });
+      await tester.pump();
 
-        // Frame 1 ran the first jump alone: item 100 kept its State.
-        expect(_statesOf(tester, 100), contains(stateA));
-        await tester.pump();
+      // Frame 1 ran the first jump alone: item 100 kept its State.
+      expect(_statesOf(tester, 100), contains(stateA));
+      await tester.pump();
 
-        // Frame 2 runs the second jump: item 120 keeps its State too.
-        expect(_statesOf(tester, 120), contains(stateB));
-        await tester.pumpAndSettle();
-        expect(_statesOf(tester, 120), contains(stateB));
-        expect(FocusManager.instance.primaryFocus, same(stateB.node));
-        expect(_builtInView(tester, 120), isTrue);
-      },
-    );
+      // Frame 2 runs the second jump: item 120 keeps its State too.
+      expect(_statesOf(tester, 120), contains(stateB));
+      await tester.pumpAndSettle();
+      expect(_statesOf(tester, 120), contains(stateB));
+      expect(FocusManager.instance.primaryFocus, same(stateB.node));
+      expect(_builtInView(tester, 120), isTrue);
+    });
   });
 
   group('ReorderableListViewLayout unbuilt slots by key and screen reader', () {
@@ -7157,7 +7026,7 @@ void main() {
     // 113, at 4000 px.
     final edges = ValueVariant<String>({'Alt+Up from 93', 'Alt+Down from 113'});
     testWidgets(
-      'fo06/us11/fr03/e09: Alt and an arrow to a near unbuilt slot scrolls '
+      'fo06_03/us05/fr03/e09: Alt and an arrow to a near unbuilt slot scrolls '
       'nothing in the turn of the key and keeps State and focus',
       (tester) async {
         final up = edges.currentValue == 'Alt+Up from 93';
@@ -7190,48 +7059,44 @@ void main() {
 
     // With no cache extent the sliver lays out 100 to 107 at 4020 px.
     final actions = ValueVariant<String>({'Move up', 'Move down'});
-    testWidgets(
-      'fo06/us11/fr03/e09: a screen-reader move of one slot to a near unbuilt '
-      'slot scrolls nothing in the turn of the action and keeps State and '
-      'focus',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        final up = actions.currentValue == 'Move up';
-        final id = up ? 100 : 107;
-        final position = await _pumpScrolled(
-          tester,
-          const _Harness(
-            count: 200,
-            scrollCacheExtent: ScrollCacheExtent.pixels(0),
-          ),
-          offset: 4020,
-        );
-        expect(_laidOut(tester), (first: 100, last: 107, count: 8));
-        final state = _itemState(tester, id);
-        final focused = await _focusItem(tester, id);
+    testWidgets('fo06_03/us05/fr03/e09: a screen-reader move of one slot to a near unbuilt '
+        'slot scrolls nothing in the turn of the action and keeps State and '
+        'focus', (tester) async {
+      final handle = tester.ensureSemantics();
+      final up = actions.currentValue == 'Move up';
+      final id = up ? 100 : 107;
+      final position = await _pumpScrolled(
+        tester,
+        const _Harness(
+          count: 200,
+          scrollCacheExtent: ScrollCacheExtent.pixels(0),
+        ),
+        offset: 4020,
+      );
+      expect(_laidOut(tester), (first: 100, last: 107, count: 8));
+      final state = _itemState(tester, id);
+      final focused = await _focusItem(tester, id);
 
-        final node = tester.getSemantics(find.byKey(ValueKey(id)));
-        node.owner!.performAction(
-          node.id,
-          SemanticsAction.customAction,
-          CustomSemanticsAction.getIdentifier(
-            CustomSemanticsAction(label: actions.currentValue!),
-          ),
-        );
-        expect(position.pixels, 4020);
-        await tester.pump();
+      final node = tester.getSemantics(find.byKey(ValueKey(id)));
+      node.owner!.performAction(
+        node.id,
+        SemanticsAction.customAction,
+        CustomSemanticsAction.getIdentifier(
+          CustomSemanticsAction(label: actions.currentValue!),
+        ),
+      );
+      expect(position.pixels, 4020);
+      await tester.pump();
 
-        expect(_statesOf(tester, id), contains(state));
-        await tester.pumpAndSettle();
-        expect(_statesOf(tester, id), contains(state));
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(_builtInView(tester, id), isTrue);
-        handle.dispose();
-      },
-      variant: actions,
-    );
+      expect(_statesOf(tester, id), contains(state));
+      await tester.pumpAndSettle();
+      expect(_statesOf(tester, id), contains(state));
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(_builtInView(tester, id), isTrue);
+      handle.dispose();
+    }, variant: actions);
 
-    testWidgets('fo06/us11/fr03/e09: Alt and an arrow to a far unbuilt slot scrolls nothing '
+    testWidgets('fo06_03/us05/fr03/e09: Alt and an arrow to a far unbuilt slot scrolls nothing '
         "in the turn of the key, jumps at the next frame's start, and keeps "
         'State and focus', (tester) async {
       // 200 px items: one slot plus the margin, 400 px, exceeds the 300 px
@@ -7258,7 +7123,7 @@ void main() {
       expect(_builtInView(tester, 22), isTrue);
     });
 
-    testWidgets('fo06/us11/fr03/e09: Alt and an arrow past an unbuilt item taller than the '
+    testWidgets('fo06_03/us05/fr03/e09: Alt and an arrow past an unbuilt item taller than the '
         'laid-out average falls back to the reach, and the item keeps its '
         'State and focus off screen and shows on screen', (tester) async {
       // Item 114 is 400 px, so after Alt+Down item 113 sits past the frame
@@ -7280,7 +7145,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr03/e09: Alt and an arrow to an unbuilt edge slot far off '
+      'fo06_03/us05/fr03/e09: Alt and an arrow to an unbuilt edge slot far off '
       "jumps exactly to that edge at the next frame's start and keeps State "
       'and focus',
       (tester) async {
@@ -7314,7 +7179,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr03/e09: a screen-reader step action a same-turn removeItem '
+      'fo06_03/us05/fr03/e09: a screen-reader step action a same-turn removeItem '
       'shifts to data slot 0 does not edge-jump in the turn of the action',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -7349,7 +7214,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr03/e09: when the reach after a far key move gives up, the list '
+    testWidgets('fo06_03/us05/fr03/e09: when the reach after a far key move gives up, the list '
         "returns to the offset before the jump at the next frame's start and "
         'hands focus on from the slot the item left', (tester) async {
       // 200 px items and item 23 at 1200 px: the sliver lays out 18 to 22
@@ -7385,7 +7250,7 @@ void main() {
     // the slot the item leaves, which that slot follows.
     final laterCall = ValueVariant<String>({'none', 'an insert before'});
     testWidgets(
-      'fo06/us11/fr03/e09: when the reach after a key move gives up, focus goes on '
+      'fo06_03/us05/fr03/e09: when the reach after a key move gives up, focus goes on '
       'from the slot the item left, as a later call of the turn moved it',
       (tester) async {
         // Item 112 is 400 px, laid out at 4000 px: after Alt+Down on item
@@ -7418,49 +7283,40 @@ void main() {
       variant: laterCall,
     );
 
-    testWidgets(
-      'fo06/us11/fr03/e09 and s03/inv32: Alt+Down from item 113 at 4000 lands '
-      'item 114 at the bottom edge',
-      (tester) async {
-        final position = await _pumpScrolled(
-          tester,
-          const _Harness(count: 1000),
-        );
-        await _focusItem(tester, 113);
+    testWidgets('fo06_03/us05/fr03/e09 and fo06_03/inv32: Alt+Down from item 113 at 4000 lands '
+        'item 114 at the bottom edge', (tester) async {
+      final position = await _pumpScrolled(tester, const _Harness(count: 1000));
+      await _focusItem(tester, 113);
 
-        await _alt(tester, LogicalKeyboardKey.arrowDown);
+      await _alt(tester, LogicalKeyboardKey.arrowDown);
 
-        // Slot 114's 40 px average puts its leading edge at 4560; the
-        // least scroll landing from below stops at the trailing edge.
-        expect(position.pixels, 4300);
-        expect(_builtInView(tester, 113), isTrue);
-      },
-    );
+      // Slot 114's 40 px average puts its leading edge at 4560; the
+      // least scroll landing from below stops at the trailing edge.
+      expect(position.pixels, 4300);
+      expect(_builtInView(tester, 113), isTrue);
+    });
 
-    testWidgets(
-      'fo06/us11/fr05/e04 and s03/inv32: a moveItem far down lands the item at '
-      'the bottom edge',
-      (tester) async {
-        await _pumpScrolled(
-          tester,
-          _Harness(count: 1000, itemsController: ReorderableItemsController()),
-        );
-        await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e04 and fo06_03/inv32: a moveItem far down lands the item at '
+        'the bottom edge', (tester) async {
+      await _pumpScrolled(
+        tester,
+        _Harness(count: 1000, itemsController: ReorderableItemsController()),
+      );
+      await _focusItem(tester, 100);
 
-        _harness(tester).move(100, 150);
-        await tester.pumpAndSettle();
+      _harness(tester).move(100, 150);
+      await tester.pumpAndSettle();
 
-        // Slot 150's 40 px average puts its leading edge at 6000, the
-        // probe's landing; the landing reveal clamps it to the least
-        // scroll from 4000, its trailing edge, and the item's own
-        // grow-in reveal, once settled, corrects that estimate to its
-        // real bottom edge.
-        final bottom = tester.getBottomLeft(find.byKey(const ValueKey(100))).dy;
-        final viewBottom = tester.getBottomLeft(find.byType(Scrollable)).dy;
-        expect(bottom, viewBottom);
-        expect(_itemInView(tester, 100), isTrue);
-      },
-    );
+      // Slot 150's 40 px average puts its leading edge at 6000, the
+      // probe's landing; the landing reveal clamps it to the least
+      // scroll from 4000, its trailing edge, and the item's own
+      // grow-in reveal, once settled, corrects that estimate to its
+      // real bottom edge.
+      final bottom = tester.getBottomLeft(find.byKey(const ValueKey(100))).dy;
+      final viewBottom = tester.getBottomLeft(find.byType(Scrollable)).dy;
+      expect(bottom, viewBottom);
+      expect(_itemInView(tester, 100), isTrue);
+    });
 
     // The same three landings, run over a list whose items from id 110 on
     // are 60 px: Alt+Down from item 113, a far moveItem of item 100, and
@@ -7470,7 +7326,7 @@ void main() {
       'moveItem',
       'insertItem',
     });
-    testWidgets('fo06/us11/fr05/e04 and s03/inv32: with taller items past the built ones, '
+    testWidgets('fo06_03/us05/fr05/e04 and fo06_03/inv32: with taller items past the built ones, '
         'the landing still ends at the bottom edge', (tester) async {
       final heights = {for (var id = 110; id < 1000; id++) id: 60.0};
       late int id;
@@ -7557,7 +7413,7 @@ void main() {
       return position;
     }
 
-    testWidgets('fo06/us11/fr03/e10: an app insert from the scroll listener of the jump of '
+    testWidgets('fo06_03/us05/fr03/e10: an app insert from the scroll listener of the jump of '
         'Alt+Home lands the moved item right after the inserted one, with its '
         'State and focus', (tester) async {
       final position = await _pumpScrolled(
@@ -7577,7 +7433,7 @@ void main() {
       expect(_builtInView(tester, 100), isTrue);
     });
 
-    testWidgets('fo06/us11/fr03/e10: an app insert from the scroll listener of the jump of '
+    testWidgets('fo06_03/us05/fr03/e10: an app insert from the scroll listener of the jump of '
         'a "Move to the start" action lands the moved item right after the '
         'inserted one, with its State and focus', (tester) async {
       final handle = tester.ensureSemantics();
@@ -7598,52 +7454,46 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets(
-      'fo06/us11/fr03/e10: an app insert from the scroll listener of the far '
-      'jump of Alt+Down lands the moved item right after the item it '
-      'passed, with its State and focus',
-      (tester) async {
-        final position = await pumpTall(tester);
-        final state = _itemState(tester, 21);
-        final focused = await _focusItem(tester, 21);
-        insertOnFirstScroll(tester, position);
+    testWidgets('fo06_03/us05/fr03/e10: an app insert from the scroll listener of the far '
+        'jump of Alt+Down lands the moved item right after the item it '
+        'passed, with its State and focus', (tester) async {
+      final position = await pumpTall(tester);
+      final state = _itemState(tester, 21);
+      final focused = await _focusItem(tester, 21);
+      insertOnFirstScroll(tester, position);
 
-        await _altNow(tester, LogicalKeyboardKey.arrowDown);
-        await tester.pumpAndSettle();
+      await _altNow(tester, LogicalKeyboardKey.arrowDown);
+      await tester.pumpAndSettle();
 
-        final ids = _harness(tester).ids;
-        expect(ids.first, 900);
-        expect(ids.sublist(22, 25), [22, 21, 23]);
-        expect(_statesOf(tester, 21), contains(state));
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(_builtInView(tester, 21), isTrue);
-      },
-    );
+      final ids = _harness(tester).ids;
+      expect(ids.first, 900);
+      expect(ids.sublist(22, 25), [22, 21, 23]);
+      expect(_statesOf(tester, 21), contains(state));
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(_builtInView(tester, 21), isTrue);
+    });
 
-    testWidgets(
-      'fo06/us11/fr03/e10: an app insert from the scroll listener of the far '
-      'jump of a "Move down" action lands the moved item right after '
-      'the item it passed, with its State and focus',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        final position = await pumpTall(tester);
-        final state = _itemState(tester, 21);
-        final focused = await _focusItem(tester, 21);
-        insertOnFirstScroll(tester, position);
+    testWidgets('fo06_03/us05/fr03/e10: an app insert from the scroll listener of the far '
+        'jump of a "Move down" action lands the moved item right after '
+        'the item it passed, with its State and focus', (tester) async {
+      final handle = tester.ensureSemantics();
+      final position = await pumpTall(tester);
+      final state = _itemState(tester, 21);
+      final focused = await _focusItem(tester, 21);
+      insertOnFirstScroll(tester, position);
 
-        await _moveAction(tester, 21, 'Move down');
+      await _moveAction(tester, 21, 'Move down');
 
-        final ids = _harness(tester).ids;
-        expect(ids.first, 900);
-        expect(ids.sublist(22, 25), [22, 21, 23]);
-        expect(_statesOf(tester, 21), contains(state));
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(_builtInView(tester, 21), isTrue);
-        handle.dispose();
-      },
-    );
+      final ids = _harness(tester).ids;
+      expect(ids.first, 900);
+      expect(ids.sublist(22, 25), [22, 21, 23]);
+      expect(_statesOf(tester, 21), contains(state));
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(_builtInView(tester, 21), isTrue);
+      handle.dispose();
+    });
 
-    testWidgets('fo06/us11/fr03/e02: an app that takes the moved item out of the data and '
+    testWidgets('fo06_03/us05/fr03/e02: an app that takes the moved item out of the data and '
         'the controller from onReorderItem of Alt+End leaves no jump and '
         'throws nothing after the frame', (tester) async {
       final position = await _pumpScrolled(
@@ -7684,7 +7534,7 @@ void main() {
     }
 
     testWidgets(
-      'fo06/us11/fr05/e12: a kept-alive item never counts as built, so a far move '
+      'fo06_03/us05/fr05/e12: a kept-alive item never counts as built, so a far move '
       "into its slot jumps at the next frame's start and keeps its State",
       (tester) async {
         final position = await pumpKeptAlive(tester);
@@ -7702,7 +7552,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05/e12: a kept-alive item never counts as built, so it never '
+    testWidgets('fo06_03/us05/fr05/e12: a kept-alive item never counts as built, so it never '
         "stops a near move's jump at the next frame's start", (tester) async {
       final position = await pumpKeptAlive(tester);
       final state = _itemState(tester, 100);
@@ -7728,7 +7578,7 @@ void main() {
 
   group('ReorderableListViewLayout unbuilt slot and a focus the app moves', () {
     testWidgets(
-      'fo06/us11/fr05/e11: a focus the app moves in the turn of a near move '
+      'fo06_03/us05/fr05/e11: a focus the app moves in the turn of a near move '
       "stays, the list skips the move's jump, and the moved item is not kept "
       'alive',
       (tester) async {
@@ -7756,7 +7606,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05/e11: a focus the app moves in the turn of a far move stays, '
+      'fo06_03/us05/fr05/e11: a focus the app moves in the turn of a far move stays, '
       "and the list skips the move's jump at the next frame's start",
       (tester) async {
         final position = await _pumpScrolled(
@@ -7781,50 +7631,47 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr05/e11: a far move of a second item the app focuses in the '
-      "same turn as a first item's far move keeps the second item's own "
-      "jump, not the first's offset",
-      (tester) async {
-        final position = await _pumpScrolled(
-          tester,
-          _Harness(count: 200, itemsController: ReorderableItemsController()),
-        );
-        await _focusItem(tester, 100);
-        final otherState = _itemState(tester, 101);
-        final other = otherState.node;
+    testWidgets('fo06_03/us05/fr05/e11: a far move of a second item the app focuses in the '
+        "same turn as a first item's far move keeps the second item's own "
+        "jump, not the first's offset", (tester) async {
+      final position = await _pumpScrolled(
+        tester,
+        _Harness(count: 200, itemsController: ReorderableItemsController()),
+      );
+      await _focusItem(tester, 100);
+      final otherState = _itemState(tester, 101);
+      final other = otherState.node;
 
-        // Both far moves run before any frame: the first (item 100) queues
-        // its own origin, 4000; the app then focuses item 101 and moves it
-        // far too, queuing an origin that is already item 100's jumped
-        // offset, not 4000.
-        _harness(tester).move(100, 150);
-        other.requestFocus();
-        // The app's own focus change lands in the focus tree before the
-        // next moveItem call reads hasFocus, as it would after a real
-        // frame's focus-change pass.
-        FocusManager.instance.applyFocusChangesIfNeeded();
-        _harness(tester).move(_harness(tester).ids.indexOf(101), 160);
-        await tester.pump();
+      // Both far moves run before any frame: the first (item 100) queues
+      // its own origin, 4000; the app then focuses item 101 and moves it
+      // far too, queuing an origin that is already item 100's jumped
+      // offset, not 4000.
+      _harness(tester).move(100, 150);
+      other.requestFocus();
+      // The app's own focus change lands in the focus tree before the
+      // next moveItem call reads hasFocus, as it would after a real
+      // frame's focus-change pass.
+      FocusManager.instance.applyFocusChangesIfNeeded();
+      _harness(tester).move(_harness(tester).ids.indexOf(101), 160);
+      await tester.pump();
 
-        // Item 101's own jump stays, at its own estimate: the frame never
-        // reverts to item 100's origin of 4000, which would scroll item
-        // 101 back off screen. The landing reveal that follows the jump
-        // commits at the next frame's start and clamps the estimate to the
-        // least scroll from item 101's own origin, 20 px short of it.
-        // R56: the list commits its scroll at the next frame's start
-        // (D13 frame shift).
-        await tester.pump();
-        expect(position.pixels, 6160.0);
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(other));
-        expect(_statesOf(tester, 101), contains(otherState));
-        expect(_builtInView(tester, 101), isTrue);
-      },
-    );
+      // Item 101's own jump stays, at its own estimate: the frame never
+      // reverts to item 100's origin of 4000, which would scroll item
+      // 101 back off screen. The landing reveal that follows the jump
+      // commits at the next frame's start and clamps the estimate to the
+      // least scroll from item 101's own origin, 20 px short of it.
+      // R56: the list commits its scroll at the next frame's start
+      // (D13 frame shift).
+      await tester.pump();
+      expect(position.pixels, 6160.0);
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(other));
+      expect(_statesOf(tester, 101), contains(otherState));
+      expect(_builtInView(tester, 101), isTrue);
+    });
 
     testWidgets(
-      'fo06/us11/fr05/e11: a far move of a first item the app refocuses after a '
+      'fo06_03/us05/fr05/e11: a far move of a first item the app refocuses after a '
       "second item's far move in the same turn runs only the first item's "
       "jump at the next frame's start, toward its slot after both calls",
       (tester) async {
@@ -7858,7 +7705,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05/e11: three far moves in one turn, with the app refocusing '
+    testWidgets('fo06_03/us05/fr05/e11: three far moves in one turn, with the app refocusing '
         "the middle item, run only the middle item's jump at the next frame's "
         'start', (tester) async {
       final position = await _pumpScrolled(
@@ -7894,34 +7741,28 @@ void main() {
       expect(_builtInView(tester, 101), isTrue);
     });
 
-    testWidgets(
-      'fo06/us11/fr03/e09: a focus the app moves in the turn of Alt+Down to a '
-      "near unbuilt slot stays, the list skips the move's jump, and the "
-      'moved item is not kept alive',
-      (tester) async {
-        final position = await _pumpScrolled(
-          tester,
-          const _Harness(count: 200),
-        );
-        final state = _itemState(tester, 113);
-        await _focusItem(tester, 113);
-        final other = _itemState(tester, 101).node;
-        _harness(tester).onMove = (_, _) => other.requestFocus();
+    testWidgets('fo06_03/us05/fr03/e09: a focus the app moves in the turn of Alt+Down to a '
+        "near unbuilt slot stays, the list skips the move's jump, and the "
+        'moved item is not kept alive', (tester) async {
+      final position = await _pumpScrolled(tester, const _Harness(count: 200));
+      final state = _itemState(tester, 113);
+      await _focusItem(tester, 113);
+      final other = _itemState(tester, 101).node;
+      _harness(tester).onMove = (_, _) => other.requestFocus();
 
-        await _altNow(tester, LogicalKeyboardKey.arrowDown);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      await _altNow(tester, LogicalKeyboardKey.arrowDown);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        expect(_statesOf(tester, 113), isNot(contains(state)));
-        await tester.pumpAndSettle();
-        expect(FocusManager.instance.primaryFocus, same(other));
-        expect(_builtInView(tester, 101), isTrue);
-        expect(position.pixels, 4000);
-      },
-    );
+      expect(_statesOf(tester, 113), isNot(contains(state)));
+      await tester.pumpAndSettle();
+      expect(FocusManager.instance.primaryFocus, same(other));
+      expect(_builtInView(tester, 101), isTrue);
+      expect(position.pixels, 4000);
+    });
 
     testWidgets(
-      'fo06/us11/fr03/e09: a focus the app moves in the turn of a far Alt+Down '
+      'fo06_03/us05/fr03/e09: a focus the app moves in the turn of a far Alt+Down '
       "stays, and the list skips the move's jump at the next frame's start",
       (tester) async {
         // 200 px items: the sliver lays out 18 to 22 at 4000 px, and one slot
@@ -7949,7 +7790,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr03/e09: a focus the app moves in the turn of a screen-reader '
+    testWidgets('fo06_03/us05/fr03/e09: a focus the app moves in the turn of a screen-reader '
         "move to a near unbuilt slot stays, the list skips the move's jump, "
         'and the moved item is not kept alive', (tester) async {
       final handle = tester.ensureSemantics();
@@ -7987,7 +7828,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr03/e09: a focus the app moves in the turn of a far '
+      'fo06_03/us05/fr03/e09: a focus the app moves in the turn of a far '
       "screen-reader move stays, and the list skips the move's jump at the "
       "next frame's start",
       (tester) async {
@@ -8030,7 +7871,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr03/e09: a focus the app moves outside the list in the turn of '
+      'fo06_03/us05/fr03/e09: a focus the app moves outside the list in the turn of '
       'Alt+Down to a built slot stays, and the list never pulls it back',
       (tester) async {
         final outside = FocusNode(debugLabel: 'outside');
@@ -8055,7 +7896,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr03/e09: the app focuses a bare FocusScopeNode outside the '
+      'fo06_03/us05/fr03/e09: the app focuses a bare FocusScopeNode outside the '
       'list in the turn of Alt+Down to a built slot, and that focus stays',
       (tester) async {
         final outsideScope = FocusScopeNode(debugLabel: 'outside scope');
@@ -8079,7 +7920,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr03/e09: a focus the app moves outside the list in the turn of '
+    testWidgets('fo06_03/us05/fr03/e09: a focus the app moves outside the list in the turn of '
         'Alt+Down to a near unbuilt slot stays, and the list never pulls it '
         'back', (tester) async {
       final outside = FocusNode(debugLabel: 'outside');
@@ -8116,7 +7957,7 @@ void main() {
   group('ReorderableListViewLayout two or more moveItem calls on one focused '
       "key in one turn re-aim the move's jump (R4)", () {
     testWidgets(
-      'fo06/us11/fr05/e04: a second moveItem call on the key the first call '
+      'fo06_03/us05/fr05/e04: a second moveItem call on the key the first call '
       "moved re-aims the frame-start jump to the second call's slot, "
       "laid out in the move's own frame, with no reach a later frame "
       'corrects',
@@ -8146,36 +7987,33 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr05/e04: a third moveItem call on the same key re-aims the '
-      "frame-start jump again, to the third call's slot, in the move's "
-      'own frame',
-      (tester) async {
-        final position = await _pumpScrolled(
-          tester,
-          _Harness(count: 200, itemsController: ReorderableItemsController()),
-        );
-        await _focusItem(tester, 100);
+    testWidgets('fo06_03/us05/fr05/e04: a third moveItem call on the same key re-aims the '
+        "frame-start jump again, to the third call's slot, in the move's "
+        'own frame', (tester) async {
+      final position = await _pumpScrolled(
+        tester,
+        _Harness(count: 200, itemsController: ReorderableItemsController()),
+      );
+      await _focusItem(tester, 100);
 
-        _harness(tester)
-          ..move(100, 150)
-          ..move(150, 160)
-          ..move(160, 170);
-        expect(position.pixels, 4000);
-        await tester.pump();
+      _harness(tester)
+        ..move(100, 150)
+        ..move(150, 160)
+        ..move(160, 170);
+      expect(position.pixels, 4000);
+      await tester.pump();
 
-        // R56: the list commits its scroll at the next frame's start
-        // (D13 frame shift).
-        await tester.pump();
-        expect(position.pixels, 6560.0);
-        expect(_builtInView(tester, 100), isTrue);
-      },
-    );
+      // R56: the list commits its scroll at the next frame's start
+      // (D13 frame shift).
+      await tester.pump();
+      expect(position.pixels, 6560.0);
+      expect(_builtInView(tester, 100), isTrue);
+    });
   });
 
   void dragEndsTests() {
     testWidgets(
-      'fo06/us11/fr04/e06: a second pointer that takes a long-press drag over '
+      'fo06_03/us05/fr04/e06: a second pointer that takes a long-press drag over '
       'ends it with one onReorderEnd, in the microtask after its down',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -8205,34 +8043,31 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr04/e06: a second long press that starts a second drag ends '
-      'the first drag before the second one starts',
-      (tester) async {
-        await tester.pumpWidget(_app(const _Harness(count: 20)));
-        final gesture = await _liftItem(tester, 2);
-        final harness = _harness(tester);
+    testWidgets('fo06_03/us05/fr04/e06: a second long press that starts a second drag ends '
+        'the first drag before the second one starts', (tester) async {
+      await tester.pumpWidget(_app(const _Harness(count: 20)));
+      final gesture = await _liftItem(tester, 2);
+      final harness = _harness(tester);
 
-        final second = await _liftItem(tester, 5, by: 50);
-        await tester.pump();
-        await second.up();
-        await tester.pumpAndSettle();
-        await gesture.up();
-        await tester.pumpAndSettle();
+      final second = await _liftItem(tester, 5, by: 50);
+      await tester.pump();
+      await second.up();
+      await tester.pumpAndSettle();
+      await gesture.up();
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(harness.starts, [2, 5]);
-        expect(harness.events.first, 'start 2');
-        expect(harness.events[1], 'end 2');
-        expect(harness.events[2], 'start 5');
-        expect(harness.events.where((event) => event.startsWith('end')), [
-          'end 2',
-          isA<String>(),
-        ]);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(harness.starts, [2, 5]);
+      expect(harness.events.first, 'start 2');
+      expect(harness.events[1], 'end 2');
+      expect(harness.events[2], 'start 5');
+      expect(harness.events.where((event) => event.startsWith('end')), [
+        'end 2',
+        isA<String>(),
+      ]);
+    });
 
-    testWidgets('fo06/us11/fr04/e06: a pointer cancel ends the drag with one onReorderEnd, '
+    testWidgets('fo06_03/us05/fr04/e06: a pointer cancel ends the drag with one onReorderEnd, '
         'and a later insertItem reports none', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -8253,7 +8088,7 @@ void main() {
       expect(harness.starts, [2]);
     });
 
-    testWidgets('fo06/us11/fr04/e06: a pointer cancel reports onReorderEnd in a microtask '
+    testWidgets('fo06_03/us05/fr04/e06: a pointer cancel reports onReorderEnd in a microtask '
         'after the cancel, not inside its dispatch', (tester) async {
       await tester.pumpWidget(_app(const _Harness(count: 20)));
       final harness = _harness(tester);
@@ -8274,7 +8109,7 @@ void main() {
       expect(harness.ends, [2]);
     });
 
-    testWidgets('fo06/us11/fr04/e06: a drop reports onReorderEnd once, at the pointer up, '
+    testWidgets('fo06_03/us05/fr04/e06: a drop reports onReorderEnd once, at the pointer up, '
         "with the index Flutter's list gives the drop", (tester) async {
       await tester.pumpWidget(_app(const _Harness(count: 20)));
       final gesture = await _liftItem(tester, 2, by: 100);
@@ -8290,7 +8125,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e06: disposing the list during a drag reports no '
+      'fo06_03/us05/fr04/e06: disposing the list during a drag reports no '
       'onReorderEnd',
       (tester) async {
         await tester.pumpWidget(_app(const _Harness(count: 20)));
@@ -8308,122 +8143,109 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr01/e01: a second pointer on a handle takes the handle drag '
-      'over and ends it with one onReorderEnd, in the microtask after its '
-      'down',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 20,
-              handles: true,
-              longPressDrag: false,
-              itemsController: controller,
-            ),
+    testWidgets('fo06_03/us05/fr01/e01: a second pointer on a handle takes the handle drag '
+        'over and ends it with one onReorderEnd, in the microtask after its '
+        'down', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 20,
+            handles: true,
+            longPressDrag: false,
+            itemsController: controller,
           ),
-        );
-        final gesture = await _grabHandle(tester, 2);
-        final harness = _harness(tester);
-        expect(harness.starts, [2]);
-        final second = TestPointer(await _nextPointerId(tester));
+        ),
+      );
+      final gesture = await _grabHandle(tester, 2);
+      final harness = _harness(tester);
+      expect(harness.starts, [2]);
+      final second = TestPointer(await _nextPointerId(tester));
 
-        _sendPointer(
-          tester,
-          second.down(tester.getCenter(find.byKey(const ValueKey('handle 5')))),
-        );
-        expect(harness.ends, isEmpty);
-        await tester.idle();
-        expect(harness.ends, [2]);
-        _sendPointer(tester, second.up());
-        await tester.pump();
-        harness.insert(0, 100);
-        expect(harness.ends, [2]);
-        await tester.pump();
-        await gesture.up();
-        await tester.pumpAndSettle();
+      _sendPointer(
+        tester,
+        second.down(tester.getCenter(find.byKey(const ValueKey('handle 5')))),
+      );
+      expect(harness.ends, isEmpty);
+      await tester.idle();
+      expect(harness.ends, [2]);
+      _sendPointer(tester, second.up());
+      await tester.pump();
+      harness.insert(0, 100);
+      expect(harness.ends, [2]);
+      await tester.pump();
+      await gesture.up();
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(harness.ends, [2]);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(harness.ends, [2]);
+    });
 
     final firstReleases = ValueVariant<String>({'up', 'cancel'});
-    testWidgets(
-      'fo06/us11/fr01/e01: with long-press dragging too, a second pointer on a '
-      'handle takes the first one over, and releasing the first pointer '
-      'afterward raises no exception, with one onReorderEnd',
-      (tester) async {
-        await tester.pumpWidget(_app(const _Harness(count: 20, handles: true)));
-        final gesture = await _grabHandle(tester, 2);
-        final harness = _harness(tester);
-        expect(harness.starts, [2]);
-        final second = TestPointer(await _nextPointerId(tester));
+    testWidgets('fo06_03/us05/fr01/e01: with long-press dragging too, a second pointer on a '
+        'handle takes the first one over, and releasing the first pointer '
+        'afterward raises no exception, with one onReorderEnd', (tester) async {
+      await tester.pumpWidget(_app(const _Harness(count: 20, handles: true)));
+      final gesture = await _grabHandle(tester, 2);
+      final harness = _harness(tester);
+      expect(harness.starts, [2]);
+      final second = TestPointer(await _nextPointerId(tester));
 
-        _sendPointer(
-          tester,
-          second.down(tester.getCenter(find.byKey(const ValueKey('handle 5')))),
-        );
-        expect(harness.ends, isEmpty);
-        await tester.idle();
-        expect(harness.ends, [2]);
+      _sendPointer(
+        tester,
+        second.down(tester.getCenter(find.byKey(const ValueKey('handle 5')))),
+      );
+      expect(harness.ends, isEmpty);
+      await tester.idle();
+      expect(harness.ends, [2]);
 
-        if (firstReleases.currentValue == 'up') {
-          await gesture.up();
-        } else {
-          await gesture.cancel();
-        }
-        _sendPointer(tester, second.up());
-        await tester.pumpAndSettle();
-
-        expect(tester.takeException(), isNull);
-        expect(harness.ends, [2]);
-      },
-      variant: firstReleases,
-    );
-
-    testWidgets(
-      'fo06/us11/fr01/e01: a second handle drag ends the first one before it '
-      'starts',
-      (tester) async {
-        await tester.pumpWidget(
-          _app(const _Harness(count: 20, handles: true, longPressDrag: false)),
-        );
-        final gesture = await _grabHandle(tester, 2);
-        final harness = _harness(tester);
-
-        final second = await _grabHandle(tester, 5);
-        await second.up();
-        await tester.pumpAndSettle();
+      if (firstReleases.currentValue == 'up') {
         await gesture.up();
-        await tester.pumpAndSettle();
-
-        expect(tester.takeException(), isNull);
-        expect(harness.starts, [2, 5]);
-        expect(harness.events.take(3), ['start 2', 'end 2', 'start 5']);
-        expect(harness.ends, hasLength(2));
-      },
-    );
-
-    testWidgets(
-      'fo06/us11/fr01/e01: a pointer cancel on a handle drag ends it with one '
-      'onReorderEnd',
-      (tester) async {
-        await tester.pumpWidget(
-          _app(const _Harness(count: 20, handles: true, longPressDrag: false)),
-        );
-        final gesture = await _grabHandle(tester, 2);
-
+      } else {
         await gesture.cancel();
-        await tester.pumpAndSettle();
+      }
+      _sendPointer(tester, second.up());
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(_harness(tester).ends, [2]);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(harness.ends, [2]);
+    }, variant: firstReleases);
 
-    testWidgets('fo06/us11/fr04/e06: an app that calls removeItem from the onReorderEnd of '
+    testWidgets('fo06_03/us05/fr01/e01: a second handle drag ends the first one before it '
+        'starts', (tester) async {
+      await tester.pumpWidget(
+        _app(const _Harness(count: 20, handles: true, longPressDrag: false)),
+      );
+      final gesture = await _grabHandle(tester, 2);
+      final harness = _harness(tester);
+
+      final second = await _grabHandle(tester, 5);
+      await second.up();
+      await tester.pumpAndSettle();
+      await gesture.up();
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(harness.starts, [2, 5]);
+      expect(harness.events.take(3), ['start 2', 'end 2', 'start 5']);
+      expect(harness.ends, hasLength(2));
+    });
+
+    testWidgets('fo06_03/us05/fr01/e01: a pointer cancel on a handle drag ends it with one '
+        'onReorderEnd', (tester) async {
+      await tester.pumpWidget(
+        _app(const _Harness(count: 20, handles: true, longPressDrag: false)),
+      );
+      final gesture = await _grabHandle(tester, 2);
+
+      await gesture.cancel();
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(_harness(tester).ends, [2]);
+    });
+
+    testWidgets('fo06_03/us05/fr04/e06: an app that calls removeItem from the onReorderEnd of '
         "a second pointer's takeover fails no assert", (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -8446,7 +8268,7 @@ void main() {
       expect(harness.ids.take(3), [1, 2, 3]);
     });
 
-    testWidgets('fo06/us11/fr04/e06: an app that calls removeItem from the onReorderEnd of '
+    testWidgets('fo06_03/us05/fr04/e06: an app that calls removeItem from the onReorderEnd of '
         'a pointer cancel fails no assert', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -8471,7 +8293,7 @@ void main() {
       'zero settle duration',
       'release before the second tick',
     });
-    testWidgets('fo06/us11/fr04/e06 (R52): a drop whose settle ends inside its pointer-up '
+    testWidgets('fo06_03/us05/fr04/e06 (R52): a drop whose settle ends inside its pointer-up '
         'reports onReorderEnd before onReorderItem, and the next drag still '
         'ends with its own onReorderEnd', (tester) async {
       final zero = quickDrops.currentValue == 'zero settle duration';
@@ -8512,7 +8334,7 @@ void main() {
     }, variant: quickDrops);
 
     testWidgets(
-      'fo06/us11/fr01 (D7): under a zero settle duration a drag reflows its '
+      'fo06_03/us05/fr01 (D7): under a zero settle duration a drag reflows its '
       'neighbors at once and reports no error',
       (tester) async {
         await tester.pumpWidget(
@@ -8570,7 +8392,7 @@ void main() {
 
   void sameCountDragTests() {
     testWidgets(
-      'fo06/us11/fr03/e06: a same-count change that moves the dragged item to a '
+      'fo06_03/us05/fr03/e06: a same-count change that moves the dragged item to a '
       'built slot cancels the drag after the frame, with one onReorderEnd '
       'at its start index, no onReorderItem, and its State kept',
       (tester) async {
@@ -8599,7 +8421,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr01/e07: a same-count change that moves the unfocused dragged '
+      'fo06_03/us05/fr01/e07: a same-count change that moves the unfocused dragged '
       'item to a slot the frame does not build cancels the drag with no '
       'error, and the item loses its State, never kept alive',
       (tester) async {
@@ -8625,7 +8447,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e06: a same-count change that moves a dropped item while it '
+    testWidgets('fo06_03/us05/fr04/e06: a same-count change that moves a dropped item while it '
         'settles ends the drop with no onReorderItem and no second '
         'onReorderEnd, and the item keeps its State', (tester) async {
       await tester.pumpWidget(_app(const _Harness(count: 20)));
@@ -8660,7 +8482,7 @@ void main() {
     });
 
     testWidgets(
-      "fo06/us11/fr04/e12: a same-count change that replaces the dragged item's "
+      "fo06_03/us05/fr04/e12: a same-count change that replaces the dragged item's "
       'key cancels the drag after the frame, and the item leaves',
       (tester) async {
         await tester.pumpWidget(_app(const _Harness(count: 20)));
@@ -8685,7 +8507,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr01/e07: a same-count change that moves only other items keeps '
+    testWidgets('fo06_03/us05/fr01/e07: a same-count change that moves only other items keeps '
         'the drag', (tester) async {
       await tester.pumpWidget(_app(const _Harness(count: 20)));
       final gesture = await _liftItem(tester, 3);
@@ -8705,7 +8527,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr01/e07: the dragged-key check costs one itemBuilder call per '
+      'fo06_03/us05/fr01/e07: the dragged-key check costs one itemBuilder call per '
       'build while an item is lifted, and none on an idle frame',
       (tester) async {
         var builds = 0;
@@ -8738,7 +8560,7 @@ void main() {
   );
 
   group('ReorderableListViewLayout items framed by key', () {
-    testWidgets('fo06/us11/fr05/e12: two items moved in one turn to slots the frame does not '
+    testWidgets('fo06_03/us05/fr05/e12: two items moved in one turn to slots the frame does not '
         'build, a focused one and one the app keeps alive, both keep their '
         'State', (tester) async {
       final controller = ReorderableItemsController();
@@ -8769,49 +8591,46 @@ void main() {
       expect(focusedState.expanded, isTrue);
     });
 
-    testWidgets(
-      's03/inv35: under each extent, none, itemExtent, itemExtentBuilder, and '
-      'prototypeItem, the list lays every slot out at that extent and a '
-      'focused item a raw move takes far keeps its State',
-      (tester) async {
-        final harnesses = [
-          const _Harness(key: ValueKey('none'), count: 200, appIndex: true),
-          const _Harness(
-            key: ValueKey('itemExtent'),
-            count: 200,
-            itemExtent: 40,
-            appIndex: true,
-          ),
-          _Harness(
-            key: const ValueKey('itemExtentBuilder'),
-            count: 200,
-            itemExtentBuilder: (index, dimensions) => 40,
-            appIndex: true,
-          ),
-          const _Harness(
-            key: ValueKey('prototypeItem'),
-            count: 200,
-            prototypeItem: SizedBox(width: 40, height: 40),
-            appIndex: true,
-          ),
-        ];
-        for (final harness in harnesses) {
-          await tester.pumpWidget(_app(harness));
-          final state = _itemState(tester, 1);
-          await _focusItem(tester, 1);
-          expect(_offsetBetween(tester, 2, 3), 40);
+    testWidgets('fo06_03/inv35: under each extent, none, itemExtent, itemExtentBuilder, and '
+        'prototypeItem, the list lays every slot out at that extent and a '
+        'focused item a raw move takes far keeps its State', (tester) async {
+      final harnesses = [
+        const _Harness(key: ValueKey('none'), count: 200, appIndex: true),
+        const _Harness(
+          key: ValueKey('itemExtent'),
+          count: 200,
+          itemExtent: 40,
+          appIndex: true,
+        ),
+        _Harness(
+          key: const ValueKey('itemExtentBuilder'),
+          count: 200,
+          itemExtentBuilder: (index, dimensions) => 40,
+          appIndex: true,
+        ),
+        const _Harness(
+          key: ValueKey('prototypeItem'),
+          count: 200,
+          prototypeItem: SizedBox(width: 40, height: 40),
+          appIndex: true,
+        ),
+      ];
+      for (final harness in harnesses) {
+        await tester.pumpWidget(_app(harness));
+        final state = _itemState(tester, 1);
+        await _focusItem(tester, 1);
+        expect(_offsetBetween(tester, 2, 3), 40);
 
-          _harness(tester).moveData(1, 150);
-          await tester.pumpAndSettle();
+        _harness(tester).moveData(1, 150);
+        await tester.pumpAndSettle();
 
-          expect(tester.takeException(), isNull);
-          expect(_statesOf(tester, 1), [same(state)]);
-          expect(FocusManager.instance.primaryFocus, same(state.node));
-        }
-      },
-    );
+        expect(tester.takeException(), isNull);
+        expect(_statesOf(tester, 1), [same(state)]);
+        expect(FocusManager.instance.primaryFocus, same(state.node));
+      }
+    });
 
-    testWidgets('fo06/us11/fr05/e05: an unfocused item the app keeps alive keeps its State '
+    testWidgets('fo06_03/us05/fr05/e05: an unfocused item the app keeps alive keeps its State '
         'through a moveItem to a slot the frame does not build: its keep-alive '
         'follows it to its new slot', (tester) async {
       final controller = ReorderableItemsController();
@@ -8840,7 +8659,7 @@ void main() {
   });
 
   void parkedItemTests() {
-    testWidgets('fo06/us11/fr04/e17: a node that takes focus while a focused item waits off '
+    testWidgets('fo06_03/us05/fr04/e17: a node that takes focus while a focused item waits off '
         'screen ends its park, so the item, never laid out, leaves with its '
         'State', (tester) async {
       final controller = ReorderableItemsController();
@@ -8876,7 +8695,7 @@ void main() {
       'horizontal',
       'right-to-left',
     });
-    testWidgets('fo06/us11/fr04/e17: a focused item the app takes out and puts back far down '
+    testWidgets('fo06_03/us05/fr04/e17: a focused item the app takes out and puts back far down '
         'keeps its State and focus off screen under a fixed, built, or '
         'prototype extent, and on a reversed, horizontal, or right-to-left '
         'list', (tester) async {
@@ -8916,96 +8735,87 @@ void main() {
       expect(_builtInView(tester, 0), isTrue);
     }, variant: shapes);
 
-    testWidgets(
-      'fo06/us11/fr04/e17: an insertItem before an item that waits off screen '
-      'carries its kept-alive State to its new index, until the reach gives '
-      'up and hands focus on',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 200, itemsController: controller)),
-        );
-        final state = _itemState(tester, 0);
-        await _focusItem(tester, 0);
-        // Held at 0, the list never lays the new slot out, so the item stays
-        // parked off screen until the reach gives up.
-        _pinScroll(tester, 0);
-        _harness(tester)
-          ..remove(0)
-          ..insert(199, 0);
-        await tester.pump();
-        expect(_statesOf(tester, 0), [same(state)]);
+    testWidgets('fo06_03/us05/fr04/e17: an insertItem before an item that waits off screen '
+        'carries its kept-alive State to its new index, until the reach gives '
+        'up and hands focus on', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 200, itemsController: controller)),
+      );
+      final state = _itemState(tester, 0);
+      await _focusItem(tester, 0);
+      // Held at 0, the list never lays the new slot out, so the item stays
+      // parked off screen until the reach gives up.
+      _pinScroll(tester, 0);
+      _harness(tester)
+        ..remove(0)
+        ..insert(199, 0);
+      await tester.pump();
+      expect(_statesOf(tester, 0), [same(state)]);
 
-        _harness(tester).insert(0, 900);
-        await tester.pump();
-        expect(_statesOf(tester, 0), [same(state)]);
-        await tester.pumpAndSettle();
+      _harness(tester).insert(0, 900);
+      await tester.pump();
+      expect(_statesOf(tester, 0), [same(state)]);
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(_harness(tester).ids[200], 0);
-        expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 900');
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(_harness(tester).ids[200], 0);
+      expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 900');
+    });
 
-    testWidgets(
-      'fo06/us11/fr04/e17: a focused item the app takes out and puts back far '
-      'down waits off screen with its State and the node that holds focus, '
-      'then shows on screen',
-      (tester) async {
-        final controller = ReorderableItemsController();
-        await tester.pumpWidget(
-          _app(_Harness(count: 200, itemsController: controller)),
-        );
-        final state = _itemState(tester, 0)..expanded = true;
-        final focused = await _focusItem(tester, 0);
+    testWidgets('fo06_03/us05/fr04/e17: a focused item the app takes out and puts back far '
+        'down waits off screen with its State and the node that holds focus, '
+        'then shows on screen', (tester) async {
+      final controller = ReorderableItemsController();
+      await tester.pumpWidget(
+        _app(_Harness(count: 200, itemsController: controller)),
+      );
+      final state = _itemState(tester, 0)..expanded = true;
+      final focused = await _focusItem(tester, 0);
 
-        _harness(tester)
-          ..remove(0)
-          ..insert(199, 0);
-        await tester.pump();
-        expect(_laidOut(tester).last, lessThan(199));
-        expect(_statesOf(tester, 0), [same(state)]);
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        await tester.pumpAndSettle();
+      _harness(tester)
+        ..remove(0)
+        ..insert(199, 0);
+      await tester.pump();
+      expect(_laidOut(tester).last, lessThan(199));
+      expect(_statesOf(tester, 0), [same(state)]);
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(_statesOf(tester, 0), [same(state)]);
-        expect(state.expanded, isTrue);
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(_builtInView(tester, 0), isTrue);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(_statesOf(tester, 0), [same(state)]);
+      expect(state.expanded, isTrue);
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(_builtInView(tester, 0), isTrue);
+    });
 
-    testWidgets(
-      'fo06/us11/s04: on a lazy list whose unbuilt items run taller than the '
-      'built ones, Alt+End moves the focused item to the last slot with its '
-      'State and focus, and shows it',
-      (tester) async {
-        final position = await _pumpScrolled(
-          tester,
-          _Harness(
-            count: 200,
-            heights: {for (var id = 150; id < 200; id += 1) id: 120},
-          ),
-          offset: 4200,
-        );
-        final state = _itemState(tester, 105)..expanded = true;
-        final focused = await _focusItem(tester, 105);
+    testWidgets('fo06_03/us05/s04: on a lazy list whose unbuilt items run taller than the '
+        'built ones, Alt+End moves the focused item to the last slot with its '
+        'State and focus, and shows it', (tester) async {
+      final position = await _pumpScrolled(
+        tester,
+        _Harness(
+          count: 200,
+          heights: {for (var id = 150; id < 200; id += 1) id: 120},
+        ),
+        offset: 4200,
+      );
+      final state = _itemState(tester, 105)..expanded = true;
+      final focused = await _focusItem(tester, 105);
 
-        await _alt(tester, LogicalKeyboardKey.end);
+      await _alt(tester, LogicalKeyboardKey.end);
 
-        expect(tester.takeException(), isNull);
-        expect(_harness(tester).ids.last, 105);
-        expect(_statesOf(tester, 105), [same(state)]);
-        expect(state.expanded, isTrue);
-        expect(FocusManager.instance.primaryFocus, same(focused));
-        expect(position.pixels, position.maxScrollExtent);
-        expect(_builtInView(tester, 105), isTrue);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(_harness(tester).ids.last, 105);
+      expect(_statesOf(tester, 105), [same(state)]);
+      expect(state.expanded, isTrue);
+      expect(FocusManager.instance.primaryFocus, same(focused));
+      expect(position.pixels, position.maxScrollExtent);
+      expect(_builtInView(tester, 105), isTrue);
+    });
 
     testWidgets(
-      'fo06/us11/fr04/e12: an item-count change with no call while a focused '
+      'fo06_03/us05/fr04/e12: an item-count change with no call while a focused '
       'item waits off screen for its slot ends its State and hands focus '
       'on, and with the app index follows the item by its key',
       (tester) async {
@@ -9041,7 +8851,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e17: a moveItem of the item that waits off screen keeps it '
+      'fo06_03/us05/fr04/e17: a moveItem of the item that waits off screen keeps it '
       'alive for its new slot, with its State and focus, and shows it there',
       (tester) async {
         final controller = ReorderableItemsController();
@@ -9090,47 +8900,54 @@ void main() {
 
     // A move to the end: by Alt+End, or by the "Move to the end" action.
     final endMove = ValueVariant<String>({'Alt+End', 'Move to the end'});
-    testWidgets('fo06/us11/fr03/e01: a focus the app moves to another item in '
-        'onReorderItem of a move to the end stays where the app put it, in '
-        'view, and the list never scrolls', (tester) async {
-      final handle = tester.ensureSemantics();
-      final moves = <double>[];
-      await pumpFocused(tester, moves);
-      final other = _itemState(tester, 110).node;
-      _harness(tester).onMove = (_, _) => other.requestFocus();
+    testWidgets(
+      'fo06_03/us05/fr03/e01: a focus the app moves to another item in '
+      'onReorderItem of a move to the end stays where the app put it, in '
+      'view, and the list never scrolls',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        final moves = <double>[];
+        await pumpFocused(tester, moves);
+        final other = _itemState(tester, 110).node;
+        _harness(tester).onMove = (_, _) => other.requestFocus();
 
-      if (endMove.currentValue == 'Alt+End') {
-        await _alt(tester, LogicalKeyboardKey.end);
-      } else {
-        await _moveAction(tester, 105, 'Move to the end');
-      }
+        if (endMove.currentValue == 'Alt+End') {
+          await _alt(tester, LogicalKeyboardKey.end);
+        } else {
+          await _moveAction(tester, 105, 'Move to the end');
+        }
 
-      expect(tester.takeException(), isNull);
-      expect(_harness(tester).ids.last, 105);
-      expect(FocusManager.instance.primaryFocus, same(other));
-      expect(_builtInView(tester, 110), isTrue);
-      expect(moves, isEmpty);
-      handle.dispose();
-    }, variant: endMove);
+        expect(tester.takeException(), isNull);
+        expect(_harness(tester).ids.last, 105);
+        expect(FocusManager.instance.primaryFocus, same(other));
+        expect(_builtInView(tester, 110), isTrue);
+        expect(moves, isEmpty);
+        handle.dispose();
+      },
+      variant: endMove,
+    );
 
-    testWidgets('fo06/us11/fr03/e01: a focus the app moves to another item in '
-        'onReorderItem of Alt+Home stays where the app put it, in view, and '
-        'the list never scrolls', (tester) async {
-      final moves = <double>[];
-      await pumpFocused(tester, moves);
-      final other = _itemState(tester, 110).node;
-      _harness(tester).onMove = (_, _) => other.requestFocus();
+    testWidgets(
+      'fo06_03/us05/fr03/e01: a focus the app moves to another item in '
+      'onReorderItem of Alt+Home stays where the app put it, in view, and '
+      'the list never scrolls',
+      (tester) async {
+        final moves = <double>[];
+        await pumpFocused(tester, moves);
+        final other = _itemState(tester, 110).node;
+        _harness(tester).onMove = (_, _) => other.requestFocus();
 
-      await _alt(tester, LogicalKeyboardKey.home);
+        await _alt(tester, LogicalKeyboardKey.home);
 
-      expect(tester.takeException(), isNull);
-      expect(_harness(tester).ids.first, 105);
-      expect(FocusManager.instance.primaryFocus, same(other));
-      expect(_builtInView(tester, 110), isTrue);
-      expect(moves, isEmpty);
-    });
+        expect(tester.takeException(), isNull);
+        expect(_harness(tester).ids.first, 105);
+        expect(FocusManager.instance.primaryFocus, same(other));
+        expect(_builtInView(tester, 110), isTrue);
+        expect(moves, isEmpty);
+      },
+    );
 
-    testWidgets('fo06/us11/fr03/e02: the scroll offset read in onReorderItem of Alt+End has '
+    testWidgets('fo06_03/us05/fr03/e02: the scroll offset read in onReorderItem of Alt+End has '
         "not moved; the list jumps to the end at the next frame's start and "
         'keeps the item State and focus', (tester) async {
       final moves = <double>[];
@@ -9154,7 +8971,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr05/e04 and s03/inv32: the scroll offset read right after a '
+      'fo06_03/us05/fr05/e04 and fo06_03/inv32: the scroll offset read right after a '
       "far moveItem has not moved; the probe moves it at the next frame's "
       'start, before that frame builds, and the landing reveal then '
       "corrects it to the least scroll at the following frame's start",
@@ -9201,7 +9018,7 @@ void main() {
 
   group('ReorderableListViewLayout handoff away from the laid-out items', () {
     testWidgets(
-      'fo06/us11/fr04/e04: when the app takes a moved item out before the frame '
+      'fo06_03/us05/fr04/e04: when the app takes a moved item out before the frame '
       'whose jump would reach its slot, the list reaches toward the gap and '
       'hands focus to an item laid out there, so focus is never lost',
       (tester) async {
@@ -9225,7 +9042,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e04: an item the app keeps alive off screen beside the gap '
+      'fo06_03/us05/fr04/e04: an item the app keeps alive off screen beside the gap '
       'of a removed focused item is never the handoff target: the list '
       'reaches the gap and focus goes to an item laid out there',
       (tester) async {
@@ -9255,7 +9072,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e04: when the reach toward the gap gives up, focus goes to '
+    testWidgets('fo06_03/us05/fr04/e04: when the reach toward the gap gives up, focus goes to '
         'the laid-out item nearest the gap, on a list with no Tab stop of its '
         'own', (tester) async {
       final position = await _pumpScrolled(
@@ -9288,7 +9105,7 @@ void main() {
   });
 
   group('ReorderableListViewLayout reorders the app makes alone', () {
-    testWidgets('fo06/us11/fr05/e13: an item the app keeps alive follows a reorder of its '
+    testWidgets('fo06_03/us05/fr05/e13: an item the app keeps alive follows a reorder of its '
         'data with no call to a slot the frame does not build', (tester) async {
       final position = await _pumpScrolled(
         tester,
@@ -9308,7 +9125,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr01/input-output: an app index past the data counts as no '
+      'fo06_03/us05/fr01/input-output: an app index past the data counts as no '
       'answer, with no error',
       (tester) async {
         final position = await _pumpScrolled(
@@ -9329,7 +9146,7 @@ void main() {
     );
 
     testWidgets(
-      's03/inv35: an item the app keeps alive off screen, shifted by an '
+      'fo06_03/inv35: an item the app keeps alive off screen, shifted by an '
       'insertItem, moves in place by the app index and keeps its State',
       (tester) async {
         final position = await _pumpScrolled(
@@ -9373,7 +9190,7 @@ void main() {
     // and the list reaches the slot over several frames.
     final taller = {for (var id = 300; id < 1000; id += 1) id: 120.0};
 
-    testWidgets('fo06/us11/fr05/e13 and fo06/us11/fr04/e19: with no callback, a focused item the '
+    testWidgets('fo06_03/us05/fr05/e13 and fo06_03/us05/fr04/e19: with no callback, a focused item the '
         'app moves in its data with no call to a slot the frame does not build '
         'loses its State, and focus moves to the next item', (tester) async {
       final (state, position) = await pumpItem(
@@ -9391,7 +9208,7 @@ void main() {
     });
 
     final farTargets = ValueVariant<int>({600, 5, 999});
-    testWidgets('fo06/us11/fr05/e13 and fo06/us11/fr03/e11: a focused item the app moves in its '
+    testWidgets('fo06_03/us05/fr05/e13 and fo06_03/us05/fr03/e11: a focused item the app moves in its '
         'data with no call to a slot the frame does not build keeps its State '
         'and focus, shows one frame after the build that learns of it, and '
         'stays alive once scrolled out of view', (tester) async {
@@ -9422,7 +9239,7 @@ void main() {
     }, variant: farTargets);
 
     testWidgets(
-      'fo06/us11/fr05/e13: a focused item the app moves to a laid-out slot out of '
+      'fo06_03/us05/fr05/e13: a focused item the app moves to a laid-out slot out of '
       'view keeps its State and focus, and the list reveals it',
       (tester) async {
         final (state, position) = await pumpItem(
@@ -9442,7 +9259,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05/e13: a focused item the app moves within the viewport keeps '
+    testWidgets('fo06_03/us05/fr05/e13: a focused item the app moves within the viewport keeps '
         'its State and focus, and the list does not scroll', (tester) async {
       final (state, position) = await pumpItem(
         tester,
@@ -9459,7 +9276,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr05/e13: an item that does not hold focus, moved by the app to '
+      'fo06_03/us05/fr05/e13: an item that does not hold focus, moved by the app to '
       'a slot the frame does not build, is never kept alive or followed',
       (tester) async {
         final (state, position) = await pumpItem(
@@ -9486,7 +9303,7 @@ void main() {
       (false, 600, true),
     });
     testWidgets(
-      'fo06/us11/fr01/e07 and fo06/us11/fr03/e06: the app moves the dragged item in its '
+      'fo06_03/us05/fr01/e07 and fo06_03/us05/fr03/e06: the app moves the dragged item in its '
       'data with no call: the drag ends with one onReorderEnd, and a focused '
       'item keeps its State and focus and shows once the proxy lets it go',
       (tester) async {
@@ -9526,7 +9343,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05/e13: a focus the app moves to another item in the turn of '
+      'fo06_03/us05/fr05/e13: a focus the app moves to another item in the turn of '
       'its reorder stays, and the moved item is neither kept nor followed',
       (tester) async {
         final (state, position) = await pumpItem(
@@ -9547,7 +9364,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05/e13: a focus the app moves to another item after the build '
+      'fo06_03/us05/fr05/e13: a focus the app moves to another item after the build '
       "that books the jump, before the next frame's start, skips the jump",
       (tester) async {
         final (state, position) = await pumpItem(
@@ -9569,7 +9386,7 @@ void main() {
     );
 
     final answers = ValueVariant<int?>({null, 1000, -1});
-    testWidgets('fo06/us11/fr05/e13: a null app answer for the focused item, or one outside '
+    testWidgets('fo06_03/us05/fr05/e13: a null app answer for the focused item, or one outside '
         'the data, counts as no move, as with no callback', (tester) async {
       final answer = answers.currentValue;
       final (state, position) = await pumpItem(
@@ -9597,7 +9414,7 @@ void main() {
       (105, 101),
     });
     testWidgets(
-      's03/inv35: a reorder with an insertItem in the same turn reads where '
+      'fo06_03/inv35: a reorder with an insertItem in the same turn reads where '
       'the calls put the focused item, which keeps its State and shows',
       (tester) async {
         final (to, insertAt) = withInsert.currentValue!;
@@ -9624,7 +9441,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05/e13: on a lazy extent whose unbuilt items run taller, a '
+      'fo06_03/us05/fr05/e13: on a lazy extent whose unbuilt items run taller, a '
       'focused item moved to a middle slot keeps its State and shows',
       (tester) async {
         final (state, _) = await pumpItem(
@@ -9642,40 +9459,37 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr05/e13: on a lazy extent whose unbuilt items run taller, a '
-      'focused item moved to the last slot is reached by an exact jump to '
-      'the end and settles within 20 frames',
-      (tester) async {
-        final (state, position) = await pumpItem(
-          tester,
-          _Harness(
-            count: 1000,
-            appIndex: true,
-            heights: {for (var id = 150; id < 1000; id += 1) id: 400},
-          ),
-        );
+    testWidgets('fo06_03/us05/fr05/e13: on a lazy extent whose unbuilt items run taller, a '
+        'focused item moved to the last slot is reached by an exact jump to '
+        'the end and settles within 20 frames', (tester) async {
+      final (state, position) = await pumpItem(
+        tester,
+        _Harness(
+          count: 1000,
+          appIndex: true,
+          heights: {for (var id = 150; id < 1000; id += 1) id: 400},
+        ),
+      );
 
-        _harness(tester).moveData(103, 999);
-        for (var frame = 0; frame < 20; frame += 1) {
-          await tester.pump(const Duration(milliseconds: 16));
-        }
-        final settled = position.pixels;
-        await tester.pumpAndSettle();
+      _harness(tester).moveData(103, 999);
+      for (var frame = 0; frame < 20; frame += 1) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      final settled = position.pixels;
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(position.pixels, settled);
-        expect(_statesOf(tester, 103), [same(state)]);
-        expect(FocusManager.instance.primaryFocus, same(state.node));
-        expect(_builtInView(tester, 103), isTrue);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(position.pixels, settled);
+      expect(_statesOf(tester, 103), [same(state)]);
+      expect(FocusManager.instance.primaryFocus, same(state.node));
+      expect(_builtInView(tester, 103), isTrue);
+    });
 
     // The first reorder's slot lies where the jump lands; the later one is
     // far, past the taller items, or near.
     final again = ValueVariant<int>({800, 105});
     testWidgets(
-      'fo06/us11/fr05/e13: a later reorder of the item kept alive off screen aims '
+      'fo06_03/us05/fr05/e13: a later reorder of the item kept alive off screen aims '
       'the follow at its newest slot, with its State and focus',
       (tester) async {
         final to = again.currentValue!;
@@ -9700,7 +9514,7 @@ void main() {
     );
 
     testWidgets(
-      's03/inv32: a reorder of the item the list reaches for re-aims the '
+      'fo06_03/inv32: a reorder of the item the list reaches for re-aims the '
       'reach, and the item keeps its State and focus',
       (tester) async {
         final (state, _) = await pumpItem(
@@ -9725,33 +9539,30 @@ void main() {
       },
     );
 
-    testWidgets(
-      's03/inv35 and fo06/us11/fr05/e13: an insertItem that shifts the shown '
-      'focused item into the cache band reveals it whole',
-      (tester) async {
-        final (state, position) = await pumpItem(
-          tester,
-          _Harness(
-            count: 1000,
-            appIndex: true,
-            itemsController: ReorderableItemsController(),
-          ),
-          id: 107,
-        );
-        expect(_itemInView(tester, 107), isFalse);
+    testWidgets('fo06_03/inv35 and fo06_03/us05/fr05/e13: an insertItem that shifts the shown '
+        'focused item into the cache band reveals it whole', (tester) async {
+      final (state, position) = await pumpItem(
+        tester,
+        _Harness(
+          count: 1000,
+          appIndex: true,
+          itemsController: ReorderableItemsController(),
+        ),
+        id: 107,
+      );
+      expect(_itemInView(tester, 107), isFalse);
 
-        _harness(tester).insert(101, 5000);
-        await tester.pumpAndSettle();
+      _harness(tester).insert(101, 5000);
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(_statesOf(tester, 107), [same(state)]);
-        expect(position.pixels, 4060);
-        expect(_itemInView(tester, 107), isTrue);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(_statesOf(tester, 107), [same(state)]);
+      expect(position.pixels, 4060);
+      expect(_itemInView(tester, 107), isTrue);
+    });
 
     testWidgets(
-      's03/inv35: with no app index, two inserts that shift a fully shown '
+      'fo06_03/inv35: with no app index, two inserts that shift a fully shown '
       'focused item into the cache band reveal it',
       (tester) async {
         final (state, position) = await pumpItem(
@@ -9780,7 +9591,7 @@ void main() {
         for (final call in ['insertItem', 'removeItem'])
           (appIndex: appIndex, call: call),
     });
-    testWidgets('s03/inv35 and fo06/us11/fr03/e11: a call that shifts a shown focused item '
+    testWidgets('fo06_03/inv35 and fo06_03/us05/fr03/e11: a call that shifts a shown focused item '
         'that stays whole scrolls neither the list nor the page the app '
         'scrolled the list out of', (tester) async {
       final (:appIndex, :call) = outerShifts.currentValue!;
@@ -9835,7 +9646,7 @@ void main() {
     // Whether the list gets the app index.
     final foldShifts = ValueVariant<bool>({false, true});
     testWidgets(
-      's03/inv35 and fo06/us11/fr03/e11: calls that push a shown focused item '
+      'fo06_03/inv35 and fo06_03/us05/fr03/e11: calls that push a shown focused item '
       "past the fold of the app's page scroll the page to keep it shown",
       (tester) async {
         final appIndex = foldShifts.currentValue!;
@@ -9875,7 +9686,7 @@ void main() {
     );
 
     testWidgets(
-      's03/inv35 and fo06/us11/fr05/e13: with the app index, a data move of a '
+      'fo06_03/inv35 and fo06_03/us05/fr05/e13: with the app index, a data move of a '
       'focused item laid out but not shown follows it silently',
       (tester) async {
         final (state, position) = await pumpItem(
@@ -9898,7 +9709,7 @@ void main() {
     );
 
     testWidgets(
-      's03/inv35: with no app index, a moveItem of another item past a '
+      'fo06_03/inv35: with no app index, a moveItem of another item past a '
       'focused item laid out but not shown scrolls nothing',
       (tester) async {
         final (state, position) = await pumpItem(
@@ -9919,7 +9730,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr01/input-output: the list asks the app once per built item on '
+    testWidgets('fo06_03/us05/fr01/input-output: the list asks the app once per built item on '
         'each build, plus once for the focused item, and never while it only '
         'scrolls', (tester) async {
       final (_, position) = await pumpItem(
@@ -9963,7 +9774,7 @@ void main() {
       ('horizontal', 600),
       ('horizontal', 5),
     });
-    testWidgets('fo06/us11/fr05/e13: on a reversed or horizontal list, a focused item the '
+    testWidgets('fo06_03/us05/fr05/e13: on a reversed or horizontal list, a focused item the '
         'app moves far keeps its State and focus and shows', (tester) async {
       final (shape, to) = shapes.currentValue!;
       final (state, _) = await pumpItem(
@@ -9991,7 +9802,7 @@ void main() {
       (103, 4000, 4000),
       (100, 4020, 3960),
     });
-    testWidgets('fo06/us11/fr05/e13: a shift of the focused item, when the app moves another '
+    testWidgets('fo06_03/us05/fr05/e13: a shift of the focused item, when the app moves another '
         'item past it, counts as its move', (tester) async {
       final (id, offset, revealed) = shifted.currentValue!;
       final (state, position) = await pumpItem(
@@ -10020,7 +9831,7 @@ void main() {
       'after the build',
       'while dragged',
     });
-    testWidgets('fo06/us11/fr04/e12: with the app index, an item-count change with no call '
+    testWidgets('fo06_03/us05/fr04/e12: with the app index, an item-count change with no call '
         'keeps following the focused item by its key: State and focus stay, '
         'and the list shows the item at its slot', (tester) async {
       final timing = countChange.currentValue!;
@@ -10055,7 +9866,7 @@ void main() {
     // leaves the moved item's index as the call put it (F2).
     final unshifting = ValueVariant<String>({'an append', 'a remove past it'});
     testWidgets(
-      'fo06/us11/fr05/e04 and fo06/us11/fr04/e12: with the app index, a moveItem of '
+      'fo06_03/us05/fr05/e04 and fo06_03/us05/fr04/e12: with the app index, a moveItem of '
       'the focused item far into taller items and an item-count change with '
       'no call that leaves its index in one turn still reach and show it',
       (tester) async {
@@ -10085,37 +9896,34 @@ void main() {
       variant: unshifting,
     );
 
-    testWidgets(
-      'fo06/us11/fr01/e07 and s03/inv28 (L4 closed, R49): an unfocused dragged '
-      'item the app keeps alive keeps its State when an item-count change '
-      'ends the drag and its new slot is not laid out',
-      (tester) async {
-        final (state, position) = await pumpItem(
-          tester,
-          const _Harness(count: 1000, appIndex: true, keepAliveIds: {103}),
-          focus: false,
-        );
-        final gesture = await _liftItem(tester, 103);
+    testWidgets('fo06_03/us05/fr01/e07 and fo06_03/inv28 (L4 closed, R49): an unfocused dragged '
+        'item the app keeps alive keeps its State when an item-count change '
+        'ends the drag and its new slot is not laid out', (tester) async {
+      final (state, position) = await pumpItem(
+        tester,
+        const _Harness(count: 1000, appIndex: true, keepAliveIds: {103}),
+        focus: false,
+      );
+      final gesture = await _liftItem(tester, 103);
 
-        _harness(tester)
-          ..moveData(103, 600)
-          ..removeData(5);
-        await tester.pump();
-        await gesture.up();
-        await tester.pumpAndSettle();
+      _harness(tester)
+        ..moveData(103, 600)
+        ..removeData(5);
+      await tester.pump();
+      await gesture.up();
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(_harness(tester).ends, [103]);
-        expect(state.mounted, isTrue);
-        expect(_statesOf(tester, 103), [same(state)]);
-        expect(position.pixels, 4000);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(_harness(tester).ends, [103]);
+      expect(state.mounted, isTrue);
+      expect(_statesOf(tester, 103), [same(state)]);
+      expect(position.pixels, 4000);
+    });
 
     // The park the count change meets: a moveItem's, or a raw move's, while
     // the reach runs into taller unbuilt items.
     final parkedBy = ValueVariant<String>({'moveItem', 'a raw move'});
-    testWidgets('fo06/us11/fr04/e17 and s03/inv32: with the app index, an item-count change '
+    testWidgets('fo06_03/us05/fr04/e17 and fo06_03/inv32: with the app index, an item-count change '
         'during the retry frames re-aims the reach, and the parked item keeps '
         'its State and focus and shows', (tester) async {
       final (state, _) = await pumpItem(
@@ -10159,7 +9967,7 @@ void main() {
       ('remove and insert', 'removed'),
     });
     testWidgets(
-      'fo06/us11/fr04/e12 and s03/inv35: with the app index, a null answer for the '
+      'fo06_03/us05/fr04/e12 and fo06_03/inv35: with the app index, a null answer for the '
       'item kept alive off screen, its key gone from the data at any item '
       'count, ends its State and hands focus to a neighbor from its last slot',
       (tester) async {
@@ -10204,7 +10012,7 @@ void main() {
     );
 
     final countDrag = ValueVariant<bool>({false, true});
-    testWidgets('fo06/us11/fr01/e07, fo06/us11/fr03/e06, fo06/us11/fr04/e06, and s03/inv28: an '
+    testWidgets('fo06_03/us05/fr01/e07, fo06_03/us05/fr03/e06, fo06_03/us05/fr04/e06, and fo06_03/inv28: an '
         'item-count change during a drag that shifts the focused dragged item '
         'to a slot the frame does not lay out ends the drag; with no callback '
         'the item loses its State and focus moves to the item at the stand-in '
@@ -10244,7 +10052,7 @@ void main() {
     // by an item-count change with no call before the drag proxy lets it go:
     // by one slot, still laid out, or by twenty, past the laid-out slots.
     final liftedShift = ValueVariant<int>({1, 20});
-    testWidgets('fo06/us11/fr04/e06 and s03/inv35: with the app index, an item-count change '
+    testWidgets('fo06_03/us05/fr04/e06 and fo06_03/inv35: with the app index, an item-count change '
         'before the drag proxy lets go of a focused item a raw move took to a '
         'laid-out slot keeps following the item by its key', (tester) async {
       final shift = liftedShift.currentValue!;
@@ -10284,7 +10092,7 @@ void main() {
       ('a remove before', 998),
       ('an insert after', 999),
     });
-    testWidgets('fo06/us11/fr04/e12 and s03/inv35: with the app index, an item-count change '
+    testWidgets('fo06_03/us05/fr04/e12 and fo06_03/inv35: with the app index, an item-count change '
         'with no call in the turn of a key move drops the booked target, and '
         'the list follows the focused item by its key', (tester) async {
       final (change, at) = staleTarget.currentValue!;
@@ -10325,43 +10133,39 @@ void main() {
       (false, true),
       (true, true),
     });
-    testWidgets(
-      'fo06/us11/fr05/e05 and s03/inv28: a moveItem that ends a drag moves the '
-      'unfocused dragged item to a slot the frame does not lay out, and the '
-      'item keeps its State only when the app keeps it alive, with or '
-      'without the app index',
-      (tester) async {
-        final (keptAlive, appIndex) = keptAliveDragged.currentValue!;
-        final (state, position) = await pumpItem(
-          tester,
-          _Harness(
-            count: 1000,
-            appIndex: appIndex,
-            itemsController: ReorderableItemsController(),
-            keepAliveIds: keptAlive ? const {103} : null,
-          ),
-          focus: false,
-        );
-        final harness = _harness(tester);
-        final gesture = await _liftItem(tester, 103);
+    testWidgets('fo06_03/us05/fr05/e05 and fo06_03/inv28: a moveItem that ends a drag moves the '
+        'unfocused dragged item to a slot the frame does not lay out, and the '
+        'item keeps its State only when the app keeps it alive, with or '
+        'without the app index', (tester) async {
+      final (keptAlive, appIndex) = keptAliveDragged.currentValue!;
+      final (state, position) = await pumpItem(
+        tester,
+        _Harness(
+          count: 1000,
+          appIndex: appIndex,
+          itemsController: ReorderableItemsController(),
+          keepAliveIds: keptAlive ? const {103} : null,
+        ),
+        focus: false,
+      );
+      final harness = _harness(tester);
+      final gesture = await _liftItem(tester, 103);
 
-        harness.move(103, 600);
-        await tester.pump();
-        await gesture.up();
-        await tester.pumpAndSettle();
-        position.jumpTo(600 * 40.0 - 100);
-        await tester.pump();
+      harness.move(103, 600);
+      await tester.pump();
+      await gesture.up();
+      await tester.pumpAndSettle();
+      position.jumpTo(600 * 40.0 - 100);
+      await tester.pump();
 
-        expect(tester.takeException(), isNull);
-        expect(harness.ends, [103]);
-        expect(harness.moves, isEmpty);
-        expect(state.mounted, keptAlive);
-        expect(_statesOf(tester, 103), [
-          if (keptAlive) same(state) else isNot(same(state)),
-        ]);
-      },
-      variant: keptAliveDragged,
-    );
+      expect(tester.takeException(), isNull);
+      expect(harness.ends, [103]);
+      expect(harness.moves, isEmpty);
+      expect(state.mounted, keptAlive);
+      expect(_statesOf(tester, 103), [
+        if (keptAlive) same(state) else isNot(same(state)),
+      ]);
+    }, variant: keptAliveDragged);
   });
 
   group('ReorderableListViewLayout reparents an item holding its own semantics '
@@ -10399,7 +10203,7 @@ void main() {
     }
 
     testWidgets(
-      'fo06/us11/fr05/e04: a far move of an item whose first Tab stop sits in '
+      'fo06_03/us05/fr05/e04: a far move of an item whose first Tab stop sits in '
       'a nested horizontal ListView lands in semantics with no assert',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -10415,7 +10219,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05/e04: a near move of an item whose first Tab stop sits in '
+      'fo06_03/us05/fr05/e04: a near move of an item whose first Tab stop sits in '
       'a nested horizontal ListView lands in semantics with no assert',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -10430,7 +10234,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05/e04: a far move of an item under a nested '
+    testWidgets('fo06_03/us05/fr05/e04: a far move of an item under a nested '
         'Semantics(container: true) lands in semantics with no assert', (
       tester,
     ) async {
@@ -10445,81 +10249,69 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets(
-      'fo06/us11/fr05/e04, fo06/us04/fr02/e11: a far move of an item under '
-      'a root StratumInkWell lands in semantics with no assert, split by '
-      "the item's own Focus",
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await pumpBoundary(tester, boundary: _inkWellBoundary);
+    testWidgets('fo06_03/us05/fr05/e04, fo06_02/us01/fr02/e11: a far move of an item under '
+        'a root StratumInkWell lands in semantics with no assert, split by '
+        "the item's own Focus", (tester) async {
+      final handle = tester.ensureSemantics();
+      await pumpBoundary(tester, boundary: _inkWellBoundary);
 
-        _harness(tester).move(100, 150);
-        await tester.pump();
-        await tester.pumpAndSettle();
+      _harness(tester).move(100, 150);
+      await tester.pump();
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        // s03/inv81: the root StratumInkWell joins at its new slot, but
-        // `_Item`'s own per-item Focus and the surface's Focus both set the
-        // focused tristate, which Flutter refuses to merge
-        // (hasConflictingFlags, ui/semantics.dart:1630-1633@3.47.7): the row
-        // still reads split, label and tap below the conflict, button and
-        // the moves above it on the node's parent.
-        final node = tester.getSemantics(find.text('100'));
-        final data = node.getSemanticsData();
-        expect(data.label, '100');
-        expect(data.hasAction(SemanticsAction.tap), isTrue);
-        expect(_rootMoves(node.parent!.getSemanticsData()), hasLength(4));
-        handle.dispose();
-      },
-    );
+      expect(tester.takeException(), isNull);
+      // fo06_03/inv81: the root StratumInkWell joins at its new slot, but
+      // `_Item`'s own per-item Focus and the surface's Focus both set the
+      // focused tristate, which Flutter refuses to merge
+      // (hasConflictingFlags, ui/semantics.dart:1630-1633@3.47.7): the row
+      // still reads split, label and tap below the conflict, button and
+      // the moves above it on the node's parent.
+      final node = tester.getSemantics(find.text('100'));
+      final data = node.getSemanticsData();
+      expect(data.label, '100');
+      expect(data.hasAction(SemanticsAction.tap), isTrue);
+      expect(_rootMoves(node.parent!.getSemanticsData()), hasLength(4));
+      handle.dispose();
+    });
 
-    testWidgets(
-      'fo06/us11/fr04/e05, fo06/us04/fr02/e11: removeItem of an item under '
-      'a root StratumInkWell exits with no assert',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await pumpBoundary(tester, boundary: _inkWellBoundary, focus: false);
+    testWidgets('fo06_03/us05/fr04/e05, fo06_02/us01/fr02/e11: removeItem of an item under '
+        'a root StratumInkWell exits with no assert', (tester) async {
+      final handle = tester.ensureSemantics();
+      await pumpBoundary(tester, boundary: _inkWellBoundary, focus: false);
 
-        _harness(tester).remove(100);
-        await tester.pump();
-        await tester.pumpAndSettle();
+      _harness(tester).remove(100);
+      await tester.pump();
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        handle.dispose();
-      },
-    );
+      expect(tester.takeException(), isNull);
+      handle.dispose();
+    });
 
-    testWidgets(
-      'fo06/us11/fr05/e04, fo06/us04/fr02/e11: a far move of an item whose '
-      'StratumInkWell sits inside the row lands in semantics with no '
-      "assert, on the surface's own node",
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await pumpBoundary(tester, boundary: _innerInkWellBoundary);
+    testWidgets('fo06_03/us05/fr05/e04, fo06_02/us01/fr02/e11: a far move of an item whose '
+        'StratumInkWell sits inside the row lands in semantics with no '
+        "assert, on the surface's own node", (tester) async {
+      final handle = tester.ensureSemantics();
+      await pumpBoundary(tester, boundary: _innerInkWellBoundary);
 
-        _harness(tester).move(100, 150);
-        await tester.pump();
-        await tester.pumpAndSettle();
+      _harness(tester).move(100, 150);
+      await tester.pump();
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        final node = tester.getSemantics(find.text('100'));
-        final data = node.getSemanticsData();
-        expect(data.hasAction(SemanticsAction.tap), isTrue);
-        expect(_rootMoves(data), isEmpty);
-        // `_Item`'s own per-item Focus and the surface's Focus both set the
-        // focused tristate, which Flutter refuses to merge
-        // (hasConflictingFlags, ui/semantics.dart:1630-1633@3.47.7), so the
-        // moves land two ancestors up, not on the surface's own parent.
-        expect(
-          _rootMoves(node.parent!.parent!.getSemanticsData()),
-          hasLength(4),
-        );
-        handle.dispose();
-      },
-    );
+      expect(tester.takeException(), isNull);
+      final node = tester.getSemantics(find.text('100'));
+      final data = node.getSemanticsData();
+      expect(data.hasAction(SemanticsAction.tap), isTrue);
+      expect(_rootMoves(data), isEmpty);
+      // `_Item`'s own per-item Focus and the surface's Focus both set the
+      // focused tristate, which Flutter refuses to merge
+      // (hasConflictingFlags, ui/semantics.dart:1630-1633@3.47.7), so the
+      // moves land two ancestors up, not on the surface's own parent.
+      expect(_rootMoves(node.parent!.parent!.getSemanticsData()), hasLength(4));
+      handle.dispose();
+    });
 
     testWidgets(
-      'fo06/us11/fr04/e05, fo06/us04/fr02/e11: removeItem of an item whose '
+      'fo06_03/us05/fr04/e05, fo06_02/us01/fr02/e11: removeItem of an item whose '
       'StratumInkWell sits inside the row exits with no assert',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -10538,7 +10330,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e05: removeItem then insertItem of the same id, around an '
+    testWidgets('fo06_03/us05/fr04/e05: removeItem then insertItem of the same id, around an '
         'item whose first Tab stop sits in a nested horizontal ListView, '
         'exits with no assert', (tester) async {
       final handle = tester.ensureSemantics();
@@ -10554,7 +10346,7 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('fo06/us11/fr05/e04: two moveItem calls on one key in one turn, around an '
+    testWidgets('fo06_03/us05/fr05/e04: two moveItem calls on one key in one turn, around an '
         'item whose first Tab stop sits in a nested horizontal ListView, land '
         'it in semantics with no assert', (tester) async {
       final handle = tester.ensureSemantics();
@@ -10573,7 +10365,7 @@ void main() {
 
     // L6 closed (R44, R47): the identity sliver lands a parked item with no
     // global-key retake.
-    testWidgets('fo06/us11/fr05/e04 (L6 closed): a far move whose jump misses the new slot, '
+    testWidgets('fo06_03/us05/fr05/e04 (L6 closed): a far move whose jump misses the new slot, '
         'past taller items, of an item whose first Tab stop sits in a nested '
         'horizontal ListView lands with no assert', (tester) async {
       final handle = tester.ensureSemantics();
@@ -10596,7 +10388,7 @@ void main() {
 
     // L6 closed (R44, R47): the identity sliver lands a parked item with no
     // global-key retake.
-    testWidgets('fo06/us11/fr05/e04 (L6 closed): a far move while the app holds the scroll, '
+    testWidgets('fo06_03/us05/fr05/e04 (L6 closed): a far move while the app holds the scroll, '
         'of an item whose first Tab stop sits in a nested horizontal ListView, '
         'lands with no assert', (tester) async {
       final handle = tester.ensureSemantics();
@@ -10615,28 +10407,25 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets(
-      'fo06/us11/fr05/e04 and fr04/e05: moveItem then removeItem of one key in '
-      'one turn, around an item whose first Tab stop sits in a nested '
-      'horizontal ListView, leaves with no assert',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await pumpBoundary(tester, boundary: _nestedListBoundary);
+    testWidgets('fo06_03/us05/fr05/e04 and fo06_03/us05/fr04/e05: moveItem then removeItem of one key in '
+        'one turn, around an item whose first Tab stop sits in a nested '
+        'horizontal ListView, leaves with no assert', (tester) async {
+      final handle = tester.ensureSemantics();
+      await pumpBoundary(tester, boundary: _nestedListBoundary);
 
-        _harness(tester)
-          ..move(100, 103)
-          ..remove(103);
-        await tester.pump();
-        await tester.pumpAndSettle();
+      _harness(tester)
+        ..move(100, 103)
+        ..remove(103);
+      await tester.pump();
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(_harness(tester).ids.contains(100), isFalse);
-        handle.dispose();
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(_harness(tester).ids.contains(100), isFalse);
+      handle.dispose();
+    });
 
     testWidgets(
-      'fo06/us11/fr04/e05 and fr05/e04: removeItem of an item whose first Tab '
+      'fo06_03/us05/fr04/e05 and fo06_03/us05/fr05/e04: removeItem of an item whose first Tab '
       'stop sits in a nested horizontal ListView, then a far moveItem of '
       'the neighbor it leaves beside, in one turn, settles with no assert',
       (tester) async {
@@ -10659,7 +10448,7 @@ void main() {
 
     final reducedOps = ValueVariant<String>({'far move', 'removeItem'});
     testWidgets(
-      "NFR-U03, fo06/us11/fr05/e04 and fr04/e05: under the platform's "
+      "NFR-U03, fo06_03/us05/fr05/e04 and fo06_03/us05/fr04/e05: under the platform's "
       'disableAnimations flag, an item whose first Tab stop sits in a '
       'nested horizontal ListView lands in semantics with no assert',
       (tester) async {
@@ -10688,7 +10477,7 @@ void main() {
 
     final midOps = ValueVariant<String>({'far move', 'removeItem'});
     testWidgets(
-      'fo06/us11/fr05/e04 and fr04/e05: semantics that turns on after the '
+      'fo06_03/us05/fr05/e04 and fo06_03/us05/fr04/e05: semantics that turns on after the '
       'landing frame, mid-animation, finds an item whose first Tab stop '
       'sits in a nested horizontal ListView with no assert',
       semanticsEnabled: false,
@@ -10715,7 +10504,7 @@ void main() {
 
     // L5 closed (R48): the chain never re-parents the item, so a caller fade
     // through 0 asserts nothing.
-    testWidgets('fo06/us11/fr04 and fr05 (L5 closed): a caller '
+    testWidgets('fo06_03/us05/fr04 and fr05 (L5 closed): a caller '
         'itemTransitionBuilder that fades through 0, around an item holding '
         'its own semantics boundary, lands with no assert', (tester) async {
       final handle = tester.ensureSemantics();
@@ -10735,7 +10524,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr04/e02 (R48): an insertItem grow-in under a caller '
+      'fo06_03/us05/fr04/e02 (R48): an insertItem grow-in under a caller '
       'itemTransitionBuilder that fades through 0, of an item holding its '
       'own semantics boundary, lands with no assert',
       (tester) async {
@@ -10881,7 +10670,7 @@ void main() {
     }
 
     final appIndex = ValueVariant<bool>({false, true});
-    testWidgets('fo06/us11/fr04/e19 and s03/inv26: a focused item the app removes from its '
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: a focused item the app removes from its '
         'data with no call hands focus to the next item, with or without the '
         'app index', (tester) async {
       final (state, position) = await pumpFocused(
@@ -10900,7 +10689,7 @@ void main() {
       expect(position.pixels, 4000);
     }, variant: appIndex);
 
-    testWidgets('fo06/us11/fr04/e19: a focused item the app replaces at the same count with '
+    testWidgets('fo06_03/us05/fr04/e19: a focused item the app replaces at the same count with '
         'no call hands focus to the item now at its slot', (tester) async {
       final (state, _) = await pumpFocused(
         tester,
@@ -10916,7 +10705,7 @@ void main() {
     }, variant: appIndex);
 
     final earlier = ValueVariant<String>({'item 102', 'outside'});
-    testWidgets('fo06/us11/fr04/e19: the handoff wins over the node that held focus before '
+    testWidgets('fo06_03/us05/fr04/e19: the handoff wins over the node that held focus before '
         'the removed item', (tester) async {
       final outside = outsideNode();
       await pumpOutside(tester, const _Harness(count: 1000), outside);
@@ -10935,7 +10724,7 @@ void main() {
     }, variant: earlier);
 
     testWidgets(
-      'fo06/us11/fr04/e19: the only item, focused and removed with no call, hands '
+      'fo06_03/us05/fr04/e19: the only item, focused and removed with no call, hands '
       "focus to the list's own Tab stop when the list is focusable",
       (tester) async {
         final (state, _) = await pumpFocused(
@@ -10954,7 +10743,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e19: the last item, focused and removed with no call, hands '
+    testWidgets('fo06_03/us05/fr04/e19: the last item, focused and removed with no call, hands '
         'focus to the item before it', (tester) async {
       await pumpFocused(tester, const _Harness(count: 20), id: 19, offset: 500);
 
@@ -10973,7 +10762,7 @@ void main() {
       ('removeItem', 'in view'),
       ('removeItem', 'kept alive off screen'),
     });
-    testWidgets('fo06/us11/fr04/e19, fo06/us11/fr04/e04, and s03/inv26: a focused item that leaves '
+    testWidgets('fo06_03/us05/fr04/e19, fo06_03/us05/fr04/e04, and fo06_03/inv26: a focused item that leaves '
         'between neighbors with no focusable node hands focus to the nearest '
         "item that has one, before the list's own Tab stop and Flutter's "
         'fallback', (tester) async {
@@ -11006,7 +10795,7 @@ void main() {
     }, variant: plainNeighbors);
 
     final resized = ValueVariant<bool>({false, true});
-    testWidgets('fo06/us11/fr04/e19 and s03/inv26: the slot counts the calls of the turn: an '
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: the slot counts the calls of the turn: an '
         'insertItem before the focused item and its raw remove hand focus to '
         'the item after it, also when a LayoutBuilder above resizes in that '
         'turn', (tester) async {
@@ -11052,36 +10841,29 @@ void main() {
     }, variant: resized);
 
     final appFocus = ValueVariant<String>({'unfocus', 'item 105'});
-    testWidgets(
-      'fo06/us11/fr04/e19 and s03/inv26: a focus the app drops or moves in the '
-      'turn of the raw remove stays where the app put it',
-      (tester) async {
-        final (state, _) = await pumpFocused(
-          tester,
-          const _Harness(count: 1000),
-        );
-        if (appFocus.currentValue == 'unfocus') {
-          state.node.unfocus();
-        } else {
-          _itemState(tester, 105).node.requestFocus();
-        }
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: a focus the app drops or moves in the '
+        'turn of the raw remove stays where the app put it', (tester) async {
+      final (state, _) = await pumpFocused(tester, const _Harness(count: 1000));
+      if (appFocus.currentValue == 'unfocus') {
+        state.node.unfocus();
+      } else {
+        _itemState(tester, 105).node.requestFocus();
+      }
 
-        _harness(tester).removeData(103);
-        await tester.pumpAndSettle();
+      _harness(tester).removeData(103);
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        final primary = FocusManager.instance.primaryFocus;
-        if (appFocus.currentValue == 'unfocus') {
-          expect(primary, isA<FocusScopeNode>());
-        } else {
-          expect(primary?.debugLabel, 'item 105');
-        }
-      },
-      variant: appFocus,
-    );
+      expect(tester.takeException(), isNull);
+      final primary = FocusManager.instance.primaryFocus;
+      if (appFocus.currentValue == 'unfocus') {
+        expect(primary, isA<FocusScopeNode>());
+      } else {
+        expect(primary?.debugLabel, 'item 105');
+      }
+    }, variant: appFocus);
 
     testWidgets(
-      's03/inv26: a list that leaves the tree with focus inside hands no '
+      'fo06_03/inv26: a list that leaves the tree with focus inside hands no '
       'focus on and throws nothing',
       (tester) async {
         await pumpFocused(tester, const _Harness(count: 1000));
@@ -11094,7 +10876,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e17 and s03/inv32: a parked item whose key the app removes '
+    testWidgets('fo06_03/us05/fr04/e17 and fo06_03/inv32: a parked item whose key the app removes '
         'during the reach is left to the reach, which returns to its origin '
         'and hands focus on from the gap', (tester) async {
       final position = await _pumpScrolled(
@@ -11123,7 +10905,7 @@ void main() {
       expect(position.pixels, 0);
     });
 
-    testWidgets('fo06/us11/fr04/e17, fo06/us11/fr03/e11, and s03/inv32: Tab from a parked item '
+    testWidgets('fo06_03/us05/fr04/e17, fo06_03/us05/fr03/e11, and fo06_03/inv32: Tab from a parked item '
         'during the retry frames brings it back, then moves focus from its '
         'slot, and that focus move ends the reach', (tester) async {
       await _pumpScrolled(
@@ -11154,7 +10936,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr05/e04 and s03/inv26: a moveItem whose item the app removes in '
+      'fo06_03/us05/fr05/e04 and fo06_03/inv26: a moveItem whose item the app removes in '
       'the same turn with no call hands focus on once, through the follow',
       (tester) async {
         await pumpFocused(
@@ -11181,7 +10963,7 @@ void main() {
     );
 
     final before = ValueVariant<int?>({null, 3});
-    testWidgets('fo06/us11/fr04/e19 and s03/inv26: a parked item whose key the app replaces '
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: a parked item whose key the app replaces '
         'short of the reach hands focus to the hold node, and the reach then '
         'to the item at the slot', (tester) async {
       final state = await parkMidReach(tester, before: before.currentValue);
@@ -11196,7 +10978,7 @@ void main() {
       expect(_builtInView(tester, 5000), isTrue);
     }, variant: before);
 
-    testWidgets('fo06/us11/fr04/e19 and s03/inv26: a focus the app requests after the frame '
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: a focus the app requests after the frame '
         'stays while the list would reach toward the gap', (tester) async {
       final outside = outsideNode();
       await parkMidReach(tester, outside: outside);
@@ -11212,7 +10994,7 @@ void main() {
     });
 
     testWidgets(
-      's03/inv26: a focus the app moves off the hold node during the reach '
+      'fo06_03/inv26: a focus the app moves off the hold node during the reach '
       'ends the reach',
       (tester) async {
         final outside = outsideNode();
@@ -11232,7 +11014,7 @@ void main() {
     );
 
     final appTarget = ValueVariant<String>({'item 105', 'outside'});
-    testWidgets('fo06/us11/fr04/e19 and s03/inv26: a focus the app requests after the frame '
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: a focus the app requests after the frame '
         'of a raw remove stays', (tester) async {
       final outside = outsideNode();
       await pumpOutside(tester, const _Harness(count: 1000), outside);
@@ -11251,7 +11033,7 @@ void main() {
       expect(focused(), appTarget.currentValue);
     }, variant: appTarget);
 
-    testWidgets('fo06/us11/fr04/e19 and s03/inv26: the list reveals a handoff target only '
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: the list reveals a handoff target only '
         'while that target holds focus', (tester) async {
       final (_, position) = await pumpFocused(
         tester,
@@ -11276,7 +11058,7 @@ void main() {
       'outside after the call',
     });
     testWidgets(
-      'fo06/us11/fr04/e04 and s03/inv26: a focus the app requests after the frame '
+      'fo06_03/us05/fr04/e04 and fo06_03/inv26: a focus the app requests after the frame '
       'of a removeItem stays, registered before the call or after it',
       (tester) async {
         final request = requests.currentValue!;
@@ -11304,7 +11086,7 @@ void main() {
       variant: requests,
     );
 
-    testWidgets('fo06/us11/fr03/e11 and s03/inv35: a focused item scrolled out of view stays '
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv35: a focused item scrolled out of view stays '
         'alive off screen with its State and focus, and the list scrolls '
         'nothing for it', (tester) async {
       final (state, position) = await pumpFocused(
@@ -11329,7 +11111,7 @@ void main() {
       ('removeItem', 102),
       ('moveItem of another item', 104),
     });
-    testWidgets('fo06/us11/fr03/e11 and s03/inv35: with no app index, a call that shifts the '
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv35: with no app index, a call that shifts the '
         'focused item kept alive off screen keeps its State and focus, and the '
         'list scrolls nothing for it', (tester) async {
       final (call, shiftedTo) = shiftingCalls.currentValue!;
@@ -11372,7 +11154,7 @@ void main() {
         (100, 4000, 'removeItem twice', withIndex),
       },
     });
-    testWidgets('fo06/us11/fr05/e04 and s03/inv35: a call that shifts the focused item from '
+    testWidgets('fo06_03/us05/fr05/e04 and fo06_03/inv35: a call that shifts the focused item from '
         'a laid-out slot to one the frame does not lay out keeps its State and '
         'focus, and the list reveals it at its new slot', (tester) async {
       final (id, offset, call, withIndex) = shiftedOut.currentValue!;
@@ -11412,7 +11194,7 @@ void main() {
     }, variant: shiftedOut);
 
     testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv35: a focused item the frame builds anew, '
+      'fo06_03/us05/fr03/e11 and fo06_03/inv35: a focused item the frame builds anew, '
       'with no focus move, stays alive when scrolled out of view',
       (tester) async {
         final (state, position) = await pumpFocused(
@@ -11433,7 +11215,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr03/e11: Alt with an arrow moves the focused item kept alive off '
+    testWidgets('fo06_03/us05/fr03/e11: Alt with an arrow moves the focused item kept alive off '
         'screen and reveals it', (tester) async {
       final (state, position) = await pumpFocused(
         tester,
@@ -11453,7 +11235,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv35: a focus the app moves to another item '
+      'fo06_03/us05/fr03/e11 and fo06_03/inv35: a focus the app moves to another item '
       'lets the item kept alive off screen go, with no handoff',
       (tester) async {
         final (state, position) = await pumpFocused(
@@ -11479,7 +11261,7 @@ void main() {
       'Shift+Tab',
       'Tab at the list end',
     });
-    testWidgets('fo06/us11/fr03/e11 and s03/inv21: Tab or Shift+Tab from the focused item '
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv21: Tab or Shift+Tab from the focused item '
         'kept alive off screen brings it back, then moves focus from its place '
         'and reveals the target', (tester) async {
       final traversal = traversals.currentValue!;
@@ -11511,7 +11293,7 @@ void main() {
       ('Down', LogicalKeyboardKey.arrowDown, 104),
     ]) {
       testWidgets(
-        'fo06/us11/fr03/e11 and s03/inv21: $name from the focused item kept alive '
+        'fo06_03/us05/fr03/e11 and fo06_03/inv21: $name from the focused item kept alive '
         'off screen brings it back, then moves focus to item $target',
         (tester) async {
           final (state, position) = await pumpFocused(
@@ -11565,7 +11347,7 @@ void main() {
       'right-to-left',
     });
     testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv35: a focused item on a reversed, horizontal, '
+      'fo06_03/us05/fr03/e11 and fo06_03/inv35: a focused item on a reversed, horizontal, '
       'or right-to-left list scrolled out of view stays alive off screen with '
       'its State and focus, and the list scrolls nothing',
       (tester) async {
@@ -11591,7 +11373,7 @@ void main() {
           (shape, place),
     });
     testWidgets(
-      'fo06/us11/fr04/e19 and s03/inv26: a focused item on a reversed, horizontal, '
+      'fo06_03/us05/fr04/e19 and fo06_03/inv26: a focused item on a reversed, horizontal, '
       'or right-to-left list that the app drops with no call hands focus to '
       'the next item, which the list reaches back to and shows',
       (tester) async {
@@ -11614,7 +11396,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv21: Tab from the focused item kept alive off '
+      'fo06_03/us05/fr03/e11 and fo06_03/inv21: Tab from the focused item kept alive off '
       'screen on a reversed, horizontal, or right-to-left list brings it back, '
       'then moves focus as Tab from the item in view does and shows the target',
       (tester) async {
@@ -11644,7 +11426,7 @@ void main() {
       ('right-to-left', 'Left', LogicalKeyboardKey.arrowLeft),
     ]) {
       testWidgets(
-        'fo06/us11/fr03/e11 and s03/inv21: on a $shape list, $name from the '
+        'fo06_03/us05/fr03/e11 and fo06_03/inv21: on a $shape list, $name from the '
         'focused item kept alive off screen brings it back, then moves focus '
         'to item 104',
         (tester) async {
@@ -11669,7 +11451,7 @@ void main() {
       'item 103 under reduced motion',
       'the last item',
     });
-    testWidgets('fo06/us11/fr04/e04 and s03/inv26: removeItem of the focused item kept alive '
+    testWidgets('fo06_03/us05/fr04/e04 and fo06_03/inv26: removeItem of the focused item kept alive '
         'off screen hands focus to its neighbor, which the list reaches and '
         'shows whole once the remove motion ends', (tester) async {
       final removal = removals.currentValue!;
@@ -11710,32 +11492,28 @@ void main() {
       'a turn after the scroll',
       'in the turn of the scroll',
     });
-    testWidgets(
-      'fo06/us11/fr04/e19 and s03/inv26: a raw remove of the focused item kept '
-      'alive off screen hands focus to the next item, which the list reaches '
-      'back to',
-      (tester) async {
-        final (state, position) = await pumpFocused(
-          tester,
-          const _Harness(count: 1000),
-        );
-        position.jumpTo(20000);
-        if (scrollTurn.currentValue == 'a turn after the scroll') {
-          await tester.pump();
-        }
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: a raw remove of the focused item kept '
+        'alive off screen hands focus to the next item, which the list reaches '
+        'back to', (tester) async {
+      final (state, position) = await pumpFocused(
+        tester,
+        const _Harness(count: 1000),
+      );
+      position.jumpTo(20000);
+      if (scrollTurn.currentValue == 'a turn after the scroll') {
+        await tester.pump();
+      }
 
-        _harness(tester).removeData(103);
-        await tester.pumpAndSettle();
+      _harness(tester).removeData(103);
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(state.mounted, isFalse);
-        expect(focused(), 'item 104');
-        expect(position.pixels, 4120);
-      },
-      variant: scrollTurn,
-    );
+      expect(tester.takeException(), isNull);
+      expect(state.mounted, isFalse);
+      expect(focused(), 'item 104');
+      expect(position.pixels, 4120);
+    }, variant: scrollTurn);
 
-    testWidgets('fo06/us11/fr05/e13 and fo06/us11/fr04/e19: a raw move of the focused item kept '
+    testWidgets('fo06_03/us05/fr05/e13 and fo06_03/us05/fr04/e19: a raw move of the focused item kept '
         'alive off screen follows it in place with the app index, scrolling '
         'nothing, and with none hands focus to the next item, which the list '
         'reaches back to', (tester) async {
@@ -11777,7 +11555,7 @@ void main() {
       ('a move of another item past it', 104),
     });
     testWidgets(
-      'fo06/us11/fr05/e13 and fo06/us11/fr03/e11: with the app index, a raw shift of '
+      'fo06_03/us05/fr05/e13 and fo06_03/us05/fr03/e11: with the app index, a raw shift of '
       'the focused item kept alive off screen follows it in place, keeping '
       'its State and focus, and the list scrolls nothing for it',
       (tester) async {
@@ -11814,7 +11592,7 @@ void main() {
 
     final ownMoves = ValueVariant<String>({'moveItem', 'Alt+Down'});
     testWidgets(
-      'fo06/us11/fr05/e04 and fo06/us11/fr03/e11: with the app index, a moveItem or a '
+      'fo06_03/us05/fr05/e04 and fo06_03/us05/fr03/e11: with the app index, a moveItem or a '
       'reorder key of the focused item kept alive off screen still reveals it',
       (tester) async {
         final (state, position) = await pumpFocused(
@@ -11847,7 +11625,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv35: a focused item lifted, scrolled out of '
+      'fo06_03/us05/fr03/e11 and fo06_03/inv35: a focused item lifted, scrolled out of '
       'view, and let go stays alive off screen with its State and focus',
       (tester) async {
         final (state, position) = await pumpFocused(
@@ -11877,7 +11655,7 @@ void main() {
       variant: letGo,
     );
 
-    testWidgets('fo06/us11/fr03/e11 and s03/inv21: when a list the app holds in place never '
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv21: when a list the app holds in place never '
         'lays out the focused item kept alive off screen, Tab lands on the '
         'first item that shows', (tester) async {
       final (state, position) = await pumpFocused(
@@ -11898,7 +11676,7 @@ void main() {
       expect(state.mounted, isFalse);
     });
 
-    testWidgets('fo06/us11/fr03/e11 and s03/inv21: a nextFocus the app calls on the focused '
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv21: a nextFocus the app calls on the focused '
         'item kept alive off screen brings it back first and lands on the next '
         'item', (tester) async {
       final (state, position) = await pumpFocused(
@@ -11919,7 +11697,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv21: a previousFocus the app calls on the '
+      'fo06_03/us05/fr03/e11 and fo06_03/inv21: a previousFocus the app calls on the '
       'focused item kept alive off screen lands on the item before it',
       (tester) async {
         final (state, position) = await pumpFocused(
@@ -11940,29 +11718,26 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv21: a focus the app moves while the list '
-      'brings the item back stays where the app put it',
-      (tester) async {
-        final (state, position) = await pumpFocused(
-          tester,
-          const _Harness(count: 1000),
-        );
-        position.jumpTo(20000);
-        await tester.pump();
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv21: a focus the app moves while the list '
+        'brings the item back stays where the app put it', (tester) async {
+      final (state, position) = await pumpFocused(
+        tester,
+        const _Harness(count: 1000),
+      );
+      position.jumpTo(20000);
+      await tester.pump();
 
-        state.node.nextFocus();
-        _itemState(tester, 500).node.requestFocus();
-        final log = focusLog();
-        await tester.pumpAndSettle();
+      state.node.nextFocus();
+      _itemState(tester, 500).node.requestFocus();
+      final log = focusLog();
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(focused(), 'item 500');
-        expect(log, ['item 500']);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(focused(), 'item 500');
+      expect(log, ['item 500']);
+    });
 
-    testWidgets('fo06/us11/fr03/e11 and s03/inv21: when a list the app holds in place never '
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv21: when a list the app holds in place never '
         'lays out the focused item kept alive off screen, Shift+Tab lands on '
         'the last item that shows', (tester) async {
       final (state, position) = await pumpFocused(
@@ -11995,7 +11770,7 @@ void main() {
           (focusable: focusable, key: key),
     });
     testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv21: when a list the app holds in place never '
+      'fo06_03/us05/fr03/e11 and fo06_03/inv21: when a list the app holds in place never '
       'lays out the focused text field kept alive off screen and no other '
       'node in it shows, Tab or Shift+Tab leaves the list in its direction',
       (tester) async {
@@ -12058,7 +11833,7 @@ void main() {
       variant: leaves,
     );
 
-    testWidgets('fo06/us11/fr03/e11 and s03/inv21: an action the app binds to Tab inside the '
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv21: an action the app binds to Tab inside the '
         'focused item kept alive off screen runs in place of the move, and the '
         'list scrolls nothing', (tester) async {
       var runs = 0;
@@ -12100,7 +11875,7 @@ void main() {
 
     final groupMoves = ValueVariant<String>({'Tab', 'Shift+Tab'});
     testWidgets(
-      'fo06/us11/fr03/e11 and s03/inv21: Tab or Shift+Tab from a focus group '
+      'fo06_03/us05/fr03/e11 and fo06_03/inv21: Tab or Shift+Tab from a focus group '
       'inside the focused item kept alive off screen brings the item back, '
       'then leaves the group for the item next in order and shows it',
       (tester) async {
@@ -12162,7 +11937,7 @@ void main() {
       'in view',
       'kept alive off screen',
     });
-    testWidgets('fo06/us11/fr03/e11 and s03/inv21: Tab from a text field that a row inside '
+    testWidgets('fo06_03/us05/fr03/e11 and fo06_03/inv21: Tab from a text field that a row inside '
         'an item scrolled out of view brings the item and then the field back, '
         'then moves to the next field and shows it', (tester) async {
       final fields = [
@@ -12232,95 +12007,88 @@ void main() {
       expect(tester.getRect(listView).intersect(field), field);
     }, variant: rowPlaces);
 
-    testWidgets(
-      's03/inv21: Tab from a text field that a row scrolled out of view, at '
-      'the bottom of a laid-out item taller than the list, brings only the '
-      'field back and scrolls the list nothing',
-      (tester) async {
-        final fields = [
-          for (var index = 0; index < 100; index++)
-            FocusNode(debugLabel: 'field $index'),
-        ];
-        addTearDown(() {
-          for (final field in fields) {
-            field.dispose();
-          }
-        });
-        const rowKey = Key('row');
-        await tester.pumpWidget(
-          _app(
-            ReorderableListViewLayout.builder(
-              itemCount: 1000,
-              onReorderItem: (from, to) {},
-              itemBuilder: (context, index) => SizedBox(
-                key: ValueKey(index),
-                // Item 103 runs 600 px in a 300 px list, its row at the
-                // bottom.
-                height: index == 103 ? 600 : 40,
-                child: index == 103
-                    ? Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SizedBox(
-                          height: 40,
-                          child: ListViewLayout.builder(
-                            key: rowKey,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: fields.length,
-                            itemBuilder: (context, field) => SizedBox(
-                              width: 40,
-                              child: TextField(focusNode: fields[field]),
-                            ),
+    testWidgets('fo06_03/inv21: Tab from a text field that a row scrolled out of view, at '
+        'the bottom of a laid-out item taller than the list, brings only the '
+        'field back and scrolls the list nothing', (tester) async {
+      final fields = [
+        for (var index = 0; index < 100; index++)
+          FocusNode(debugLabel: 'field $index'),
+      ];
+      addTearDown(() {
+        for (final field in fields) {
+          field.dispose();
+        }
+      });
+      const rowKey = Key('row');
+      await tester.pumpWidget(
+        _app(
+          ReorderableListViewLayout.builder(
+            itemCount: 1000,
+            onReorderItem: (from, to) {},
+            itemBuilder: (context, index) => SizedBox(
+              key: ValueKey(index),
+              // Item 103 runs 600 px in a 300 px list, its row at the
+              // bottom.
+              height: index == 103 ? 600 : 40,
+              child: index == 103
+                  ? Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        height: 40,
+                        child: ListViewLayout.builder(
+                          key: rowKey,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: fields.length,
+                          itemBuilder: (context, field) => SizedBox(
+                            width: 40,
+                            child: TextField(focusNode: fields[field]),
                           ),
                         ),
-                      )
-                    : null,
-              ),
+                      ),
+                    )
+                  : null,
             ),
           ),
-        );
-        // The row's own Scrollable, above the one each text field holds.
-        final rowView = find
-            .descendant(
-              of: find.byKey(rowKey),
-              matching: find.byType(Scrollable),
-            )
-            .first;
-        final listView = find.byType(Scrollable).first;
-        // Item 103 runs from 4120 to 4720: the list shows its bottom 220 px,
-        // so a focused field's own caret reveal stays inside the list.
-        final list = tester.state<ScrollableState>(listView).position
-          ..jumpTo(4500);
-        await tester.pump();
-        final row = tester.state<ScrollableState>(rowView).position
-          ..jumpTo(1100);
-        await tester.pump();
-        fields[30].requestFocus();
-        await tester.pump();
-        row.jumpTo(3000);
-        await tester.pump();
-        expect(fields[30].rect.isFinite, isFalse);
-        final jumps = <double>[];
-        list.addListener(() => jumps.add(list.pixels));
+        ),
+      );
+      // The row's own Scrollable, above the one each text field holds.
+      final rowView = find
+          .descendant(of: find.byKey(rowKey), matching: find.byType(Scrollable))
+          .first;
+      final listView = find.byType(Scrollable).first;
+      // Item 103 runs from 4120 to 4720: the list shows its bottom 220 px,
+      // so a focused field's own caret reveal stays inside the list.
+      final list = tester.state<ScrollableState>(listView).position
+        ..jumpTo(4500);
+      await tester.pump();
+      final row = tester.state<ScrollableState>(rowView).position..jumpTo(1100);
+      await tester.pump();
+      fields[30].requestFocus();
+      await tester.pump();
+      row.jumpTo(3000);
+      await tester.pump();
+      expect(fields[30].rect.isFinite, isFalse);
+      final jumps = <double>[];
+      list.addListener(() => jumps.add(list.pixels));
 
-        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
-        await tester.pumpAndSettle();
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(FocusManager.instance.primaryFocus?.debugLabel, 'field 31');
-        final field = tester.getRect(
-          find.byWidgetPredicate(
-            (widget) => widget is TextField && widget.focusNode == fields[31],
-          ),
-        );
-        expect(tester.getRect(rowView).intersect(field), field);
-        expect(tester.getRect(listView).intersect(field), field);
-        expect(jumps, isEmpty);
-        expect(list.pixels, 4500);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(FocusManager.instance.primaryFocus?.debugLabel, 'field 31');
+      final field = tester.getRect(
+        find.byWidgetPredicate(
+          (widget) => widget is TextField && widget.focusNode == fields[31],
+        ),
+      );
+      expect(tester.getRect(rowView).intersect(field), field);
+      expect(tester.getRect(listView).intersect(field), field);
+      expect(jumps, isEmpty);
+      expect(list.pixels, 4500);
+    });
 
     final fallback = ValueVariant<String>({'route scope', 'outside'});
-    testWidgets('fo06/us11/fr04/e19 and s03/inv26: when the reach toward the gap finds no '
+    testWidgets('fo06_03/us05/fr04/e19 and fo06_03/inv26: when the reach toward the gap finds no '
         'target, the list emptied and no Tab stop of its own, the hold node '
         'lets go and focus falls back as Flutter does: to the node focused '
         'before, else to the route scope', (tester) async {
@@ -12353,7 +12121,7 @@ void main() {
   });
 
   group('ReorderableListViewLayout screen reader', () {
-    testWidgets('fo06/us11/fr06 and s03/inv58: a screen reader reads the item count, also '
+    testWidgets('fo06_03/us05/fr06 and fo06_03/inv58: a screen reader reads the item count, also '
         'after an insert and a remove', (tester) async {
       final handle = tester.ensureSemantics();
       await tester.pumpWidget(
@@ -12383,7 +12151,7 @@ void main() {
     });
 
     final moveWays = ValueVariant<String>({'key', 'action', 'drop'});
-    testWidgets('fo06/us11/fr06/e01 and s03/inv60: a reorder key, a screen-reader action, '
+    testWidgets('fo06_03/us05/fr06/e01 and fo06_03/inv60: a reorder key, a screen-reader action, '
         'and a drop each announce the new position', (tester) async {
       final handle = moveWays.currentValue == 'action'
           ? tester.ensureSemantics()
@@ -12414,7 +12182,7 @@ void main() {
     }, variant: moveWays);
 
     final layouts = ValueVariant<String>({'vertical', 'horizontal rtl'});
-    testWidgets('fo06/us11/fr06/e02 and fo06/us11/fr02/e01: a reorder key past either end '
+    testWidgets('fo06_03/us05/fr06/e02 and fo06_03/us05/fr02/e01: a reorder key past either end '
         'announces the end the item holds', (tester) async {
       final horizontal = layouts.currentValue == 'horizontal rtl';
       await tester.pumpWidget(
@@ -12447,7 +12215,7 @@ void main() {
     }, variant: layouts);
 
     testWidgets(
-      'fo06/us11/fr06/e08 and s03/inv60: a reorder key held past an end '
+      'fo06_03/us05/fr06/e08 and fo06_03/inv60: a reorder key held past an end '
       'announces once, on its key-down',
       (tester) async {
         await tester.pumpWidget(_app(const _Harness(count: 5)));
@@ -12469,7 +12237,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr06/e08 and s03/inv60: a reorder key held down announces once, '
+    testWidgets('fo06_03/us05/fr06/e08 and fo06_03/inv60: a reorder key held down announces once, '
         'where the item ends, when the key is let go', (tester) async {
       await tester.pumpWidget(_app(const _Harness(count: 10)));
       final log = _announcements(tester);
@@ -12499,66 +12267,62 @@ void main() {
         for (final moves in ['two actions', 'a key and an action', 'two items'])
           (live: live, moves: moves),
     });
-    testWidgets(
-      'fo06/us11/fr06/e09 and s03/inv60: two moves that land in one frame '
-      'announce once, where the last one put its item',
-      (tester) async {
-        final (:live, :moves) = frameMoves.currentValue!;
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(
-          _app(
-            Builder(
-              builder: (context) => MediaQuery(
-                data: MediaQuery.of(context).copyWith(supportsAnnounce: !live),
-                child: const _Harness(count: 10),
-              ),
+    testWidgets('fo06_03/us05/fr06/e09 and fo06_03/inv60: two moves that land in one frame '
+        'announce once, where the last one put its item', (tester) async {
+      final (:live, :moves) = frameMoves.currentValue!;
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _app(
+          Builder(
+            builder: (context) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(supportsAnnounce: !live),
+              child: const _Harness(count: 10),
             ),
           ),
+        ),
+      );
+      final log = _announcements(tester);
+
+      /// Performs the move action [label] on item [id] with no frame.
+      void act(int id, String label) {
+        final node = tester.getSemantics(find.byKey(ValueKey(id)));
+        node.owner!.performAction(
+          node.id,
+          SemanticsAction.customAction,
+          CustomSemanticsAction.getIdentifier(
+            CustomSemanticsAction(label: label),
+          ),
         );
-        final log = _announcements(tester);
+      }
 
-        /// Performs the move action [label] on item [id] with no frame.
-        void act(int id, String label) {
-          final node = tester.getSemantics(find.byKey(ValueKey(id)));
-          node.owner!.performAction(
-            node.id,
-            SemanticsAction.customAction,
-            CustomSemanticsAction.getIdentifier(
-              CustomSemanticsAction(label: label),
-            ),
-          );
-        }
+      switch (moves) {
+        case 'two actions':
+          act(2, 'Move down');
+          act(2, 'Move down');
+        case 'a key and an action':
+          await _focusItem(tester, 2);
+          await _altNow(tester, LogicalKeyboardKey.arrowDown);
+          act(2, 'Move down');
+        default:
+          act(2, 'Move down');
+          act(6, 'Move down');
+      }
+      await tester.pumpAndSettle();
 
-        switch (moves) {
-          case 'two actions':
-            act(2, 'Move down');
-            act(2, 'Move down');
-          case 'a key and an action':
-            await _focusItem(tester, 2);
-            await _altNow(tester, LogicalKeyboardKey.arrowDown);
-            act(2, 'Move down');
-          default:
-            act(2, 'Move down');
-            act(6, 'Move down');
-        }
-        await tester.pumpAndSettle();
-
-        final last = moves == 'two items'
-            ? 'Moved to position 8 of 10'
-            : 'Moved to position 5 of 10';
-        final spoken = find.semantics.byLabel(RegExp('^Moved to position'));
-        if (live) {
-          expect(log, isEmpty);
-          expect(spoken, findsOne);
-          expect(spoken.evaluate().single.label, last);
-        } else {
-          expect(log, [last]);
-          expect(spoken, findsNothing);
-        }
-        handle.dispose();
-      },
-      variant: frameMoves,
-    );
+      final last = moves == 'two items'
+          ? 'Moved to position 8 of 10'
+          : 'Moved to position 5 of 10';
+      final spoken = find.semantics.byLabel(RegExp('^Moved to position'));
+      if (live) {
+        expect(log, isEmpty);
+        expect(spoken, findsOne);
+        expect(spoken.evaluate().single.label, last);
+      } else {
+        expect(log, [last]);
+        expect(spoken, findsNothing);
+      }
+      handle.dispose();
+    }, variant: frameMoves);
 
     // How the hold ends: which key is let go first, or an app insert while
     // the key is still down.
@@ -12568,7 +12332,7 @@ void main() {
       'insert while held',
     });
     testWidgets(
-      'fo06/us11/fr06/e08 and s03/inv60: reorder keys held over each other, or a '
+      'fo06_03/us05/fr06/e08 and fo06_03/inv60: reorder keys held over each other, or a '
       'call during a hold, announce once where the item ends',
       (tester) async {
         final overlap = overlaps.currentValue!;
@@ -12616,7 +12380,7 @@ void main() {
       'data move',
       'drag ended',
     });
-    testWidgets('fo06/us11/fr06/e03: a moveItem, a data move the app index reports, and a '
+    testWidgets('fo06_03/us05/fr06/e03: a moveItem, a data move the app index reports, and a '
         'drag a data change ends announce nothing', (tester) async {
       final controller = ReorderableItemsController();
       await tester.pumpWidget(
@@ -12645,50 +12409,44 @@ void main() {
       await gesture?.up();
     }, variant: appMoves);
 
-    testWidgets(
-      'fo06/us11/fr06/e04: a drop that leaves the item at its slot announces '
-      'nothing',
-      (tester) async {
-        await tester.pumpWidget(_app(const _Harness(count: 5)));
-        final log = _announcements(tester);
+    testWidgets('fo06_03/us05/fr06/e04: a drop that leaves the item at its slot announces '
+        'nothing', (tester) async {
+      await tester.pumpWidget(_app(const _Harness(count: 5)));
+      final log = _announcements(tester);
 
-        final gesture = await _liftItem(tester, 0);
-        await gesture.up();
-        await tester.pumpAndSettle();
+      final gesture = await _liftItem(tester, 0);
+      await gesture.up();
+      await tester.pumpAndSettle();
 
-        expect(log, isEmpty);
-        expect(_harness(tester).moves, isEmpty);
-      },
-    );
+      expect(log, isEmpty);
+      expect(_harness(tester).moves, isEmpty);
+    });
 
-    testWidgets(
-      'fo06/us11/fr06/e05 and NFR-L01: each override replaces its text, and an '
-      'empty one announces nothing',
-      (tester) async {
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 5,
-              moveAnnouncement: (position, count) => 'Row $position of $count',
-              atStartAnnouncement: 'Top',
-              atEndAnnouncement: '',
-            ),
+    testWidgets('fo06_03/us05/fr06/e05 and NFR-L01: each override replaces its text, and an '
+        'empty one announces nothing', (tester) async {
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 5,
+            moveAnnouncement: (position, count) => 'Row $position of $count',
+            atStartAnnouncement: 'Top',
+            atEndAnnouncement: '',
           ),
-        );
-        final log = _announcements(tester);
+        ),
+      );
+      final log = _announcements(tester);
 
-        await _focusItem(tester, 0);
-        await _alt(tester, LogicalKeyboardKey.arrowUp);
-        await _focusItem(tester, 4);
-        await _alt(tester, LogicalKeyboardKey.arrowDown);
-        await _focusItem(tester, 0);
-        await _alt(tester, LogicalKeyboardKey.arrowDown);
+      await _focusItem(tester, 0);
+      await _alt(tester, LogicalKeyboardKey.arrowUp);
+      await _focusItem(tester, 4);
+      await _alt(tester, LogicalKeyboardKey.arrowDown);
+      await _focusItem(tester, 0);
+      await _alt(tester, LogicalKeyboardKey.arrowDown);
 
-        expect(log, ['Top', 'Row 2 of 5']);
-      },
-    );
+      expect(log, ['Top', 'Row 2 of 5']);
+    });
 
-    testWidgets('fo06/us11/fr06/e06: where the platform discourages announcements, each one '
+    testWidgets('fo06_03/us05/fr06/e06: where the platform discourages announcements, each one '
         'is a new live-region node', (tester) async {
       final handle = tester.ensureSemantics();
       await tester.pumpWidget(
@@ -12727,7 +12485,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr06/e06 and s03/inv60: the live-region node leaves the tree '
+      'fo06_03/us05/fr06/e06 and fo06_03/inv60: the live-region node leaves the tree '
       '4 s after its announcement, so a later swipe never reads it',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -12759,7 +12517,7 @@ void main() {
     );
 
     testWidgets(
-      "fo06/us11/fr06/e06: under the platform's reduced motion, which reports no "
+      "fo06_03/us05/fr06/e06: under the platform's reduced motion, which reports no "
       'announce support, a key move speaks through one live node',
       (tester) async {
         tester.platformDispatcher.accessibilityFeaturesTestValue =
@@ -12780,7 +12538,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr06/e07 and NFR-L01: under th the announcement reads the Thai '
+    testWidgets('fo06_03/us05/fr06/e07 and NFR-L01: under th the announcement reads the Thai '
         'entry', (tester) async {
       await tester.pumpWidget(
         _app(
@@ -13317,7 +13075,7 @@ void main() {
       variant: parkedKeys,
     );
 
-    testWidgets('matrix I11xT11 and fo06/us11/fr04/e17: a removeItem call during the retry '
+    testWidgets('matrix I11xT11 and fo06_03/us05/fr04/e17: a removeItem call during the retry '
         'frames leaves another key in the target slot, so the list returns to '
         'its offset and hands focus on from the gap', (tester) async {
       await _returnFocused(
@@ -13384,7 +13142,7 @@ void main() {
     );
 
     testWidgets(
-      'matrix I03xT06 and fo06/us11/fr04/e15: an insert the app defers from a '
+      'matrix I03xT06 and fo06_03/us05/fr04/e15: an insert the app defers from a '
       "drop's onReorderItem grows in as a call from outside does",
       (tester) async {
         await tester.pumpWidget(
@@ -13415,7 +13173,7 @@ void main() {
       },
     );
 
-    testWidgets('matrix I03xT07 and fo06/us11/fr03/e07: a drop past an item a call grows in '
+    testWidgets('matrix I03xT07 and fo06_03/us05/fr03/e07: a drop past an item a call grows in '
         'shows the dropped item again once that grow-in ends', (tester) async {
       await tester.pumpWidget(
         _app(
@@ -13461,7 +13219,7 @@ void main() {
     );
 
     testWidgets(
-      'matrix I03xT18 and fo06/us11/fr01/e13: a drop whose onReorderItem the app '
+      'matrix I03xT18 and fo06_03/us05/fr01/e13: a drop whose onReorderItem the app '
       "does not apply leaves the list showing the app's data",
       (tester) async {
         await tester.pumpWidget(_app(const _Harness(count: 5)));
@@ -13482,7 +13240,7 @@ void main() {
       },
     );
 
-    testWidgets("matrix I06xT15 and fo06/us11/fr02/e04: the item's own shortcut on the same "
+    testWidgets("matrix I06xT15 and fo06_03/us05/fr02/e04: the item's own shortcut on the same "
         'Alt key wins over the reorder key', (tester) async {
       var hits = 0;
       await tester.pumpWidget(
@@ -13512,18 +13270,15 @@ void main() {
       expect(_harness(tester).ids, [0, 1, 2, 3, 4]);
     });
 
-    testWidgets(
-      'matrix I06.M5 and fo06/us11/fr02: in a reversed list Alt+Up moves the '
-      'focused item up on screen, to the next index',
-      (tester) async {
-        await tester.pumpWidget(_app(const _Harness(count: 5, reverse: true)));
-        await _focusItem(tester, 2);
+    testWidgets('matrix I06.M5 and fo06_03/us05/fr02: in a reversed list Alt+Up moves the '
+        'focused item up on screen, to the next index', (tester) async {
+      await tester.pumpWidget(_app(const _Harness(count: 5, reverse: true)));
+      await _focusItem(tester, 2);
 
-        expect(await _alt(tester, LogicalKeyboardKey.arrowUp), isTrue);
+      expect(await _alt(tester, LogicalKeyboardKey.arrowUp), isTrue);
 
-        expect(_harness(tester).moves, [(2, 3)]);
-      },
-    );
+      expect(_harness(tester).moves, [(2, 3)]);
+    });
 
     // (text direction, reverse).
     final directions = ValueVariant<(TextDirection, bool)>({
@@ -13532,7 +13287,7 @@ void main() {
       (TextDirection.ltr, true),
       (TextDirection.rtl, true),
     });
-    testWidgets('matrix I08.M5 and fo06/us11/fr03/e03: in a horizontal list "Move left" and '
+    testWidgets('matrix I08.M5 and fo06_03/us05/fr03/e03: in a horizontal list "Move left" and '
         '"Move right" move the item by screen direction', (tester) async {
       final handle = tester.ensureSemantics();
       final (direction, reverse) = directions.currentValue!;
@@ -13559,24 +13314,21 @@ void main() {
       handle.dispose();
     }, variant: directions);
 
-    testWidgets(
-      'matrix I08.M5 and fo06/us11/fr03/e03: in a reversed list "Move up" and '
-      '"Move down" move the item by screen direction',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(_app(const _Harness(count: 5, reverse: true)));
-        double top() => tester.getTopLeft(find.byKey(const ValueKey(2))).dy;
-        final start = top();
+    testWidgets('matrix I08.M5 and fo06_03/us05/fr03/e03: in a reversed list "Move up" and '
+        '"Move down" move the item by screen direction', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(_app(const _Harness(count: 5, reverse: true)));
+      double top() => tester.getTopLeft(find.byKey(const ValueKey(2))).dy;
+      final start = top();
 
-        await _moveAction(tester, 2, 'Move up');
-        expect(top(), start - 40);
-        await _moveAction(tester, 2, 'Move down');
-        expect(top(), start);
+      await _moveAction(tester, 2, 'Move up');
+      expect(top(), start - 40);
+      await _moveAction(tester, 2, 'Move down');
+      expect(top(), start);
 
-        expect(_harness(tester).moves, [(2, 3), (3, 2)]);
-        handle.dispose();
-      },
-    );
+      expect(_harness(tester).moves, [(2, 3), (3, 2)]);
+      handle.dispose();
+    });
 
     testWidgets(
       'matrix I09xT14: a focus the app moves in the turn of "Move to the end" '
@@ -13644,7 +13396,7 @@ void main() {
     // Whether the app lets the move's jump through and holds the offset it
     // reached, so the reach gives up away from where it started.
     final jumpThrough = ValueVariant<bool>({false, true});
-    testWidgets('matrix I08xT16 and fo06/us11/fr03/e12 (R46, R13): an unfocused "Move down" '
+    testWidgets('matrix I08xT16 and fo06_03/us05/fr03/e12 (R46, R13): an unfocused "Move down" '
         'while the app holds the scroll gives the reach up and hands no focus '
         'on: the text field outside the list keeps it', (tester) async {
       final handle = tester.ensureSemantics();
@@ -13694,7 +13446,7 @@ void main() {
       handle.dispose();
     }, variant: jumpThrough);
 
-    testWidgets('matrix I12xT16 and fo06/us11/fr04/e17: a focused item removed and inserted '
+    testWidgets('matrix I12xT16 and fo06_03/us05/fr04/e17: a focused item removed and inserted '
         'back far off while the app holds the scroll gives the reach up and '
         'hands focus on from the gap', (tester) async {
       final position = await _pumpScrolled(
@@ -13715,29 +13467,26 @@ void main() {
       expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
     });
 
-    testWidgets(
-      'matrix I13xT16 and fo06/us11/fr05/e04: a focused far moveItem while the '
-      'app holds the scroll gives the reach up and hands focus on from the '
-      'slot the item left',
-      (tester) async {
-        final position = await _pumpScrolled(
-          tester,
-          _Harness(count: 200, itemsController: ReorderableItemsController()),
-        );
-        await _focusItem(tester, 100);
-        _pinScroll(tester, 4000);
+    testWidgets('matrix I13xT16 and fo06_03/us05/fr05/e04: a focused far moveItem while the '
+        'app holds the scroll gives the reach up and hands focus on from the '
+        'slot the item left', (tester) async {
+      final position = await _pumpScrolled(
+        tester,
+        _Harness(count: 200, itemsController: ReorderableItemsController()),
+      );
+      await _focusItem(tester, 100);
+      _pinScroll(tester, 4000);
 
-        _harness(tester).move(100, 150);
-        await tester.pumpAndSettle();
+      _harness(tester).move(100, 150);
+      await tester.pumpAndSettle();
 
-        expect(tester.takeException(), isNull);
-        expect(position.pixels, 4000);
-        expect(_statesOf(tester, 100), isEmpty);
-        expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(position.pixels, 4000);
+      expect(_statesOf(tester, 100), isEmpty);
+      expect(FocusManager.instance.primaryFocus?.debugLabel, 'item 101');
+    });
 
-    testWidgets('matrix I14cxT16 and fo06/us11/fr05/e13: a raw move the app index follows, '
+    testWidgets('matrix I14cxT16 and fo06_03/us05/fr05/e13: a raw move the app index follows, '
         'while the app holds the scroll, gives the reach up and hands focus on '
         'from the slot the item left', (tester) async {
       final position = await _pumpScrolled(
@@ -13781,7 +13530,7 @@ void main() {
     );
 
     testWidgets(
-      'matrix I14nxT05 and s03/inv35: with no callback, a raw reorder of '
+      'matrix I14nxT05 and fo06_03/inv35: with no callback, a raw reorder of '
       "other items in the turn of a call keeps the held item's State and "
       'focus through the call',
       (tester) async {
@@ -13807,7 +13556,7 @@ void main() {
 
     final appFocus = ValueVariant<String>({'moves', 'clears'});
     testWidgets(
-      'matrix I14nxT14 and fo06/us11/fr04/e19: with no callback, a focus the app '
+      'matrix I14nxT14 and fo06_03/us05/fr04/e19: with no callback, a focus the app '
       '<moves, clears> in the turn of a raw move keeps that outcome',
       (tester) async {
         final position = await _pumpScrolled(
@@ -13840,7 +13589,7 @@ void main() {
     );
 
     testWidgets(
-      'matrix I16xT09 and fo06/us11/fr04/e19 (L2): with no callback, an undragged '
+      'matrix I16xT09 and fo06_03/us05/fr04/e19 (L2): with no callback, an undragged '
       'focused item a count change shifts to an unbuilt slot loses its State, '
       'and focus moves to an item the list shows',
       (tester) async {
@@ -13911,7 +13660,7 @@ void main() {
 
     final stops = ValueVariant<String>({'back inside', 'drag ends'});
     testWidgets(
-      'matrix I02xT02 and fo06/us11/fr01/e08: the edge scroll steps at most 20 px '
+      'matrix I02xT02 and fo06_03/us05/fr01/e08: the edge scroll steps at most 20 px '
       'a step and stops when <the item is back inside, the drag ends>',
       (tester) async {
         await tester.pumpWidget(
@@ -13994,7 +13743,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr01 and s03/inv28 (R49): a lifted item keeps its screen-reader '
+    testWidgets('fo06_03/us05/fr01 and fo06_03/inv28 (R49): a lifted item keeps its screen-reader '
         'node in the list, at its slot, for the whole drag', (tester) async {
       final handle = tester.ensureSemantics();
       await tester.pumpWidget(_app(const _Harness(count: 5)));
@@ -14020,7 +13769,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr01/e14 (R49): an item holding a text field drags with no '
+      'fo06_03/us05/fr01/e14 (R49): an item holding a text field drags with no '
       'Material of its own, as a still image under the pointer',
       (tester) async {
         await tester.pumpWidget(
@@ -14058,7 +13807,7 @@ void main() {
     );
 
     final liftEnds = ValueVariant<String>({'drop', 'cancel'});
-    testWidgets('fo06/us11/fr01 (R49): after a <drop, cancel> the lifted item paints in its '
+    testWidgets('fo06_03/us05/fr01 (R49): after a <drop, cancel> the lifted item paints in its '
         'slot again and lifts again', (tester) async {
       final painted = <int>[];
       await tester.pumpWidget(_app(_Harness(count: 5, paintLog: painted)));
@@ -14086,7 +13835,7 @@ void main() {
 
     final placements = ValueVariant<String>({'offset page', 'horizontal RTL'});
     testWidgets(
-      'fo06/us11/fr01 (R49): the image under the pointer sits where the item sat, '
+      'fo06_03/us05/fr01 (R49): the image under the pointer sits where the item sat, '
       'plus the drag, in a list <offset in the page, horizontal under RTL>',
       (tester) async {
         final horizontal = placements.currentValue == 'horizontal RTL';
@@ -14121,7 +13870,7 @@ void main() {
 
     final turnAppIndex = ValueVariant<bool>({false, true});
     testWidgets(
-      's03/inv35 (D3): a raw move and an insert call in one turn keep every '
+      'fo06_03/inv35 (D3): a raw move and an insert call in one turn keep every '
       "item's State, the app's index answering before the calls",
       (tester) async {
         await tester.pumpWidget(
@@ -14148,35 +13897,32 @@ void main() {
       variant: turnAppIndex,
     );
 
-    testWidgets(
-      'fo06/us11/fr01 (R44): a drop in a reversed list scrolled far from its '
-      'start settles the image on the slot it drops into',
-      (tester) async {
-        await _pumpScrolled(
-          tester,
-          const _Harness(count: 100, reverse: true),
-          offset: 1870,
-        );
-        final slot = tester.getTopLeft(find.byKey(const ValueKey(48)));
+    testWidgets('fo06_03/us05/fr01 (R44): a drop in a reversed list scrolled far from its '
+        'start settles the image on the slot it drops into', (tester) async {
+      await _pumpScrolled(
+        tester,
+        const _Harness(count: 100, reverse: true),
+        offset: 1870,
+      );
+      final slot = tester.getTopLeft(find.byKey(const ValueKey(48)));
 
-        final gesture = await _liftItem(tester, 50);
-        for (var i = 0; i < 7; i++) {
-          await gesture.moveBy(const Offset(0, 10));
-          await tester.pump(const Duration(milliseconds: 16));
-        }
-        // The lift's own animation ends first, so the settle runs whole.
-        await tester.pump(const Duration(milliseconds: 300));
-        await gesture.up();
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 125));
+      final gesture = await _liftItem(tester, 50);
+      for (var i = 0; i < 7; i++) {
+        await gesture.moveBy(const Offset(0, 10));
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      // The lift's own animation ends first, so the settle runs whole.
+      await tester.pump(const Duration(milliseconds: 300));
+      await gesture.up();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 125));
 
-        final image = tester.getTopLeft(find.byType(RawImage));
-        expect(image.dx, slot.dx);
-        expect(image.dy, moreOrLessEquals(slot.dy, epsilon: 1));
-        await tester.pumpAndSettle();
-        expect(_harness(tester).moves, [(50, 48)]);
-      },
-    );
+      final image = tester.getTopLeft(find.byType(RawImage));
+      expect(image.dx, slot.dx);
+      expect(image.dy, moreOrLessEquals(slot.dy, epsilon: 1));
+      await tester.pumpAndSettle();
+      expect(_harness(tester).moves, [(50, 48)]);
+    });
 
     testWidgets(
       'matrix I06.M3 (L6 closed): Alt+Down past an unbuilt item taller than '
@@ -14206,30 +13952,25 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us11/fr05/e03 and s03/inv24 (R48): a moved item grows in with its '
-      'render object under the same parent as at rest',
-      (tester) async {
-        await tester.pumpWidget(
-          _app(
-            _Harness(count: 5, itemsController: ReorderableItemsController()),
-          ),
-        );
-        final box = tester.renderObject(find.byKey(const ValueKey(2)));
-        final parent = box.parent;
+    testWidgets('fo06_03/us05/fr05/e03 and fo06_03/inv24 (R48): a moved item grows in with its '
+        'render object under the same parent as at rest', (tester) async {
+      await tester.pumpWidget(
+        _app(_Harness(count: 5, itemsController: ReorderableItemsController())),
+      );
+      final box = tester.renderObject(find.byKey(const ValueKey(2)));
+      final parent = box.parent;
 
-        _harness(tester).move(2, 0);
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 50));
+      _harness(tester).move(2, 0);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
 
-        expect(tester.renderObject(find.byKey(const ValueKey(2))), same(box));
-        expect(box.parent, same(parent));
-        await tester.pumpAndSettle();
-        expect(box.parent, same(parent));
-      },
-    );
+      expect(tester.renderObject(find.byKey(const ValueKey(2))), same(box));
+      expect(box.parent, same(parent));
+      await tester.pumpAndSettle();
+      expect(box.parent, same(parent));
+    });
 
-    testWidgets('fo06/us11/fr04/e02 (R48): a caller itemTransitionBuilder wraps every item, '
+    testWidgets('fo06_03/us05/fr04/e02 (R48): a caller itemTransitionBuilder wraps every item, '
         'an item at rest with a completed animation', (tester) async {
       final received = <Animation<double>>[];
       await tester.pumpWidget(
@@ -14255,7 +13996,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr05 (R48): under a fixed extent, a moved item sits in the live '
+      'fo06_03/us05/fr05 (R48): under a fixed extent, a moved item sits in the live '
       'screen-reader tree from the frame it lands, while its fade starts at 0',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -14281,7 +14022,7 @@ void main() {
     );
 
     final unfocusedStep = ValueVariant<bool>({false, true});
-    testWidgets('matrix I08.M1 and fo06/us11/fr03/e12 (R46): an unfocused "Move down" to the '
+    testWidgets('matrix I08.M1 and fo06_03/us05/fr03/e12 (R46): an unfocused "Move down" to the '
         'unbuilt slot past the trailing laid-out edge keeps the item and shows '
         'it', (tester) async {
       final handle = tester.ensureSemantics();
@@ -14312,7 +14053,7 @@ void main() {
       (true, false),
     });
     testWidgets(
-      'matrix I08.M1 and fo06/us11/fr03/e12 (R46, R13): an unfocused "Move down" '
+      'matrix I08.M1 and fo06_03/us05/fr03/e12 (R46, R13): an unfocused "Move down" '
       'past an unbuilt item taller than the laid-out average reaches the '
       'item and shows it, and primary focus stays where it was',
       (tester) async {
@@ -14444,7 +14185,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e05 and s03/inv58 (R47): a removed item exits in a sliver '
+      'fo06_03/us05/fr04/e05 and fo06_03/inv58 (R47): a removed item exits in a sliver '
       'child of its own, its render object under the same sliver child',
       (tester) async {
         // The sliver child that holds [box]: its ancestor whose parent is
@@ -14483,7 +14224,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr04/e11 and s03/inv58: the sliver that measures prototypeItem '
+    testWidgets('fo06_03/us05/fr04/e11 and fo06_03/inv58: the sliver that measures prototypeItem '
         'adds no Tab stop and no screen-reader node', (tester) async {
       final handle = tester.ensureSemantics();
       final prototype = FocusNode(debugLabel: 'prototype');
@@ -14511,7 +14252,7 @@ void main() {
 
     final lastExits = ValueVariant<String>({'itemExtent', 'reduced motion'});
     testWidgets(
-      'fo06/us11/fr04/e01 and e11: the only item removed <under itemExtent leaves '
+      'fo06_03/us05/fr04/e01 and e11: the only item removed <under itemExtent leaves '
       'at once, under reduced motion keeps its size while it fades>',
       (tester) async {
         final fixed = lastExits.currentValue == 'itemExtent';
@@ -14561,78 +14302,71 @@ void main() {
       variant: lastExits,
     );
 
-    testWidgets(
-      'fo06/us11/fr01/input-output and s03/inv29 (R47): findChildIndexCallback '
-      'gets only the keys itemBuilder gave, across a settled moveItem and a '
-      'remove whose exit ends off screen',
-      (tester) async {
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 30,
-              appIndex: true,
-              itemsController: ReorderableItemsController(),
-            ),
+    testWidgets('fo06_03/us05/fr01/input-output and fo06_03/inv29 (R47): findChildIndexCallback '
+        'gets only the keys itemBuilder gave, across a settled moveItem and a '
+        'remove whose exit ends off screen', (tester) async {
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 30,
+            appIndex: true,
+            itemsController: ReorderableItemsController(),
           ),
-        );
-        final harness = _harness(tester);
-        // Casts the key as Flutter's own sample does: any other key throws.
-        harness.answer = (key) {
-          final index = harness.ids.indexOf((key as ValueKey<int>).value);
-          return index < 0 ? null : index;
-        };
+        ),
+      );
+      final harness = _harness(tester);
+      // Casts the key as Flutter's own sample does: any other key throws.
+      harness.answer = (key) {
+        final index = harness.ids.indexOf((key as ValueKey<int>).value);
+        return index < 0 ? null : index;
+      };
 
-        harness.move(0, 3);
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
+      harness.move(0, 3);
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
 
-        harness.remove(1);
-        await tester.pump();
-        final position =
-            tester.state<ScrollableState>(find.byType(Scrollable)).position
-              ..jumpTo(600);
-        await tester.pump();
-        // The exit ends off screen, so its empty slot stays until it is laid
-        // out again and a build drops it.
-        await tester.pumpAndSettle();
-        position.jumpTo(0);
-        await tester.pump();
-        harness.replaceData(0, harness.ids[0]);
-        await tester.pump();
+      harness.remove(1);
+      await tester.pump();
+      final position =
+          tester.state<ScrollableState>(find.byType(Scrollable)).position
+            ..jumpTo(600);
+      await tester.pump();
+      // The exit ends off screen, so its empty slot stays until it is laid
+      // out again and a build drops it.
+      await tester.pumpAndSettle();
+      position.jumpTo(0);
+      await tester.pump();
+      harness.replaceData(0, harness.ids[0]);
+      await tester.pump();
 
-        expect(tester.takeException(), isNull);
-        expect(harness.ids.take(4), [1, 3, 0, 4]);
-      },
-    );
+      expect(tester.takeException(), isNull);
+      expect(harness.ids.take(4), [1, 3, 0, 4]);
+    });
 
     final extentKinds = ValueVariant<String>({
       'itemExtent',
       'itemExtentBuilder',
     });
-    testWidgets(
-      'fo06/us11/fr04/e11 (R47): a new fixed extent lays the list out again in '
-      'its own frame',
-      (tester) async {
-        final byBuilder = extentKinds.currentValue == 'itemExtentBuilder';
-        Widget list(double extent) => _app(
-          _Harness(
-            count: 5,
-            itemExtent: byBuilder ? null : extent,
-            itemExtentBuilder: byBuilder ? (index, dimensions) => extent : null,
-          ),
-        );
-        await tester.pumpWidget(list(40));
-        expect(_offsetBetween(tester, 0, 1), 40);
+    testWidgets('fo06_03/us05/fr04/e11 (R47): a new fixed extent lays the list out again in '
+        'its own frame', (tester) async {
+      final byBuilder = extentKinds.currentValue == 'itemExtentBuilder';
+      Widget list(double extent) => _app(
+        _Harness(
+          count: 5,
+          itemExtent: byBuilder ? null : extent,
+          itemExtentBuilder: byBuilder ? (index, dimensions) => extent : null,
+        ),
+      );
+      await tester.pumpWidget(list(40));
+      expect(_offsetBetween(tester, 0, 1), 40);
 
-        await tester.pumpWidget(list(56));
+      await tester.pumpWidget(list(56));
 
-        expect(_offsetBetween(tester, 0, 1), 56);
-      },
-      variant: extentKinds,
-    );
+      expect(_offsetBetween(tester, 0, 1), 56);
+    }, variant: extentKinds);
 
     testWidgets(
-      'fo06/us11/fr04/e11 and NFR-U04 (R47): a prototypeItem measured again at a '
+      'fo06_03/us05/fr04/e11 and NFR-U04 (R47): a prototypeItem measured again at a '
       'text scale of 2 lays the list out again in its own frame',
       (tester) async {
         Widget list(double scale) => _app(
@@ -14660,7 +14394,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e14 and D9 (R47): a move of the first laid-out item ends the '
+      'fo06_03/us05/fr04/e14 and D9 (R47): a move of the first laid-out item ends the '
       'leaving item above the cache origin with no item on screen moving',
       (tester) async {
         await tester.pumpWidget(
@@ -14694,7 +14428,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05/e13 and s03/inv35 (R47): a raw change the app answers for, '
+      'fo06_03/us05/fr05/e13 and fo06_03/inv35 (R47): a raw change the app answers for, '
       'in the frame a leaving item ends, puts each key in one slot',
       (tester) async {
         final theme = _normalTheme(const Duration(milliseconds: 250));
@@ -14740,7 +14474,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr03 and s03/inv15 (R47): no item carries a global key, at rest, '
+    testWidgets('fo06_03/us05/fr03 and fo06_03/inv15 (R47): no item carries a global key, at rest, '
         'while one grows in, or while one leaves', (tester) async {
       await tester.pumpWidget(
         _app(_Harness(count: 5, itemsController: ReorderableItemsController())),
@@ -14774,7 +14508,7 @@ void main() {
     final tall = {for (var id = 101; id < 200; id++) id: 120.0};
 
     testWidgets(
-      'matrix I14nxT11 and fo06/us11/fr05/e15 (L2): with no callback, a raw move of '
+      'matrix I14nxT11 and fo06_03/us05/fr05/e15 (L2): with no callback, a raw move of '
       'the item parked for its slot ends its State and hands focus to an item '
       'the list shows',
       (tester) async {
@@ -14806,7 +14540,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05/e13: the list asks findChildIndexCallback at most once per '
+      'fo06_03/us05/fr05/e13: the list asks findChildIndexCallback at most once per '
       'registered key in a body build, and never on a scroll with no build',
       (tester) async {
         final position = await _pumpScrolled(
@@ -14834,7 +14568,7 @@ void main() {
       (count: 3, at: 1, id: 2),
     });
 
-    testWidgets('fo06/us11/fr04/e10 and D9 (L2): with no controller, an insert that pushes '
+    testWidgets('fo06_03/us05/fr04/e10 and D9 (L2): with no controller, an insert that pushes '
         'the last laid-out item into a slot the next frame lays out keeps its '
         'State', (tester) async {
       final (:count, :at, :id) = pushedPastEnd.currentValue!;
@@ -14883,7 +14617,7 @@ void main() {
     };
 
     testWidgets(
-      'fo06/us11/fr04/e10 and D9 (L14, R54): with no controller and no callback, '
+      'fo06_03/us05/fr04/e10 and D9 (L14, R54): with no controller and no callback, '
       'inserts of items shorter than the laid-out average that push the last '
       'item of a list laid out to its end past the slots the room holds end '
       "that item's State, though the next frame lays it out on screen",
@@ -14907,7 +14641,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e10 and D9 (R54): under itemExtentBuilder, with no '
+      'fo06_03/us05/fr04/e10 and D9 (R54): under itemExtentBuilder, with no '
       'controller and no callback, the same inserts keep the pushed last '
       "item's State: the read counts the next layout at the builder's extents",
       (tester) async {
@@ -14944,7 +14678,7 @@ void main() {
       (100, 10, 95),
     });
     testWidgets(
-      'fo06/us11/fr05 and s03/inv58 (D9): a moveItem whose closing gap or target '
+      'fo06_03/us05/fr05 and fo06_03/inv58 (D9): a moveItem whose closing gap or target '
       'lies before the laid-out range moves no item on screen',
       (tester) async {
         final (from, to, still) = earlyMoves.currentValue!;
@@ -14968,7 +14702,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr05/e04 and s03/inv58 (D9): a focused item moved past the '
+      'fo06_03/us05/fr05/e04 and fo06_03/inv58 (D9): a focused item moved past the '
       'laid-out range in a turn whose moveItem drops a slot before that range '
       'shows on screen in the next frame',
       (tester) async {
@@ -14997,7 +14731,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr05/e04 and s03/inv58 (D9): a focused item moved to an unbuilt '
+    testWidgets('fo06_03/us05/fr05/e04 and fo06_03/inv58 (D9): a focused item moved to an unbuilt '
         'slot in a turn whose later moveItem calls add slots before the '
         'laid-out range shows on screen in the next frame', (tester) async {
       await _pumpScrolled(
@@ -15025,7 +14759,7 @@ void main() {
       expect(_itemInView(tester, 100), isTrue);
     });
 
-    testWidgets('fo06/us11/fr05 and s03/inv58 (D9): a moveItem past the laid-out range, in a '
+    testWidgets('fo06_03/us05/fr05 and fo06_03/inv58 (D9): a moveItem past the laid-out range, in a '
         'turn after one that moved an item before another range, moves no item '
         'on screen', (tester) async {
       final position = await _pumpScrolled(
@@ -15054,88 +14788,81 @@ void main() {
     // Whether reduced motion is on: a leaving item then takes no room and
     // sits after the item that takes its place.
     final earlyRemoves = ValueVariant<bool>({false, true});
-    testWidgets(
-      'fo06/us11/fr04 and s03/inv58 (D9): many removeItem calls on kept-alive '
-      'items before the laid-out range leave no ended exit behind, and move '
-      'no laid-out item on screen',
-      (tester) async {
-        if (earlyRemoves.currentValue!) {
-          tester.platformDispatcher.accessibilityFeaturesTestValue =
-              const FakeAccessibilityFeatures(reduceMotion: true);
-          addTearDown(
-            tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
-          );
-        }
-        // Items 0 to 13, all the frame at offset 0 builds, keep themselves
-        // alive once the list scrolls away, so each one a call takes out
-        // leaves, and a kept-alive item still follows the last one taken.
-        await _pumpScrolled(
-          tester,
-          _Harness(
-            count: 200,
-            keepAliveIds: {for (var id = 0; id < 14; id++) id},
-            itemsController: ReorderableItemsController(),
+    testWidgets('fo06_03/us05/fr04 and fo06_03/inv58 (D9): many removeItem calls on kept-alive '
+        'items before the laid-out range leave no ended exit behind, and move '
+        'no laid-out item on screen', (tester) async {
+      if (earlyRemoves.currentValue!) {
+        tester.platformDispatcher.accessibilityFeaturesTestValue =
+            const FakeAccessibilityFeatures(reduceMotion: true);
+        addTearDown(
+          tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+        );
+      }
+      // Items 0 to 13, all the frame at offset 0 builds, keep themselves
+      // alive once the list scrolls away, so each one a call takes out
+      // leaves, and a kept-alive item still follows the last one taken.
+      await _pumpScrolled(
+        tester,
+        _Harness(
+          count: 200,
+          keepAliveIds: {for (var id = 0; id < 14; id++) id},
+          itemsController: ReorderableItemsController(),
+        ),
+      );
+      final harness = _harness(tester);
+      final top = _top(tester, 100);
+      // The slots the sliver holds past the data's items: its exits.
+      int exitSlots() {
+        final sliver = tester.widget<SliverMultiBoxAdaptorWidget>(
+          find.byWidgetPredicate(
+            (widget) => widget is SliverMultiBoxAdaptorWidget,
+            skipOffstage: false,
           ),
         );
-        final harness = _harness(tester);
-        final top = _top(tester, 100);
-        // The slots the sliver holds past the data's items: its exits.
-        int exitSlots() {
-          final sliver = tester.widget<SliverMultiBoxAdaptorWidget>(
-            find.byWidgetPredicate(
-              (widget) => widget is SliverMultiBoxAdaptorWidget,
-              skipOffstage: false,
-            ),
-          );
-          final delegate = sliver.delegate as SliverChildBuilderDelegate;
-          return delegate.childCount! - harness.ids.length;
-        }
+        final delegate = sliver.delegate as SliverChildBuilderDelegate;
+        return delegate.childCount! - harness.ids.length;
+      }
 
-        for (var i = 0; i < 10; i++) {
-          harness.remove(0);
-          await tester.pumpAndSettle();
-          expect(exitSlots(), 0);
-          expect(_top(tester, 100), top);
-        }
-        expect(tester.takeException(), isNull);
-      },
-      variant: earlyRemoves,
-    );
-
-    testWidgets(
-      'fo06/us11/fr05 and s03/inv58 (D9): after moveItem calls that drop slots '
-      'before the laid-out range, moving the kept-alive item at slot 0 away '
-      'moves no laid-out item on screen',
-      (tester) async {
-        await _pumpScrolled(
-          tester,
-          _Harness(
-            count: 200,
-            keepAliveIds: const {0},
-            itemsController: ReorderableItemsController(),
-          ),
-        );
-        final harness = _harness(tester);
-        final top = _top(tester, 100);
-
-        // Each move drops a slot before the laid-out range, so the frame
-        // keeps the laid-out items where they stand (D9 item 4).
-        for (var i = 0; i < 5; i++) {
-          harness.move(50, 150);
-          await tester.pumpAndSettle();
-          expect(_top(tester, 100), top);
-        }
-        // Item 0 leaves slot 0, which the frame builds afresh.
-        harness.move(0, 150);
-        await tester.pump();
+      for (var i = 0; i < 10; i++) {
+        harness.remove(0);
+        await tester.pumpAndSettle();
+        expect(exitSlots(), 0);
         expect(_top(tester, 100), top);
+      }
+      expect(tester.takeException(), isNull);
+    }, variant: earlyRemoves);
+
+    testWidgets('fo06_03/us05/fr05 and fo06_03/inv58 (D9): after moveItem calls that drop slots '
+        'before the laid-out range, moving the kept-alive item at slot 0 away '
+        'moves no laid-out item on screen', (tester) async {
+      await _pumpScrolled(
+        tester,
+        _Harness(
+          count: 200,
+          keepAliveIds: const {0},
+          itemsController: ReorderableItemsController(),
+        ),
+      );
+      final harness = _harness(tester);
+      final top = _top(tester, 100);
+
+      // Each move drops a slot before the laid-out range, so the frame
+      // keeps the laid-out items where they stand (D9 item 4).
+      for (var i = 0; i < 5; i++) {
+        harness.move(50, 150);
         await tester.pumpAndSettle();
         expect(_top(tester, 100), top);
-        expect(tester.takeException(), isNull);
-      },
-    );
+      }
+      // Item 0 leaves slot 0, which the frame builds afresh.
+      harness.move(0, 150);
+      await tester.pump();
+      expect(_top(tester, 100), top);
+      await tester.pumpAndSettle();
+      expect(_top(tester, 100), top);
+      expect(tester.takeException(), isNull);
+    });
 
-    testWidgets('fo06/us11/fr04/e01 and s03/inv58 (D9): under reduced motion, removing the '
+    testWidgets('fo06_03/us05/fr04/e01 and fo06_03/inv58 (D9): under reduced motion, removing the '
         'last kept-alive item before the laid-out range moves no laid-out item '
         'on screen', (tester) async {
       tester.platformDispatcher.accessibilityFeaturesTestValue =
@@ -15175,7 +14902,7 @@ void main() {
       ('last item', 5, 4, 3),
     });
     testWidgets(
-      'fo06/us11/fr04/e01 and s03/inv58 (D9): under reduced motion a removed item '
+      'fo06_03/us05/fr04/e01 and fo06_03/inv58 (D9): under reduced motion a removed item '
       'still paints at <the trailing edge, past the last item>',
       (tester) async {
         tester.platformDispatcher.accessibilityFeaturesTestValue =
@@ -15208,7 +14935,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e02 and s03/inv24 (D15): an item at rest costs one layer, '
+      'fo06_03/us05/fr04/e02 and fo06_03/inv24 (D15): an item at rest costs one layer, '
       'and the element and render-object counts the chain lands at',
       (tester) async {
         tester.view
@@ -15265,7 +14992,7 @@ void main() {
         );
         expect(children, 50);
         expect(layers / children, 1);
-        // The item root marker (layout s03 INV-81) adds three
+        // The item root marker (FO-06-03 INV-81) adds three
         // elements and one render object, no layer.
         expect(elements / children, 31);
         expect(renders / children, 15);
@@ -15317,7 +15044,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr01 and s03/inv59 (D7): a neighbor a drag passes slides over the '
+    testWidgets('fo06_03/us05/fr01 and fo06_03/inv59 (D7): a neighbor a drag passes slides over the '
         "theme's normal level", (tester) async {
       await tester.pumpWidget(
         _app(
@@ -15338,7 +15065,7 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets("fo06/us11/fr01 and s03/inv59 (D7): a dropped item settles over the theme's "
+    testWidgets("fo06_03/us05/fr01 and fo06_03/inv59 (D7): a dropped item settles over the theme's "
         'normal level', (tester) async {
       await tester.pumpWidget(
         _app(
@@ -15365,7 +15092,7 @@ void main() {
     // that run, never racing the jump's own gap (FR-04 E20).
     final wall = {for (var id = 100; id < 150; id += 1) id: 250.0};
     testWidgets(
-      'matrix I01xT11 and fo06/us11/fr04/e20: an immediate handle drag the '
+      'matrix I01xT11 and fo06_03/us05/fr04/e20: an immediate handle drag the '
       'EndUser starts while the list reaches for a parked item ends the '
       'reach at once with no exception, and the item stays alive off '
       'screen with its State and focus',
@@ -15446,7 +15173,7 @@ void main() {
       },
     );
 
-    testWidgets('matrix I17xT10 and fo06/us11/fr04/e20: a scroll the EndUser starts while '
+    testWidgets('matrix I17xT10 and fo06_03/us05/fr04/e20: a scroll the EndUser starts while '
         'the list reaches for a parked item ends the reach at once, and the '
         'item stays alive off screen with its State and focus', (tester) async {
       final position = await _pumpScrolled(
@@ -15480,7 +15207,7 @@ void main() {
     });
 
     testWidgets(
-      'matrix I17xT07 and s03/inv26 (R45): a moved item a scroll takes out of '
+      'matrix I17xT07 and fo06_03/inv26 (R45): a moved item a scroll takes out of '
       'view during its grow-in is not revealed again when the grow-in ends',
       (tester) async {
         final position = await _pumpScrolled(
@@ -15502,59 +15229,47 @@ void main() {
       },
     );
 
-    testWidgets(
-      'matrix I02xT16 and fo06/us11/fr01/e11: the edge scroll does not scroll '
-      "against the app's hold",
-      (tester) async {
-        await tester.pumpWidget(
-          _app(const _Harness(count: 1000, handles: true)),
-        );
-        var springs = 0;
-        _pinScroll(tester, 0, onSpringBack: () => springs += 1);
-        final view = tester.getRect(find.byType(Scrollable));
-        final gesture = await _grabHandle(tester, 3);
+    testWidgets('matrix I02xT16 and fo06_03/us05/fr01/e11: the edge scroll does not scroll '
+        "against the app's hold", (tester) async {
+      await tester.pumpWidget(_app(const _Harness(count: 1000, handles: true)));
+      var springs = 0;
+      _pinScroll(tester, 0, onSpringBack: () => springs += 1);
+      final view = tester.getRect(find.byType(Scrollable));
+      final gesture = await _grabHandle(tester, 3);
 
-        await gesture.moveTo(Offset(view.center.dx, view.bottom - 5));
-        for (var i = 0; i < 20; i++) {
-          await tester.pump(const Duration(milliseconds: 16));
-        }
+      await gesture.moveTo(Offset(view.center.dx, view.bottom - 5));
+      for (var i = 0; i < 20; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+      }
 
-        expect(springs, lessThanOrEqualTo(1));
-        expect(positionOf(tester).pixels, 0);
-        await gesture.up();
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-      },
-    );
+      expect(springs, lessThanOrEqualTo(1));
+      expect(positionOf(tester).pixels, 0);
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+    });
 
-    testWidgets(
-      'fo06/us11/fr01/e11: the edge scroll keeps stepping through a continuous '
-      'drag near the edge, with no app hold on the scroll',
-      (tester) async {
-        await tester.pumpWidget(
-          _app(const _Harness(count: 1000, handles: true)),
-        );
-        final view = tester.getRect(find.byType(Scrollable));
-        final gesture = await _grabHandle(tester, 3);
-        await gesture.moveTo(Offset(view.center.dx, view.bottom - 5));
-        // A short time slice, then a pointer move, repeated: each slice
-        // lets the running step's own animateTo tick forward some, so the
-        // move that follows re-stamps mid-step, as a continuously moving
-        // finger does, were the stamp not guarded to a new step alone
-        // (FR-01 E11).
-        for (var i = 0; i < 150; i++) {
-          await tester.pump(const Duration(milliseconds: 2));
-          await gesture.moveTo(
-            Offset(view.center.dx, view.bottom - 5 + i * 0.1),
-          );
-        }
+    testWidgets('fo06_03/us05/fr01/e11: the edge scroll keeps stepping through a continuous '
+        'drag near the edge, with no app hold on the scroll', (tester) async {
+      await tester.pumpWidget(_app(const _Harness(count: 1000, handles: true)));
+      final view = tester.getRect(find.byType(Scrollable));
+      final gesture = await _grabHandle(tester, 3);
+      await gesture.moveTo(Offset(view.center.dx, view.bottom - 5));
+      // A short time slice, then a pointer move, repeated: each slice
+      // lets the running step's own animateTo tick forward some, so the
+      // move that follows re-stamps mid-step, as a continuously moving
+      // finger does, were the stamp not guarded to a new step alone
+      // (FR-01 E11).
+      for (var i = 0; i < 150; i++) {
+        await tester.pump(const Duration(milliseconds: 2));
+        await gesture.moveTo(Offset(view.center.dx, view.bottom - 5 + i * 0.1));
+      }
 
-        expect(positionOf(tester).pixels, greaterThan(100));
-        await gesture.up();
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-      },
-    );
+      expect(positionOf(tester).pixels, greaterThan(100));
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+    });
 
     testWidgets(
       'R45: an app jumpTo with no reach, then an immediate handle grab '
@@ -15784,38 +15499,34 @@ void main() {
     }, variant: releases);
 
     final rawIndexed = ValueVariant<bool>({false, true});
-    testWidgets(
-      'matrix I14nxT07 and I14cxT07, fo06/us11/fr05/e14: a raw move of an item '
-      'still growing in ends its grow-in at once, and the item keeps its '
-      'State and focus',
-      (tester) async {
-        await tester.pumpWidget(
-          _app(
-            _Harness(
-              count: 5,
-              appIndex: rawIndexed.currentValue!,
-              itemsController: ReorderableItemsController(),
-            ),
+    testWidgets('matrix I14nxT07 and I14cxT07, fo06_03/us05/fr05/e14: a raw move of an item '
+        'still growing in ends its grow-in at once, and the item keeps its '
+        'State and focus', (tester) async {
+      await tester.pumpWidget(
+        _app(
+          _Harness(
+            count: 5,
+            appIndex: rawIndexed.currentValue!,
+            itemsController: ReorderableItemsController(),
           ),
-        );
-        final harness = _harness(tester)..insert(1, 9);
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 50));
-        final state = _itemState(tester, 9)..expanded = true;
-        final node = await _focusItem(tester, 9);
+        ),
+      );
+      final harness = _harness(tester)..insert(1, 9);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
+      final state = _itemState(tester, 9)..expanded = true;
+      final node = await _focusItem(tester, 9);
 
-        harness.moveData(1, 3);
-        await tester.pump();
+      harness.moveData(1, 3);
+      await tester.pump();
 
-        expect(_runningTransitions(tester), isEmpty);
-        expectKept(tester, 9, state, node: node);
-        await tester.pumpAndSettle();
-        expect(tester.takeException(), isNull);
-      },
-      variant: rawIndexed,
-    );
+      expect(_runningTransitions(tester), isEmpty);
+      expectKept(tester, 9, state, node: node);
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+    }, variant: rawIndexed);
 
-    testWidgets('matrix I03xT14 and fo06/us11/fr03/e13: a focus the app moves from inside a '
+    testWidgets('matrix I03xT14 and fo06_03/us05/fr03/e13: a focus the app moves from inside a '
         "drop's onReorderItem stays, and the list scrolls nothing for the "
         'dropped item', (tester) async {
       await tester.pumpWidget(_app(const _Harness(count: 20)));
@@ -15842,7 +15553,7 @@ void main() {
     });
 
     testWidgets(
-      "fo06/us11/fr03/e13: a focus the app moves from inside a key move's "
+      "fo06_03/us05/fr03/e13: a focus the app moves from inside a key move's "
       'onReorderItem stays, and the list scrolls nothing for the moved '
       'item, as a drop extends R13',
       (tester) async {
@@ -15868,7 +15579,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr01 (R49): an item taller than the viewport lifts at a device '
+    testWidgets('fo06_03/us05/fr01 (R49): an item taller than the viewport lifts at a device '
         'pixel ratio of 3 as one still image', (tester) async {
       tester.view.devicePixelRatio = 3;
       addTearDown(tester.view.reset);
@@ -15892,7 +15603,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('fo06/us11/fr01/e08 (R49): an item taller than the viewport scrolls nothing '
+    testWidgets('fo06_03/us05/fr01/e08 (R49): an item taller than the viewport scrolls nothing '
         'while it covers the list, and scrolls the list once its top edge '
         'shows inside it', (tester) async {
       await tester.pumpWidget(
@@ -15925,7 +15636,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us11/fr05 (R53): under a size grow-in, a moved item sits in the live '
+      'fo06_03/us05/fr05 (R53): under a size grow-in, a moved item sits in the live '
       'screen-reader tree from the first frame it has a size, the frame after '
       'it lands, while its fade still runs',
       (tester) async {
@@ -15951,7 +15662,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr01 (R57/R58): an item taller than an app DragBoundary lifts '
+      'fo06_03/us05/fr01 (R57/R58): an item taller than an app DragBoundary lifts '
       'and drags past the boundary edge with no exception, its pointer '
       'kept inside the boundary, then drops with one onReorderEnd',
       (tester) async {
@@ -15990,7 +15701,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr01 (R57/R58): an item wider than an app DragBoundary lifts '
+      'fo06_03/us05/fr01 (R57/R58): an item wider than an app DragBoundary lifts '
       'and drags past the boundary edge with no exception, its pointer '
       'kept inside the boundary, then drops with one onReorderEnd',
       (tester) async {
@@ -16526,7 +16237,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us11/fr04/e04 and e17 (R45): an app jumpTo after the app removes a '
+      'fo06_03/us05/fr04/e04 and e17 (R45): an app jumpTo after the app removes a '
       'focused item and inserts it back at an unbuilt slot in one turn wins, '
       'and the item stays parked with its State and focus, never lost',
       (tester) async {
@@ -17305,139 +17016,126 @@ void main() {
   group('ReorderableListViewLayout reduced motion', () {
     final motion = ValueVariant<String>({'no', 'app', 'platform'});
 
-    testWidgets(
-      'NFR-U03, fo06/us11/fr01/e09, and s03/inv59: a neighbor a drag passes '
-      'takes its slot at once only under reduced motion',
-      (tester) async {
-        if (motion.currentValue == 'platform') {
-          tester.platformDispatcher.accessibilityFeaturesTestValue =
-              const FakeAccessibilityFeatures(reduceMotion: true);
-          addTearDown(
-            tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
-          );
-        }
-        await tester.pumpWidget(
-          motion.currentValue == 'app'
-              ? _app(
-                  Builder(
-                    builder: (context) => MediaQuery(
-                      data: MediaQuery.of(context)
-                          .copyWith(disableAnimations: true),
-                      child: const _Harness(count: 5),
-                    ),
+    testWidgets('NFR-U03, fo06_03/us05/fr01/e09, and fo06_03/inv59: a neighbor a drag passes '
+        'takes its slot at once only under reduced motion', (tester) async {
+      if (motion.currentValue == 'platform') {
+        tester.platformDispatcher.accessibilityFeaturesTestValue =
+            const FakeAccessibilityFeatures(reduceMotion: true);
+        addTearDown(
+          tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+        );
+      }
+      await tester.pumpWidget(
+        motion.currentValue == 'app'
+            ? _app(
+                Builder(
+                  builder: (context) => MediaQuery(
+                    data: MediaQuery.of(context)
+                        .copyWith(disableAnimations: true),
+                    child: const _Harness(count: 5),
                   ),
-                )
-              : _app(const _Harness(count: 5)),
+                ),
+              )
+            : _app(const _Harness(count: 5)),
+      );
+
+      final gesture = await _liftItem(tester, 0);
+      await _dragPastNeighbor(tester, gesture);
+
+      if (motion.currentValue == 'no') {
+        expect(_top(tester, 1), allOf(greaterThan(0), lessThan(40)));
+      } else {
+        expect(_top(tester, 1), 0);
+      }
+
+      await gesture.up();
+      await tester.pumpAndSettle();
+    }, variant: motion);
+
+    testWidgets('NFR-U03, fo06_03/us05/fr01/e09, and fo06_03/inv59: a dropped item settles at '
+        'once only under reduced motion', (tester) async {
+      if (motion.currentValue == 'platform') {
+        tester.platformDispatcher.accessibilityFeaturesTestValue =
+            const FakeAccessibilityFeatures(reduceMotion: true);
+        addTearDown(
+          tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
         );
-
-        final gesture = await _liftItem(tester, 0);
-        await _dragPastNeighbor(tester, gesture);
-
-        if (motion.currentValue == 'no') {
-          expect(_top(tester, 1), allOf(greaterThan(0), lessThan(40)));
-        } else {
-          expect(_top(tester, 1), 0);
-        }
-
-        await gesture.up();
-        await tester.pumpAndSettle();
-      },
-      variant: motion,
-    );
-
-    testWidgets(
-      'NFR-U03, fo06/us11/fr01/e09, and s03/inv59: a dropped item settles at '
-      'once only under reduced motion',
-      (tester) async {
-        if (motion.currentValue == 'platform') {
-          tester.platformDispatcher.accessibilityFeaturesTestValue =
-              const FakeAccessibilityFeatures(reduceMotion: true);
-          addTearDown(
-            tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
-          );
-        }
-        await tester.pumpWidget(
-          motion.currentValue == 'app'
-              ? _app(
-                  Builder(
-                    builder: (context) => MediaQuery(
-                      data: MediaQuery.of(context)
-                          .copyWith(disableAnimations: true),
-                      child: const _Harness(count: 5),
-                    ),
+      }
+      await tester.pumpWidget(
+        motion.currentValue == 'app'
+            ? _app(
+                Builder(
+                  builder: (context) => MediaQuery(
+                    data: MediaQuery.of(context)
+                        .copyWith(disableAnimations: true),
+                    child: const _Harness(count: 5),
                   ),
-                )
-              : _app(const _Harness(count: 5)),
-        );
+                ),
+              )
+            : _app(const _Harness(count: 5)),
+      );
 
-        final gesture = await _liftItem(tester, 0);
-        await _dragPastNeighbor(tester, gesture);
-        await tester.pumpAndSettle();
+      final gesture = await _liftItem(tester, 0);
+      await _dragPastNeighbor(tester, gesture);
+      await tester.pumpAndSettle();
 
-        await gesture.up();
-        await tester.pump();
-        // `onReorderEnd` always fires at once (FR-04 E06, `_endDrag`), so it
-        // cannot tell reduced motion from plain; the drop's own settle, over
-        // the theme's normal level, ticked on the same seamed State as the
-        // gap reflow, only lands `onReorderItem` (`moves`) once it ends.
-        expect(
-          _harness(tester).moves,
-          motion.currentValue == 'no' ? isEmpty : [(0, 1)],
-        );
+      await gesture.up();
+      await tester.pump();
+      // `onReorderEnd` always fires at once (FR-04 E06, `_endDrag`), so it
+      // cannot tell reduced motion from plain; the drop's own settle, over
+      // the theme's normal level, ticked on the same seamed State as the
+      // gap reflow, only lands `onReorderItem` (`moves`) once it ends.
+      expect(
+        _harness(tester).moves,
+        motion.currentValue == 'no' ? isEmpty : [(0, 1)],
+      );
 
-        await tester.pumpAndSettle();
-        expect(_harness(tester).ends, isNotEmpty);
-        expect(_harness(tester).moves, [(0, 1)]);
-      },
-      variant: motion,
-    );
+      await tester.pumpAndSettle();
+      expect(_harness(tester).ends, isNotEmpty);
+      expect(_harness(tester).moves, [(0, 1)]);
+    }, variant: motion);
 
-    testWidgets(
-      'NFR-U03 and fo06/us11/fr04/e01 (D4): turning reduced motion on and off '
-      'keeps a kept-alive item that holds its own semantics boundary, with '
-      'its State and no assert',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        Widget host({required bool reduced}) => _app(
-          Builder(
-            builder: (context) => MediaQuery(
-              data: MediaQuery.of(context).copyWith(disableAnimations: reduced),
-              child: const _Harness(
-                count: 200,
-                keepAliveIds: {100},
-                boundaryAt: 100,
-                boundary: _nestedListBoundary,
-              ),
+    testWidgets('NFR-U03 and fo06_03/us05/fr04/e01 (D4): turning reduced motion on and off '
+        'keeps a kept-alive item that holds its own semantics boundary, with '
+        'its State and no assert', (tester) async {
+      final handle = tester.ensureSemantics();
+      Widget host({required bool reduced}) => _app(
+        Builder(
+          builder: (context) => MediaQuery(
+            data: MediaQuery.of(context).copyWith(disableAnimations: reduced),
+            child: const _Harness(
+              count: 200,
+              keepAliveIds: {100},
+              boundaryAt: 100,
+              boundary: _nestedListBoundary,
             ),
           ),
-        );
-        await tester.pumpWidget(host(reduced: false));
-        final position =
-            tester
-                .state<ScrollableState>(find.byType(Scrollable).first)
-                .position
-              ..jumpTo(4000);
-        await tester.pump();
-        final state = _itemState(tester, 100)..expanded = true;
-        position.jumpTo(0);
-        await tester.pump();
+        ),
+      );
+      await tester.pumpWidget(host(reduced: false));
+      final position =
+          tester.state<ScrollableState>(find.byType(Scrollable).first).position
+            ..jumpTo(4000);
+      await tester.pump();
+      final state = _itemState(tester, 100)..expanded = true;
+      position.jumpTo(0);
+      await tester.pump();
 
-        for (final reduced in [true, false]) {
-          await tester.pumpWidget(host(reduced: reduced));
-          expect(tester.takeException(), isNull);
-          expect(_statesOf(tester, 100), [same(state)]);
-        }
-        position.jumpTo(4000);
-        await tester.pump();
-
+      for (final reduced in [true, false]) {
+        await tester.pumpWidget(host(reduced: reduced));
+        expect(tester.takeException(), isNull);
         expect(_statesOf(tester, 100), [same(state)]);
-        expect(state.expanded, isTrue);
-        handle.dispose();
-      },
-    );
+      }
+      position.jumpTo(4000);
+      await tester.pump();
+
+      expect(_statesOf(tester, 100), [same(state)]);
+      expect(state.expanded, isTrue);
+      handle.dispose();
+    });
 
     testWidgets(
-      'matrix I01xT03 and fo06/us11/fr01/e10 (R52): a drag that starts while a '
+      'matrix I01xT03 and fo06_03/us05/fr01/e10 (R52): a drag that starts while a '
       'drop settles completes the drop at once, then lifts the new item',
       (tester) async {
         await tester.pumpWidget(_app(const _Harness(count: 5, handles: true)));
@@ -17470,7 +17168,7 @@ void main() {
     // NFR-U05 n/a: the list's own stop takes no pointer tap, the drag
     // handle is the app's (FR-01 E01), and the long-press target is the
     // app's item.
-    // NFR-E01, NFR-E02 n/a: a FO-06 layout primitive, not a component (the
+    // NFR-E01, NFR-E02 n/a: a FO-06-03 layout primitive, not a component (the
     // reason container_layout_builder_test.dart gives, D12).
 
     void useTraditionalHighlight() {
@@ -17811,7 +17509,7 @@ void main() {
     );
 
     testWidgets(
-      'matrix I01xT08 and I03xT08, fo06/us11/fr04/e14: a lift of the item a '
+      'matrix I01xT08 and I03xT08, fo06_03/us05/fr04/e14: a lift of the item a '
       'leaving item is drawn beside ends that leaving item at once, and the '
       'drop finds none',
       (tester) async {
@@ -17843,7 +17541,7 @@ void main() {
     );
 
     testWidgets(
-      'matrix I01xT07 and fo06/us11/fr01/e10: a drag that starts on an item still '
+      'matrix I01xT07 and fo06_03/us05/fr01/e10: a drag that starts on an item still '
       'growing in ends its grow-in at once, and the item lifts at full size',
       (tester) async {
         await tester.pumpWidget(
@@ -17931,7 +17629,7 @@ void main() {
 
     final starters = ValueVariant<String>({'long press', 'handle'});
     testWidgets(
-      'matrix I01xT15 and fo06/us11/fr01/e12: a <long press, handle drag> on an '
+      'matrix I01xT15 and fo06_03/us05/fr01/e12: a <long press, handle drag> on an '
       'item whose text field holds focus <leaves the item in place, lifts it>',
       (tester) async {
         final field = FocusNode();
@@ -17984,7 +17682,7 @@ void main() {
     );
 
     testWidgets(
-      'matrix I01xT15 and fo06/us11/fr01/e12: a long press on a focused '
+      'matrix I01xT15 and fo06_03/us05/fr01/e12: a long press on a focused '
       'EditableText with no long-press recognizer of its own still leaves '
       'the item in place, never starting a drag',
       (tester) async {
@@ -18049,14 +17747,14 @@ void main() {
       },
     );
 
-    group('item root (s03/inv81)', () {
+    group('item root (fo06_03/inv81)', () {
       // Item root Build Gate rows: NFR-U02, NFR-U05, NFR-U06, NFR-U08, and
       // NFR-U09 below. NFR-U01 and NFR-U07 n/a: the join paints nothing; the
-      // surface's overlay and ring tokens are US-04 FR-01's and FR-03's,
-      // unchanged. NFR-U03 n/a: the join runs no animation; it moves semantics
-      // flags between nodes only. NFR-U04 n/a: the join adds and resizes no
-      // text; the row's text is the caller's child. NFR-E01 and NFR-E02 n/a:
-      // semantics-only change, no look or style changes.
+      // surface's overlay and ring tokens are FO-06-02 US-01 FR-01's and
+      // FR-03's, unchanged. NFR-U03 n/a: the join runs no animation; it moves
+      // semantics flags between nodes only. NFR-U04 n/a: the join adds and
+      // resizes no text; the row's text is the caller's child. NFR-E01 and
+      // NFR-E02 n/a: semantics-only change, no look or style changes.
 
       tearDown(() {
         _rootLog.clear();
@@ -18064,7 +17762,7 @@ void main() {
       });
 
       testWidgets(
-        'NFR-U06, fo06/us04/fr02/e11, fo06/us11/fr03/e03: a root row reads '
+        'NFR-U06, fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03: a root row reads '
         'its label, button role, enabled state, tap, and moves on one node',
         (tester) async {
           final handle = tester.ensureSemantics();
@@ -18102,7 +17800,7 @@ void main() {
       );
 
       testWidgets(
-        'NFR-U02, fo06/us04/fr02/e11: Tab reaches a root row, its ring '
+        'NFR-U02, fo06_02/us01/fr02/e11: Tab reaches a root row, its ring '
         'shows, Enter taps it, and Alt+Up moves it with focus on its one '
         'node',
         (tester) async {
@@ -18173,7 +17871,7 @@ void main() {
       );
 
       testWidgets(
-        "NFR-U09, fo06/us11/fr03/e03: the move actions on a root row's "
+        "NFR-U09, fo06_03/us05/fr03/e03: the move actions on a root row's "
         'labeled node move it with no drag',
         (tester) async {
           final handle = tester.ensureSemantics();
@@ -18198,7 +17896,7 @@ void main() {
       );
 
       testWidgets(
-        'NFR-U05, fo06/us04/fr02/e11: joining moves no hit area: root rows '
+        'NFR-U05, fo06_02/us01/fr02/e11: joining moves no hit area: root rows '
         'meet the platform tap target and a tap at a row runs it',
         (tester) async {
           final handle = tester.ensureSemantics();
@@ -18221,7 +17919,7 @@ void main() {
       );
 
       testWidgets(
-        'NFR-U08, fo06/us04/fr02/e11, fo08/us07/fr03: under high contrast a '
+        'NFR-U08, fo06_02/us01/fr02/e11, fo08/us07/fr03: under high contrast a '
         'disabled root reads dimmed on the item node and keeps its named '
         'moves',
         (tester) async {
@@ -18278,7 +17976,7 @@ void main() {
     });
   });
 
-  group('ReorderableListViewLayout item root (s03/inv81)', () {
+  group('ReorderableListViewLayout item root (fo06_03/inv81)', () {
     tearDown(() {
       _rootLog.clear();
       _tileDisabled.value = true;
@@ -18294,36 +17992,40 @@ void main() {
       _RootListState.ids = [0, 1, 2, 3, 4];
     });
 
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R1 a root '
-        'StratumInkWell joins the item node', (tester) async {
-      final handle = tester.ensureSemantics();
-      await _expectJoined(
-        tester,
-        (id) => StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-      );
-      handle.dispose();
-    });
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R1 a root '
+      'StratumInkWell joins the item node',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await _expectJoined(
+          tester,
+          (id) => StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
+        );
+        handle.dispose();
+      },
+    );
 
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R1 a root '
-        'StratumInkWell with a caller identifier joins the item node', (
-      tester,
-    ) async {
-      final handle = tester.ensureSemantics();
-      await _expectJoined(
-        tester,
-        (id) => StratumInkWell(
-          onTap: _tapRow,
-          semantics: SemanticsProperties(identifier: 'item-$id'),
-          child: Text('Item $id'),
-        ),
-      );
-      final data = _rootNode(tester, 'Item 2').getSemanticsData();
-      expect(data.identifier, 'item-2');
-      expect(_rootMoves(data), hasLength(4));
-      handle.dispose();
-    });
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R1 a root '
+      'StratumInkWell with a caller identifier joins the item node',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await _expectJoined(
+          tester,
+          (id) => StratumInkWell(
+            onTap: _tapRow,
+            semantics: SemanticsProperties(identifier: 'item-$id'),
+            child: Text('Item $id'),
+          ),
+        );
+        final data = _rootNode(tester, 'Item 2').getSemanticsData();
+        expect(data.identifier, 'item-2');
+        expect(_rootMoves(data), hasLength(4));
+        handle.dispose();
+      },
+    );
 
-    testWidgets("fo06/us04/fr02/e11: a root surface's caller custom actions "
+    testWidgets("fo06_02/us01/fr02/e11: a root surface's caller custom actions "
         'join the item node', (tester) async {
       final handle = tester.ensureSemantics();
       await _expectJoined(
@@ -18338,7 +18040,7 @@ void main() {
           child: Text('Item $id'),
         ),
         // The caller's actions make the surface carried, so the link lands
-        // one frame after mount (s03/inv81 D6(e)).
+        // one frame after mount (fo06_03/inv81 D6(e)).
         frames: 1,
       );
       final data = _rootNode(tester, 'Item 2').getSemanticsData();
@@ -18347,7 +18049,7 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets("fo06/us04/fr02/e11: a root surface's caller custom actions "
+    testWidgets("fo06_02/us01/fr02/e11: a root surface's caller custom actions "
         'and secondary tap join the item node', (tester) async {
       final handle = tester.ensureSemantics();
       await _expectJoined(
@@ -18373,205 +18075,199 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R2 a root '
-        'ContainerLayout interaction joins', (tester) async {
-      final handle = tester.ensureSemantics();
-      await _expectJoined(
-        tester,
-        (id) => ContainerLayout(
-          interaction: const Interaction(onTap: _tapRow),
-          child: Text('Item $id'),
-        ),
-      );
-      handle.dispose();
-    });
-
     testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R3 a root row '
-      'joins and its delete keeps its own node',
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R2 a root '
+      'ContainerLayout interaction joins',
       (tester) async {
         final handle = tester.ensureSemantics();
         await _expectJoined(
           tester,
           (id) => ContainerLayout(
             interaction: const Interaction(onTap: _tapRow),
-            child: _row(id),
-          ),
-        );
-        final item2 = _rootNode(tester, 'Item 2');
-        final delete2 = _rootNode(tester, 'Delete 2');
-        expect(identical(item2, delete2), isFalse);
-        expect(
-          _shape(delete2),
-          'label=Delete 2 tap=true button=true enabled=isTrue moves=0',
-        );
-        // F5: the delete tap never sees the row's own tap in its log.
-        _rootLog.clear();
-        await tester.tap(find.text('Delete 2'));
-        await tester.pump();
-        expect(_rootLog, ['delete']);
-        handle.dispose();
-      },
-    );
-
-    testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R4 a row with no '
-      'root tap keeps its moves on its label',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await _expectJoined(
-          tester,
-          _row,
-          expected:
-              'label=Item 2 tap=false button=false enabled=none '
-              'moves=4',
-        );
-        expect(
-          _shape(_rootNode(tester, 'Delete 2')),
-          'label=Delete 2 tap=true button=true enabled=isTrue moves=0',
-        );
-        handle.dispose();
-      },
-    );
-
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R5a a root '
-        'inside a Dismissible at rest joins', (tester) async {
-      final handle = tester.ensureSemantics();
-      await _expectJoined(
-        tester,
-        (id) => Dismissible(
-          key: ValueKey('d$id'),
-          child: StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-        ),
-      );
-      handle.dispose();
-    });
-
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R5b a root '
-        'inside Padding joins', (tester) async {
-      final handle = tester.ensureSemantics();
-      await _expectJoined(
-        tester,
-        (id) => Padding(
-          padding: const EdgeInsets.all(4),
-          child: StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-        ),
-      );
-      handle.dispose();
-    });
-
-    testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R6i a sibling '
-      'from the first build keeps the surface apart',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await _expectJoined(
-          tester,
-          (id) => id == 2
-              ? const ColumnLayout(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    StratumInkWell(onTap: _tapRow, child: Text('Item 2')),
-                    Text('Extra'),
-                  ],
-                )
-              : Text('Item $id'),
-          expected: _own,
-        );
-        expect(
-          _rootMoves(_rootNode(tester, 'Extra').getSemanticsData()),
-          hasLength(4),
-        );
-        handle.dispose();
-      },
-    );
-
-    testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R7 a disabled '
-      'root reads dimmed with its moves and no tap',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await _expectJoined(
-          tester,
-          (id) => StratumInkWell(
-            onTap: _tapRow,
-            disabled: true,
             child: Text('Item $id'),
           ),
-          expected:
-              'label=Item 2 tap=false button=true enabled=isFalse '
-              'moves=4',
         );
         handle.dispose();
       },
     );
 
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R8 an app '
-        'container node keeps the root apart', (tester) async {
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R3 a root row '
+        'joins and its delete keeps its own node', (tester) async {
       final handle = tester.ensureSemantics();
       await _expectJoined(
         tester,
-        (id) => Semantics(
-          container: true,
-          child: StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
+        (id) => ContainerLayout(
+          interaction: const Interaction(onTap: _tapRow),
+          child: _row(id),
         ),
+      );
+      final item2 = _rootNode(tester, 'Item 2');
+      final delete2 = _rootNode(tester, 'Delete 2');
+      expect(identical(item2, delete2), isFalse);
+      expect(
+        _shape(delete2),
+        'label=Delete 2 tap=true button=true enabled=isTrue moves=0',
+      );
+      // F5: the delete tap never sees the row's own tap in its log.
+      _rootLog.clear();
+      await tester.tap(find.text('Delete 2'));
+      await tester.pump();
+      expect(_rootLog, ['delete']);
+      handle.dispose();
+    });
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R4 a row with no '
+        'root tap keeps its moves on its label', (tester) async {
+      final handle = tester.ensureSemantics();
+      await _expectJoined(
+        tester,
+        _row,
+        expected:
+            'label=Item 2 tap=false button=false enabled=none '
+            'moves=4',
+      );
+      expect(
+        _shape(_rootNode(tester, 'Delete 2')),
+        'label=Delete 2 tap=true button=true enabled=isTrue moves=0',
+      );
+      handle.dispose();
+    });
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R5a a root '
+      'inside a Dismissible at rest joins',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await _expectJoined(
+          tester,
+          (id) => Dismissible(
+            key: ValueKey('d$id'),
+            child: StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
+          ),
+        );
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R5b a root '
+      'inside Padding joins',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await _expectJoined(
+          tester,
+          (id) => Padding(
+            padding: const EdgeInsets.all(4),
+            child: StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
+          ),
+        );
+        handle.dispose();
+      },
+    );
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R6i a sibling '
+        'from the first build keeps the surface apart', (tester) async {
+      final handle = tester.ensureSemantics();
+      await _expectJoined(
+        tester,
+        (id) => id == 2
+            ? const ColumnLayout(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  StratumInkWell(onTap: _tapRow, child: Text('Item 2')),
+                  Text('Extra'),
+                ],
+              )
+            : Text('Item $id'),
         expected: _own,
       );
-      final parent = _rootNode(tester, 'Item 2').parent!;
       expect(
-        _shape(parent),
-        'label= tap=false button=false enabled=none moves=0',
+        _rootMoves(_rootNode(tester, 'Extra').getSemanticsData()),
+        hasLength(4),
       );
-      expect(_rootMoves(parent.parent!.getSemanticsData()), hasLength(4));
+      handle.dispose();
+    });
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R7 a disabled '
+        'root reads dimmed with its moves and no tap', (tester) async {
+      final handle = tester.ensureSemantics();
+      await _expectJoined(
+        tester,
+        (id) => StratumInkWell(
+          onTap: _tapRow,
+          disabled: true,
+          child: Text('Item $id'),
+        ),
+        expected:
+            'label=Item 2 tap=false button=true enabled=isFalse '
+            'moves=4',
+      );
       handle.dispose();
     });
 
     testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R9 a surface '
-      'outside any reorder list keeps its own node',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(
-          _rootApp(
-            Semantics(
-              container: true,
-              label: 'Host',
-              child: const StratumInkWell(onTap: _tapRow, child: Text('Solo')),
-            ),
-          ),
-        );
-        final solo = _rootNode(tester, 'Solo');
-        expect(
-          _shape(solo),
-          'label=Solo tap=true button=true enabled=isTrue moves=0',
-        );
-        expect(solo.parent!.getSemanticsData().label, 'Host');
-        handle.dispose();
-      },
-    );
-
-    testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: R10 a root with '
-      'onSecondaryTap joins the item node with its secondary-tap action '
-      'from the frame after mount (D6(a), D6(e))',
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R8 an app '
+      'container node keeps the root apart',
       (tester) async {
         final handle = tester.ensureSemantics();
         await _expectJoined(
           tester,
-          (id) => StratumInkWell(
-            onTap: _tapRow,
-            onSecondaryTap: () {},
-            child: Text('Item $id'),
+          (id) => Semantics(
+            container: true,
+            child: StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
           ),
-          frames: 1,
+          expected: _own,
         );
-        _expectSecondaryJoined(tester, carriers: 5);
+        final parent = _rootNode(tester, 'Item 2').parent!;
+        expect(
+          _shape(parent),
+          'label= tap=false button=false enabled=none moves=0',
+        );
+        expect(_rootMoves(parent.parent!.getSemanticsData()), hasLength(4));
         handle.dispose();
       },
     );
 
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R9 a surface '
+        'outside any reorder list keeps its own node', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _rootApp(
+          Semantics(
+            container: true,
+            label: 'Host',
+            child: const StratumInkWell(onTap: _tapRow, child: Text('Solo')),
+          ),
+        ),
+      );
+      final solo = _rootNode(tester, 'Solo');
+      expect(
+        _shape(solo),
+        'label=Solo tap=true button=true enabled=isTrue moves=0',
+      );
+      expect(solo.parent!.getSemanticsData().label, 'Host');
+      handle.dispose();
+    });
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: R10 a root with '
+        'onSecondaryTap joins the item node with its secondary-tap action '
+        'from the frame after mount (D6(a), D6(e))', (tester) async {
+      final handle = tester.ensureSemantics();
+      await _expectJoined(
+        tester,
+        (id) => StratumInkWell(
+          onTap: _tapRow,
+          onSecondaryTap: () {},
+          child: Text('Item $id'),
+        ),
+        frames: 1,
+      );
+      _expectSecondaryJoined(tester, carriers: 5);
+      handle.dispose();
+    });
+
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: the secondary-tap action on the '
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: the secondary-tap action on the '
       "item's stop runs the root's onSecondaryTap",
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -18595,54 +18291,51 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: a root whose onSecondaryTap turns on '
-      'and off at run time stays one stop in every frame',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(
-          _rootApp(
-            _RootList(
-              item: (id) => id == 2
-                  ? ValueListenableBuilder<bool>(
-                      valueListenable: _rowSecondary,
-                      builder: (context, on, _) => StratumInkWell(
-                        onTap: _tapRow,
-                        onSecondaryTap: on ? _secondaryTapRow : null,
-                        child: const Text('Item 2'),
-                      ),
-                    )
-                  : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-            ),
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/inv81: a root whose onSecondaryTap turns on '
+        'and off at run time stays one stop in every frame', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _rootApp(
+          _RootList(
+            item: (id) => id == 2
+                ? ValueListenableBuilder<bool>(
+                    valueListenable: _rowSecondary,
+                    builder: (context, on, _) => StratumInkWell(
+                      onTap: _tapRow,
+                      onSecondaryTap: on ? _secondaryTapRow : null,
+                      child: const Text('Item 2'),
+                    ),
+                  )
+                : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
           ),
-        );
-        expect(_shape(_liveRootNode(tester, 'Item 2')), _joined);
-        expect(_liveNodesWithAction(tester, _secondaryLabel), isEmpty);
+        ),
+      );
+      expect(_shape(_liveRootNode(tester, 'Item 2')), _joined);
+      expect(_liveNodesWithAction(tester, _secondaryLabel), isEmpty);
 
-        _rowSecondary.value = true;
-        await tester.pump();
-        _expectSecondaryJoined(tester, reason: 'turned on');
-        _rootMove(_liveRootNode(tester, 'Item 2'), _secondaryLabel);
-        expect(_rootLog, ['secondary']);
+      _rowSecondary.value = true;
+      await tester.pump();
+      _expectSecondaryJoined(tester, reason: 'turned on');
+      _rootMove(_liveRootNode(tester, 'Item 2'), _secondaryLabel);
+      expect(_rootLog, ['secondary']);
 
-        _rowSecondary.value = false;
-        await tester.pump();
-        expect(
-          _shape(_liveRootNode(tester, 'Item 2')),
-          _joined,
-          reason: 'turned off',
-        );
-        expect(_liveNodesWithAction(tester, _secondaryLabel), isEmpty);
+      _rowSecondary.value = false;
+      await tester.pump();
+      expect(
+        _shape(_liveRootNode(tester, 'Item 2')),
+        _joined,
+        reason: 'turned off',
+      );
+      expect(_liveNodesWithAction(tester, _secondaryLabel), isEmpty);
 
-        _rowSecondary.value = true;
-        await tester.pump();
-        _expectSecondaryJoined(tester, reason: 'turned on again');
-        handle.dispose();
-      },
-    );
+      _rowSecondary.value = true;
+      await tester.pump();
+      _expectSecondaryJoined(tester, reason: 'turned on again');
+      handle.dispose();
+    });
 
     testWidgets(
-      'fo08/us07/fr03, fo06/us04/fr02/e11, s03/inv81: a disabled base '
+      'fo08/us07/fr03, fo06_02/us01/fr02/e11, fo06_03/inv81: a disabled base '
       'component over a root with onSecondaryTap reads no secondary-tap '
       'action, and joins with it the frame after it enables (I1)',
       (tester) async {
@@ -18692,217 +18385,204 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: an app GlobalKey moving a root with '
-      'onSecondaryTap to another live item moves its secondary-tap action '
-      "to that item's stop",
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        const moved =
-            'label=Moving tap=true button=true enabled=isTrue moves=4';
-        final target = ValueNotifier<int>(2);
-        final movingKey = GlobalKey(debugLabel: 'moving secondary surface');
-        Widget moving() => KeyedSubtree(
-          key: movingKey,
-          child: const StratumInkWell(
-            onTap: _tapRow,
-            onSecondaryTap: _secondaryTapRow,
-            child: Text('Moving'),
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/inv81: an app GlobalKey moving a root with '
+        'onSecondaryTap to another live item moves its secondary-tap action '
+        "to that item's stop", (tester) async {
+      final handle = tester.ensureSemantics();
+      const moved = 'label=Moving tap=true button=true enabled=isTrue moves=4';
+      final target = ValueNotifier<int>(2);
+      final movingKey = GlobalKey(debugLabel: 'moving secondary surface');
+      Widget moving() => KeyedSubtree(
+        key: movingKey,
+        child: const StratumInkWell(
+          onTap: _tapRow,
+          onSecondaryTap: _secondaryTapRow,
+          child: Text('Moving'),
+        ),
+      );
+      Widget item(int id) => (id == 2 || id == 3)
+          ? ValueListenableBuilder<int>(
+              valueListenable: target,
+              builder: (context, current, _) =>
+                  id == current ? moving() : Text('Item $id'),
+            )
+          : Text('Item $id');
+      await tester.pumpWidget(_rootApp(_RootList(item: item)));
+      await tester.pump();
+      expect(_liveNodesWithAction(tester, _secondaryLabel), [
+        _liveRootNode(tester, 'Moving'),
+      ]);
+
+      target.value = 3;
+      await tester.pump();
+      _expectSecondarySplit(
+        tester,
+        label: 'Moving',
+        reason: 'the frame of the move',
+      );
+      // The new item node links the root in that frame's flush, which
+      // lands one frame later (D4, D6(e)).
+      await tester.pump();
+      final carrying = _liveNodesWithAction(tester, _secondaryLabel);
+      expect(carrying, [_liveRootNode(tester, 'Moving')]);
+      expect(_shape(carrying.single), moved);
+      _rootMove(carrying.single, _secondaryLabel);
+      expect(_rootLog, ['secondary']);
+      handle.dispose();
+    });
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/inv81: removing a kept-alive item off screen '
+        'whose root an app GlobalKey moved into another item leaves that item '
+        'joined with its secondary-tap action', (tester) async {
+      final handle = tester.ensureSemantics();
+      _RootListState.ids = [for (var id = 0; id < 30; id += 1) id];
+      final target = ValueNotifier<int>(2);
+      final movingKey = GlobalKey(debugLabel: 'kept-alive moving surface');
+      Widget moving() => KeyedSubtree(
+        key: movingKey,
+        child: const StratumInkWell(
+          onTap: _tapRow,
+          onSecondaryTap: _secondaryTapRow,
+          child: _KeptAlive(child: Text('Moving')),
+        ),
+      );
+      await tester.pumpWidget(
+        _rootApp(
+          _RootList(
+            itemsController: ReorderableItemsController(),
+            item: (id) => (id == 2 || id == 20)
+                ? ValueListenableBuilder<int>(
+                    valueListenable: target,
+                    builder: (context, current, _) => id == current
+                        ? moving()
+                        : _KeptAlive(child: Text('Item $id')),
+                  )
+                : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
           ),
-        );
-        Widget item(int id) => (id == 2 || id == 3)
-            ? ValueListenableBuilder<int>(
-                valueListenable: target,
-                builder: (context, current, _) =>
-                    id == current ? moving() : Text('Item $id'),
-              )
-            : Text('Item $id');
-        await tester.pumpWidget(_rootApp(_RootList(item: item)));
-        await tester.pump();
-        expect(_liveNodesWithAction(tester, _secondaryLabel), [
-          _liveRootNode(tester, 'Moving'),
-        ]);
+        ),
+      );
+      await tester.pump();
+      expect(_liveNodesWithAction(tester, _secondaryLabel), [
+        _liveRootNode(tester, 'Moving'),
+      ]);
 
-        target.value = 3;
-        await tester.pump();
-        _expectSecondarySplit(
-          tester,
-          label: 'Moving',
-          reason: 'the frame of the move',
-        );
-        // The new item node links the root in that frame's flush, which
-        // lands one frame later (D4, D6(e)).
-        await tester.pump();
-        final carrying = _liveNodesWithAction(tester, _secondaryLabel);
-        expect(carrying, [_liveRootNode(tester, 'Moving')]);
-        expect(_shape(carrying.single), moved);
-        _rootMove(carrying.single, _secondaryLabel);
-        expect(_rootLog, ['secondary']);
-        handle.dispose();
-      },
-    );
+      // Item 2 leaves the view; its root keeps it alive, so its marker's
+      // own walk stops running.
+      tester
+          .state<ScrollableState>(find.byType(Scrollable))
+          .position
+          .jumpTo(16 * 48);
+      await tester.pump();
+      expect(find.text('Moving', skipOffstage: false), findsOneWidget);
 
-    testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: removing a kept-alive item off screen '
-      'whose root an app GlobalKey moved into another item leaves that item '
-      'joined with its secondary-tap action',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        _RootListState.ids = [for (var id = 0; id < 30; id += 1) id];
-        final target = ValueNotifier<int>(2);
-        final movingKey = GlobalKey(debugLabel: 'kept-alive moving surface');
-        Widget moving() => KeyedSubtree(
-          key: movingKey,
-          child: const StratumInkWell(
-            onTap: _tapRow,
-            onSecondaryTap: _secondaryTapRow,
-            child: _KeptAlive(child: Text('Moving')),
+      target.value = 20;
+      await tester.pump();
+      await tester.pump();
+      var carrying = _liveNodesWithAction(tester, _secondaryLabel);
+      expect(carrying.map((node) => node.label), ['Moving']);
+      expect(_rootMoves(carrying.single.getSemanticsData()), hasLength(4));
+
+      tester.state<_RootListState>(find.byType(_RootList)).remove(2);
+      await tester.pump();
+      carrying = _liveNodesWithAction(tester, _secondaryLabel);
+      expect(carrying.map((node) => node.label), [
+        'Moving',
+      ], reason: 'the frame item 2 leaves');
+      expect(
+        _rootMoves(carrying.single.getSemanticsData()),
+        hasLength(4),
+        reason: 'the frame item 2 leaves',
+      );
+      handle.dispose();
+    });
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/inv81: a root with onSecondaryTap swapped '
+        "for a plain row takes its secondary-tap action off the item's stop "
+        'in the same frame', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _rootApp(
+          _RootList(
+            item: (id) => id == 2
+                ? ValueListenableBuilder<int>(
+                    valueListenable: _rootShape,
+                    builder: (context, shape, _) => shape == 1
+                        ? const Text('Item 2')
+                        : const StratumInkWell(
+                            onTap: _tapRow,
+                            onSecondaryTap: _secondaryTapRow,
+                            child: Text('Item 2'),
+                          ),
+                  )
+                : Text('Item $id'),
           ),
-        );
-        await tester.pumpWidget(
-          _rootApp(
-            _RootList(
-              itemsController: ReorderableItemsController(),
-              item: (id) => (id == 2 || id == 20)
-                  ? ValueListenableBuilder<int>(
-                      valueListenable: target,
-                      builder: (context, current, _) => id == current
-                          ? moving()
-                          : _KeptAlive(child: Text('Item $id')),
-                    )
-                  : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-            ),
+        ),
+      );
+      await tester.pump();
+      _expectSecondaryJoined(tester, reason: 'mount');
+
+      _rootShape.value = 1;
+      await tester.pump();
+      expect(
+        _shape(_liveRootNode(tester, 'Item 2')),
+        'label=Item 2 tap=false button=false enabled=none moves=4',
+      );
+      expect(_liveNodesWithAction(tester, _secondaryLabel), isEmpty);
+
+      _rootShape.value = 2;
+      await tester.pump();
+      _expectSecondarySplit(tester, reason: 'the frame it is back');
+      await tester.pump();
+      _expectSecondaryJoined(tester, reason: 'back');
+      handle.dispose();
+    });
+
+    testWidgets('fo06_03/us05/fr04/e05, fo06_03/inv58, fo06_03/inv81: removing a root with '
+        'onSecondaryTap leaves no node and no secondary-tap action in any '
+        'exit frame', (tester) async {
+      final handle = tester.ensureSemantics();
+      final itemsController = ReorderableItemsController();
+      await tester.pumpWidget(
+        _rootApp(
+          _RootList(
+            itemsController: itemsController,
+            item: (id) => id == 2
+                ? const StratumInkWell(
+                    onTap: _tapRow,
+                    onSecondaryTap: _secondaryTapRow,
+                    child: Text('Item 2'),
+                  )
+                : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
           ),
-        );
-        await tester.pump();
-        expect(_liveNodesWithAction(tester, _secondaryLabel), [
-          _liveRootNode(tester, 'Moving'),
-        ]);
+        ),
+      );
+      await tester.pump();
+      _expectSecondaryJoined(tester, reason: 'before the remove');
 
-        // Item 2 leaves the view; its root keeps it alive, so its marker's
-        // own walk stops running.
-        tester
-            .state<ScrollableState>(find.byType(Scrollable))
-            .position
-            .jumpTo(16 * 48);
-        await tester.pump();
-        expect(find.text('Moving', skipOffstage: false), findsOneWidget);
-
-        target.value = 20;
-        await tester.pump();
-        await tester.pump();
-        var carrying = _liveNodesWithAction(tester, _secondaryLabel);
-        expect(carrying.map((node) => node.label), ['Moving']);
-        expect(_rootMoves(carrying.single.getSemanticsData()), hasLength(4));
-
-        tester.state<_RootListState>(find.byType(_RootList)).remove(2);
-        await tester.pump();
-        carrying = _liveNodesWithAction(tester, _secondaryLabel);
-        expect(carrying.map((node) => node.label), [
-          'Moving',
-        ], reason: 'the frame item 2 leaves');
+      tester.state<_RootListState>(find.byType(_RootList)).remove(2);
+      for (var frame = 0; frame < 20; frame += 1) {
+        await tester.pump(const Duration(milliseconds: 25));
         expect(
-          _rootMoves(carrying.single.getSemanticsData()),
-          hasLength(4),
-          reason: 'the frame item 2 leaves',
+          _liveNodesWithAction(tester, _secondaryLabel),
+          isEmpty,
+          reason: 'exit frame $frame',
         );
-        handle.dispose();
-      },
-    );
-
-    testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: a root with onSecondaryTap swapped '
-      "for a plain row takes its secondary-tap action off the item's stop "
-      'in the same frame',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(
-          _rootApp(
-            _RootList(
-              item: (id) => id == 2
-                  ? ValueListenableBuilder<int>(
-                      valueListenable: _rootShape,
-                      builder: (context, shape, _) => shape == 1
-                          ? const Text('Item 2')
-                          : const StratumInkWell(
-                              onTap: _tapRow,
-                              onSecondaryTap: _secondaryTapRow,
-                              child: Text('Item 2'),
-                            ),
-                    )
-                  : Text('Item $id'),
-            ),
-          ),
-        );
-        await tester.pump();
-        _expectSecondaryJoined(tester, reason: 'mount');
-
-        _rootShape.value = 1;
-        await tester.pump();
         expect(
-          _shape(_liveRootNode(tester, 'Item 2')),
-          'label=Item 2 tap=false button=false enabled=none moves=4',
+          _liveLabels(tester).where((label) => label.contains('Item 2')),
+          isEmpty,
+          reason: 'exit frame $frame',
         );
-        expect(_liveNodesWithAction(tester, _secondaryLabel), isEmpty);
-
-        _rootShape.value = 2;
-        await tester.pump();
-        _expectSecondarySplit(tester, reason: 'the frame it is back');
-        await tester.pump();
-        _expectSecondaryJoined(tester, reason: 'back');
-        handle.dispose();
-      },
-    );
-
-    testWidgets(
-      'fo06/us11/fr04/e05, s03/inv58, s03/inv81: removing a root with '
-      'onSecondaryTap leaves no node and no secondary-tap action in any '
-      'exit frame',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        final itemsController = ReorderableItemsController();
-        await tester.pumpWidget(
-          _rootApp(
-            _RootList(
-              itemsController: itemsController,
-              item: (id) => id == 2
-                  ? const StratumInkWell(
-                      onTap: _tapRow,
-                      onSecondaryTap: _secondaryTapRow,
-                      child: Text('Item 2'),
-                    )
-                  : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-            ),
-          ),
-        );
-        await tester.pump();
-        _expectSecondaryJoined(tester, reason: 'before the remove');
-
-        tester.state<_RootListState>(find.byType(_RootList)).remove(2);
-        for (var frame = 0; frame < 20; frame += 1) {
-          await tester.pump(const Duration(milliseconds: 25));
-          expect(
-            _liveNodesWithAction(tester, _secondaryLabel),
-            isEmpty,
-            reason: 'exit frame $frame',
-          );
-          expect(
-            _liveLabels(tester).where((label) => label.contains('Item 2')),
-            isEmpty,
-            reason: 'exit frame $frame',
-          );
-        }
-        await tester.pumpAndSettle();
-        expect(find.text('Item 2'), findsNothing);
-        expect(_rootLog, isEmpty);
-        handle.dispose();
-      },
-    );
+      }
+      await tester.pumpAndSettle();
+      expect(find.text('Item 2'), findsNothing);
+      expect(_rootLog, isEmpty);
+      handle.dispose();
+    });
 
     // The app's wrapper that blocks the root's user actions.
     final blockers = ValueVariant<String>({'AbsorbPointer', 'IgnorePointer'});
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: an app wrapper that blocks a root '
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: an app wrapper that blocks a root '
       'with onSecondaryTap at run time keeps its secondary-tap action on '
       "the root's own node as Flutter does, and the action never runs while "
       'blocked',
@@ -18980,7 +18660,7 @@ void main() {
       'Opacity 0',
     });
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: a root with onSecondaryTap mounted '
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: a root with onSecondaryTap mounted '
       'under an app wrapper that leaves it out of semantics puts no '
       'secondary-tap action on any node, from the mount frame on',
       (tester) async {
@@ -19020,7 +18700,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: a root with onSecondaryTap mounted '
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: a root with onSecondaryTap mounted '
       'before the screen reader turns on walks nothing above its marker '
       'until then, and joins with its action once semantics turns on',
       semanticsEnabled: false,
@@ -19052,7 +18732,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us04/fr02/e11, s03/inv81: a linked root whose '
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/inv81: a linked root whose '
         'excludeFromSemantics turns on takes its secondary-tap action off '
         "the item's stop in that frame, and joins again once it turns off", (
       tester,
@@ -19094,145 +18774,145 @@ void main() {
       handle.dispose();
     });
 
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/inv81: of two surfaces with onSecondaryTap '
+        "in one row only the root's action joins the item's stop; the inner "
+        'one keeps its own node', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _rootApp(
+          _RootList(
+            item: (id) => id == 2
+                ? const StratumInkWell(
+                    onTap: _tapRow,
+                    onSecondaryTap: _secondaryTapRow,
+                    child: RowLayout(
+                      children: [
+                        Text('Item 2'),
+                        StratumInkWell(
+                          onTap: _tapDelete,
+                          onSecondaryTap: _tapDelete,
+                          secondaryTapSemanticsLabel: 'Delete options',
+                          child: Text('Delete 2'),
+                        ),
+                      ],
+                    ),
+                  )
+                : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
+          ),
+        ),
+      );
+      await tester.pump();
+      _expectSecondaryJoined(tester);
+      final inner = _liveNodesWithAction(tester, 'Delete options');
+      expect(inner.map((node) => node.label), ['Delete 2']);
+      expect(_rootMoves(inner.single.getSemanticsData()), isEmpty);
+      _rootMove(inner.single, 'Delete options');
+      _rootMove(_liveRootNode(tester, 'Item 2'), _secondaryLabel);
+      expect(_rootLog, ['delete', 'secondary']);
+      handle.dispose();
+    });
+
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: of two surfaces with onSecondaryTap '
-      "in one row only the root's action joins the item's stop; the inner "
-      'one keeps its own node',
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr01, fo06_03/inv81: a root with '
+      'onSecondaryTap moved by a drag keeps its secondary-tap action on '
+      "the item's stop",
       (tester) async {
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(
           _rootApp(
             _RootList(
-              item: (id) => id == 2
-                  ? const StratumInkWell(
+              item: (id) => StratumInkWell(
+                onTap: _tapRow,
+                onSecondaryTap: _secondaryTapRow,
+                child: Text('Item $id'),
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+        final gesture = await tester.startGesture(
+          tester.getCenter(find.text('Item 2')),
+        );
+        await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+        for (var step = 0; step < 5; step += 1) {
+          await gesture.moveBy(const Offset(0, 10));
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+        await gesture.up();
+        await tester.pumpAndSettle();
+        expect(_rootIds(tester), [0, 1, 3, 2, 4]);
+        _expectSecondaryJoined(tester, carriers: 5);
+        _rootMove(_liveRootNode(tester, 'Item 2'), _secondaryLabel);
+        expect(_rootLog, ['secondary']);
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr05, fo06_03/inv81: a root with '
+      'onSecondaryTap moved by moveItem keeps its secondary-tap action on '
+      "the item's stop",
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await tester.pumpWidget(
+          _rootApp(
+            _RootList(
+              itemsController: ReorderableItemsController(),
+              item: (id) => StratumInkWell(
+                onTap: _tapRow,
+                onSecondaryTap: _secondaryTapRow,
+                child: Text('Item $id'),
+              ),
+            ),
+          ),
+        );
+        await tester.pump();
+        tester.state<_RootListState>(find.byType(_RootList)).move(2, 3);
+        await tester.pumpAndSettle();
+        expect(_rootIds(tester), [0, 1, 3, 2, 4]);
+        _expectSecondaryJoined(tester, carriers: 5);
+        _rootMove(_liveRootNode(tester, 'Item 2'), _secondaryLabel);
+        expect(_rootLog, ['secondary']);
+        handle.dispose();
+      },
+    );
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_02/us02/fr04, fo06_03/inv81: relabeling a linked '
+        "root's secondary tap at run time relabels the action on the item's "
+        'stop in that frame, with no copy under the old label', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _rootApp(
+          _RootList(
+            item: (id) => id == 2
+                ? ValueListenableBuilder<String>(
+                    valueListenable: _rowMenuLabel,
+                    builder: (context, label, _) => StratumInkWell(
                       onTap: _tapRow,
                       onSecondaryTap: _secondaryTapRow,
-                      child: RowLayout(
-                        children: [
-                          Text('Item 2'),
-                          StratumInkWell(
-                            onTap: _tapDelete,
-                            onSecondaryTap: _tapDelete,
-                            secondaryTapSemanticsLabel: 'Delete options',
-                            child: Text('Delete 2'),
-                          ),
-                        ],
-                      ),
-                    )
-                  : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-            ),
-          ),
-        );
-        await tester.pump();
-        _expectSecondaryJoined(tester);
-        final inner = _liveNodesWithAction(tester, 'Delete options');
-        expect(inner.map((node) => node.label), ['Delete 2']);
-        expect(_rootMoves(inner.single.getSemanticsData()), isEmpty);
-        _rootMove(inner.single, 'Delete options');
-        _rootMove(_liveRootNode(tester, 'Item 2'), _secondaryLabel);
-        expect(_rootLog, ['delete', 'secondary']);
-        handle.dispose();
-      },
-    );
-
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr01, s03/inv81: a root with '
-        'onSecondaryTap moved by a drag keeps its secondary-tap action on '
-        "the item's stop", (tester) async {
-      final handle = tester.ensureSemantics();
-      await tester.pumpWidget(
-        _rootApp(
-          _RootList(
-            item: (id) => StratumInkWell(
-              onTap: _tapRow,
-              onSecondaryTap: _secondaryTapRow,
-              child: Text('Item $id'),
-            ),
+                      secondaryTapSemanticsLabel: label,
+                      child: const Text('Item 2'),
+                    ),
+                  )
+                : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
           ),
         ),
       );
       await tester.pump();
-      final gesture = await tester.startGesture(
-        tester.getCenter(find.text('Item 2')),
-      );
-      await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
-      for (var step = 0; step < 5; step += 1) {
-        await gesture.moveBy(const Offset(0, 10));
-        await tester.pump(const Duration(milliseconds: 16));
-      }
-      await gesture.up();
-      await tester.pumpAndSettle();
-      expect(_rootIds(tester), [0, 1, 3, 2, 4]);
-      _expectSecondaryJoined(tester, carriers: 5);
-      _rootMove(_liveRootNode(tester, 'Item 2'), _secondaryLabel);
-      expect(_rootLog, ['secondary']);
-      handle.dispose();
-    });
+      final stop = _liveRootNode(tester, 'Item 2');
+      expect(_liveNodesWithAction(tester, 'Row options'), [stop]);
 
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr05, s03/inv81: a root with '
-        'onSecondaryTap moved by moveItem keeps its secondary-tap action on '
-        "the item's stop", (tester) async {
-      final handle = tester.ensureSemantics();
-      await tester.pumpWidget(
-        _rootApp(
-          _RootList(
-            itemsController: ReorderableItemsController(),
-            item: (id) => StratumInkWell(
-              onTap: _tapRow,
-              onSecondaryTap: _secondaryTapRow,
-              child: Text('Item $id'),
-            ),
-          ),
-        ),
-      );
+      _rowMenuLabel.value = 'More';
       await tester.pump();
-      tester.state<_RootListState>(find.byType(_RootList)).move(2, 3);
-      await tester.pumpAndSettle();
-      expect(_rootIds(tester), [0, 1, 3, 2, 4]);
-      _expectSecondaryJoined(tester, carriers: 5);
-      _rootMove(_liveRootNode(tester, 'Item 2'), _secondaryLabel);
-      expect(_rootLog, ['secondary']);
+      final relabeled = _liveRootNode(tester, 'Item 2');
+      expect(_shape(relabeled), _joined);
+      expect(_liveNodesWithAction(tester, 'More'), [relabeled]);
+      expect(_liveNodesWithAction(tester, 'Row options'), isEmpty);
       handle.dispose();
     });
 
     testWidgets(
-      'fo06/us04/fr02/e11, fo06/us05/fr04, s03/inv81: relabeling a linked '
-      "root's secondary tap at run time relabels the action on the item's "
-      'stop in that frame, with no copy under the old label',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(
-          _rootApp(
-            _RootList(
-              item: (id) => id == 2
-                  ? ValueListenableBuilder<String>(
-                      valueListenable: _rowMenuLabel,
-                      builder: (context, label, _) => StratumInkWell(
-                        onTap: _tapRow,
-                        onSecondaryTap: _secondaryTapRow,
-                        secondaryTapSemanticsLabel: label,
-                        child: const Text('Item 2'),
-                      ),
-                    )
-                  : StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-            ),
-          ),
-        );
-        await tester.pump();
-        final stop = _liveRootNode(tester, 'Item 2');
-        expect(_liveNodesWithAction(tester, 'Row options'), [stop]);
-
-        _rowMenuLabel.value = 'More';
-        await tester.pump();
-        final relabeled = _liveRootNode(tester, 'Item 2');
-        expect(_shape(relabeled), _joined);
-        expect(_liveNodesWithAction(tester, 'More'), [relabeled]);
-        expect(_liveNodesWithAction(tester, 'Row options'), isEmpty);
-        handle.dispose();
-      },
-    );
-
-    testWidgets(
-      "fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: in Flutter's own "
+      "fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: in Flutter's own "
       'ReorderableListView a root keeps its own node (D6(c))',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -19260,346 +18940,345 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo08/us07/fr03, fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: '
-      'R11a a disabled base component over a root surface joins in every '
-      'frame of a toggle',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        const off =
-            'label=Item 2 tap=false button=true enabled=isFalse '
-            'moves=4';
-        await tester.pumpWidget(
-          _rootApp(
-            _RootList(
-              item: (id) => id == 2
-                  ? ValueListenableBuilder<bool>(
-                      valueListenable: _tileDisabled,
-                      builder: (context, disabled, _) => _Tile(
-                        disabled: disabled,
-                        child: const StratumInkWell(
-                          onTap: _tapRow,
-                          child: Text('Item 2'),
-                        ),
-                      ),
-                    )
-                  : _Tile(
-                      child: StratumInkWell(
-                        onTap: _tapRow,
-                        child: Text('Item $id'),
-                      ),
-                    ),
-            ),
-          ),
-        );
-        expect(_shape(_rootNode(tester, 'Item 2')), off);
-
-        _tileDisabled.value = false;
-        await tester.pump();
-        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
-        // F13: the enabled frame's joined node still runs the row's tap.
-        final enabledNode = _rootNode(tester, 'Item 2');
-        _rootLog.clear();
-        enabledNode.owner!.performAction(enabledNode.id, SemanticsAction.tap);
-        await tester.pump();
-        expect(_rootLog, ['row']);
-
-        _tileDisabled.value = true;
-        await tester.pump();
-        expect(_shape(_rootNode(tester, 'Item 2')), off);
-        _rootMove(_rootNode(tester, 'Item 2'), 'Move up');
-        await tester.pumpAndSettle();
-        expect(_rootIds(tester), [0, 2, 1, 3, 4]);
-        handle.dispose();
-      },
-    );
-
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: a caller '
-        'semantics label reads on the joined node', (tester) async {
+    testWidgets('fo08/us07/fr03, fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: '
+        'R11a a disabled base component over a root surface joins in every '
+        'frame of a toggle', (tester) async {
       final handle = tester.ensureSemantics();
+      const off =
+          'label=Item 2 tap=false button=true enabled=isFalse '
+          'moves=4';
       await tester.pumpWidget(
         _rootApp(
           _RootList(
             item: (id) => id == 2
-                ? const ContainerLayout(
-                    semantics: SemanticsProperties(label: 'Row 2'),
-                    interaction: Interaction(onTap: _tapRow),
-                    child: SizedBox(width: 20, height: 20),
+                ? ValueListenableBuilder<bool>(
+                    valueListenable: _tileDisabled,
+                    builder: (context, disabled, _) => _Tile(
+                      disabled: disabled,
+                      child: const StratumInkWell(
+                        onTap: _tapRow,
+                        child: Text('Item 2'),
+                      ),
+                    ),
                   )
-                : Text('Item $id'),
+                : _Tile(
+                    child: StratumInkWell(
+                      onTap: _tapRow,
+                      child: Text('Item $id'),
+                    ),
+                  ),
           ),
         ),
       );
-      final node = tester.getSemantics(find.byKey(const ValueKey(2)));
-      expect(
-        node,
-        isSemantics(label: 'Row 2', isButton: true, hasTapAction: true),
-      );
-      expect(_rootMoves(node.getSemanticsData()), hasLength(4));
+      expect(_shape(_rootNode(tester, 'Item 2')), off);
+
+      _tileDisabled.value = false;
+      await tester.pump();
+      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+      // F13: the enabled frame's joined node still runs the row's tap.
+      final enabledNode = _rootNode(tester, 'Item 2');
+      _rootLog.clear();
+      enabledNode.owner!.performAction(enabledNode.id, SemanticsAction.tap);
+      await tester.pump();
+      expect(_rootLog, ['row']);
+
+      _tileDisabled.value = true;
+      await tester.pump();
+      expect(_shape(_rootNode(tester, 'Item 2')), off);
+      _rootMove(_rootNode(tester, 'Item 2'), 'Move up');
+      await tester.pumpAndSettle();
+      expect(_rootIds(tester), [0, 2, 1, 3, 4]);
       handle.dispose();
     });
 
     testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: disable and '
-      'relabel a root row at run time',
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: a caller '
+      'semantics label reads on the joined node',
       (tester) async {
         final handle = tester.ensureSemantics();
-        await _expectJoined(
-          tester,
-          (id) => id == 2
-              ? ValueListenableBuilder<bool>(
-                  valueListenable: _rowDisabled,
-                  builder: (context, disabled, _) => ContainerLayout(
-                    interaction: Interaction(
-                      onTap: _tapRow,
-                      disabled: disabled,
-                    ),
-                    child: ValueListenableBuilder<String>(
-                      valueListenable: _rowLabel,
-                      builder: (context, label, _) => Text(label),
-                    ),
-                  ),
-                )
-              : ContainerLayout(
-                  interaction: const Interaction(onTap: _tapRow),
-                  child: Text('Item $id'),
-                ),
-        );
-
-        _rowLabel.value = 'Item 2b';
-        await tester.pump();
-        // F6: the relabel is read by its new text.
-        expect(
-          _shape(_rootNode(tester, 'Item 2b')),
-          'label=Item 2b tap=true button=true enabled=isTrue moves=4',
-        );
-
-        _rowDisabled.value = true;
-        await tester.pump();
-        expect(
-          _shape(_rootNode(tester, 'Item 2b')),
-          'label=Item 2b tap=false button=true enabled=isFalse moves=4',
-        );
-
-        _rowDisabled.value = false;
-        await tester.pump();
-        expect(
-          _shape(_rootNode(tester, 'Item 2b')),
-          'label=Item 2b tap=true button=true enabled=isTrue moves=4',
-        );
-        handle.dispose();
-      },
-    );
-
-    testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: a horizontal '
-      'list names the moves left and right',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(
-          _rootApp(
-            _RootList(
-              scrollDirection: Axis.horizontal,
-              item: (id) =>
-                  StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-            ),
-          ),
-        );
-        final node = _rootNode(tester, 'Item 2');
-        expect(
-          node,
-          isSemantics(label: 'Item 2', isButton: true, hasTapAction: true),
-        );
-        expect(_rootMoves(node.getSemanticsData()).toSet(), {
-          'Move to the start',
-          'Move left',
-          'Move right',
-          'Move to the end',
-        });
-        handle.dispose();
-      },
-    );
-
-    testWidgets(
-      'fo06/us04/fr02/e11, fo06/us11/fr03/e03, fo08/us07/fr03/e04, s03/inv81: '
-      'R11b a disabled base component with no tap surface at the item root '
-      'joins the item node in every frame of a toggle',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        const off =
-            'label=Item 2 tap=false button=false enabled=isFalse moves=4';
-        const on = 'label=Item 2 tap=false button=false enabled=none moves=4';
         await tester.pumpWidget(
           _rootApp(
             _RootList(
               item: (id) => id == 2
-                  ? ValueListenableBuilder<bool>(
-                      valueListenable: _tileDisabled,
-                      builder: (context, disabled, _) =>
-                          _Tile(disabled: disabled, child: _row(id)),
+                  ? const ContainerLayout(
+                      semantics: SemanticsProperties(label: 'Row 2'),
+                      interaction: Interaction(onTap: _tapRow),
+                      child: SizedBox(width: 20, height: 20),
                     )
-                  : _row(id),
+                  : Text('Item $id'),
             ),
           ),
         );
-        expect(_shape(_rootNode(tester, 'Item 2')), off);
+        final node = tester.getSemantics(find.byKey(const ValueKey(2)));
         expect(
-          _shape(_rootNode(tester, 'Delete 2')),
-          'label=Delete 2 tap=false button=true enabled=isFalse moves=0',
+          node,
+          isSemantics(label: 'Row 2', isButton: true, hasTapAction: true),
         );
-        // FR-03 E04: the flag sits on the item's node, never on the list's.
-        for (
-          var node = _rootNode(tester, 'Item 2').parent;
-          node != null;
-          node = node.parent
-        ) {
-          expect(
-            node.getSemanticsData().flagsCollection.isEnabled.name,
-            'none',
-          );
-        }
-
-        _tileDisabled.value = false;
-        await tester.pump();
-        expect(_shape(_rootNode(tester, 'Item 2')), on);
-        expect(
-          _shape(_rootNode(tester, 'Delete 2')),
-          'label=Delete 2 tap=true button=true enabled=isTrue moves=0',
-        );
-
-        _tileDisabled.value = true;
-        await tester.pump();
-        expect(_shape(_rootNode(tester, 'Item 2')), off);
-        _rootMove(_rootNode(tester, 'Item 2'), 'Move up');
-        await tester.pumpAndSettle();
-        expect(_rootIds(tester), [0, 2, 1, 3, 4]);
+        expect(_rootMoves(node.getSemanticsData()), hasLength(4));
         handle.dispose();
       },
     );
 
-    testWidgets('fo06/us04/fr02/e11, s03/inv81: R6c a sibling beside a const '
-        'surface flips the join within one frame', (tester) async {
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: disable and '
+        'relabel a root row at run time', (tester) async {
       final handle = tester.ensureSemantics();
-      Widget item(int id) =>
-          id == 2 ? const _Sibling(surface: _constSurface) : Text('Item $id');
-      await expectFlips(tester, item);
-      handle.dispose();
-    });
-
-    testWidgets('fo06/us04/fr02/e11, s03/inv81: R6f a sibling beside a fresh '
-        'surface flips the join within one frame', (tester) async {
-      final handle = tester.ensureSemantics();
-      Widget item(int id) => id == 2
-          ? _Sibling(
-              surface: () =>
-                  StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
-            )
-          : Text('Item $id');
-      await expectFlips(tester, item);
-      handle.dispose();
-    });
-
-    testWidgets('fo06/us04/fr02/e11, s03/inv81: R6c2 a const surface read two '
-        'frames after each change', (tester) async {
-      final handle = tester.ensureSemantics();
-      Widget item(int id) =>
-          id == 2 ? const _Sibling(surface: _constSurface) : Text('Item $id');
-      // F12: each shape still holds a frame later than R6c reads it, with
-      // no further flip back.
-      await expectFlips(tester, item, frames: 2);
-      handle.dispose();
-    });
-
-    testWidgets('fo06/us04/fr02/e11, s03/inv81: R6d an inner control keeps its '
-        'node id across each flip', (tester) async {
-      final handle = tester.ensureSemantics();
-      Widget item(int id) => id == 2
-          ? _Sibling(
-              surface: () => ContainerLayout(
+      await _expectJoined(
+        tester,
+        (id) => id == 2
+            ? ValueListenableBuilder<bool>(
+                valueListenable: _rowDisabled,
+                builder: (context, disabled, _) => ContainerLayout(
+                  interaction: Interaction(onTap: _tapRow, disabled: disabled),
+                  child: ValueListenableBuilder<String>(
+                    valueListenable: _rowLabel,
+                    builder: (context, label, _) => Text(label),
+                  ),
+                ),
+              )
+            : ContainerLayout(
                 interaction: const Interaction(onTap: _tapRow),
-                child: _row(2),
+                child: Text('Item $id'),
               ),
-            )
-          : Text('Item $id');
-      await tester.pumpWidget(_rootApp(_RootList(item: item)));
-      await tester.pump();
-      final id0 = _rootNode(tester, 'Delete 2').id;
-      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+      );
 
-      _extra.value = true;
+      _rowLabel.value = 'Item 2b';
       await tester.pump();
-      expect(_rootNode(tester, 'Delete 2').id, id0);
-      await tester.pump();
-      expect(_rootNode(tester, 'Delete 2').id, id0);
-      expect(_shape(_rootNode(tester, 'Item 2')), _own);
+      // F6: the relabel is read by its new text.
+      expect(
+        _shape(_rootNode(tester, 'Item 2b')),
+        'label=Item 2b tap=true button=true enabled=isTrue moves=4',
+      );
 
-      _extra.value = false;
+      _rowDisabled.value = true;
       await tester.pump();
-      expect(_rootNode(tester, 'Delete 2').id, id0);
-      await tester.pump();
-      expect(_rootNode(tester, 'Delete 2').id, id0);
-      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+      expect(
+        _shape(_rootNode(tester, 'Item 2b')),
+        'label=Item 2b tap=false button=true enabled=isFalse moves=4',
+      );
 
+      _rowDisabled.value = false;
+      await tester.pump();
+      expect(
+        _shape(_rootNode(tester, 'Item 2b')),
+        'label=Item 2b tap=true button=true enabled=isTrue moves=4',
+      );
+      handle.dispose();
+    });
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: a horizontal '
+        'list names the moves left and right', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _rootApp(
+          _RootList(
+            scrollDirection: Axis.horizontal,
+            item: (id) =>
+                StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
+          ),
+        ),
+      );
+      final node = _rootNode(tester, 'Item 2');
+      expect(
+        node,
+        isSemantics(label: 'Item 2', isButton: true, hasTapAction: true),
+      );
+      expect(_rootMoves(node.getSemanticsData()).toSet(), {
+        'Move to the start',
+        'Move left',
+        'Move right',
+        'Move to the end',
+      });
+      handle.dispose();
+    });
+
+    testWidgets('fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo08/us07/fr03/e04, fo06_03/inv81: '
+        'R11b a disabled base component with no tap surface at the item root '
+        'joins the item node in every frame of a toggle', (tester) async {
+      final handle = tester.ensureSemantics();
+      const off = 'label=Item 2 tap=false button=false enabled=isFalse moves=4';
+      const on = 'label=Item 2 tap=false button=false enabled=none moves=4';
+      await tester.pumpWidget(
+        _rootApp(
+          _RootList(
+            item: (id) => id == 2
+                ? ValueListenableBuilder<bool>(
+                    valueListenable: _tileDisabled,
+                    builder: (context, disabled, _) =>
+                        _Tile(disabled: disabled, child: _row(id)),
+                  )
+                : _row(id),
+          ),
+        ),
+      );
+      expect(_shape(_rootNode(tester, 'Item 2')), off);
+      expect(
+        _shape(_rootNode(tester, 'Delete 2')),
+        'label=Delete 2 tap=false button=true enabled=isFalse moves=0',
+      );
+      // FR-03 E04: the flag sits on the item's node, never on the list's.
+      for (
+        var node = _rootNode(tester, 'Item 2').parent;
+        node != null;
+        node = node.parent
+      ) {
+        expect(node.getSemanticsData().flagsCollection.isEnabled.name, 'none');
+      }
+
+      _tileDisabled.value = false;
+      await tester.pump();
+      expect(_shape(_rootNode(tester, 'Item 2')), on);
       expect(
         _shape(_rootNode(tester, 'Delete 2')),
         'label=Delete 2 tap=true button=true enabled=isTrue moves=0',
       );
-      handle.dispose();
-    });
 
-    testWidgets('fo06/us04/fr02/e11, s03/inv81: inside the one-frame window a '
-        "tappable sibling's label may read with the row, and its tap "
-        'never joins the row node', (tester) async {
-      final handle = tester.ensureSemantics();
-      Widget item(int id) => id == 2
-          ? _Sibling(
-              surface: _constSurface,
-              extra: GestureDetector(
-                onTap: _tapExtra,
-                child: const Text('Extra'),
-              ),
-            )
-          : Text('Item $id');
-      await tester.pumpWidget(_rootApp(_RootList(item: item)));
+      _tileDisabled.value = true;
       await tester.pump();
-      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
-
-      _extra.value = true;
-      await tester.pump();
-      final windowRow = _rootNode(tester, 'Item 2');
-      expect(
-        windowRow.getSemanticsData().label,
-        anyOf('Item 2', 'Item 2\nExtra'),
-      );
-      final windowExtra = _rootNode(tester, 'Extra');
-      expect(identical(windowRow, windowExtra), isFalse);
-      _rootLog.clear();
-      windowRow.owner!.performAction(windowRow.id, SemanticsAction.tap);
-      windowExtra.owner!.performAction(windowExtra.id, SemanticsAction.tap);
-      expect(_rootLog, ['row', 'extra']);
-
-      await tester.pump();
-      final itemNode = _rootNode(tester, 'Item 2');
-      expect(_shape(itemNode), _own);
-      final extraNode = itemNode.parent!;
-      expect(identical(extraNode, itemNode), isFalse);
-      // Self-verifying: the lookup must land on the node that actually
-      // merged Extra's label, never pass on another ancestor.
-      expect(extraNode.getSemanticsData().label, contains('Extra'));
-      expect(_rootMoves(extraNode.getSemanticsData()), hasLength(4));
-      _rootLog.clear();
-      extraNode.owner!.performAction(extraNode.id, SemanticsAction.tap);
-      expect(_rootLog, ['extra']);
-
-      _extra.value = false;
-      await tester.pump();
-      await tester.pump();
-      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+      expect(_shape(_rootNode(tester, 'Item 2')), off);
+      _rootMove(_rootNode(tester, 'Item 2'), 'Move up');
+      await tester.pumpAndSettle();
+      expect(_rootIds(tester), [0, 2, 1, 3, 4]);
       handle.dispose();
     });
 
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: R5a a moving Dismissible reads as '
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: R6c a sibling beside a const '
+      'surface flips the join within one frame',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        Widget item(int id) =>
+            id == 2 ? const _Sibling(surface: _constSurface) : Text('Item $id');
+        await expectFlips(tester, item);
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: R6f a sibling beside a fresh '
+      'surface flips the join within one frame',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        Widget item(int id) => id == 2
+            ? _Sibling(
+                surface: () =>
+                    StratumInkWell(onTap: _tapRow, child: Text('Item $id')),
+              )
+            : Text('Item $id');
+        await expectFlips(tester, item);
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: R6c2 a const surface read two '
+      'frames after each change',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        Widget item(int id) =>
+            id == 2 ? const _Sibling(surface: _constSurface) : Text('Item $id');
+        // F12: each shape still holds a frame later than R6c reads it, with
+        // no further flip back.
+        await expectFlips(tester, item, frames: 2);
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: R6d an inner control keeps its '
+      'node id across each flip',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        Widget item(int id) => id == 2
+            ? _Sibling(
+                surface: () => ContainerLayout(
+                  interaction: const Interaction(onTap: _tapRow),
+                  child: _row(2),
+                ),
+              )
+            : Text('Item $id');
+        await tester.pumpWidget(_rootApp(_RootList(item: item)));
+        await tester.pump();
+        final id0 = _rootNode(tester, 'Delete 2').id;
+        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+
+        _extra.value = true;
+        await tester.pump();
+        expect(_rootNode(tester, 'Delete 2').id, id0);
+        await tester.pump();
+        expect(_rootNode(tester, 'Delete 2').id, id0);
+        expect(_shape(_rootNode(tester, 'Item 2')), _own);
+
+        _extra.value = false;
+        await tester.pump();
+        expect(_rootNode(tester, 'Delete 2').id, id0);
+        await tester.pump();
+        expect(_rootNode(tester, 'Delete 2').id, id0);
+        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+
+        expect(
+          _shape(_rootNode(tester, 'Delete 2')),
+          'label=Delete 2 tap=true button=true enabled=isTrue moves=0',
+        );
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: inside the one-frame window a '
+      "tappable sibling's label may read with the row, and its tap "
+      'never joins the row node',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        Widget item(int id) => id == 2
+            ? _Sibling(
+                surface: _constSurface,
+                extra: GestureDetector(
+                  onTap: _tapExtra,
+                  child: const Text('Extra'),
+                ),
+              )
+            : Text('Item $id');
+        await tester.pumpWidget(_rootApp(_RootList(item: item)));
+        await tester.pump();
+        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+
+        _extra.value = true;
+        await tester.pump();
+        final windowRow = _rootNode(tester, 'Item 2');
+        expect(
+          windowRow.getSemanticsData().label,
+          anyOf('Item 2', 'Item 2\nExtra'),
+        );
+        final windowExtra = _rootNode(tester, 'Extra');
+        expect(identical(windowRow, windowExtra), isFalse);
+        _rootLog.clear();
+        windowRow.owner!.performAction(windowRow.id, SemanticsAction.tap);
+        windowExtra.owner!.performAction(windowExtra.id, SemanticsAction.tap);
+        expect(_rootLog, ['row', 'extra']);
+
+        await tester.pump();
+        final itemNode = _rootNode(tester, 'Item 2');
+        expect(_shape(itemNode), _own);
+        final extraNode = itemNode.parent!;
+        expect(identical(extraNode, itemNode), isFalse);
+        // Self-verifying: the lookup must land on the node that actually
+        // merged Extra's label, never pass on another ancestor.
+        expect(extraNode.getSemanticsData().label, contains('Extra'));
+        expect(_rootMoves(extraNode.getSemanticsData()), hasLength(4));
+        _rootLog.clear();
+        extraNode.owner!.performAction(extraNode.id, SemanticsAction.tap);
+        expect(_rootLog, ['extra']);
+
+        _extra.value = false;
+        await tester.pump();
+        await tester.pump();
+        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: R5a a moving Dismissible reads as '
       'two stops and joins again at rest',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -19641,7 +19320,7 @@ void main() {
     );
 
     testWidgets(
-      'fo08/us07/fr03, fo06/us04/fr02/e11, s03/inv81: a disabled base '
+      'fo08/us07/fr03, fo06_02/us01/fr02/e11, fo06_03/inv81: a disabled base '
       'component at the root flips with its surface on a sibling add '
       'and remove',
       (tester) async {
@@ -19680,7 +19359,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: removing a root row exits with no '
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: removing a root row exits with no '
       'assert and the rows beside it stay joined',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -19708,117 +19387,122 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: I1 a '
-        'ReorderableListViewLayout nested inside a row of another one keeps '
-        'the outer and inner rows each joined to their own item root', (
-      tester,
-    ) async {
-      final handle = tester.ensureSemantics();
-      final innerIds = [0, 1];
-      Widget inner() => SizedBox(
-        height: 60,
-        child: ReorderableListViewLayout.builder(
-          itemExtent: 24,
-          itemCount: innerIds.length,
-          onReorderItem: (from, to) =>
-              innerIds.insert(to, innerIds.removeAt(from)),
-          itemBuilder: (context, index) => KeyedSubtree(
-            key: ValueKey('inner${innerIds[index]}'),
-            child: StratumInkWell(
-              onTap: _tapInner,
-              child: Text('Inner ${innerIds[index]}'),
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: I1 a '
+      'ReorderableListViewLayout nested inside a row of another one keeps '
+      'the outer and inner rows each joined to their own item root',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        final innerIds = [0, 1];
+        Widget inner() => SizedBox(
+          height: 60,
+          child: ReorderableListViewLayout.builder(
+            itemExtent: 24,
+            itemCount: innerIds.length,
+            onReorderItem: (from, to) =>
+                innerIds.insert(to, innerIds.removeAt(from)),
+            itemBuilder: (context, index) => KeyedSubtree(
+              key: ValueKey('inner${innerIds[index]}'),
+              child: StratumInkWell(
+                onTap: _tapInner,
+                child: Text('Inner ${innerIds[index]}'),
+              ),
             ),
           ),
-        ),
-      );
-      await tester.pumpWidget(
-        _rootApp(
-          _RootList(
-            item: (id) => id == 2
-                ? StratumInkWell(
-                    onTap: _tapRow,
-                    child: ColumnLayout(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [const Text('Item 2'), inner()],
-                    ),
-                  )
-                : Text('Item $id'),
-          ),
-        ),
-      );
-      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
-      expect(
-        _rootNode(tester, 'Inner 0'),
-        isSemantics(label: 'Inner 0', isButton: true, hasTapAction: true),
-      );
-      expect(
-        _rootNode(tester, 'Inner 1'),
-        isSemantics(label: 'Inner 1', isButton: true, hasTapAction: true),
-      );
-      _rootLog.clear();
-      await tester.tap(find.text('Inner 0'));
-      await tester.pump();
-      expect(_rootLog, ['inner']);
-      final rowNode = _rootNode(tester, 'Item 2');
-      rowNode.owner!.performAction(rowNode.id, SemanticsAction.tap);
-      await tester.pump();
-      expect(_rootLog, ['inner', 'row']);
-      handle.dispose();
-    });
-
-    testWidgets('fo08/us07/fr03, fo06/us04/fr02/e11, s03/inv81: M1 two stacked '
-        'disabled layers over a root surface both hide and the outer '
-        "layer's toggle still flips the surface", (tester) async {
-      final handle = tester.ensureSemantics();
-      const off = 'label=Item 2 tap=false button=true enabled=isFalse moves=4';
-      await tester.pumpWidget(
-        _rootApp(
-          _RootList(
-            item: (id) => id == 2
-                ? ValueListenableBuilder<bool>(
-                    valueListenable: _tileDisabled,
-                    builder: (context, disabled, _) => _Tile(
-                      disabled: disabled,
-                      child: const _Tile(
-                        disabled: false,
-                        child: StratumInkWell(
-                          onTap: _tapRow,
-                          child: Text('Item 2'),
-                        ),
-                      ),
-                    ),
-                  )
-                : _Tile(
-                    child: StratumInkWell(
+        );
+        await tester.pumpWidget(
+          _rootApp(
+            _RootList(
+              item: (id) => id == 2
+                  ? StratumInkWell(
                       onTap: _tapRow,
-                      child: Text('Item $id'),
-                    ),
-                  ),
+                      child: ColumnLayout(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [const Text('Item 2'), inner()],
+                      ),
+                    )
+                  : Text('Item $id'),
+            ),
           ),
-        ),
-      );
-      expect(_shape(_rootNode(tester, 'Item 2')), off);
-
-      _tileDisabled.value = false;
-      await tester.pump();
-      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
-      final enabledNode = _rootNode(tester, 'Item 2');
-      _rootLog.clear();
-      enabledNode.owner!.performAction(enabledNode.id, SemanticsAction.tap);
-      await tester.pump();
-      expect(_rootLog, ['row']);
-
-      _tileDisabled.value = true;
-      await tester.pump();
-      expect(_shape(_rootNode(tester, 'Item 2')), off);
-      _rootMove(_rootNode(tester, 'Item 2'), 'Move up');
-      await tester.pumpAndSettle();
-      expect(_rootIds(tester), [0, 2, 1, 3, 4]);
-      handle.dispose();
-    });
+        );
+        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+        expect(
+          _rootNode(tester, 'Inner 0'),
+          isSemantics(label: 'Inner 0', isButton: true, hasTapAction: true),
+        );
+        expect(
+          _rootNode(tester, 'Inner 1'),
+          isSemantics(label: 'Inner 1', isButton: true, hasTapAction: true),
+        );
+        _rootLog.clear();
+        await tester.tap(find.text('Inner 0'));
+        await tester.pump();
+        expect(_rootLog, ['inner']);
+        final rowNode = _rootNode(tester, 'Item 2');
+        rowNode.owner!.performAction(rowNode.id, SemanticsAction.tap);
+        await tester.pump();
+        expect(_rootLog, ['inner', 'row']);
+        handle.dispose();
+      },
+    );
 
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: M2 removing a root row while its '
+      'fo08/us07/fr03, fo06_02/us01/fr02/e11, fo06_03/inv81: M1 two stacked '
+      'disabled layers over a root surface both hide and the outer '
+      "layer's toggle still flips the surface",
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        const off =
+            'label=Item 2 tap=false button=true enabled=isFalse moves=4';
+        await tester.pumpWidget(
+          _rootApp(
+            _RootList(
+              item: (id) => id == 2
+                  ? ValueListenableBuilder<bool>(
+                      valueListenable: _tileDisabled,
+                      builder: (context, disabled, _) => _Tile(
+                        disabled: disabled,
+                        child: const _Tile(
+                          disabled: false,
+                          child: StratumInkWell(
+                            onTap: _tapRow,
+                            child: Text('Item 2'),
+                          ),
+                        ),
+                      ),
+                    )
+                  : _Tile(
+                      child: StratumInkWell(
+                        onTap: _tapRow,
+                        child: Text('Item $id'),
+                      ),
+                    ),
+            ),
+          ),
+        );
+        expect(_shape(_rootNode(tester, 'Item 2')), off);
+
+        _tileDisabled.value = false;
+        await tester.pump();
+        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+        final enabledNode = _rootNode(tester, 'Item 2');
+        _rootLog.clear();
+        enabledNode.owner!.performAction(enabledNode.id, SemanticsAction.tap);
+        await tester.pump();
+        expect(_rootLog, ['row']);
+
+        _tileDisabled.value = true;
+        await tester.pump();
+        expect(_shape(_rootNode(tester, 'Item 2')), off);
+        _rootMove(_rootNode(tester, 'Item 2'), 'Move up');
+        await tester.pumpAndSettle();
+        expect(_rootIds(tester), [0, 2, 1, 3, 4]);
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: M2 removing a root row while its '
       'flip is still pending from the same frame throws no assert',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -19849,111 +19533,121 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us04/fr02/e11, fo06/us11/fr03/e03, s03/inv81: M3 a root '
-        'surface that swaps widget type across a rebuild still joins once a '
-        'surface is back', (tester) async {
-      final handle = tester.ensureSemantics();
-      await tester.pumpWidget(
-        _rootApp(
-          _RootList(
-            item: (id) => id == 2
-                ? ValueListenableBuilder<int>(
-                    valueListenable: _rootShape,
-                    builder: (context, shape, _) => shape == 1
-                        ? const Text('Item 2')
-                        : const StratumInkWell(
-                            onTap: _tapRow,
-                            child: Text('Item 2'),
-                          ),
-                  )
-                : Text('Item $id'),
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/us05/fr03/e03, fo06_03/inv81: M3 a root '
+      'surface that swaps widget type across a rebuild still joins once a '
+      'surface is back',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await tester.pumpWidget(
+          _rootApp(
+            _RootList(
+              item: (id) => id == 2
+                  ? ValueListenableBuilder<int>(
+                      valueListenable: _rootShape,
+                      builder: (context, shape, _) => shape == 1
+                          ? const Text('Item 2')
+                          : const StratumInkWell(
+                              onTap: _tapRow,
+                              child: Text('Item 2'),
+                            ),
+                    )
+                  : Text('Item $id'),
+            ),
           ),
-        ),
-      );
-      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+        );
+        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
 
-      _rootShape.value = 1;
-      await tester.pump();
-      expect(
-        _shape(_rootNode(tester, 'Item 2')),
-        'label=Item 2 tap=false button=false enabled=none moves=4',
-      );
+        _rootShape.value = 1;
+        await tester.pump();
+        expect(
+          _shape(_rootNode(tester, 'Item 2')),
+          'label=Item 2 tap=false button=false enabled=none moves=4',
+        );
 
-      _rootShape.value = 2;
-      await tester.pump();
-      expect(_shape(_rootNode(tester, 'Item 2')), _joined);
-      final node = _rootNode(tester, 'Item 2');
-      _rootLog.clear();
-      node.owner!.performAction(node.id, SemanticsAction.tap);
-      await tester.pump();
-      expect(_rootLog, ['row']);
-      handle.dispose();
-    });
-
-    testWidgets('fo08/us07/fr03, s03/inv81: final review I1 a disabled base '
-        'component over a root surface with only onHover reads disabled '
-        'in every frame of a toggle', (tester) async {
-      final handle = tester.ensureSemantics();
-      const off = 'label=Item 2 tap=false button=false enabled=isFalse moves=4';
-      const on = 'label=Item 2 tap=false button=false enabled=none moves=4';
-      await tester.pumpWidget(
-        _rootApp(
-          _RootList(
-            item: (id) => id == 2
-                ? ValueListenableBuilder<bool>(
-                    valueListenable: _tileDisabled,
-                    builder: (context, disabled, _) => _Tile(
-                      disabled: disabled,
-                      child: ContainerLayout(
-                        interaction: Interaction(onHover: (_) {}),
-                        child: const Text('Item 2'),
-                      ),
-                    ),
-                  )
-                : _Tile(child: Text('Item $id')),
-          ),
-        ),
-      );
-      expect(_shape(_rootNode(tester, 'Item 2')), off);
-
-      _tileDisabled.value = false;
-      await tester.pump();
-      expect(_shape(_rootNode(tester, 'Item 2')), on);
-
-      _tileDisabled.value = true;
-      await tester.pump();
-      expect(_shape(_rootNode(tester, 'Item 2')), off);
-      handle.dispose();
-    });
-
-    testWidgets('fo08/us07/fr03, s03/inv81: final review I1 a disabled base '
-        'component over a root surface with only onFocusChange still reads '
-        'disabled', (tester) async {
-      final handle = tester.ensureSemantics();
-      await tester.pumpWidget(
-        _rootApp(
-          _RootList(
-            item: (id) => id == 2
-                ? _Tile(
-                    disabled: true,
-                    child: ContainerLayout(
-                      interaction: Interaction(onFocusChange: (_) {}),
-                      child: const Text('Item 2'),
-                    ),
-                  )
-                : _Tile(child: Text('Item $id')),
-          ),
-        ),
-      );
-      expect(
-        _shape(_rootNode(tester, 'Item 2')),
-        'label=Item 2 tap=false button=false enabled=isFalse moves=4',
-      );
-      handle.dispose();
-    });
+        _rootShape.value = 2;
+        await tester.pump();
+        expect(_shape(_rootNode(tester, 'Item 2')), _joined);
+        final node = _rootNode(tester, 'Item 2');
+        _rootLog.clear();
+        node.owner!.performAction(node.id, SemanticsAction.tap);
+        await tester.pump();
+        expect(_rootLog, ['row']);
+        handle.dispose();
+      },
+    );
 
     testWidgets(
-      'fo08/us07/fr03, s03/inv81: final review I3 R11a mounted before the '
+      'fo08/us07/fr03, fo06_03/inv81: final review I1 a disabled base '
+      'component over a root surface with only onHover reads disabled '
+      'in every frame of a toggle',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        const off =
+            'label=Item 2 tap=false button=false enabled=isFalse moves=4';
+        const on = 'label=Item 2 tap=false button=false enabled=none moves=4';
+        await tester.pumpWidget(
+          _rootApp(
+            _RootList(
+              item: (id) => id == 2
+                  ? ValueListenableBuilder<bool>(
+                      valueListenable: _tileDisabled,
+                      builder: (context, disabled, _) => _Tile(
+                        disabled: disabled,
+                        child: ContainerLayout(
+                          interaction: Interaction(onHover: (_) {}),
+                          child: const Text('Item 2'),
+                        ),
+                      ),
+                    )
+                  : _Tile(child: Text('Item $id')),
+            ),
+          ),
+        );
+        expect(_shape(_rootNode(tester, 'Item 2')), off);
+
+        _tileDisabled.value = false;
+        await tester.pump();
+        expect(_shape(_rootNode(tester, 'Item 2')), on);
+
+        _tileDisabled.value = true;
+        await tester.pump();
+        expect(_shape(_rootNode(tester, 'Item 2')), off);
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo08/us07/fr03, fo06_03/inv81: final review I1 a disabled base '
+      'component over a root surface with only onFocusChange still reads '
+      'disabled',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await tester.pumpWidget(
+          _rootApp(
+            _RootList(
+              item: (id) => id == 2
+                  ? _Tile(
+                      disabled: true,
+                      child: ContainerLayout(
+                        interaction: Interaction(onFocusChange: (_) {}),
+                        child: const Text('Item 2'),
+                      ),
+                    )
+                  : _Tile(child: Text('Item $id')),
+            ),
+          ),
+        );
+        expect(
+          _shape(_rootNode(tester, 'Item 2')),
+          'label=Item 2 tap=false button=false enabled=isFalse moves=4',
+        );
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo08/us07/fr03, fo06_03/inv81: final review I3 R11a mounted before the '
       'screen reader turns on reads disabled once semantics turns on',
       (tester) async {
         await tester.pumpWidget(
@@ -19988,7 +19682,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: final review I3 R1 mounted before '
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: final review I3 R1 mounted before '
       'the screen reader turns on still joins once semantics turns on',
       (tester) async {
         await tester.pumpWidget(
@@ -20008,7 +19702,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us04/fr02/e11, s03/inv81: final review M1 an app GlobalKey '
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: final review M1 an app GlobalKey '
       'moving a root surface from one live item to another still joins',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -20047,53 +19741,56 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us04/fr02/e11, s03/inv81: final review M2 a run-time '
-        'activation toggle under a disabled base component re-flags the '
-        'pass node', (tester) async {
-      final handle = tester.ensureSemantics();
-      final tap = ValueNotifier<bool>(false);
-      await tester.pumpWidget(
-        _rootApp(
-          _RootList(
-            item: (id) => id == 2
-                ? _Tile(
-                    disabled: true,
-                    child: ValueListenableBuilder<bool>(
-                      valueListenable: tap,
-                      builder: (context, canTap, _) => ContainerLayout(
-                        interaction: Interaction(
-                          onHover: (_) {},
-                          onTap: canTap ? _tapRow : null,
+    testWidgets(
+      'fo06_02/us01/fr02/e11, fo06_03/inv81: final review M2 a run-time '
+      'activation toggle under a disabled base component re-flags the '
+      'pass node',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        final tap = ValueNotifier<bool>(false);
+        await tester.pumpWidget(
+          _rootApp(
+            _RootList(
+              item: (id) => id == 2
+                  ? _Tile(
+                      disabled: true,
+                      child: ValueListenableBuilder<bool>(
+                        valueListenable: tap,
+                        builder: (context, canTap, _) => ContainerLayout(
+                          interaction: Interaction(
+                            onHover: (_) {},
+                            onTap: canTap ? _tapRow : null,
+                          ),
+                          child: const Text('Item 2'),
                         ),
-                        child: const Text('Item 2'),
                       ),
-                    ),
-                  )
-                : _Tile(child: Text('Item $id')),
+                    )
+                  : _Tile(child: Text('Item $id')),
+            ),
           ),
-        ),
-      );
-      expect(
-        _shape(_rootNode(tester, 'Item 2')),
-        'label=Item 2 tap=false button=false enabled=isFalse moves=4',
-      );
+        );
+        expect(
+          _shape(_rootNode(tester, 'Item 2')),
+          'label=Item 2 tap=false button=false enabled=isFalse moves=4',
+        );
 
-      tap.value = true;
-      await tester.pump();
-      await tester.pump();
-      expect(
-        _shape(_liveRootNode(tester, 'Item 2')),
-        'label=Item 2 tap=false button=true enabled=isFalse moves=4',
-      );
+        tap.value = true;
+        await tester.pump();
+        await tester.pump();
+        expect(
+          _shape(_liveRootNode(tester, 'Item 2')),
+          'label=Item 2 tap=false button=true enabled=isFalse moves=4',
+        );
 
-      tap.value = false;
-      await tester.pump();
-      await tester.pump();
-      expect(
-        _shape(_liveRootNode(tester, 'Item 2')),
-        'label=Item 2 tap=false button=false enabled=isFalse moves=4',
-      );
-      handle.dispose();
-    });
+        tap.value = false;
+        await tester.pump();
+        await tester.pump();
+        expect(
+          _shape(_liveRootNode(tester, 'Item 2')),
+          'label=Item 2 tap=false button=false enabled=isFalse moves=4',
+        );
+        handle.dispose();
+      },
+    );
   });
 }

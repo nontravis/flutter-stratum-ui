@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/src.dart';
 
 void main() {
-  test('fo06/us04/fr03: R5, freezed-models convention, the split layout '
+  test('fo06_04/us04/fr05: R5, freezed-models convention, the split layout '
       'style holds its divider focus look, with value == and copyWith', () {
     // Built at run time from a parameter, so the checks read `==`.
     SplitLayoutStyle make(Color color) => SplitLayoutStyle(

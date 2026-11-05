@@ -30,30 +30,36 @@ void main() {
     }
   });
 
-  test('fo06/us18/fr03: PageLayoutStyle has value equality and copyWith', () {
-    // Built at run time from a parameter, so no const canonicalization
-    // makes them one instance and the check reads `==`, not identity.
-    PageLayoutStyle make(double width) =>
-        PageLayoutStyle(header: WidgetStyle(width: width));
-    final a = make(1);
-    final b = make(1);
-    expect(identical(a, b), isFalse);
-    expect(a, b);
-    expect(a.hashCode, b.hashCode);
-    final c = a.copyWith(header: const WidgetStyle(width: 2));
-    expect(c.header, const WidgetStyle(width: 2));
-    expect(c.outer, a.outer);
-  });
-
-  test('fo06/us18/fr03: PageLayoutStyle copyWith sets a nullable field back to '
-      'null', () {
-    const a = PageLayoutStyle(header: WidgetStyle(width: 1));
-    final c = a.copyWith(header: null);
-    expect(c.header, isNull);
-  });
+  test(
+    'fo06_04/us01/fr03: PageLayoutStyle has value equality and copyWith',
+    () {
+      // Built at run time from a parameter, so no const canonicalization
+      // makes them one instance and the check reads `==`, not identity.
+      PageLayoutStyle make(double width) =>
+          PageLayoutStyle(header: WidgetStyle(width: width));
+      final a = make(1);
+      final b = make(1);
+      expect(identical(a, b), isFalse);
+      expect(a, b);
+      expect(a.hashCode, b.hashCode);
+      final c = a.copyWith(header: const WidgetStyle(width: 2));
+      expect(c.header, const WidgetStyle(width: 2));
+      expect(c.outer, a.outer);
+    },
+  );
 
   test(
-    'fo06/us18/fr03: merge replaces only the fields the other style sets',
+    'fo06_04/us01/fr03: PageLayoutStyle copyWith sets a nullable field back to '
+    'null',
+    () {
+      const a = PageLayoutStyle(header: WidgetStyle(width: 1));
+      final c = a.copyWith(header: null);
+      expect(c.header, isNull);
+    },
+  );
+
+  test(
+    'fo06_04/us01/fr03: merge replaces only the fields the other style sets',
     () {
       const base = PageLayoutStyle(
         body: WidgetStyle(width: 1, height: 2),

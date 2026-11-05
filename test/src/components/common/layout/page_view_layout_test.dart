@@ -101,7 +101,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us10/fr03: style.padding insets the viewport and does not '
+      'fo06_03/us04/fr03: style.padding insets the viewport and does not '
       'scroll',
       (tester) async {
         final controller = PageController();
@@ -152,31 +152,27 @@ void main() {
       expect(controller.page, 1);
     }, variant: TargetPlatformVariant.only(TargetPlatform.macOS));
 
-    testWidgets(
-      'fo06/us10/fr02, fo06/us10/s5: Page Down from an item moves focus to '
-      "the new page's first node",
-      (tester) async {
-        final before = _node('before');
-        await tester.pumpWidget(
-          _keyboardHost(
-            PageViewLayout(children: [_page(0), _page(1), _page(2)]),
-            before: before,
-          ),
-        );
-        before.requestFocus();
-        await tester.pump();
-        await _key(tester, LogicalKeyboardKey.tab);
-        await _key(tester, LogicalKeyboardKey.tab);
-        await _key(tester, LogicalKeyboardKey.tab);
-        expect(_focused(), 'p0.1');
+    testWidgets('fo06_03/us04/fr02, fo06_03/us04/s5: Page Down from an item moves focus to '
+        "the new page's first node", (tester) async {
+      final before = _node('before');
+      await tester.pumpWidget(
+        _keyboardHost(
+          PageViewLayout(children: [_page(0), _page(1), _page(2)]),
+          before: before,
+        ),
+      );
+      before.requestFocus();
+      await tester.pump();
+      await _key(tester, LogicalKeyboardKey.tab);
+      await _key(tester, LogicalKeyboardKey.tab);
+      await _key(tester, LogicalKeyboardKey.tab);
+      expect(_focused(), 'p0.1');
 
-        await _key(tester, LogicalKeyboardKey.pageDown);
+      await _key(tester, LogicalKeyboardKey.pageDown);
 
-        expect(_shown(tester), 1);
-        expect(_focused(), 'p1.0');
-      },
-      variant: TargetPlatformVariant.only(TargetPlatform.macOS),
-    );
+      expect(_shown(tester), 1);
+      expect(_focused(), 'p1.0');
+    }, variant: TargetPlatformVariant.only(TargetPlatform.macOS));
 
     testWidgets(
       'Page Down from an item moves focus to the Tab stop of a focusable '
@@ -266,7 +262,7 @@ void main() {
     }, variant: TargetPlatformVariant.only(TargetPlatform.macOS));
 
     testWidgets(
-      'fo06/us10/fr02/e02: with implicitScrolling, Tab visits every node of '
+      'fo06_03/us04/fr02/e02: with implicitScrolling, Tab visits every node of '
       'page 0 before page 1, and Tab into page 1 shows it whole',
       (tester) async {
         final before = _node('before');
@@ -372,7 +368,7 @@ void main() {
           tester.widget<PageView>(find.byType(PageView));
 
       testWidgets(
-        'fo06/us10/fr03: null leaves implicit scrolling off and the extent '
+        'fo06_03/us04/fr03: null leaves implicit scrolling off and the extent '
         'at zero, on both constructors',
         (tester) async {
           await tester.pumpWidget(
@@ -401,7 +397,7 @@ void main() {
       );
 
       testWidgets(
-        'fo06/us10/fr03: a value turns implicit scrolling on with one '
+        'fo06_03/us04/fr03: a value turns implicit scrolling on with one '
         'viewport of cache extent by default, on both constructors',
         (tester) async {
           await tester.pumpWidget(
@@ -436,7 +432,7 @@ void main() {
       );
 
       testWidgets(
-        'fo06/us10/fr03: the value passes its scroll cache extent to the '
+        'fo06_03/us04/fr03: the value passes its scroll cache extent to the '
         'page view',
         (tester) async {
           await tester.pumpWidget(
@@ -458,7 +454,7 @@ void main() {
         },
       );
 
-      test('fo06/us10/fr03/e03: a cache extent of zero or below fails the '
+      test('fo06_03/us04/fr03/e03: a cache extent of zero or below fails the '
           'assertion with a message that names the extent', () {
         for (final extent in const [
           ScrollCacheExtent.viewport(0),

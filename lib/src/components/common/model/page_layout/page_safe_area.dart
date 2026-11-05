@@ -4,8 +4,8 @@ import 'package:stratum_ui/src/themes/value_model.dart';
 part 'generated/page_safe_area.freezed.dart';
 
 /// Which sides of a `PageLayout` pad their slots by the system insets
-/// (US-18 FR-04): Figma's `safeStatusBar` is [top] and its `safeIndicator`
-/// is [bottom].
+/// (FO-06-04 US-01 FR-04): Figma's `safeStatusBar` is [top] and its
+/// `safeIndicator` is [bottom].
 ///
 /// A false flag drops that side's padding from every slot, while every slot
 /// fill still runs to the screen edge, and a slot touching that edge keeps

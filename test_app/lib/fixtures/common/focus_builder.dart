@@ -1,7 +1,7 @@
 import 'package:stratum_ui/stratum_ui.dart';
 
-/// Group-label fixture for the `semantics` of a `FocusBuilder` (FO-06 US-16
-/// FR-04 E01).
+/// Group-label fixture for the `semantics` of a `FocusBuilder`
+/// (FO-06-02 US-04 FR-04 E01).
 ///
 /// Text `Delivery form` (id `focus_builder.heading`), then the address group
 /// labeled `ที่อยู่จัดส่ง` around one plain text field labeled `ถนน`, as a

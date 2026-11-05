@@ -5,7 +5,7 @@ import 'package:stratum_ui/src/themes/value_model.dart';
 part 'generated/page_layout_style.freezed.dart';
 
 /// One `WidgetStyle` per slot of a `PageLayout`, plus [outer], the page's
-/// own box, each merged field by field over the theme defaults (US-18
+/// own box, each merged field by field over the theme defaults (FO-06-04 US-01
 /// FR-03; NFR-E02).
 ///
 /// Register one app-wide through `StratumThemeApplication(

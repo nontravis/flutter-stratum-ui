@@ -280,7 +280,7 @@ class ScrollFocus extends StatefulWidget {
 
   /// This area's own style: its `focus` field restyles this area's focus
   /// ring, level 3, over the app-wide `ScrollFocusStyle` under `ScrollFocus`
-  /// in `componentPartDefaults`, level 2 (FO-06 US-07 FR-03); every field of
+  /// in `componentPartDefaults`, level 2 (FO-06-03 US-03 FR-03); every field of
   /// it takes effect (NFR-E02).
   final ScrollFocusStyle? customStyle;
   final Widget child;
@@ -477,7 +477,7 @@ class _ScrollFocusState extends State<ScrollFocus> with WidgetsBindingObserver {
 
   /// Whether the box grown by the ring's resolved gap and width, and a
   /// second ring's width when one is set, [focusBorderOutsideReach], lies
-  /// wholly inside the window (FO-06 US-07 FR-03 E01).
+  /// wholly inside the window (FO-06-03 US-03 FR-03 E01).
   bool _outerRingFits() {
     final box = context.findRenderObject();
     if (box is! RenderBox || !box.hasSize) return true;
@@ -1298,7 +1298,7 @@ class ScrollViewBox extends StatelessWidget {
   final bool? showScrollbar;
 
   /// The view's ring style, level 3, beside [style], which draws the box;
-  /// handed to [ScrollFocus] as its `customStyle` (FO-06 US-07 FR-03).
+  /// handed to [ScrollFocus] as its `customStyle` (FO-06-03 US-03 FR-03).
   final ScrollFocusStyle? scrollFocusStyle;
 
   /// Whether `style.padding` scrolls with the content, handed to [builder];

@@ -16,7 +16,7 @@ enum PageDrawerSide {
 }
 
 /// The drawer type a side with no type takes on [platform]: `slide` on iOS
-/// and `front` elsewhere (US-19 FR-02 E01, E02).
+/// and `front` elsewhere (FO-06-04 US-02 FR-02 E01, E02).
 PageDrawerType defaultDrawerType(TargetPlatform platform) =>
     platform == TargetPlatform.iOS
     ? PageDrawerType.slide
@@ -26,8 +26,8 @@ PageDrawerType defaultDrawerType(TargetPlatform platform) =>
 PageDrawerType resolveDrawerType(PageSide side, TargetPlatform platform) =>
     side.type ?? defaultDrawerType(platform);
 
-/// A drawer's width in a `PageLayout` box [boxWidth] wide: 80% of it, at
-/// most [max], else 360, and at least [min] (US-19 FR-04 E01 to E03, E09);
+/// A drawer's width in a `PageLayout` box [boxWidth] wide: 80% of it, at most
+/// [max], else 360, and at least [min] (FO-06-04 US-02 FR-04 E01 to E03, E09);
 /// the stage clamps it to the box (E10).
 double drawerWidth(double boxWidth, {double? min, double? max}) {
   final upper = max ?? 360;
@@ -47,21 +47,21 @@ typedef _Drawn = ({
 });
 
 /// The drawers of a [PageLayout] around [child], the page: both sides below
-/// the drawer cut, and the right overlay drawer at and above it (layout s03
-/// INV-65 to INV-69).
+/// the drawer cut, and the right overlay drawer at and above it
+/// (FO-06-04 INV-65 to INV-69).
 ///
-/// While [shown] names a side, its panel from [panel] sits on that side's
-/// edge of `PageLayout`'s own box at the drawer width, and the page behind
-/// sits under the [Scrim]; [progress] moves them by the side's type, or only
-/// fades the panel under `context.reducesMotion`. While a drawer shows, the
-/// panel, the page, and the scrim stay inside that box (layout s03
-/// INV-67 and INV-83). The panel reads as its own named
-/// screen, keeps focus in [focusNode], and closes by Esc; the scrim reads
-/// the dismiss label and closes by a tap; back closes it while [open]
-/// holds, before the route pops. A drag on the shown drawer, or one from a
-/// side's edge of the box while [edgeSwipe] holds, reports through
-/// [onDragStart], [onDragUpdate], and [onDragEnd]; on iOS the start edge of
-/// a page that can go back is left to the back swipe (US-19 FR-03 E03).
+/// While [shown] names a side, its panel from [panel] sits on that side's edge
+/// of `PageLayout`'s own box at the drawer width, and the page behind sits
+/// under the [Scrim]; [progress] moves them by the side's type, or only fades
+/// the panel under `context.reducesMotion`. While a drawer shows, the panel,
+/// the page, and the scrim stay inside that box (FO-06-04 INV-67 and INV-83).
+/// The panel reads as its own named screen, keeps focus in [focusNode], and
+/// closes by Esc; the scrim reads the dismiss label and closes by a tap; back
+/// closes it while [open] holds, before the route pops. A drag on the shown
+/// drawer, or one from a side's edge of the box while [edgeSwipe] holds,
+/// reports through [onDragStart], [onDragUpdate], and [onDragEnd]; on iOS the
+/// start edge of a page that can go back is left to the back swipe
+/// (FO-06-04 US-02 FR-03 E03).
 class PageDrawerStage extends StatelessWidget {
   const new({
     super.key,
@@ -161,7 +161,7 @@ class PageDrawerStage extends StatelessWidget {
                   ),
             // The outermost ClipRect inside the stage: bounds the panel, the
             // page, and the scrim to PageLayout's own box while a drawer
-            // shows (layout s03 INV-67 and INV-83).
+            // shows (FO-06-04 INV-67 and INV-83).
             child: ClipRect(
               clipBehavior: drawn == null ? Clip.none : Clip.hardEdge,
               child: StackLayout(
@@ -213,7 +213,7 @@ class PageDrawerStage extends StatelessWidget {
     double box,
   ) {
     // A drawer never runs past PageLayout's own box, even the overlay
-    // drawer in a box narrower than its width (layout s03 INV-67
+    // drawer in a box narrower than its width (FO-06-04 INV-67
     // and INV-69).
     return (
       width: math.min(
@@ -231,7 +231,7 @@ class PageDrawerStage extends StatelessWidget {
 
   /// [child] with the scrim over it while a drawer shows, moved aside by a
   /// `back` or `slide` drawer, and then scaled by the side's page scale and
-  /// rounded with the screen radius (US-19 FR-02 E04).
+  /// rounded with the screen radius (FO-06-04 US-02 FR-02 E04).
   ///
   /// Every frame keeps the same widgets around [child], so the page keeps
   /// its state as a drawer opens and closes. While a drawer shows, the page
@@ -239,8 +239,8 @@ class PageDrawerStage extends StatelessWidget {
   /// screen readers, even when a `back` panel paints under it. The scrim's
   /// dismiss label and action merge into this container's node, which sits
   /// outside the page's transform, so a screen reader finds the dismiss at
-  /// every drawer width, a drawer as wide as the box included (layout s03
-  /// INV-67 and INV-68; US-19 FR-05 E04).
+  /// every drawer width, a drawer as wide as the box included
+  /// (FO-06-04 INV-67 and INV-68; FO-06-04 US-02 FR-05 E04).
   Widget _page(BuildContext context, _Drawn? drawn, bool reduced) {
     final motion =
         !reduced &&
@@ -294,7 +294,7 @@ class PageDrawerStage extends StatelessWidget {
 
   /// [drawn]'s panel on its edge of the box, under the named route scope, the
   /// focus scope, and Esc; it moves in for `front` and `slide`, stays still
-  /// for `back` and `permanent`, and only fades when [reduced] (US-19
+  /// for `back` and `permanent`, and only fades when [reduced] (FO-06-04 US-02
   /// FR-02, FR-04, FR-05).
   Widget _panel(BuildContext context, _Drawn drawn, bool reduced) {
     final screen = context.deviceWindow.radius ?? BorderRadius.zero;
@@ -355,8 +355,8 @@ class PageDrawerStage extends StatelessWidget {
 
   /// The strip on [side]'s edge of the box that starts an edge swipe; an empty
   /// box where the side has no drawer, [edgeSwipe] is off, another side's
-  /// drawer shows, or the iOS back swipe owns the edge (US-19 FR-03 E03 to
-  /// E05).
+  /// drawer shows, or the iOS back swipe owns the edge (FO-06-04 US-02 FR-03
+  /// E03 to E05).
   Widget _edge(
     BuildContext context,
     PageDrawerSide side,

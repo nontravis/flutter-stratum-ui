@@ -6,7 +6,7 @@ part 'generated/stratum_ink_well_style.freezed.dart';
 
 /// The tap surface's own style: it holds the surface's focus ring look next
 /// to the surface's other looks, as Flutter's `ButtonStyle` holds a button's
-/// focused look (FO-06 US-04 FR-03). Registered under `StratumInkWell` in
+/// focused look (FO-06-02 US-01 FR-03). Registered under `StratumInkWell` in
 /// `componentPartDefaults` it is level 2 of every tap surface's ring;
 /// passed as one surface's `customStyle` it is level 3.
 @valueModel

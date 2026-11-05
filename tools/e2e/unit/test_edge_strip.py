@@ -1,4 +1,4 @@
-"""Unit tests for the edge-strip pixel judge (FO-06 US-19 FR-04 E09)."""
+"""Unit tests for the edge-strip pixel judge (FO-06-04 US-02 FR-04 E09)."""
 
 from __future__ import annotations
 

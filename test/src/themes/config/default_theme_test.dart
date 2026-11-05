@@ -157,7 +157,7 @@ void main() {
     expect(config.color.highContrastDark[ring], const Color(0xFF60A5FA));
   });
 
-  test('NFR-U07, us04/nf01, and us07/nf01: the focus ring holds 3:1 in both '
+  test('NFR-U07, fo06_02/us01/nf01, and fo06_03/us03/nf01: the focus ring holds 3:1 in both '
       'high-contrast sets and keeps its exception in light and dark', () {
     const ring = 'border.subtle.blue';
 
@@ -343,7 +343,7 @@ void main() {
     });
   });
 
-  test('fo01/us01/fr01, fo06/us04/fr03: the focus group reads the Figma '
+  test('fo01/us01/fr01, fo06_02/us01/fr03: the focus group reads the Figma '
       'FocusBorder look in each set, from its own colors', () {
     StratumFocusTokens look(Map<String, Color> colors) => StratumFocusTokens(
       outsideColor: colors['border.subtle.blue']!,

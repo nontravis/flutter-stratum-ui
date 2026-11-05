@@ -20,30 +20,30 @@ final PageLayoutComponent = Component<PageLayout, StoryArgs<PageLayout>>(
   name: componentMeta.name ?? 'PageLayout',
   path: componentMeta.path ?? 'layout',
   docsBuilder: componentMeta.docsBuilder,
-  docComment:
-      r'''A page's slots in the geometry of the Figma page layout (US-18 FR-01):
-[header] across the full width on top; below it [left], full height
-between [header] and [footer], beside a main column of [top] over the
-center column ([tab] over [body] over [bottom]) and [right], which starts
-under [top]; [footer] across the full width at the end; and [snack]
-floating at the bottom center over every slot, taking no layout space.
+  docComment: r'''A page's slots in the geometry of the Figma page layout
+(FO-06-04 US-01 FR-01): [header] across the full width on top; below it
+[left], full height between [header] and [footer], beside a main column of
+[top] over the center column ([tab] over [body] over [bottom]) and [right],
+which starts under [top]; [footer] across the full width at the end; and
+[snack] floating at the bottom center over every slot, taking no layout
+space.
 
-A null slot builds nothing and takes no space. [left] is the start side
-and [right] the end side, so both mirror under [TextDirection.rtl].
-Slots take plain widgets: the app picks what rebuilds by placing its own
-state listener inside one slot or around the whole page (US-18 FR-02).
-Each slot sits under its own repaint boundary and a transparent
-[Material], so a slot hosts any SDK widget with no `Scaffold`.
+A null slot builds nothing and takes no space. [left] is the start side and
+[right] the end side, so both mirror under [TextDirection.rtl]. Slots take
+plain widgets: the app picks what rebuilds by placing its own state listener
+inside one slot or around the whole page (FO-06-04 US-01 FR-02). Each slot
+sits under its own repaint boundary and a transparent [Material], so a slot
+hosts any SDK widget with no `Scaffold`.
 
-Every slot that touches a screen edge fills under that edge's system
-inset while its content pads by it, as [safeArea] allows; [body] instead
-hands its top and bottom insets to its children, so a body list scrolls
-under the home indicator with its last item able to scroll clear.
-Children read the media insets with the page's share removed, so a
-nested page pads nothing twice (US-18 FR-04). While the keyboard is open
-and [resizeToAvoidKeyboard] holds, the page above [footer] ends at the
-keyboard's top, so [bottom] rides above it, and [footer] stays docked at
-the bottom edge under the keyboard (US-18 FR-05).
+Every slot that touches a screen edge fills under that edge's system inset
+while its content pads by it, as [safeArea] allows; [body] instead hands its
+top and bottom insets to its children, so a body list scrolls under the home
+indicator with its last item able to scroll clear. Children read the media
+insets with the page's share removed, so a nested page pads nothing twice
+(FO-06-04 US-01 FR-04). While the keyboard is open and
+[resizeToAvoidKeyboard] holds, the page above [footer] ends at the
+keyboard's top, so [bottom] rides above it, and [footer] stays docked at the
+bottom edge under the keyboard (FO-06-04 US-01 FR-05).
 
 Where [inlinePanes] resolves no, below [WindowSize.tablet] by default,
 [left] and [right] are drawers that take no space:
@@ -54,7 +54,7 @@ toward their edge, Esc, or back closes them, back before the route pops.
 [leftSide] and [rightSide] set each drawer's type, width bounds, page
 scale, and label, and [onDrawerChanged] hears each open and close. An
 open drawer keeps focus inside it, reads as its own named screen, and
-hides the page behind from screen readers (US-19 FR-02 to FR-05).
+hides the page behind from screen readers (FO-06-04 US-02 FR-02 to FR-05).
 
 Where [inlinePanes] resolves yes both sides sit inline beside the
 center column, as two nested [SplitLayout]s, with a divider the EndUser
@@ -64,16 +64,16 @@ width bounds. A divider paints only what [leftDividerBuilder] or
 and focus, and reads as a slider. Each pane opens at the controller's
 chosen width, else at the theme's `layouts.left-pane-width` or
 `layouts.right-pane-width` for the window size, and the controller
-hears each settled resize as the new width (US-19 FR-06). With
+hears each settled resize as the new width (FO-06-04 US-02 FR-06). With
 [rightAsOverlay], [right] opens there instead as a front drawer over a
-scrim, with a close button (US-19 FR-01). A drawer open as the window
-crosses into inline panes closes.
+scrim, with a close button (FO-06-04 US-02 FR-01). A drawer open as the
+window crosses into inline panes closes.
 
 While [loading] holds, a layer over the whole page refuses every tap and
 keyboard focus, reads as a live region with the built-in loading label,
 and shows [loadingBuilder]'s widget, else a plain spinner; focus returns
 to where it sat once [loading] turns false. The layer fades in and out
-over the theme's `fast` level with no other movement (US-18 FR-06).
+over the theme's `fast` level with no other movement (FO-06-04 US-01 FR-06).
 
 Each part's style layers the theme defaults, then the app-wide
 [PageLayoutStyle] the application registers for [PageLayout], then
@@ -86,7 +86,7 @@ The page needs bounded constraints, as a route's page has.
 A solid slot fill or page fill declares itself to the system bar
 resolver, so the automatic bar icons pick against what the page paints
 under each bar; a gradient or image fill declares nothing, and the app
-wraps its own `SystemBarFill` or sets explicit icons (US-18 FR-07).
+wraps its own `SystemBarFill` or sets explicit icons (FO-06-04 US-01 FR-07).
 [systemStyle] sets this page's bar style as an inner scope over the
 app-wide one.''',
   stories: [

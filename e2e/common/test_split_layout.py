@@ -1,6 +1,6 @@
 """Split divider: the OS exposes a slider at "30%", the screen reader speaks it (TalkBack adjusts it).
 
-Drives the `common/split_layout` fixture (FO-06 US-21 FR-04). The divider has no semantics
+Drives the `common/split_layout` fixture (FO-06-04 US-04 FR-04). The divider has no semantics
 identifier, so every step finds it by its label "Resize panes"; Android merges the value in
 front of the label, so the node reads "30%, Resize panes", while iOS and macOS keep the label
 "Resize panes" and the value "30%" apart. Appium cannot swipe VoiceOver's adjustable (a touch
@@ -111,7 +111,7 @@ def _swipe_and_read(driver: Any, platform: str, *, up: bool) -> int:
 
 @pytest.mark.android
 @pytest.mark.level1
-@pytest.mark.req("fo06/us21/fr04/e01")
+@pytest.mark.req("fo06_04/us04/fr04/e01")
 def test_os_tree_exposes_the_divider_as_an_enabled_slider_between_the_panes(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -135,7 +135,7 @@ def test_os_tree_exposes_the_divider_as_an_enabled_slider_between_the_panes(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us21/fr04/e01")
+@pytest.mark.req("fo06_04/us04/fr04/e01")
 def test_talkback_reads_the_divider_label_slider_and_percent(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog
 ) -> None:
@@ -160,7 +160,7 @@ def test_talkback_reads_the_divider_label_slider_and_percent(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us21/fr04")
+@pytest.mark.req("fo06_04/us04/fr04")
 def test_talkback_increase_and_decrease_move_the_divider_and_speak_the_new_percent(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog
 ) -> None:
@@ -190,7 +190,7 @@ def test_talkback_increase_and_decrease_move_the_divider_and_speak_the_new_perce
 
 @pytest.mark.ios
 @pytest.mark.level1
-@pytest.mark.req("fo06/us21/fr04/e01")
+@pytest.mark.req("fo06_04/us04/fr04/e01")
 def test_ios_tree_exposes_the_divider_as_an_enabled_adjustable_between_the_panes(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -214,7 +214,7 @@ def test_ios_tree_exposes_the_divider_as_an_enabled_adjustable_between_the_panes
 
 @pytest.mark.ios
 @pytest.mark.level2
-@pytest.mark.req("fo06/us21/fr04/e01")
+@pytest.mark.req("fo06_04/us04/fr04/e01")
 def test_voiceover_reads_the_list_the_divider_label_slider_and_percent_then_the_detail(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -228,7 +228,7 @@ def test_voiceover_reads_the_list_the_divider_label_slider_and_percent_then_the_
 
 @pytest.mark.macos
 @pytest.mark.level1
-@pytest.mark.req("fo06/us21/fr04/e01")
+@pytest.mark.req("fo06_04/us04/fr04/e01")
 def test_macos_tree_exposes_the_divider_as_an_enabled_slider_between_the_panes(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -248,7 +248,7 @@ def test_macos_tree_exposes_the_divider_as_an_enabled_slider_between_the_panes(
 
 @pytest.mark.web
 @pytest.mark.level1
-@pytest.mark.req("fo06/us21/fr04/e01")
+@pytest.mark.req("fo06_04/us04/fr04/e01")
 def test_web_snapshot_places_the_divider_slider_between_the_panes_at_the_percent(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -276,7 +276,7 @@ def test_web_snapshot_places_the_divider_slider_between_the_panes_at_the_percent
 # (flutter#192964, in 3.50.0-0.1.pre); strict=True fails the run once the fix lands.
 @pytest.mark.web
 @pytest.mark.level1
-@pytest.mark.req("fo06/us21/fr04/e01")
+@pytest.mark.req("fo06_04/us04/fr04/e01")
 @pytest.mark.xfail(
     strict=True,
     reason="Flutter web < 3.50 labels the slider's parent, not the slider (flutter#192964)",

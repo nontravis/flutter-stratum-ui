@@ -1,6 +1,6 @@
 """Shortcut-bearing button: the menu key and the screen reader's action run the secondary tap.
 
-Drives the `common/ink_well` fixture (FO-06 US-05 FR-01). The button carries no id (an id
+Drives the `common/ink_well` fixture (FO-06-02 US-02 FR-01). The button carries no id (an id
 would split its role and action from its label onto two nodes), so every step finds it by its
 label `Menu target`: one node with the label, the button role, the tap and the `Show menu`
 action. Level 2 checks that the screen reader offers the action on the node it focuses; on
@@ -59,7 +59,7 @@ def _open(driver: Any, platform: str, app_id: str) -> None:
 
 @pytest.mark.android
 @pytest.mark.level1
-@pytest.mark.req("fo06/us05/fr01")
+@pytest.mark.req("fo06_02/us02/fr01")
 def test_os_tree_exposes_one_focusable_enabled_button_node_with_the_label(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -76,7 +76,7 @@ def test_os_tree_exposes_one_focusable_enabled_button_node_with_the_label(
 
 @pytest.mark.android
 @pytest.mark.level1
-@pytest.mark.req("fo06/us05/fr01")
+@pytest.mark.req("fo06_02/us02/fr01")
 def test_os_tree_marks_the_button_focused_after_tab_and_the_menu_key_runs_the_secondary_tap(
     driver: Any, platform: str, app_id: str, keyboard: UhidKeyboard
 ) -> None:
@@ -97,7 +97,7 @@ def test_os_tree_marks_the_button_focused_after_tab_and_the_menu_key_runs_the_se
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us05/fr01")
+@pytest.mark.req("fo06_02/us02/fr01")
 def test_talkback_speaks_the_button_and_offers_show_menu_on_the_node_it_focuses(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -123,7 +123,7 @@ def test_talkback_speaks_the_button_and_offers_show_menu_on_the_node_it_focuses(
 
 @pytest.mark.ios
 @pytest.mark.level1
-@pytest.mark.req("fo06/us05/fr01")
+@pytest.mark.req("fo06_02/us02/fr01")
 def test_ios_tree_exposes_one_enabled_button_node_with_the_label(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -139,7 +139,7 @@ def test_ios_tree_exposes_one_enabled_button_node_with_the_label(
 
 @pytest.mark.ios
 @pytest.mark.level2
-@pytest.mark.req("fo06/us05/fr01")
+@pytest.mark.req("fo06_02/us02/fr01")
 def test_voiceover_speaks_the_button_name_and_offers_its_actions_at_one_stop(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -155,7 +155,7 @@ def test_voiceover_speaks_the_button_name_and_offers_its_actions_at_one_stop(
 
 @pytest.mark.macos
 @pytest.mark.level1
-@pytest.mark.req("fo06/us05/fr01")
+@pytest.mark.req("fo06_02/us02/fr01")
 def test_macos_tree_exposes_one_enabled_button_node_with_the_label(
     driver: Any, platform: str, app_id: str
 ) -> None:
@@ -170,7 +170,7 @@ def test_macos_tree_exposes_one_enabled_button_node_with_the_label(
 
 @pytest.mark.web
 @pytest.mark.level1
-@pytest.mark.req("fo06/us05/fr01")
+@pytest.mark.req("fo06_02/us02/fr01")
 def test_web_snapshot_exposes_one_enabled_button_node_with_the_label(
     driver: Any, platform: str, app_id: str
 ) -> None:

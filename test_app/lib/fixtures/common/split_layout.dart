@@ -1,7 +1,7 @@
 import 'package:stratum_ui/stratum_ui.dart';
 
-/// Adjustable-value fixture for the divider of a `SplitLayout` (FO-06 US-21
-/// FR-04 E01).
+/// Adjustable-value fixture for the divider of a `SplitLayout`
+/// (FO-06-04 US-04 FR-04 E01).
 ///
 /// A list pane with text `List` (id `split.list_pane`) takes 30% of the
 /// split, a detail pane with text `Detail` (id `split.detail_pane`) the

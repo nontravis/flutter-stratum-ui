@@ -7,7 +7,7 @@ import '../fakes/fake_stratum_theme.dart';
 // NFR-U05 n/a: the page draws no target of its own; the loading layer
 // covers the whole page, and each slot's children carry their own targets.
 // NFR-U09 n/a: the page itself takes no gesture; the drawers and side panes
-// it holds answer theirs under US-19 (M3-T19, M3-T20).
+// it holds answer theirs under FO-06-04 US-02 (M3-T19, M3-T20).
 
 const _desktop = Size(1400, 900);
 const _tablet = Size(1000, 800);
@@ -131,33 +131,30 @@ Widget _act(List<int> taps, {FocusNode? node}) => TextButton(
 
 void main() {
   group('PageLayout geometry', () {
-    testWidgets(
-      'fo06/us18/s1: fo06/us18/fr01: header on top, left full height, top '
-      'over body, footer at the end',
-      (tester) async {
-        _view(tester);
-        await tester.pumpWidget(
-          _host(
-            PageLayout(
-              controller: _widths(left: 200),
-              header: _slot('header'),
-              left: const Text('left'),
-              top: _slot('top'),
-              body: const Text('body'),
-              footer: _slot('footer'),
-            ),
+    testWidgets('fo06_04/us01/s1: fo06_04/us01/fr01: header on top, left full height, top '
+        'over body, footer at the end', (tester) async {
+      _view(tester);
+      await tester.pumpWidget(
+        _host(
+          PageLayout(
+            controller: _widths(left: 200),
+            header: _slot('header'),
+            left: const Text('left'),
+            top: _slot('top'),
+            body: const Text('body'),
+            footer: _slot('footer'),
           ),
-        );
-        expect(_rect(tester, 'header'), const Rect.fromLTRB(0, 0, 1400, 40));
-        expect(_rect(tester, 'left'), const Rect.fromLTRB(0, 40, 200, 860));
-        expect(_rect(tester, 'top'), const Rect.fromLTRB(200, 40, 1400, 80));
-        expect(_rect(tester, 'body'), const Rect.fromLTRB(200, 80, 1400, 860));
-        expect(_rect(tester, 'footer'), const Rect.fromLTRB(0, 860, 1400, 900));
-      },
-    );
+        ),
+      );
+      expect(_rect(tester, 'header'), const Rect.fromLTRB(0, 0, 1400, 40));
+      expect(_rect(tester, 'left'), const Rect.fromLTRB(0, 40, 200, 860));
+      expect(_rect(tester, 'top'), const Rect.fromLTRB(200, 40, 1400, 80));
+      expect(_rect(tester, 'body'), const Rect.fromLTRB(200, 80, 1400, 860));
+      expect(_rect(tester, 'footer'), const Rect.fromLTRB(0, 860, 1400, 900));
+    });
 
     testWidgets(
-      'fo06/us18/s2: fo06/us18/fr01/e01: with every other slot null the '
+      'fo06_04/us01/s2: fo06_04/us01/fr01/e01: with every other slot null the '
       'body fills the page',
       (tester) async {
         _view(tester);
@@ -171,43 +168,49 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us18/fr01/e02: with left null the main column takes the '
-        'full width', (tester) async {
-      _view(tester);
-      await tester.pumpWidget(
-        _host(
-          PageLayout(
-            header: _slot('header'),
-            top: _slot('top'),
-            body: const Text('body'),
+    testWidgets(
+      'fo06_04/us01/fr01/e02: with left null the main column takes the '
+      'full width',
+      (tester) async {
+        _view(tester);
+        await tester.pumpWidget(
+          _host(
+            PageLayout(
+              header: _slot('header'),
+              top: _slot('top'),
+              body: const Text('body'),
+            ),
           ),
-        ),
-      );
-      expect(_rect(tester, 'top'), const Rect.fromLTRB(0, 40, 1400, 80));
-      expect(_rect(tester, 'body'), const Rect.fromLTRB(0, 80, 1400, 900));
-    });
-
-    testWidgets('fo06/us18/fr01/e03: with top null tab and right start under '
-        'the header', (tester) async {
-      _view(tester);
-      await tester.pumpWidget(
-        _host(
-          PageLayout(
-            controller: _widths(right: 300),
-            header: _slot('header'),
-            tab: _slot('tab'),
-            right: const Text('right'),
-            body: const Text('body'),
-          ),
-        ),
-      );
-      expect(_rect(tester, 'tab'), const Rect.fromLTRB(0, 40, 1100, 80));
-      expect(_rect(tester, 'right').top, 40);
-      expect(_rect(tester, 'body'), const Rect.fromLTRB(0, 80, 1100, 900));
-    });
+        );
+        expect(_rect(tester, 'top'), const Rect.fromLTRB(0, 40, 1400, 80));
+        expect(_rect(tester, 'body'), const Rect.fromLTRB(0, 80, 1400, 900));
+      },
+    );
 
     testWidgets(
-      'fo06/us18/fr01/e04: with right set and top null right runs from '
+      'fo06_04/us01/fr01/e03: with top null tab and right start under '
+      'the header',
+      (tester) async {
+        _view(tester);
+        await tester.pumpWidget(
+          _host(
+            PageLayout(
+              controller: _widths(right: 300),
+              header: _slot('header'),
+              tab: _slot('tab'),
+              right: const Text('right'),
+              body: const Text('body'),
+            ),
+          ),
+        );
+        expect(_rect(tester, 'tab'), const Rect.fromLTRB(0, 40, 1100, 80));
+        expect(_rect(tester, 'right').top, 40);
+        expect(_rect(tester, 'body'), const Rect.fromLTRB(0, 80, 1100, 900));
+      },
+    );
+
+    testWidgets(
+      'fo06_04/us01/fr01/e04: with right set and top null right runs from '
       'under the header to above the footer',
       (tester) async {
         _view(tester);
@@ -231,7 +234,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us18/fr01/e04: top spans the center column and right, '
+    testWidgets('fo06_04/us01/fr01/e04: top spans the center column and right, '
         'which starts under it', (tester) async {
       _view(tester);
       await tester.pumpWidget(
@@ -250,42 +253,48 @@ void main() {
       expect(_rect(tester, 'tab'), const Rect.fromLTRB(0, 40, 1100, 80));
     });
 
-    testWidgets('fo06/us18/fr01/e05: under RTL left sits on the right edge and '
-        'right on the left edge', (tester) async {
-      _view(tester);
-      await tester.pumpWidget(
-        _host(
-          PageLayout(
-            controller: _widths(left: 200, right: 300),
-            left: const Text('left'),
-            right: const Text('right'),
-            body: const Text('body'),
+    testWidgets(
+      'fo06_04/us01/fr01/e05: under RTL left sits on the right edge and '
+      'right on the left edge',
+      (tester) async {
+        _view(tester);
+        await tester.pumpWidget(
+          _host(
+            PageLayout(
+              controller: _widths(left: 200, right: 300),
+              left: const Text('left'),
+              right: const Text('right'),
+              body: const Text('body'),
+            ),
+            direction: TextDirection.rtl,
           ),
-          direction: TextDirection.rtl,
-        ),
-      );
-      expect(_rect(tester, 'left'), const Rect.fromLTRB(1200, 0, 1400, 900));
-      expect(_rect(tester, 'right'), const Rect.fromLTRB(0, 0, 300, 900));
-    });
+        );
+        expect(_rect(tester, 'left'), const Rect.fromLTRB(1200, 0, 1400, 900));
+        expect(_rect(tester, 'right'), const Rect.fromLTRB(0, 0, 300, 900));
+      },
+    );
 
-    testWidgets('fo06/us18/fr01/e06: snack floats at the bottom center and the '
-        'body keeps its size', (tester) async {
-      _view(tester);
-      await tester.pumpWidget(
-        _host(const PageLayout(body: SizedBox.expand(key: Key('b')))),
-      );
-      final alone = tester.getRect(find.byKey(const Key('b')));
-      await tester.pumpWidget(
-        _host(
-          const PageLayout(
-            body: SizedBox.expand(key: Key('b')),
-            snack: SizedBox(width: 100, height: 48, child: Text('snack')),
+    testWidgets(
+      'fo06_04/us01/fr01/e06: snack floats at the bottom center and the '
+      'body keeps its size',
+      (tester) async {
+        _view(tester);
+        await tester.pumpWidget(
+          _host(const PageLayout(body: SizedBox.expand(key: Key('b')))),
+        );
+        final alone = tester.getRect(find.byKey(const Key('b')));
+        await tester.pumpWidget(
+          _host(
+            const PageLayout(
+              body: SizedBox.expand(key: Key('b')),
+              snack: SizedBox(width: 100, height: 48, child: Text('snack')),
+            ),
           ),
-        ),
-      );
-      expect(tester.getRect(find.byKey(const Key('b'))), alone);
-      expect(_rect(tester, 'snack'), const Rect.fromLTRB(650, 852, 750, 900));
-    });
+        );
+        expect(tester.getRect(find.byKey(const Key('b'))), alone);
+        expect(_rect(tester, 'snack'), const Rect.fromLTRB(650, 852, 750, 900));
+      },
+    );
 
     testWidgets('Q36: snack sits above the bottom inset and the keyboard', (
       tester,
@@ -338,21 +347,18 @@ void main() {
   group('PageLayout insets', () {
     const statusBar = FakeViewPadding(top: 44, bottom: 34);
 
-    testWidgets(
-      'fo06/us18/s3: fo06/us18/fr04: the header pads by the top inset while '
-      'its fill runs under it',
-      (tester) async {
-        _view(tester, size: _phone, padding: statusBar);
-        await tester.pumpWidget(
-          _host(PageLayout(header: _slot('header'), body: const Text('b'))),
-        );
-        expect(_rect(tester, 'header').top, 44);
-        expect(tester.getRect(_fill('header')).top, 0);
-        expect(tester.getTopLeft(find.byType(PageLayout)).dy, 0);
-      },
-    );
+    testWidgets('fo06_04/us01/s3: fo06_04/us01/fr04: the header pads by the top inset while '
+        'its fill runs under it', (tester) async {
+      _view(tester, size: _phone, padding: statusBar);
+      await tester.pumpWidget(
+        _host(PageLayout(header: _slot('header'), body: const Text('b'))),
+      );
+      expect(_rect(tester, 'header').top, 44);
+      expect(tester.getRect(_fill('header')).top, 0);
+      expect(tester.getTopLeft(find.byType(PageLayout)).dy, 0);
+    });
 
-    testWidgets('fo06/us18/fr04/e01: with header null top pads by the top '
+    testWidgets('fo06_04/us01/fr04/e01: with header null top pads by the top '
         'inset', (tester) async {
       _view(tester, size: _phone, padding: statusBar);
       await tester.pumpWidget(
@@ -362,62 +368,60 @@ void main() {
       expect(tester.getRect(_fill('top')).top, 0);
     });
 
-    testWidgets('fo05/us04/fr02, fo06/us18/fr04/e01: a top padding set in an '
-        '.at() override adds to the top inset at that window size', (
-      tester,
-    ) async {
-      _view(tester, size: _tablet, padding: const FakeViewPadding(top: 24));
-      await tester.pumpWidget(
-        _host(
-          PageLayout(
-            top: _slot('top'),
-            body: const Text('b'),
-            customStyle: PageLayoutStyle(
-              top: const WidgetStyle(padding: EdgeInsets.all(8))
-                  .at(tablet: const WidgetStyle(padding: EdgeInsets.all(16))),
-            ),
-          ),
-        ),
-      );
-
-      expect(_rect(tester, 'top').top, 16 + 24);
-      expect(_style(tester, 'top').hasWindowOverrides, isFalse);
-    });
-
     testWidgets(
-      'fo06/us18/s3: fo06/us18/fr04/e02: a body list scrolls under the home '
-      'indicator and its last row scrolls clear of it',
+      'fo05/us04/fr02, fo06_04/us01/fr04/e01: a top padding set in an '
+      '.at() override adds to the top inset at that window size',
       (tester) async {
-        _view(tester, size: _phone, padding: statusBar);
-        late EdgeInsets bodyPadding;
+        _view(tester, size: _tablet, padding: const FakeViewPadding(top: 24));
         await tester.pumpWidget(
           _host(
             PageLayout(
-              header: _slot('header'),
-              body: Builder(
-                builder: (context) {
-                  bodyPadding = MediaQuery.paddingOf(context);
-                  return ListView(
-                    children: [
-                      for (var i = 0; i < 30; i++)
-                        SizedBox(height: 50, child: Text('row $i')),
-                    ],
-                  );
-                },
+              top: _slot('top'),
+              body: const Text('b'),
+              customStyle: PageLayoutStyle(
+                top: const WidgetStyle(padding: EdgeInsets.all(8))
+                    .at(tablet: const WidgetStyle(padding: EdgeInsets.all(16))),
               ),
             ),
           ),
         );
-        expect(bodyPadding, const EdgeInsets.only(bottom: 34));
-        expect(tester.getRect(_fill('row 0')).bottom, 844);
-        await tester.drag(find.byType(ListView), const Offset(0, -5000));
-        await tester.pumpAndSettle();
-        expect(_rect(tester, 'row 29').bottom, 844 - 34);
+
+        expect(_rect(tester, 'top').top, 16 + 24);
+        expect(_style(tester, 'top').hasWindowOverrides, isFalse);
       },
     );
 
+    testWidgets('fo06_04/us01/s3: fo06_04/us01/fr04/e02: a body list scrolls under the home '
+        'indicator and its last row scrolls clear of it', (tester) async {
+      _view(tester, size: _phone, padding: statusBar);
+      late EdgeInsets bodyPadding;
+      await tester.pumpWidget(
+        _host(
+          PageLayout(
+            header: _slot('header'),
+            body: Builder(
+              builder: (context) {
+                bodyPadding = MediaQuery.paddingOf(context);
+                return ListView(
+                  children: [
+                    for (var i = 0; i < 30; i++)
+                      SizedBox(height: 50, child: Text('row $i')),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
+      );
+      expect(bodyPadding, const EdgeInsets.only(bottom: 34));
+      expect(tester.getRect(_fill('row 0')).bottom, 844);
+      await tester.drag(find.byType(ListView), const Offset(0, -5000));
+      await tester.pumpAndSettle();
+      expect(_rect(tester, 'row 29').bottom, 844 - 34);
+    });
+
     testWidgets(
-      'R20: fo06/us18/fr04/e03: safeArea top false drops the top padding '
+      'R20: fo06_04/us01/fr04/e03: safeArea top false drops the top padding '
       "of every slot, while the top slot's children keep the inset to pad "
       'themselves',
       (tester) async {
@@ -451,7 +455,7 @@ void main() {
     );
 
     testWidgets(
-      'R20: fo06/us18/fr04/e03: safeArea bottom false leaves the body '
+      'R20: fo06_04/us01/fr04/e03: safeArea bottom false leaves the body '
       'list the bottom inset to pad itself',
       (tester) async {
         _view(tester, size: _phone, padding: statusBar);
@@ -475,7 +479,7 @@ void main() {
     );
 
     testWidgets(
-      'R20: fo06/us18/fr04/e06: under RTL a false left flag leaves the '
+      'R20: fo06_04/us01/fr04/e06: under RTL a false left flag leaves the '
       "start inset, on the right edge, to left's children",
       (tester) async {
         _view(
@@ -511,37 +515,41 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us18/s5: fo06/us18/fr04/e04: a nested page adds no second top '
-      'gap',
-      (tester) async {
-        _view(tester, size: _phone, padding: statusBar);
-        await tester.pumpWidget(
-          _host(
-            PageLayout(
-              header: _slot('outer'),
-              body: PageLayout(header: _slot('inner'), body: const Text('b')),
-            ),
-          ),
-        );
-        expect(_rect(tester, 'outer').top, 44);
-        expect(_rect(tester, 'inner').top, _rect(tester, 'outer').bottom);
-      },
-    );
-
-    testWidgets('fo06/us18/fr04/e05: on a landscape phone with left null the '
-        'center column pads by the side inset', (tester) async {
-      _view(tester, size: _landscape, padding: const FakeViewPadding(left: 44));
+    testWidgets('fo06_04/us01/s5: fo06_04/us01/fr04/e04: a nested page adds no second top '
+        'gap', (tester) async {
+      _view(tester, size: _phone, padding: statusBar);
       await tester.pumpWidget(
-        _host(PageLayout(top: _slot('top'), body: const Text('body'))),
+        _host(
+          PageLayout(
+            header: _slot('outer'),
+            body: PageLayout(header: _slot('inner'), body: const Text('b')),
+          ),
+        ),
       );
-      expect(_rect(tester, 'top').left, 44);
-      expect(_rect(tester, 'body').left, 44);
-      expect(tester.getRect(_fill('body')).left, 0);
+      expect(_rect(tester, 'outer').top, 44);
+      expect(_rect(tester, 'inner').top, _rect(tester, 'outer').bottom);
     });
 
     testWidgets(
-      'fo06/us18/fr04/e06: under RTL the start inset pads left, which '
+      'fo06_04/us01/fr04/e05: on a landscape phone with left null the '
+      'center column pads by the side inset',
+      (tester) async {
+        _view(
+          tester,
+          size: _landscape,
+          padding: const FakeViewPadding(left: 44),
+        );
+        await tester.pumpWidget(
+          _host(PageLayout(top: _slot('top'), body: const Text('body'))),
+        );
+        expect(_rect(tester, 'top').left, 44);
+        expect(_rect(tester, 'body').left, 44);
+        expect(tester.getRect(_fill('body')).left, 0);
+      },
+    );
+
+    testWidgets(
+      'fo06_04/us01/fr04/e06: under RTL the start inset pads left, which '
       'sits on the right edge',
       (tester) async {
         _view(
@@ -562,7 +570,7 @@ void main() {
     );
 
     testWidgets(
-      'M1: fo06/us18/fr04: bottom never pads the top inset, even with '
+      'M1: fo06_04/us01/fr04: bottom never pads the top inset, even with '
       'body null',
       (tester) async {
         _view(tester, size: _phone, padding: const FakeViewPadding(top: 44));
@@ -573,7 +581,7 @@ void main() {
     );
 
     testWidgets(
-      'R20: fo06/us18/fr04/e07: with header and footer null the inline '
+      'R20: fo06_04/us01/fr04/e07: with header and footer null the inline '
       'sides pad by the top and bottom insets',
       (tester) async {
         _view(tester, size: const Size(768, 1024), padding: statusBar);
@@ -593,23 +601,26 @@ void main() {
       },
     );
 
-    testWidgets('R20: fo06/us18/fr04/e03: safeArea flags off leave the inline '
-        'sides unpadded', (tester) async {
-      _view(tester, size: const Size(768, 1024), padding: statusBar);
-      await tester.pumpWidget(
-        _host(
-          PageLayout(
-            controller: _widths(left: 100, right: 100),
-            left: const Text('left'),
-            right: const Text('right'),
-            safeArea: const PageSafeArea(top: false, bottom: false),
-            body: const Text('body'),
+    testWidgets(
+      'R20: fo06_04/us01/fr04/e03: safeArea flags off leave the inline '
+      'sides unpadded',
+      (tester) async {
+        _view(tester, size: const Size(768, 1024), padding: statusBar);
+        await tester.pumpWidget(
+          _host(
+            PageLayout(
+              controller: _widths(left: 100, right: 100),
+              left: const Text('left'),
+              right: const Text('right'),
+              safeArea: const PageSafeArea(top: false, bottom: false),
+              body: const Text('body'),
+            ),
           ),
-        ),
-      );
-      expect(_rect(tester, 'left'), const Rect.fromLTRB(0, 0, 100, 1024));
-      expect(_rect(tester, 'right'), const Rect.fromLTRB(668, 0, 768, 1024));
-    });
+        );
+        expect(_rect(tester, 'left'), const Rect.fromLTRB(0, 0, 100, 1024));
+        expect(_rect(tester, 'right'), const Rect.fromLTRB(668, 0, 768, 1024));
+      },
+    );
 
     testWidgets('R20: right under top takes no top inset', (tester) async {
       _view(tester, size: const Size(768, 1024), padding: statusBar);
@@ -629,26 +640,23 @@ void main() {
   });
 
   group('PageLayout keyboard', () {
-    testWidgets(
-      'fo06/us18/s4: fo06/us18/fr05/e01: the keyboard shrinks the body and '
-      'bottom rides above it',
-      (tester) async {
-        _view(tester, size: _phone, keyboard: 300);
-        await tester.pumpWidget(
-          _host(
-            PageLayout(
-              body: const SizedBox.expand(key: Key('b')),
-              bottom: _slot('bottom'),
-            ),
+    testWidgets('fo06_04/us01/s4: fo06_04/us01/fr05/e01: the keyboard shrinks the body and '
+        'bottom rides above it', (tester) async {
+      _view(tester, size: _phone, keyboard: 300);
+      await tester.pumpWidget(
+        _host(
+          PageLayout(
+            body: const SizedBox.expand(key: Key('b')),
+            bottom: _slot('bottom'),
           ),
-        );
-        expect(_rect(tester, 'bottom').bottom, 844 - 300);
-        expect(tester.getRect(find.byKey(const Key('b'))).bottom, 844 - 340);
-      },
-    );
+        ),
+      );
+      expect(_rect(tester, 'bottom').bottom, 844 - 300);
+      expect(tester.getRect(find.byKey(const Key('b'))).bottom, 844 - 340);
+    });
 
     testWidgets(
-      'fo06/us18/fr05/e02: resizeToAvoidKeyboard false moves nothing',
+      'fo06_04/us01/fr05/e02: resizeToAvoidKeyboard false moves nothing',
       (tester) async {
         _view(tester, size: _phone, keyboard: 300);
         await tester.pumpWidget(
@@ -664,24 +672,27 @@ void main() {
       },
     );
 
-    testWidgets('review focus 1: fo06/us18/fr05/e03: a nested page under the '
-        'keyboard shrinks once', (tester) async {
-      _view(tester, size: _phone, keyboard: 300);
-      await tester.pumpWidget(
-        _host(
-          PageLayout(
-            body: PageLayout(
-              body: const SizedBox.expand(),
-              bottom: _slot('inner bottom'),
+    testWidgets(
+      'review focus 1: fo06_04/us01/fr05/e03: a nested page under the '
+      'keyboard shrinks once',
+      (tester) async {
+        _view(tester, size: _phone, keyboard: 300);
+        await tester.pumpWidget(
+          _host(
+            PageLayout(
+              body: PageLayout(
+                body: const SizedBox.expand(),
+                bottom: _slot('inner bottom'),
+              ),
             ),
           ),
-        ),
-      );
-      expect(_rect(tester, 'inner bottom').bottom, 844 - 300);
-    });
+        );
+        expect(_rect(tester, 'inner bottom').bottom, 844 - 300);
+      },
+    );
 
     testWidgets(
-      'fo06/us18/fr05/e04: a keyboard no taller than the footer moves '
+      'fo06_04/us01/fr05/e04: a keyboard no taller than the footer moves '
       'nothing, and the footer stays docked',
       (tester) async {
         _view(tester, size: _phone, keyboard: 30);
@@ -699,26 +710,29 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us18/fr05/e05: a keyboard taller than the footer lifts '
-        'bottom only by the difference', (tester) async {
-      _view(tester, size: _phone, keyboard: 300);
-      await tester.pumpWidget(
-        _host(
-          PageLayout(
-            body: const SizedBox.expand(),
-            bottom: _slot('bottom'),
-            footer: const SizedBox(height: 48, child: Text('footer')),
+    testWidgets(
+      'fo06_04/us01/fr05/e05: a keyboard taller than the footer lifts '
+      'bottom only by the difference',
+      (tester) async {
+        _view(tester, size: _phone, keyboard: 300);
+        await tester.pumpWidget(
+          _host(
+            PageLayout(
+              body: const SizedBox.expand(),
+              bottom: _slot('bottom'),
+              footer: const SizedBox(height: 48, child: Text('footer')),
+            ),
           ),
-        ),
-      );
-      expect(_rect(tester, 'bottom').bottom, 844 - 300);
-      expect(_rect(tester, 'footer').bottom, 844);
-    });
+        );
+        expect(_rect(tester, 'bottom').bottom, 844 - 300);
+        expect(_rect(tester, 'footer').bottom, 844);
+      },
+    );
   });
 
   group('PageLayout style', () {
     testWidgets(
-      'R18: fo06/us18/fr03/e01: edge slots fill the surface token, the '
+      'R18: fo06_04/us01/fr03/e01: edge slots fill the surface token, the '
       'page and body the normal token',
       (tester) async {
         _view(tester);
@@ -761,7 +775,7 @@ void main() {
       },
     );
 
-    testWidgets('NFR-E01: fo06/us18/fr03/e05: slot fills follow the theme', (
+    testWidgets('NFR-E01: fo06_04/us01/fr03/e05: slot fills follow the theme', (
       tester,
     ) async {
       _view(tester);
@@ -778,7 +792,7 @@ void main() {
     });
 
     testWidgets(
-      'NFR-E02: fo06/us18/fr03/e03: customStyle sets one field and the '
+      'NFR-E02: fo06_04/us01/fr03/e03: customStyle sets one field and the '
       'others keep the theme',
       (tester) async {
         _view(tester);
@@ -807,7 +821,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us18/fr03/e02: customStyle wins over the app-wide default, '
+      'fo06_04/us01/fr03/e02: customStyle wins over the app-wide default, '
       'which wins over the theme',
       (tester) async {
         _view(tester);
@@ -836,7 +850,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us18/fr03/e04: a null slot draws nothing', (
+    testWidgets('fo06_04/us01/fr03/e04: a null slot draws nothing', (
       tester,
     ) async {
       _view(tester);
@@ -857,60 +871,63 @@ void main() {
   });
 
   group('PageLayout loading', () {
+    testWidgets('fo06_04/us01/s7: fo06_04/us01/fr06/e01: taps do nothing while loading, and '
+        'it reads Loading', (tester) async {
+      _view(tester);
+      final taps = <int>[];
+      await tester.pumpWidget(
+        _host(PageLayout(loading: true, body: _act(taps))),
+      );
+      await tester.pump(const Duration(milliseconds: 200));
+      await tester.tap(find.text('Act'), warnIfMissed: false);
+      expect(taps, isEmpty);
+      expect(_loading, findsOneWidget);
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
     testWidgets(
-      'fo06/us18/s7: fo06/us18/fr06/e01: taps do nothing while loading, and '
-      'it reads Loading',
+      'fo06_04/us01/fr06/e02: in Thai the layer reads the Thai built-in '
+      'loading label',
       (tester) async {
         _view(tester);
-        final taps = <int>[];
         await tester.pumpWidget(
-          _host(PageLayout(loading: true, body: _act(taps))),
+          Localizations(
+            locale: const Locale('th'),
+            delegates: const [DefaultWidgetsLocalizations.delegate],
+            child: _host(const PageLayout(loading: true, body: Text('b'))),
+          ),
         );
         await tester.pump(const Duration(milliseconds: 200));
-        await tester.tap(find.text('Act'), warnIfMissed: false);
-        expect(taps, isEmpty);
-        expect(_loading, findsOneWidget);
-        expect(find.byType(CircularProgressIndicator), findsOneWidget);
+        expect(
+          find.bySemanticsLabel(
+            builtInLabelsFor(const Locale('th')).loadingLabel,
+          ),
+          findsOneWidget,
+        );
       },
     );
 
-    testWidgets('fo06/us18/fr06/e02: in Thai the layer reads the Thai built-in '
-        'loading label', (tester) async {
-      _view(tester);
-      await tester.pumpWidget(
-        Localizations(
-          locale: const Locale('th'),
-          delegates: const [DefaultWidgetsLocalizations.delegate],
-          child: _host(const PageLayout(loading: true, body: Text('b'))),
-        ),
-      );
-      await tester.pump(const Duration(milliseconds: 200));
-      expect(
-        find.bySemanticsLabel(
-          builtInLabelsFor(const Locale('th')).loadingLabel,
-        ),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('fo06/us18/fr06/e04: loading false lets taps through again and '
-        'removes the layer', (tester) async {
-      _view(tester);
-      final taps = <int>[];
-      Widget page(bool loading) =>
-          _host(PageLayout(loading: loading, body: _act(taps)));
-      await tester.pumpWidget(page(true));
-      await tester.pump(const Duration(milliseconds: 200));
-      await tester.pumpWidget(page(false));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Act'));
-      expect(taps, hasLength(1));
-      expect(find.byType(CircularProgressIndicator), findsNothing);
-      expect(_loading, findsNothing);
-    });
+    testWidgets(
+      'fo06_04/us01/fr06/e04: loading false lets taps through again and '
+      'removes the layer',
+      (tester) async {
+        _view(tester);
+        final taps = <int>[];
+        Widget page(bool loading) =>
+            _host(PageLayout(loading: loading, body: _act(taps)));
+        await tester.pumpWidget(page(true));
+        await tester.pump(const Duration(milliseconds: 200));
+        await tester.pumpWidget(page(false));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Act'));
+        expect(taps, hasLength(1));
+        expect(find.byType(CircularProgressIndicator), findsNothing);
+        expect(_loading, findsNothing);
+      },
+    );
 
     testWidgets(
-      'R19: fo06/us18/fr06/e05: fo06/us18/fr06/e06: Tab reaches no body '
+      'R19: fo06_04/us01/fr06/e05: fo06_04/us01/fr06/e06: Tab reaches no body '
       'control while loading, and focus returns after',
       (tester) async {
         _view(tester);
@@ -942,97 +959,103 @@ void main() {
       },
     );
 
-    testWidgets('R19: fo06/us18/fr06/e05: a dialog opened during loading keeps '
-        'its focus when loading ends', (tester) async {
-      _view(tester);
-      final pageNode = FocusNode();
-      final dialogNode = FocusNode();
-      final loading = ValueNotifier(false);
-      final navigator = GlobalKey<NavigatorState>();
-      addTearDown(() {
-        pageNode.dispose();
-        dialogNode.dispose();
-        loading.dispose();
-      });
-      await tester.pumpWidget(
-        _host(
-          Navigator(
-            key: navigator,
-            onGenerateRoute: (_) => PageRouteBuilder<void>(
-              pageBuilder: (_, _, _) => ValueListenableBuilder(
-                valueListenable: loading,
-                builder: (_, value, _) => PageLayout(
-                  loading: value,
-                  body: _act([], node: pageNode),
+    testWidgets(
+      'R19: fo06_04/us01/fr06/e05: a dialog opened during loading keeps '
+      'its focus when loading ends',
+      (tester) async {
+        _view(tester);
+        final pageNode = FocusNode();
+        final dialogNode = FocusNode();
+        final loading = ValueNotifier(false);
+        final navigator = GlobalKey<NavigatorState>();
+        addTearDown(() {
+          pageNode.dispose();
+          dialogNode.dispose();
+          loading.dispose();
+        });
+        await tester.pumpWidget(
+          _host(
+            Navigator(
+              key: navigator,
+              onGenerateRoute: (_) => PageRouteBuilder<void>(
+                pageBuilder: (_, _, _) => ValueListenableBuilder(
+                  valueListenable: loading,
+                  builder: (_, value, _) => PageLayout(
+                    loading: value,
+                    body: _act([], node: pageNode),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      );
-      pageNode.requestFocus();
-      await tester.pump();
-      loading.value = true;
-      await tester.pump();
-      navigator.currentState!.push(
-        RawDialogRoute<void>(
-          pageBuilder: (_, _, _) => Focus(
-            focusNode: dialogNode,
-            autofocus: true,
-            child: const Text('dialog'),
-          ),
-        ),
-      );
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 500));
-      expect(dialogNode.hasFocus, isTrue);
-
-      loading.value = false;
-      await tester.pump();
-      await tester.pump();
-      expect(dialogNode.hasFocus, isTrue);
-      expect(pageNode.hasFocus, isFalse);
-    });
-
-    testWidgets('R19: fo06/us18/fr06/e05: a control outside the page focused '
-        'during loading keeps its focus when loading ends', (tester) async {
-      _view(tester);
-      final pageNode = FocusNode();
-      final outside = FocusNode();
-      addTearDown(() {
-        pageNode.dispose();
-        outside.dispose();
-      });
-      Widget page(bool loading) => _host(
-        RowLayout(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Focus(focusNode: outside, child: const Text('outside')),
-            Expanded(
-              child: PageLayout(
-                loading: loading,
-                body: _act([], node: pageNode),
-              ),
+        );
+        pageNode.requestFocus();
+        await tester.pump();
+        loading.value = true;
+        await tester.pump();
+        navigator.currentState!.push(
+          RawDialogRoute<void>(
+            pageBuilder: (_, _, _) => Focus(
+              focusNode: dialogNode,
+              autofocus: true,
+              child: const Text('dialog'),
             ),
-          ],
-        ),
-      );
-      await tester.pumpWidget(page(false));
-      pageNode.requestFocus();
-      await tester.pump();
-      await tester.pumpWidget(page(true));
-      await tester.pump();
-      outside.requestFocus();
-      await tester.pump();
+          ),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 500));
+        expect(dialogNode.hasFocus, isTrue);
 
-      await tester.pumpWidget(page(false));
-      await tester.pump();
-      expect(outside.hasFocus, isTrue);
-      expect(pageNode.hasFocus, isFalse);
-    });
+        loading.value = false;
+        await tester.pump();
+        await tester.pump();
+        expect(dialogNode.hasFocus, isTrue);
+        expect(pageNode.hasFocus, isFalse);
+      },
+    );
 
     testWidgets(
-      'R19: fo06/us18/fr06/e05: focus returns to the body control even '
+      'R19: fo06_04/us01/fr06/e05: a control outside the page focused '
+      'during loading keeps its focus when loading ends',
+      (tester) async {
+        _view(tester);
+        final pageNode = FocusNode();
+        final outside = FocusNode();
+        addTearDown(() {
+          pageNode.dispose();
+          outside.dispose();
+        });
+        Widget page(bool loading) => _host(
+          RowLayout(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Focus(focusNode: outside, child: const Text('outside')),
+              Expanded(
+                child: PageLayout(
+                  loading: loading,
+                  body: _act([], node: pageNode),
+                ),
+              ),
+            ],
+          ),
+        );
+        await tester.pumpWidget(page(false));
+        pageNode.requestFocus();
+        await tester.pump();
+        await tester.pumpWidget(page(true));
+        await tester.pump();
+        outside.requestFocus();
+        await tester.pump();
+
+        await tester.pumpWidget(page(false));
+        await tester.pump();
+        expect(outside.hasFocus, isTrue);
+        expect(pageNode.hasFocus, isFalse);
+      },
+    );
+
+    testWidgets(
+      'R19: fo06_04/us01/fr06/e05: focus returns to the body control even '
       'when an outside control was focused before it',
       (tester) async {
         _view(tester);
@@ -1074,7 +1097,7 @@ void main() {
     );
 
     testWidgets(
-      'R19: fo06/us18/fr06: a loadingBuilder replaces the plain spinner '
+      'R19: fo06_04/us01/fr06: a loadingBuilder replaces the plain spinner '
       'while the layer still blocks',
       (tester) async {
         _view(tester);
@@ -1381,14 +1404,14 @@ void main() {
 
     // The layer only fades, whatever the motion setting: one frame after
     // loading turns true its bounds are the settled ones, and the fade still
-    // runs over the theme's fast level (us18/fr06/e03).
+    // runs over the theme's fast level (fo06_04/us01/fr06/e03).
     for (final (source, app, platform) in [
       ('no', false, false),
       ('app', true, false),
       ('platform', false, true),
     ]) {
       testWidgets(
-        'NFR-U03: fo06/us18/fr06/e03: with $source reduced motion the '
+        'NFR-U03: fo06_04/us01/fr06/e03: with $source reduced motion the '
         'loading layer only fades, over the fast level',
         (tester) async {
           _view(tester);
@@ -1465,7 +1488,7 @@ void main() {
     });
 
     testWidgets(
-      'NFR-U06: fo06/us18/fr06/e02: the loading layer reads as a live '
+      'NFR-U06: fo06_04/us01/fr06/e02: the loading layer reads as a live '
       'region labeled Loading',
       (tester) async {
         _view(tester);

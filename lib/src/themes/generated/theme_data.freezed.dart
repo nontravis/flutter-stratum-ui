@@ -39,7 +39,7 @@ mixin _$StratumThemeData {
 /// code.
  SystemStyle get systemStyle;/// `focus`: the focus ring's level 0 from the theme file's `focus` set
 /// for this data's mode, a high-contrast set laid over its base, each
-/// color from this data's own color set (FO-06 US-04 FR-03; themes s03
+/// color from this data's own color set (FO-06-02 US-01 FR-03; themes s03
 /// INV-46).
  StratumFocusTokens get focus;/// `component`: the widget-size ladders by `<component>.<property>`,
 /// such as `caret.side`, each holding one value per [WidgetSize] step;
@@ -254,7 +254,7 @@ class _StratumThemeData extends StratumThemeData {
 @override final  SystemStyle systemStyle;
 /// `focus`: the focus ring's level 0 from the theme file's `focus` set
 /// for this data's mode, a high-contrast set laid over its base, each
-/// color from this data's own color set (FO-06 US-04 FR-03; themes s03
+/// color from this data's own color set (FO-06-02 US-01 FR-03; themes s03
 /// INV-46).
 @override final  StratumFocusTokens focus;
 /// `component`: the widget-size ladders by `<component>.<property>`,

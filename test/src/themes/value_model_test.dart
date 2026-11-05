@@ -42,7 +42,7 @@ const _valueModelFiles = [
   'lib/src/components/common/model/interaction_state.dart',
   'lib/src/components/common/model/scroll.dart',
   'lib/src/components/common/model/focus_group.dart',
-  // M3-T16: the shipped models of FO-06 (design 5.2).
+  // M3-T16: the shipped models of FO-06-04 (design 5.2).
   'lib/src/components/common/model/modal_layout/modal_layout_style.dart',
   'lib/src/components/common/model/page_layout/page_areas.dart',
   'lib/src/components/common/model/page_layout/page_layout_style.dart',
@@ -64,17 +64,17 @@ const _valueModelFiles = [
   'lib/src/components/common/model/toast/stratum_toast_placement.dart',
   // M3-T7: the freezed focus style of FO-06.
   'lib/src/components/common/model/focus_border/stratum_focus_border_style.dart',
-  // M4-T9: the tap surface's own style of FO-06.
+  // M4-T9: the tap surface's own style of FO-06-02.
   'lib/src/components/common/model/ink_well/stratum_ink_well_style.dart',
-  // M4-T10: the scrolling area's own style of FO-06.
+  // M4-T10: the scrolling area's own style of FO-06-03.
   'lib/src/components/common/model/scroll_focus/scroll_focus_style.dart',
-  // M4-T12: the split layout's own style of FO-06.
+  // M4-T12: the split layout's own style of FO-06-04.
   'lib/src/components/common/model/split_layout/split_layout_style.dart',
   // M5-T14: the caret's own box style.
   'lib/src/components/common/model/caret/stratum_caret_style.dart',
   // M1-T4: the setting key of FO-10.
   'lib/src/components/common/model/widget_setting/widget_setting_key.dart',
-  // The page view layout's implicit scrolling value of FO-06 US-10.
+  // The page view layout's implicit scrolling value of FO-06-03 US-04.
   'lib/src/components/common/model/page_view_layout/implicit_scrolling.dart',
 ];
 

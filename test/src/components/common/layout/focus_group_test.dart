@@ -394,7 +394,7 @@ void main() {
 
   group('FocusGroup arrows', () {
     testWidgets(
-      'fo06/us06/s1: Left and Right move by screen position in a row',
+      'fo06_02/us03/s1: Left and Right move by screen position in a row',
       (tester) async {
         final before = _node();
         final items = _nodes();
@@ -603,34 +603,35 @@ void main() {
       expect(before.hasPrimaryFocus, isTrue);
     });
 
-    testWidgets('fo06/us05/fr03: group keys are skipped inside a TextField', (
-      tester,
-    ) async {
-      final field = _node();
-      final items = _nodes(1);
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Material(
-            child: themedHost(
-              ColumnLayout(
-                mainAxisSize: MainAxisSize.min,
-                focusGroup: const FocusGroup(),
-                children: [
-                  SizedBox(width: 200, child: TextField(focusNode: field)),
-                  _item(items[0]),
-                ],
+    testWidgets(
+      'fo06_02/us02/fr03: group keys are skipped inside a TextField',
+      (tester) async {
+        final field = _node();
+        final items = _nodes(1);
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Material(
+              child: themedHost(
+                ColumnLayout(
+                  mainAxisSize: MainAxisSize.min,
+                  focusGroup: const FocusGroup(),
+                  children: [
+                    SizedBox(width: 200, child: TextField(focusNode: field)),
+                    _item(items[0]),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      );
-      await _focus(tester, field);
+        );
+        await _focus(tester, field);
 
-      await _key(tester, LogicalKeyboardKey.arrowDown);
-      await _key(tester, LogicalKeyboardKey.end);
+        await _key(tester, LogicalKeyboardKey.arrowDown);
+        await _key(tester, LogicalKeyboardKey.end);
 
-      expect(field.hasPrimaryFocus, isTrue);
-    });
+        expect(field.hasPrimaryFocus, isTrue);
+      },
+    );
   });
 
   group('FocusGroup fix round 1', () {
@@ -1158,7 +1159,7 @@ void main() {
 
   group('FocusGroup role', () {
     testWidgets(
-      'fo06/us06/fr02: tabBar over items with role tab passes the debug '
+      'fo06_02/us03/fr02: tabBar over items with role tab passes the debug '
       'check',
       (tester) async {
         final handle = tester.ensureSemantics();

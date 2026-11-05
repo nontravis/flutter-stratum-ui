@@ -8,14 +8,14 @@ import 'package:stratum_ui/src/src.dart';
 
 import '../fakes/fake_stratum_theme.dart';
 
-// Build Gate rows of HoverBuilder (US-16 Accessibility and UX):
+// Build Gate rows of HoverBuilder (FO-06-02 US-04 Accessibility and UX):
 // NFR-U01, NFR-U07 n/a: no paint of its own, no hover overlay, no ring.
 // NFR-U02 n/a: an observer takes no focus and adds no Tab stop (FR-03).
 // NFR-U03 n/a: it runs no animation and paints nothing.
 // NFR-U04 n/a: no text of its own and no footprint of its own.
 // NFR-U05 n/a: not interactive; the wrapped widget keeps its own target.
 // NFR-U09 n/a: it handles no gesture and no tap.
-// NFR-E01, NFR-E02 n/a: a FO-06 primitive, not a component; it draws no
+// NFR-E01, NFR-E02 n/a: a FO-06-02 primitive, not a component; it draws no
 //   visual value and takes no customStyle.
 
 /// A component on the stateless base, which gives its child the disabled
@@ -73,7 +73,7 @@ Future<void> _enter(WidgetTester tester, TestGesture mouse) async {
 void main() {
   group('HoverBuilder', () {
     testWidgets(
-      'fo06/us16/s1, fo06/us16/fr01: a pointer entering builds the hover '
+      'fo06_02/us04/s1, fo06_02/us04/fr01: a pointer entering builds the hover '
       'look and calls onHover(true)',
       (tester) async {
         final hovers = <bool>[];
@@ -89,7 +89,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/s2, fo06/us16/fr01: the pointer leaving builds the idle '
+      'fo06_02/us04/s2, fo06_02/us04/fr01: the pointer leaving builds the idle '
       'look and calls onHover(false)',
       (tester) async {
         final hovers = <bool>[];
@@ -106,26 +106,29 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us16/fr01/e01, BP5: a pointer move inside builds nothing '
-        'and calls nothing', (tester) async {
-      final hovers = <bool>[];
-      final seen = <bool>[];
-      await tester.pumpWidget(themedHost(_card(hovers, seen)));
-      final mouse = await _mouse(tester);
-      await _enter(tester, mouse);
-      final calls = seen.length;
+    testWidgets(
+      'fo06_02/us04/fr01/e01, BP5: a pointer move inside builds nothing '
+      'and calls nothing',
+      (tester) async {
+        final hovers = <bool>[];
+        final seen = <bool>[];
+        await tester.pumpWidget(themedHost(_card(hovers, seen)));
+        final mouse = await _mouse(tester);
+        await _enter(tester, mouse);
+        final calls = seen.length;
 
-      await mouse.moveBy(const Offset(3, 2));
-      await tester.pump();
-      await mouse.moveBy(const Offset(-6, 0));
-      await tester.pump();
+        await mouse.moveBy(const Offset(3, 2));
+        await tester.pump();
+        await mouse.moveBy(const Offset(-6, 0));
+        await tester.pump();
 
-      expect(seen, hasLength(calls));
-      expect(hovers, [true]);
-    });
+        expect(seen, hasLength(calls));
+        expect(hovers, [true]);
+      },
+    );
 
     testWidgets(
-      'fo06/us16/fr01, PD4: the builder and onHover see the new value in '
+      'fo06_02/us04/fr01, PD4: the builder and onHover see the new value in '
       'the same frame',
       (tester) async {
         final hovers = <bool>[];
@@ -142,7 +145,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/s3, fo06/us16/fr01/e02, BP4: content scrolling under a '
+      'fo06_02/us04/s3, fo06_02/us04/fr01/e02, BP4: content scrolling under a '
       'still pointer moves hover to the row that comes under it',
       (tester) async {
         final controller = ScrollController();
@@ -188,7 +191,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/fr01/e03, BP1: child reaches builder as the same widget '
+      'fo06_02/us04/fr01/e03, BP1: child reaches builder as the same widget '
       'on every call and does not rebuild',
       (tester) async {
         var childBuilds = 0;
@@ -220,7 +223,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/fr01: removing a hovered builder calls no listener and '
+      'fo06_02/us04/fr01: removing a hovered builder calls no listener and '
       'throws nothing',
       (tester) async {
         final hovers = <bool>[];
@@ -236,35 +239,32 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us16/fr03/e02, fo06/us16/fr03: a 16 px icon keeps its size and '
-      'gets no overlay while hovered',
-      (tester) async {
-        await tester.pumpWidget(
-          themedHost(
-            HoverBuilder(
-              builder: (context, hovered, child) =>
-                  const Icon(Icons.star, size: 16),
-            ),
+    testWidgets('fo06_02/us04/fr03/e02, fo06_02/us04/fr03: a 16 px icon keeps its size and '
+        'gets no overlay while hovered', (tester) async {
+      await tester.pumpWidget(
+        themedHost(
+          HoverBuilder(
+            builder: (context, hovered, child) =>
+                const Icon(Icons.star, size: 16),
           ),
-        );
-        expect(tester.getSize(find.byType(HoverBuilder)), const Size(16, 16));
+        ),
+      );
+      expect(tester.getSize(find.byType(HoverBuilder)), const Size(16, 16));
 
-        await _enter(tester, await _mouse(tester));
+      await _enter(tester, await _mouse(tester));
 
-        expect(tester.getSize(find.byType(HoverBuilder)), const Size(16, 16));
-        expect(
-          find.descendant(
-            of: find.byType(HoverBuilder),
-            matching: find.byType(DecoratedBox),
-          ),
-          findsNothing,
-        );
-      },
-    );
+      expect(tester.getSize(find.byType(HoverBuilder)), const Size(16, 16));
+      expect(
+        find.descendant(
+          of: find.byType(HoverBuilder),
+          matching: find.byType(DecoratedBox),
+        ),
+        findsNothing,
+      );
+    });
 
     testWidgets(
-      'fo06/us16/fr03, D1: taps, the cursor, and hover reach the widgets '
+      'fo06_02/us04/fr03, D1: taps, the cursor, and hover reach the widgets '
       'it wraps, and the opaque wrapped widget keeps blocking the widget '
       'behind it (RQ1: same footprint as no wrapper at all)',
       (tester) async {
@@ -318,7 +318,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us16/fr03, RQ1: an ancestor GestureDetector above the '
+    testWidgets('fo06_02/us04/fr03, RQ1: an ancestor GestureDetector above the '
         'builder gets the tap on the wrapped Text', (tester) async {
       var aboveTaps = 0;
       await tester.pumpWidget(
@@ -338,7 +338,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us16/fr03, RQ1: a Stack sibling behind the wrapped opaque '
+      'fo06_02/us04/fr03, RQ1: a Stack sibling behind the wrapped opaque '
       'child gets no tap',
       (tester) async {
         var front = 0;
@@ -387,7 +387,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/fr03, RQ1: a Stack sibling behind the wrapped opaque '
+      'fo06_02/us04/fr03, RQ1: a Stack sibling behind the wrapped opaque '
       'child gets no hover enter',
       (tester) async {
         final frontHover = <bool>[];
@@ -434,7 +434,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us16/fr03, RQ1: the whole box still reports hover, '
+    testWidgets('fo06_02/us04/fr03, RQ1: the whole box still reports hover, '
         'including a padding gap outside the painted content', (tester) async {
       final hovers = <bool>[];
       const hostKey = Key('rq1E');
@@ -465,7 +465,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us16/fr04/e01, NFR-U06: semantics label the wrapped group '
+      'fo06_02/us04/fr04/e01, NFR-U06: semantics label the wrapped group '
       'in one node of its own, read before the nodes inside',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -495,87 +495,101 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us16/fr04/e02, NFR-U06: null semantics adds no node; the '
-        'wrapped node reads unchanged', (tester) async {
-      final handle = tester.ensureSemantics();
-      await tester.pumpWidget(
-        themedHost(
-          HoverBuilder(
-            builder: (context, hovered, child) => child!,
-            child: Semantics(
-              container: true,
-              button: true,
-              label: 'Card',
-              child: const SizedBox(width: 40, height: 20),
-            ),
-          ),
-        ),
-      );
-
-      expect(
-        tester.getSemantics(find.bySemanticsLabel('Card')),
-        matchesSemantics(label: 'Card', isButton: true),
-      );
-      expect(
-        find.descendant(
-          of: find.byType(HoverBuilder),
-          matching: find.byType(Semantics),
-        ),
-        // Minor 2: HoverBuilder always builds its own `container: false`
-        // `Semantics.fromProperties` wrapper (one), plus the wrapped
-        // child's own `Semantics` (one) — two widgets, but still no extra
-        // accessibility node, proven above by the unchanged 'Card' node.
-        findsNWidgets(2),
-      );
-      handle.dispose();
-    });
-
-    testWidgets('fo06/us16/fr04, Minor 2: toggling semantics null <-> a value '
-        "keeps a TextField's State and typed text, instead of remounting "
-        'it', (tester) async {
-      SemanticsProperties? semantics;
-      late StateSetter setSemantics;
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Material(
-            child: themedHost(
-              StatefulBuilder(
-                builder: (context, setter) {
-                  setSemantics = setter;
-                  return HoverBuilder(
-                    semantics: semantics,
-                    builder: (context, hovered, child) => child!,
-                    child: const SizedBox(width: 200, child: TextField()),
-                  );
-                },
+    testWidgets(
+      'fo06_02/us04/fr04/e02, NFR-U06: null semantics adds no node; the '
+      'wrapped node reads unchanged',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await tester.pumpWidget(
+          themedHost(
+            HoverBuilder(
+              builder: (context, hovered, child) => child!,
+              child: Semantics(
+                container: true,
+                button: true,
+                label: 'Card',
+                child: const SizedBox(width: 40, height: 20),
               ),
             ),
           ),
-        ),
-      );
-      await tester.enterText(find.byType(TextField), 'hi');
-      await tester.pump();
-      final before = tester.state(find.byType(EditableText));
+        );
 
-      setSemantics(() => semantics = const SemanticsProperties(label: 'Card'));
-      await tester.pump();
-      expect(tester.state(find.byType(EditableText)), same(before));
-      expect(
-        tester.widget<EditableText>(find.byType(EditableText)).controller.text,
-        'hi',
-      );
-
-      setSemantics(() => semantics = null);
-      await tester.pump();
-      expect(tester.state(find.byType(EditableText)), same(before));
-      expect(
-        tester.widget<EditableText>(find.byType(EditableText)).controller.text,
-        'hi',
-      );
-    });
+        expect(
+          tester.getSemantics(find.bySemanticsLabel('Card')),
+          matchesSemantics(label: 'Card', isButton: true),
+        );
+        expect(
+          find.descendant(
+            of: find.byType(HoverBuilder),
+            matching: find.byType(Semantics),
+          ),
+          // Minor 2: HoverBuilder always builds its own `container: false`
+          // `Semantics.fromProperties` wrapper (one), plus the wrapped
+          // child's own `Semantics` (one) — two widgets, but still no extra
+          // accessibility node, proven above by the unchanged 'Card' node.
+          findsNWidgets(2),
+        );
+        handle.dispose();
+      },
+    );
 
     testWidgets(
-      'fo06/us16/s8, fo06/us16/fr05/e01, BP3: inside a disabled component a '
+      'fo06_02/us04/fr04, Minor 2: toggling semantics null <-> a value '
+      "keeps a TextField's State and typed text, instead of remounting "
+      'it',
+      (tester) async {
+        SemanticsProperties? semantics;
+        late StateSetter setSemantics;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Material(
+              child: themedHost(
+                StatefulBuilder(
+                  builder: (context, setter) {
+                    setSemantics = setter;
+                    return HoverBuilder(
+                      semantics: semantics,
+                      builder: (context, hovered, child) => child!,
+                      child: const SizedBox(width: 200, child: TextField()),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+        await tester.enterText(find.byType(TextField), 'hi');
+        await tester.pump();
+        final before = tester.state(find.byType(EditableText));
+
+        setSemantics(
+          () => semantics = const SemanticsProperties(label: 'Card'),
+        );
+        await tester.pump();
+        expect(tester.state(find.byType(EditableText)), same(before));
+        expect(
+          tester
+              .widget<EditableText>(find.byType(EditableText))
+              .controller
+              .text,
+          'hi',
+        );
+
+        setSemantics(() => semantics = null);
+        await tester.pump();
+        expect(tester.state(find.byType(EditableText)), same(before));
+        expect(
+          tester
+              .widget<EditableText>(find.byType(EditableText))
+              .controller
+              .text,
+          'hi',
+        );
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us04/s8, fo06_02/us04/fr05/e01, BP3: inside a disabled component a '
       'pointer entering builds the idle look and calls nothing',
       (tester) async {
         final hovers = <bool>[];
@@ -592,7 +606,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/fr05/e02, BP3: a hovered builder whose component turns '
+      'fo06_02/us04/fr05/e02, BP3: a hovered builder whose component turns '
       'disabled reads false and calls nothing',
       (tester) async {
         final hovers = <bool>[];
@@ -615,7 +629,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us16/fr05, BP3: a component re-enabling under a still '
+    testWidgets('fo06_02/us04/fr05, BP3: a component re-enabling under a still '
         'pointer rebuilds the hovered look and calls onHover(true) again', (
       tester,
     ) async {
@@ -665,7 +679,7 @@ void main() {
       expect(find.text('hovered'), findsOneWidget);
     });
 
-    test('fo06/us16/fr01/e04, fo06/us16/fr01/e05, fo06/us16/fr03/e03, BP6, PD12: the '
+    test('fo06_02/us04/fr01/e04, fo06_02/us04/fr01/e05, fo06_02/us04/fr03/e03, BP6, PD12: the '
         "dartdoc names the observer's limits and warns about touch and "
         'color-only state', () {
       final source = File(

@@ -4,7 +4,7 @@ import 'package:stratum_ui/src/src.dart';
 
 import '../../common/fakes/fake_stratum_theme.dart';
 
-// NFR-U02 n/a: no interactive node; the scroll view follows FO-06
+// NFR-U02 n/a: no interactive node; the scroll view follows FO-06-03
 // keyboard scrolling when content overflows.
 // NFR-U03 n/a: no animation.
 // NFR-U05 n/a: no interactive target.

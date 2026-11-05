@@ -22,7 +22,7 @@ final SplitLayoutComponent = Component<SplitLayout, StoryArgs<SplitLayout>>(
   docsBuilder: componentMeta.docsBuilder,
   docComment:
       r'''Lays out its [panes] side by side along [axis], with a divider the
-EndUser drags between each two neighbors (US-21).
+EndUser drags between each two neighbors (FO-06-04 US-04).
 
 A null pane does not show, and the shown panes fill the split. Under
 [TextDirection.rtl] a horizontal split mirrors, so the first pane sits
@@ -43,8 +43,8 @@ divider takes a drag or focus or adds a slider node, while
 
 The split needs a bounded extent along [axis]. It builds on
 `MultiSplitView` of `multi_split_view` for its layout and its pane
-limits, and draws its own translucent hit layer over the seams (layout
-s03 INV-75).''',
+limits, and draws its own translucent hit layer over the seams
+(FO-06-04 INV-75).''',
   stories: [
     $Playground..$generatedName = 'Playground',
     $RecipeFormRow..$generatedName = 'RecipeFormRow',

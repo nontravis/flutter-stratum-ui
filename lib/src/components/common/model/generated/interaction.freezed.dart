@@ -30,7 +30,7 @@ mixin _$Interaction {
 /// focus; see `StratumInkWell.shortcuts`.
  Map<ShortcutActivator, VoidCallback> get shortcuts;/// The tap surface's own style, which `BoxLayout` hands to
 /// `StratumInkWell.customStyle`: its `focus` field is level 3 of the
-/// surface's focus ring (FO-06 US-04 FR-03).
+/// surface's focus ring (FO-06-02 US-01 FR-03).
  StratumInkWellStyle? get customStyle;
 /// Create a copy of Interaction
 /// with the given fields replaced by the non-null parameter values.
@@ -179,7 +179,7 @@ class _Interaction implements Interaction {
 
 /// The tap surface's own style, which `BoxLayout` hands to
 /// `StratumInkWell.customStyle`: its `focus` field is level 3 of the
-/// surface's focus ring (FO-06 US-04 FR-03).
+/// surface's focus ring (FO-06-02 US-01 FR-03).
 @override final  StratumInkWellStyle? customStyle;
 
 /// Create a copy of Interaction

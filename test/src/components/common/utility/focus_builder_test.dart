@@ -8,7 +8,7 @@ import 'package:stratum_ui/src/src.dart';
 
 import '../fakes/fake_stratum_theme.dart';
 
-// Build Gate rows of FocusBuilder (US-16 Accessibility and UX):
+// Build Gate rows of FocusBuilder (FO-06-02 US-04 Accessibility and UX):
 // NFR-U01, NFR-U07 n/a: no paint of its own and no focus ring.
 // NFR-U02 n/a: an observer takes no focus and adds no Tab stop (FR-03); the
 //   wrapped widgets keep their own Tab order and focused looks.
@@ -16,7 +16,7 @@ import '../fakes/fake_stratum_theme.dart';
 // NFR-U04 n/a: no text of its own and no footprint of its own.
 // NFR-U05 n/a: not interactive; the wrapped widgets keep their own targets.
 // NFR-U09 n/a: it handles no gesture and no tap.
-// NFR-E01, NFR-E02 n/a: a FO-06 primitive, not a component; it draws no
+// NFR-E01, NFR-E02 n/a: a FO-06-02 primitive, not a component; it draws no
 //   visual value and takes no customStyle.
 
 /// A component on the stateless base, which gives its child the disabled
@@ -83,7 +83,7 @@ Widget _addressGroup({
 void main() {
   group('FocusBuilder', () {
     testWidgets(
-      'fo06/us16/s4, fo06/us16/fr02, fo06/us16/fr02/e02, BP2: a tap on a field '
+      'fo06_02/us04/s4, fo06_02/us04/fr02, fo06_02/us04/fr02/e02, BP2: a tap on a field '
       'inside builds the focused look and calls onFocusChange(true)',
       (tester) async {
         final changes = <bool>[];
@@ -108,39 +108,36 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us16/s5, fo06/us16/fr02/e01: Tab from the street field to the '
-      'city field keeps the look and calls nothing',
-      (tester) async {
-        final changes = <bool>[];
-        final seen = <bool>[];
-        final city = _node('city');
-        await tester.pumpWidget(
-          _app(
-            _addressGroup(
-              street: _node('street'),
-              city: city,
-              changes: changes,
-              seen: seen,
-            ),
+    testWidgets('fo06_02/us04/s5, fo06_02/us04/fr02/e01: Tab from the street field to the '
+        'city field keeps the look and calls nothing', (tester) async {
+      final changes = <bool>[];
+      final seen = <bool>[];
+      final city = _node('city');
+      await tester.pumpWidget(
+        _app(
+          _addressGroup(
+            street: _node('street'),
+            city: city,
+            changes: changes,
+            seen: seen,
           ),
-        );
-        await tester.tap(find.byType(TextField).first);
-        await tester.pump();
-        final calls = seen.length;
+        ),
+      );
+      await tester.tap(find.byType(TextField).first);
+      await tester.pump();
+      final calls = seen.length;
 
-        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
-        await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pump();
 
-        expect(city.hasPrimaryFocus, isTrue);
-        expect(find.text('group focused'), findsOneWidget);
-        expect(seen, hasLength(calls));
-        expect(changes, [true]);
-      },
-    );
+      expect(city.hasPrimaryFocus, isTrue);
+      expect(find.text('group focused'), findsOneWidget);
+      expect(seen, hasLength(calls));
+      expect(changes, [true]);
+    });
 
     testWidgets(
-      'fo06/us16/fr02: focus leaving the group builds the idle look and '
+      'fo06_02/us04/fr02: focus leaving the group builds the idle look and '
       'calls onFocusChange(false)',
       (tester) async {
         final changes = <bool>[];
@@ -172,7 +169,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/fr02, PD4: the builder and onFocusChange see the new '
+      'fo06_02/us04/fr02, PD4: the builder and onFocusChange see the new '
       'value in the same frame',
       (tester) async {
         final changes = <bool>[];
@@ -198,7 +195,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/fr03, D1: taps and the cursor reach the widget a focus '
+      'fo06_02/us04/fr03, D1: taps and the cursor reach the widget a focus '
       'builder wraps, and its footprint stays the same',
       (tester) async {
         var taps = 0;
@@ -237,7 +234,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/s6, fo06/us16/fr03/e01, fo06/us16/fr03, D1: Tab lands straight in '
+      'fo06_02/us04/s6, fo06_02/us04/fr03/e01, fo06_02/us04/fr03, D1: Tab lands straight in '
       'a wrapped text field, with no stop and no ring on the wrapper',
       (tester) async {
         final before = _node('before');
@@ -270,35 +267,38 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us16/fr02/e03: a subtree with no node that takes focus '
-        'stays unfocused', (tester) async {
-      final seen = <bool>[];
-      final outside = _node('outside');
-      await tester.pumpWidget(
-        _app(
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FocusBuilder(
-                builder: (context, focused, child) {
-                  seen.add(focused);
-                  return const Text('label');
-                },
-              ),
-              SizedBox(width: 200, child: TextField(focusNode: outside)),
-            ],
+    testWidgets(
+      'fo06_02/us04/fr02/e03: a subtree with no node that takes focus '
+      'stays unfocused',
+      (tester) async {
+        final seen = <bool>[];
+        final outside = _node('outside');
+        await tester.pumpWidget(
+          _app(
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FocusBuilder(
+                  builder: (context, focused, child) {
+                    seen.add(focused);
+                    return const Text('label');
+                  },
+                ),
+                SizedBox(width: 200, child: TextField(focusNode: outside)),
+              ],
+            ),
           ),
-        ),
-      );
+        );
 
-      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
-      await tester.pump();
+        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+        await tester.pump();
 
-      expect(outside.hasPrimaryFocus, isTrue);
-      expect(seen, everyElement(isFalse));
-    });
+        expect(outside.hasPrimaryFocus, isTrue);
+        expect(seen, everyElement(isFalse));
+      },
+    );
 
-    testWidgets('fo06/us16/fr02/e04, BP1: child reaches builder as the same '
+    testWidgets('fo06_02/us04/fr02/e04, BP1: child reaches builder as the same '
         'widget on every call and does not rebuild', (tester) async {
       var childBuilds = 0;
       final inner = _node('inner');
@@ -339,7 +339,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us16/fr02: removing a focused builder calls no listener and '
+      'fo06_02/us04/fr02: removing a focused builder calls no listener and '
       'throws nothing',
       (tester) async {
         final changes = <bool>[];
@@ -364,7 +364,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/s7, fo06/us16/fr04/e01, NFR-U06: the group label reads '
+      'fo06_02/us04/s7, fo06_02/us04/fr04/e01, NFR-U06: the group label reads '
       'before its street field',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -395,7 +395,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us16/fr04/e02, PD6, NFR-U06: null semantics adds no node; '
+      'fo06_02/us04/fr04/e02, PD6, NFR-U06: null semantics adds no node; '
       'the wrapped node reads unchanged',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -432,43 +432,51 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us16/fr04, Minor 2: toggling semantics null <-> a value '
-        "keeps a focused field's State and focus, instead of remounting "
-        'it', (tester) async {
-      SemanticsProperties? semantics;
-      late StateSetter setSemantics;
-      final field = _node('field');
-      await tester.pumpWidget(
-        _app(
-          StatefulBuilder(
-            builder: (context, setter) {
-              setSemantics = setter;
-              return FocusBuilder(
-                semantics: semantics,
-                builder: (context, focused, child) => child!,
-                child: SizedBox(width: 200, child: TextField(focusNode: field)),
-              );
-            },
+    testWidgets(
+      'fo06_02/us04/fr04, Minor 2: toggling semantics null <-> a value '
+      "keeps a focused field's State and focus, instead of remounting "
+      'it',
+      (tester) async {
+        SemanticsProperties? semantics;
+        late StateSetter setSemantics;
+        final field = _node('field');
+        await tester.pumpWidget(
+          _app(
+            StatefulBuilder(
+              builder: (context, setter) {
+                setSemantics = setter;
+                return FocusBuilder(
+                  semantics: semantics,
+                  builder: (context, focused, child) => child!,
+                  child: SizedBox(
+                    width: 200,
+                    child: TextField(focusNode: field),
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-      );
-      field.requestFocus();
-      await tester.pump();
-      final before = tester.state(find.byType(EditableText));
+        );
+        field.requestFocus();
+        await tester.pump();
+        final before = tester.state(find.byType(EditableText));
 
-      setSemantics(() => semantics = const SemanticsProperties(label: 'Field'));
-      await tester.pump();
-      expect(tester.state(find.byType(EditableText)), same(before));
-      expect(field.hasFocus, isTrue);
+        setSemantics(
+          () => semantics = const SemanticsProperties(label: 'Field'),
+        );
+        await tester.pump();
+        expect(tester.state(find.byType(EditableText)), same(before));
+        expect(field.hasFocus, isTrue);
 
-      setSemantics(() => semantics = null);
-      await tester.pump();
-      expect(tester.state(find.byType(EditableText)), same(before));
-      expect(field.hasFocus, isTrue);
-    });
+        setSemantics(() => semantics = null);
+        await tester.pump();
+        expect(tester.state(find.byType(EditableText)), same(before));
+        expect(field.hasFocus, isTrue);
+      },
+    );
 
     testWidgets(
-      'fo06/us16/fr05/e03, BP3: a focused field whose component turns '
+      'fo06_02/us04/fr05/e03, BP3: a focused field whose component turns '
       'disabled loses focus, reads false, and calls nothing',
       (tester) async {
         final changes = <bool>[];
@@ -520,7 +528,7 @@ void main() {
       expect(find.text('group focused'), findsOneWidget);
     });
 
-    test('fo06/us16/fr02, fo06/us16/fr03/e03, BP6, PD12: the dartdoc names the '
+    test('fo06_02/us04/fr02, fo06_02/us04/fr03/e03, BP6, PD12: the dartdoc names the '
         "observer's limits and warns against color-only state", () {
       final source = File(
         'lib/src/components/common/utility/focus_builder.dart',

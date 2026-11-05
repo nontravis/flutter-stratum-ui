@@ -4,9 +4,9 @@ import 'dart:math' as math;
 /// slack `RenderWrap` allows before a child opens a new run.
 const _tolerance = 1e-10;
 
-/// Where a wrap with a limit cuts its children (US-14 FR-01, FR-02): the
-/// first [shown] children in the runs of [runOf], then, when [overflowRun]
-/// is set, the overflow child at the end of that run.
+/// Where a wrap with a limit cuts its children (FO-06-01 US-05 FR-01,
+/// FR-02): the first [shown] children in the runs of [runOf], then, when
+/// [overflowRun] is set, the overflow child at the end of that run.
 final class WrapCut {
   const new({required this.runOf, this.overflowRun});
 
@@ -43,7 +43,7 @@ final class WrapCut {
 /// child under the same rule, opens a new run while that run stays within
 /// [maxRuns], and at the cap hides shown children from the end, one at a
 /// time, asking [overflowExtent] again for each new count, until it fits
-/// or sits alone in the last allowed run (s03 INV-38).
+/// or sits alone in the last allowed run (FO-06-01 INV-38).
 WrapCut cutWrap({
   required List<double> extents,
   required double limit,

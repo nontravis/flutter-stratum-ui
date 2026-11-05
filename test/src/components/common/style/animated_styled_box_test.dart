@@ -284,7 +284,7 @@ void main() {
       expect(color.b, moreOrLessEquals(0.5, epsilon: 0.01));
     });
 
-    testWidgets('fo05/us04/fr02/e01, s03/inv84: a style with no overrides '
+    testWidgets('fo05/us04/fr02/e01, fo06_01/inv84: a style with no overrides '
         'builds with no WindowSizeScope above', (tester) async {
       await tester.pumpWidget(
         _host(const WidgetStyle(padding: EdgeInsets.all(16))),

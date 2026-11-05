@@ -4,8 +4,8 @@ import 'package:stratum_ui/src/themes/component_defaults.dart'
 
 /// [upper] laid over [lower], field by field and shown state by shown
 /// state: a field [upper] leaves null, or that resolves to null for a
-/// state, takes [lower]'s value (layout s03 INV-80; FO-06 US-04
-/// FR-03 E14). Null when both are null.
+/// state, takes [lower]'s value (FO-06 INV-80; FO-06-02 US-01 FR-03
+/// E14). Null when both are null.
 ///
 /// Not exported: `utility/utility.dart` hides it. A ring host lays its
 /// instance style's `focus` (level 3) over its app-wide style's `focus`
@@ -79,9 +79,9 @@ StratumFocusBorderStyle _themeLevel(
 
 /// Throws a [FlutterError] naming the field when [style], the levels above
 /// the theme's, sets a width of 0 or less or a fully transparent color for
-/// a state the ring shows: focused, and hovered for an [inside] ring (FO-06
-/// US-04 FR-03 E19; WCAG 2.4.7). Level 0 is checked when the theme loads
-/// (FO-01 US-01 FR-01 E20).
+/// a state the ring shows: focused, and hovered for an [inside] ring
+/// (FO-06-02 US-01 FR-03 E19; WCAG 2.4.7). Level 0 is checked when the
+/// theme loads (FO-01 US-01 FR-01 E20).
 bool _showsRing(StratumFocusBorderStyle? style, {required bool inside}) {
   if (style == null) return true;
   for (final state in [WidgetState.focused, if (inside) WidgetState.hovered]) {
@@ -110,7 +110,7 @@ bool _showsRing(StratumFocusBorderStyle? style, {required bool inside}) {
 /// its child's edge in its focused look, over the levels with
 /// [customStyle] above the app-wide one: the resolved gap and width and,
 /// when a second ring color is set, the second ring's width, the first
-/// ring's unless the style sets its own (FO-06 US-07 FR-03 E01). A glow
+/// ring's unless the style sets its own (FO-06-03 US-03 FR-03 E01). A glow
 /// counts nothing and may clip at the window edge. Zero with no Stratum
 /// theme above [context], where no ring is built, and zero for an inside
 /// placement, whose ring paints at `strokeAlignInside` and never protrudes
@@ -131,9 +131,9 @@ double focusBorderOutsideReach(
     ),
     customStyle,
   );
-  // The merged upper levels' own placement, as `_looks` reads it (layout
-  // s03 INV-80): an inside-placed host style floors on the theme's
-  // inside look, never the outside one.
+  // The merged upper levels' own placement, as `_looks` reads it
+  // (FO-06 INV-80): an inside-placed host style floors on the theme's inside
+  // look, never the outside one.
   final placement = upper?.placement ?? StratumFocusBorderPlacement.outside;
   if (placement == StratumFocusBorderPlacement.inside) return 0;
   final style = focusStyleOver(

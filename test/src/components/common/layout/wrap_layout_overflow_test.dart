@@ -316,24 +316,21 @@ Future<List<FlutterErrorDetails>> _settleReporting(
 }
 
 void main() {
-  group('WrapLayout overflow (US-14)', () {
-    testWidgets(
-      'fo06/us14/s1: a wrap of 12 tags cut to two runs shows 8 tags and "+4" '
-      'at the end of the second run',
-      (tester) async {
-        await tester.pumpWidget(_host(_wrap(maxRuns: 2, children: _tags(12))));
+  group('WrapLayout overflow (FO-06-01 US-05)', () {
+    testWidgets('fo06_01/us05/s1: a wrap of 12 tags cut to two runs shows 8 tags and "+4" '
+        'at the end of the second run', (tester) async {
+      await tester.pumpWidget(_host(_wrap(maxRuns: 2, children: _tags(12))));
 
-        expect(_shownTags(), [0, 1, 2, 3, 4, 5, 6, 7]);
-        expect(find.text('+4'), findsOneWidget);
-        expect(
-          tester.getTopLeft(find.byKey(const ValueKey('more'))),
-          const Offset(200, 26),
-        );
-      },
-    );
+      expect(_shownTags(), [0, 1, 2, 3, 4, 5, 6, 7]);
+      expect(find.text('+4'), findsOneWidget);
+      expect(
+        tester.getTopLeft(find.byKey(const ValueKey('more'))),
+        const Offset(200, 26),
+      );
+    });
 
     testWidgets(
-      'fo06/us14/s2, fo06/us14/fr01/e01, s03/inv37: the limit that hides more wins',
+      'fo06_01/us05/s2, fo06_01/us05/fr01/e01, fo06_01/inv37: the limit that hides more wins',
       (tester) async {
         await tester.pumpWidget(
           _host(_wrap(maxRuns: 2, maxChildren: 5, children: _tags(12))),
@@ -350,7 +347,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us14/s3: a wrap whose 4 tags fit in one run shows them and no "+N"',
+      'fo06_01/us05/s3: a wrap whose 4 tags fit in one run shows them and no "+N"',
       (tester) async {
         await tester.pumpWidget(_host(_wrap(maxRuns: 2, children: _tags(4))));
 
@@ -359,7 +356,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us14/s11, fo06/us14/fr01/e06, s03/inv37: a limit or an overflowBuilder '
+    testWidgets('fo06_01/us05/s11, fo06_01/us05/fr01/e06, fo06_01/inv37: a limit or an overflowBuilder '
         'with scroll fails an assertion that names both, collapsed or '
         'expanded', (tester) async {
       const names = ['maxRuns', 'maxChildren', 'overflowBuilder', 'scroll'];
@@ -386,7 +383,7 @@ void main() {
       );
     });
 
-    testWidgets('fo06/us14/s12, fo06/us14/fr01/e02, s03/inv37: a limit below its bound fails an '
+    testWidgets('fo06_01/us05/s12, fo06_01/us05/fr01/e02, fo06_01/inv37: a limit below its bound fails an '
         'assertion that states the bound', (tester) async {
       expect(
         () => WrapLayout(maxRuns: 0, children: const []),
@@ -398,30 +395,27 @@ void main() {
       );
     });
 
-    testWidgets(
-      'fo06/us14/fr01/e05, s03/inv36: with no overflowBuilder and both limits '
-      "null the wrap builds Flutter's Wrap; any of the three builds the "
-      'overflow frame',
-      (tester) async {
-        await tester.pumpWidget(
-          _host(_wrap(overflowBuilder: null, children: _tags(4))),
-        );
-        expect(find.byType(Wrap), findsOneWidget);
-        expect(find.byType(WrapOverflowFrame), findsNothing);
+    testWidgets('fo06_01/us05/fr01/e05, fo06_01/inv36: with no overflowBuilder and both limits '
+        "null the wrap builds Flutter's Wrap; any of the three builds the "
+        'overflow frame', (tester) async {
+      await tester.pumpWidget(
+        _host(_wrap(overflowBuilder: null, children: _tags(4))),
+      );
+      expect(find.byType(Wrap), findsOneWidget);
+      expect(find.byType(WrapOverflowFrame), findsNothing);
 
-        for (final wrap in [
-          _wrap(maxRuns: 2, overflowBuilder: null, children: _tags(4)),
-          _wrap(maxChildren: 2, overflowBuilder: null, children: _tags(4)),
-          _wrap(children: _tags(4)),
-        ]) {
-          await tester.pumpWidget(_host(wrap));
-          expect(find.byType(WrapOverflowFrame), findsOneWidget);
-          expect(find.byType(Wrap), findsNothing);
-        }
-      },
-    );
+      for (final wrap in [
+        _wrap(maxRuns: 2, overflowBuilder: null, children: _tags(4)),
+        _wrap(maxChildren: 2, overflowBuilder: null, children: _tags(4)),
+        _wrap(children: _tags(4)),
+      ]) {
+        await tester.pumpWidget(_host(wrap));
+        expect(find.byType(WrapOverflowFrame), findsOneWidget);
+        expect(find.byType(Wrap), findsNothing);
+      }
+    });
 
-    testWidgets('fo06/us14/fr01/e04: an overflowBuilder with both limits null shows every '
+    testWidgets('fo06_01/us05/fr01/e04: an overflowBuilder with both limits null shows every '
         'child and builds no overflow child', (tester) async {
       await tester.pumpWidget(_host(_wrap(children: _tags(12))));
 
@@ -430,7 +424,7 @@ void main() {
     });
 
     testWidgets(
-      's03/inv36: with overflowBuilder set, switching both limits between '
+      'fo06_01/inv36: with overflowBuilder set, switching both limits between '
       'null and a value keeps the children mounted',
       (tester) async {
         Widget build(int? maxRuns) =>
@@ -451,7 +445,7 @@ void main() {
     );
 
     testWidgets(
-      's03/inv36: with no overflowBuilder, switching both limits between '
+      'fo06_01/inv36: with no overflowBuilder, switching both limits between '
       'null and a value remounts the children',
       (tester) async {
         Widget build(int? maxRuns) => _host(
@@ -469,7 +463,7 @@ void main() {
     );
 
     testWidgets(
-      "fo06/us01/fr02/e06: the wrap row's parameters reach the overflow frame",
+      "fo06_01/us01/fr02/e06: the wrap row's parameters reach the overflow frame",
       (tester) async {
         Widget more(BuildContext context, int count) => _more(context, count);
         await tester.pumpWidget(
@@ -513,7 +507,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us14/fr01: a focus group and a box style wrap the overflow frame as '
+    testWidgets('fo06_01/us05/fr01: a focus group and a box style wrap the overflow frame as '
         'they wrap a plain wrap', (tester) async {
       await tester.pumpWidget(
         _host(
@@ -543,8 +537,8 @@ void main() {
     });
   });
 
-  group('WrapLayout hidden children (US-14 FR-03)', () {
-    testWidgets("fo06/us14/fr03, fo06/us14/fr03/e04, s03/inv39: a hidden child's ticker stops "
+  group('WrapLayout hidden children (FO-06-01 US-05 FR-03)', () {
+    testWidgets("fo06_01/us05/fr03, fo06_01/us05/fr03/e04, fo06_01/inv39: a hidden child's ticker stops "
         'and ticks again when a limit change shows it', (tester) async {
       final ticks = [0, 0];
       Widget build(int? maxChildren) => _host(
@@ -568,7 +562,7 @@ void main() {
       expect(ticks[1], greaterThan(0));
     });
 
-    testWidgets('fo06/us14/s5, fo06/us14/fr03/e04: a chip selected before a collapse shows '
+    testWidgets('fo06_01/us05/s5, fo06_01/us05/fr03/e04: a chip selected before a collapse shows '
         'still selected after the expand', (tester) async {
       Widget build(int? maxRuns) =>
           _host(_wrap(maxRuns: maxRuns, children: _chips(12)));
@@ -592,7 +586,7 @@ void main() {
       expect(chip.selected, isTrue);
     });
 
-    testWidgets('fo06/us14/s7, fo06/us14/fr03/e05: Tab moves through the shown items and then '
+    testWidgets('fo06_01/us05/s7, fo06_01/us05/fr03/e05: Tab moves through the shown items and then '
         '"+4", never a hidden item', (tester) async {
       final nodes = [for (var i = 0; i < 12; i++) _node('tag $i')];
       final before = _node('before');
@@ -622,7 +616,7 @@ void main() {
       expect(visited, [for (var i = 0; i < 8; i++) 'tag $i', '+N', 'after']);
     });
 
-    testWidgets('fo06/us14/fr03/e05: Shift+Tab moves back through "+4" and the shown items, '
+    testWidgets('fo06_01/us05/fr03/e05: Shift+Tab moves back through "+4" and the shown items, '
         'never a hidden item', (tester) async {
       final nodes = [for (var i = 0; i < 12; i++) _node('tag $i')];
       final after = _node('after');
@@ -654,7 +648,7 @@ void main() {
       expect(visited, ['+N', for (var i = 7; i >= 0; i--) 'tag $i', 'before']);
     });
 
-    testWidgets('fo06/us14/fr03, s03/inv39: a hidden child cannot take focus, and takes it '
+    testWidgets('fo06_01/us05/fr03, fo06_01/inv39: a hidden child cannot take focus, and takes it '
         'once a limit change shows it', (tester) async {
       final hidden = _node('tag 9');
       Widget build(int? maxRuns) => _host(
@@ -678,7 +672,7 @@ void main() {
       expect(hidden.hasFocus, isTrue);
     });
 
-    testWidgets('fo06/us14/s9, fo06/us14/fr03, fo06/us14/fr03/e04, s03/inv39: a screen reader reads '
+    testWidgets('fo06_01/us05/s9, fo06_01/us05/fr03, fo06_01/us05/fr03/e04, fo06_01/inv39: a screen reader reads '
         'the shown items and "+4", never a hidden item', (tester) async {
       final handle = tester.ensureSemantics();
       final collapsed = [for (var i = 0; i < 8; i++) 'tag $i', '+4'];
@@ -739,7 +733,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us14/fr03/e09, s03/inv39: select-all and copy under a SelectionArea '
+    testWidgets('fo06_01/us05/fr03/e09, fo06_01/inv39: select-all and copy under a SelectionArea '
         'leave the text of hidden children out', (tester) async {
       String? copied;
       Future<Object?> clipboard(MethodCall call) async {
@@ -788,53 +782,50 @@ void main() {
       expect(copied, isNot(anyOf(contains('w2'), contains('w3'))));
     });
 
-    testWidgets(
-      'fo06/us14/fr03/e09, s03/inv39: a route push finds no Hero in a hidden '
-      'child',
-      (tester) async {
-        final navigator = GlobalKey<NavigatorState>();
-        await tester.pumpWidget(
-          MaterialApp(
-            navigatorKey: navigator,
-            home: Align(
-              alignment: Alignment.topLeft,
-              child: SizedBox(
-                width: 230,
-                child: _wrap(
-                  maxChildren: 1,
-                  children: [
-                    _tag(0),
-                    const Hero(
-                      tag: 'hidden',
-                      child: SizedBox(width: 40, height: 20),
-                    ),
-                  ],
-                ),
+    testWidgets('fo06_01/us05/fr03/e09, fo06_01/inv39: a route push finds no Hero in a hidden '
+        'child', (tester) async {
+      final navigator = GlobalKey<NavigatorState>();
+      await tester.pumpWidget(
+        MaterialApp(
+          navigatorKey: navigator,
+          home: Align(
+            alignment: Alignment.topLeft,
+            child: SizedBox(
+              width: 230,
+              child: _wrap(
+                maxChildren: 1,
+                children: [
+                  _tag(0),
+                  const Hero(
+                    tag: 'hidden',
+                    child: SizedBox(width: 40, height: 20),
+                  ),
+                ],
               ),
             ),
           ),
-        );
+        ),
+      );
 
-        navigator.currentState!.push(
-          MaterialPageRoute<void>(
-            builder: (context) => Hero(
-              tag: 'hidden',
-              flightShuttleBuilder: (_, _, _, _, _) =>
-                  const SizedBox(key: ValueKey('shuttle')),
-              child: const SizedBox(width: 40, height: 20),
-            ),
+      navigator.currentState!.push(
+        MaterialPageRoute<void>(
+          builder: (context) => Hero(
+            tag: 'hidden',
+            flightShuttleBuilder: (_, _, _, _, _) =>
+                const SizedBox(key: ValueKey('shuttle')),
+            child: const SizedBox(width: 40, height: 20),
           ),
-        );
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 10));
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 10));
 
-        expect(find.byKey(const ValueKey('shuttle')), findsNothing);
-        expect(tester.takeException(), isNull);
-      },
-    );
+      expect(find.byKey(const ValueKey('shuttle')), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
 
     testWidgets(
-      'fo06/us14/fr03/e09, s03/inv39: under a SelectionArea a child keeps its '
+      'fo06_01/us05/fr03/e09, fo06_01/inv39: under a SelectionArea a child keeps its '
       'State and its text render object while a limit hides and shows it',
       (tester) async {
         Widget build(int? maxChildren) => MaterialApp(
@@ -869,7 +860,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us14/fr03/e04, s03/inv39: a focused child that a children change '
+      'fo06_01/us05/fr03/e04, fo06_01/inv39: a focused child that a children change '
       'moves past the old cut keeps focus when the new cut still shows it',
       (tester) async {
         final nodes = [for (var i = 0; i < 12; i++) _node('tag $i')];
@@ -897,7 +888,7 @@ void main() {
     );
 
     testWidgets(
-      's03/inv39: a shown child that a children change moves past the cut '
+      'fo06_01/inv39: a shown child that a children change moves past the cut '
       'hides inside the layout of the new cut, never in the build before it',
       (tester) async {
         final flips = <bool>[];
@@ -924,45 +915,41 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us14/fr03/e04, s03/inv39: an unkeyed focused child that a keyed '
-      'insert moves past the old cut keeps focus and never flips when the '
-      'new cut still shows it',
-      (tester) async {
-        final b = _node('b');
-        final flips = <bool>[];
-        // [A, tag 1, B] becomes [tag 0, A, tag 1, B]: Flutter matches the
-        // unkeyed A and B from the end, so B's slot moves from index 2 to 3.
-        Widget build({required bool inserted, required int maxChildren}) =>
-            _host(
-              _wrap(
-                maxChildren: maxChildren,
-                children: [
-                  if (inserted) _tag(0),
-                  const SizedBox(width: 40, height: 20),
-                  _tag(1),
-                  Focus(
-                    focusNode: b,
-                    child: _TickerWatch(log: flips),
-                  ),
-                ],
-              ),
-            );
-        await tester.pumpWidget(build(inserted: false, maxChildren: 3));
-        b.requestFocus();
-        await tester.pump();
-        expect(b.hasFocus, isTrue);
+    testWidgets('fo06_01/us05/fr03/e04, fo06_01/inv39: an unkeyed focused child that a keyed '
+        'insert moves past the old cut keeps focus and never flips when the '
+        'new cut still shows it', (tester) async {
+      final b = _node('b');
+      final flips = <bool>[];
+      // [A, tag 1, B] becomes [tag 0, A, tag 1, B]: Flutter matches the
+      // unkeyed A and B from the end, so B's slot moves from index 2 to 3.
+      Widget build({required bool inserted, required int maxChildren}) => _host(
+        _wrap(
+          maxChildren: maxChildren,
+          children: [
+            if (inserted) _tag(0),
+            const SizedBox(width: 40, height: 20),
+            _tag(1),
+            Focus(
+              focusNode: b,
+              child: _TickerWatch(log: flips),
+            ),
+          ],
+        ),
+      );
+      await tester.pumpWidget(build(inserted: false, maxChildren: 3));
+      b.requestFocus();
+      await tester.pump();
+      expect(b.hasFocus, isTrue);
 
-        await tester.pumpWidget(build(inserted: true, maxChildren: 4));
-        await tester.pump();
+      await tester.pumpWidget(build(inserted: true, maxChildren: 4));
+      await tester.pump();
 
-        expect(b.hasFocus, isTrue);
-        expect(flips, isEmpty);
-      },
-    );
+      expect(b.hasFocus, isTrue);
+      expect(flips, isEmpty);
+    });
 
     testWidgets(
-      's03/inv39: an unkeyed child that a keyed insert moves past the cut '
+      'fo06_01/inv39: an unkeyed child that a keyed insert moves past the cut '
       'hides inside the layout of the new cut, never in the build before it',
       (tester) async {
         final flips = <bool>[];
@@ -1035,7 +1022,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us14/fr01/e08: a child that fits only while hidden stays hidden, '
+      'fo06_01/us05/fr01/e08: a child that fits only while hidden stays hidden, '
       '"+N" counts it, and the wrap settles after one report',
       (tester) async {
         final reports = await _settleReporting(tester, [
@@ -1059,7 +1046,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us14/fr01/e08: a limit change that shows a child that fits only '
+      'fo06_01/us05/fr01/e08: a limit change that shows a child that fits only '
       'while hidden keeps it hidden, and the wrap settles after one report',
       (tester) async {
         Widget build(int? maxChildren) => _host(
@@ -1079,7 +1066,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us14/fr01/e08: ancestor rebuilds that build the same children anew '
+      'fo06_01/us05/fr01/e08: ancestor rebuilds that build the same children anew '
       'keep a child that fits only while hidden hidden, with no new report',
       (tester) async {
         // Each call builds every child widget anew, as a parent's build
@@ -1098,41 +1085,38 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us14/fr01/e08: a gap or constraints change lets a child that fits '
-      'only while hidden show again when it fits shown',
-      (tester) async {
-        // The same widgets in every build, so only the gap or the width
-        // changes.
-        final children = [_tag(0), _swapTag(1, on: 185, off: 40)];
-        Widget build({double gap = 10, double width = 230}) => _host(
-          WrapLayout(
-            gap: gap,
-            maxRuns: 1,
-            overflowBuilder: _more,
-            children: children,
-          ),
-          width: width,
-        );
-        // 40 + 10 + 185 = 235 does not fit 230 shown: pinned hidden.
-        var reports = await _settleReporting(tester, [build()]);
-        expect(_shownTags(), [0]);
-        expect(reports, hasLength(1));
+    testWidgets('fo06_01/us05/fr01/e08: a gap or constraints change lets a child that fits '
+        'only while hidden show again when it fits shown', (tester) async {
+      // The same widgets in every build, so only the gap or the width
+      // changes.
+      final children = [_tag(0), _swapTag(1, on: 185, off: 40)];
+      Widget build({double gap = 10, double width = 230}) => _host(
+        WrapLayout(
+          gap: gap,
+          maxRuns: 1,
+          overflowBuilder: _more,
+          children: children,
+        ),
+        width: width,
+      );
+      // 40 + 10 + 185 = 235 does not fit 230 shown: pinned hidden.
+      var reports = await _settleReporting(tester, [build()]);
+      expect(_shownTags(), [0]);
+      expect(reports, hasLength(1));
 
-        // 40 + 0 + 185 = 225 fits.
-        reports = await _settleReporting(tester, [build(gap: 0)]);
-        expect(_shownTags(), [0, 1]);
-        expect(reports, isEmpty);
+      // 40 + 0 + 185 = 225 fits.
+      reports = await _settleReporting(tester, [build(gap: 0)]);
+      expect(_shownTags(), [0, 1]);
+      expect(reports, isEmpty);
 
-        reports = await _settleReporting(tester, [build()]);
-        expect(_shownTags(), [0]);
-        reports = await _settleReporting(tester, [build(width: 240)]);
-        expect(_shownTags(), [0, 1]);
-        expect(tester.binding.hasScheduledFrame, isFalse);
-      },
-    );
+      reports = await _settleReporting(tester, [build()]);
+      expect(_shownTags(), [0]);
+      reports = await _settleReporting(tester, [build(width: 240)]);
+      expect(_shownTags(), [0, 1]);
+      expect(tester.binding.hasScheduledFrame, isFalse);
+    });
 
-    testWidgets('fo06/us14/fr01/e08: a hot reload re-measures a child that fits only while '
+    testWidgets('fo06_01/us05/fr01/e08: a hot reload re-measures a child that fits only while '
         'hidden, so it shows once its fixed code fits shown', (tester) async {
       // The code a developer fixes: tag 1's width while shown.
       var shownWidth = 200.0;
@@ -1165,7 +1149,8 @@ void main() {
     });
   });
 
-  group('WrapLayout focus after a limit change (US-14 FR-03, R5, R6)', () {
+  group('WrapLayout focus after a limit change '
+      '(FO-06-01 US-05 FR-03, R5, R6)', () {
     /// Twelve tags on [nodes], tag 9 always focusable, cut to [maxRuns].
     Widget build(
       int? maxRuns,
@@ -1185,7 +1170,7 @@ void main() {
 
     List<FocusNode> twelve() => [for (var i = 0; i < 12; i++) _node('tag $i')];
 
-    testWidgets('fo06/us14/s10, fo06/us14/fr03/e01, s03/inv39: focus on a tag a collapse hides '
+    testWidgets('fo06_01/us05/s10, fo06_01/us05/fr03/e01, fo06_01/inv39: focus on a tag a collapse hides '
         'moves to the "+N" item after the frame', (tester) async {
       final nodes = twelve();
       await tester.pumpWidget(_host(build(null, nodes)));
@@ -1200,7 +1185,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us14/fr03/e01: with no focusable "+N" item, focus moves to the '
+      'fo06_01/us05/fr03/e01: with no focusable "+N" item, focus moves to the '
       "last shown child's first node",
       (tester) async {
         final nodes = twelve();
@@ -1217,7 +1202,7 @@ void main() {
       },
     );
 
-    testWidgets("fo06/us14/fr03/e06: with neither node focusable, focus moves to the wrap's "
+    testWidgets("fo06_01/us05/fr03/e06: with neither node focusable, focus moves to the wrap's "
         'own node, and Tab moves on from there', (tester) async {
       final nodes = twelve();
       final before = _node('before');
@@ -1239,22 +1224,23 @@ void main() {
       expect(_focused(), 'after');
     });
 
-    testWidgets('fo06/us14/fr03: focus outside the hidden children stays put', (
-      tester,
-    ) async {
-      final nodes = twelve();
-      await tester.pumpWidget(_host(build(null, nodes)));
-      nodes[1].requestFocus();
-      await tester.pump();
+    testWidgets(
+      'fo06_01/us05/fr03: focus outside the hidden children stays put',
+      (tester) async {
+        final nodes = twelve();
+        await tester.pumpWidget(_host(build(null, nodes)));
+        nodes[1].requestFocus();
+        await tester.pump();
 
-      await tester.pumpWidget(_host(build(2, nodes)));
-      await tester.pump();
+        await tester.pumpWidget(_host(build(2, nodes)));
+        await tester.pump();
 
-      expect(_focused(), 'tag 1');
-    });
+        expect(_focused(), 'tag 1');
+      },
+    );
 
     testWidgets(
-      'fo06/us14/fr03/e01, s03/inv39: a focused child keyed by a GlobalKey that '
+      'fo06_01/us05/fr03/e01, fo06_01/inv39: a focused child keyed by a GlobalKey that '
       'moves into the wrap past the cut hands focus on after the frame',
       (tester) async {
         final nodes = twelve();
@@ -1299,7 +1285,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us14/s8, fo06/us14/fr03/e03: End in a wrap focus group moves to "+4", '
+    testWidgets('fo06_01/us05/s8, fo06_01/us05/fr03/e03: End in a wrap focus group moves to "+4", '
         'left to right and right to left', (tester) async {
       final nodes = twelve();
       for (final textDirection in TextDirection.values) {
@@ -1326,7 +1312,7 @@ void main() {
       }
     });
 
-    testWidgets('fo06/us14/fr03/e02, fo06/us06/fr01: in a wrap focus group the arrow keys skip '
+    testWidgets('fo06_01/us05/fr03/e02, fo06_02/us03/fr01: in a wrap focus group the arrow keys skip '
         'hidden children', (tester) async {
       final nodes = twelve();
       await tester.pumpWidget(
@@ -1354,35 +1340,32 @@ void main() {
       expect(await press(LogicalKeyboardKey.arrowDown, from: 4), 'tag 4');
     });
 
-    testWidgets(
-      'fo06/us14/fr03/e03, r6: under verticalDirection up, End follows reading '
-      'order to the last item of the bottom run',
-      (tester) async {
-        final nodes = twelve();
-        await tester.pumpWidget(
-          _host(
-            WrapLayout(
-              gap: 10,
-              runGap: 6,
-              verticalDirection: VerticalDirection.up,
-              maxRuns: 2,
-              focusGroup: const FocusGroup(),
-              overflowBuilder: _focusMore,
-              children: [
-                for (final (i, node) in nodes.indexed) _focusTag(i, node),
-              ],
-            ),
+    testWidgets('fo06_01/us05/fr03/e03, r6: under verticalDirection up, End follows reading '
+        'order to the last item of the bottom run', (tester) async {
+      final nodes = twelve();
+      await tester.pumpWidget(
+        _host(
+          WrapLayout(
+            gap: 10,
+            runGap: 6,
+            verticalDirection: VerticalDirection.up,
+            maxRuns: 2,
+            focusGroup: const FocusGroup(),
+            overflowBuilder: _focusMore,
+            children: [
+              for (final (i, node) in nodes.indexed) _focusTag(i, node),
+            ],
           ),
-        );
-        nodes[4].requestFocus();
-        await tester.pump();
+        ),
+      );
+      nodes[4].requestFocus();
+      await tester.pump();
 
-        await tester.sendKeyEvent(LogicalKeyboardKey.end);
-        await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.end);
+      await tester.pump();
 
-        expect(_focused(), 'tag 3');
-      },
-    );
+      expect(_focused(), 'tag 3');
+    });
 
     /// Focuses the "+N" child's own node, which its [Focus] creates.
     Future<void> focusMore(WidgetTester tester) async {
@@ -1392,7 +1375,7 @@ void main() {
       expect(_focused(), '+N');
     }
 
-    testWidgets('fo06/us14/fr03/e07, r5: focus on "+N" moves to the first child the expand shows, after '
+    testWidgets('fo06_01/us05/fr03/e07, r5: focus on "+N" moves to the first child the expand shows, after '
         'the frame', (tester) async {
       final nodes = twelve();
       await tester.pumpWidget(_host(build(2, nodes)));
@@ -1404,7 +1387,7 @@ void main() {
       expect(_focused(), 'tag 8');
     });
 
-    testWidgets('fo06/us14/fr03/e07, r5: with no focusable node in the first child the expand shows, '
+    testWidgets('fo06_01/us05/fr03/e07, r5: with no focusable node in the first child the expand shows, '
         "focus moves to the wrap's own node", (tester) async {
       final nodes = twelve();
       await tester.pumpWidget(_host(build(2, nodes, focusableTags: false)));
@@ -1416,31 +1399,26 @@ void main() {
       expect(_focused(), 'WrapLayout');
     });
 
-    testWidgets(
-      'fo06/us14/fr03/e07, r5: an expand that keeps the "+N" child keeps its '
-      'focus',
-      (tester) async {
-        final nodes = [for (var i = 0; i < 16; i++) _node('tag $i')];
-        Widget wrap(int maxRuns) => _host(
-          _wrap(
-            maxRuns: maxRuns,
-            overflowBuilder: _focusMore,
-            children: [
-              for (final (i, node) in nodes.indexed) _focusTag(i, node),
-            ],
-          ),
-        );
-        await tester.pumpWidget(wrap(2));
-        expect(find.text('+8'), findsOneWidget);
-        await focusMore(tester);
+    testWidgets('fo06_01/us05/fr03/e07, r5: an expand that keeps the "+N" child keeps its '
+        'focus', (tester) async {
+      final nodes = [for (var i = 0; i < 16; i++) _node('tag $i')];
+      Widget wrap(int maxRuns) => _host(
+        _wrap(
+          maxRuns: maxRuns,
+          overflowBuilder: _focusMore,
+          children: [for (final (i, node) in nodes.indexed) _focusTag(i, node)],
+        ),
+      );
+      await tester.pumpWidget(wrap(2));
+      expect(find.text('+8'), findsOneWidget);
+      await focusMore(tester);
 
-        await tester.pumpWidget(wrap(3));
-        await tester.pump();
+      await tester.pumpWidget(wrap(3));
+      await tester.pump();
 
-        expect(find.text('+4'), findsOneWidget);
-        expect(_focused(), '+N');
-      },
-    );
+      expect(find.text('+4'), findsOneWidget);
+      expect(_focused(), '+N');
+    });
 
     /// A "+N" child of [_focusMore] keyed by [name] and its count, so a new
     /// count, or a new name, builds it as a new element.
@@ -1472,7 +1450,7 @@ void main() {
         Focus.of(tester.element(find.byKey(const ValueKey('more'))))
             .hasPrimaryFocus;
 
-    testWidgets('fo06/us14/fr03/e07, r5: an expand that rebuilds the focused "+N" as a new child moves '
+    testWidgets('fo06_01/us05/fr03/e07, r5: an expand that rebuilds the focused "+N" as a new child moves '
         'focus to the first child the expand shows', (tester) async {
       final nodes = [for (var i = 0; i < 16; i++) _node('tag $i')];
       final more = keyedMore('count');
@@ -1486,25 +1464,22 @@ void main() {
       expect(_focused(), 'tag 8');
     });
 
-    testWidgets(
-      'fo06/us14/fr03/e08: a collapse that rebuilds the focused "+N" as a new '
-      'child moves focus to the new "+N" after the frame',
-      (tester) async {
-        final nodes = [for (var i = 0; i < 16; i++) _node('tag $i')];
-        final more = keyedMore('count');
-        await tester.pumpWidget(sixteen(3, nodes, more));
-        expect(find.text('+4'), findsOneWidget);
-        await focusMore(tester);
+    testWidgets('fo06_01/us05/fr03/e08: a collapse that rebuilds the focused "+N" as a new '
+        'child moves focus to the new "+N" after the frame', (tester) async {
+      final nodes = [for (var i = 0; i < 16; i++) _node('tag $i')];
+      final more = keyedMore('count');
+      await tester.pumpWidget(sixteen(3, nodes, more));
+      expect(find.text('+4'), findsOneWidget);
+      await focusMore(tester);
 
-        await tester.pumpWidget(sixteen(2, nodes, more));
-        await tester.pump();
+      await tester.pumpWidget(sixteen(2, nodes, more));
+      await tester.pump();
 
-        expect(find.text('+8'), findsOneWidget);
-        expect(moreFocused(tester), isTrue);
-      },
-    );
+      expect(find.text('+8'), findsOneWidget);
+      expect(moreFocused(tester), isTrue);
+    });
 
-    testWidgets('fo06/us14/fr03/e08: an overflowBuilder that rebuilds the focused "+N" as a '
+    testWidgets('fo06_01/us05/fr03/e08: an overflowBuilder that rebuilds the focused "+N" as a '
         'new child at the same limits moves focus to the new "+N" after the '
         'frame', (tester) async {
       final nodes = [for (var i = 0; i < 16; i++) _node('tag $i')];
@@ -1518,7 +1493,7 @@ void main() {
       expect(moreFocused(tester), isTrue);
     });
 
-    testWidgets('fo06/us14/fr03/e07, r5: an expand that also inserts a child before the cut moves focus '
+    testWidgets('fo06_01/us05/fr03/e07, r5: an expand that also inserts a child before the cut moves focus '
         'to the first child the expand shows', (tester) async {
       final nodes = [...twelve(), _node('tag 12')];
       Widget host(int? maxRuns, {required bool inserted}) => _host(
@@ -1541,11 +1516,11 @@ void main() {
     });
   });
 
-  group('WrapLayout expand and collapse (US-14 FR-04)', () {
+  group('WrapLayout expand and collapse (FO-06-01 US-05 FR-04)', () {
     _ExpandableState expandable(WidgetTester tester) =>
         tester.state<_ExpandableState>(find.byType(_Expandable));
 
-    testWidgets('fo06/us14/s4, fo06/us14/fr04, s03/inv40: tapping "+4" grows the wrap to its '
+    testWidgets('fo06_01/us05/s4, fo06_01/us05/fr04, fo06_01/inv40: tapping "+4" grows the wrap to its '
         "full size over 125 ms in the package's default theme", (tester) async {
       await tester.pumpWidget(themedHost(const _Expandable()));
       expect(_height(tester), 46);
@@ -1562,27 +1537,28 @@ void main() {
       expect(_height(tester), 72);
     });
 
-    testWidgets("s03/inv40: the size moves over the theme's default level", (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        themedHost(
-          const _Expandable(),
-          theme: motionTheme(fast: const Duration(milliseconds: 80)),
-        ),
-      );
+    testWidgets(
+      "fo06_01/inv40: the size moves over the theme's default level",
+      (tester) async {
+        await tester.pumpWidget(
+          themedHost(
+            const _Expandable(),
+            theme: motionTheme(fast: const Duration(milliseconds: 80)),
+          ),
+        );
 
-      await tester.tap(find.text('+4'));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 40));
-      expect(_height(tester), moreOrLessEquals(46 + 26 * _mid));
+        await tester.tap(find.text('+4'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 40));
+        expect(_height(tester), moreOrLessEquals(46 + 26 * _mid));
 
-      await tester.pump(const Duration(milliseconds: 40));
-      expect(_height(tester), 72);
-    });
+        await tester.pump(const Duration(milliseconds: 40));
+        expect(_height(tester), 72);
+      },
+    );
 
     testWidgets(
-      'fo06/us14/fr04, s03/inv40: a collapse shrinks the size the same way',
+      'fo06_01/us05/fr04, fo06_01/inv40: a collapse shrinks the size the same way',
       (tester) async {
         await tester.pumpWidget(themedHost(const _Expandable()));
         expandable(tester).set(expanded: true);
@@ -1601,25 +1577,22 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us14/fr04: the content clips to the animating size, and only while '
-      'it moves',
-      (tester) async {
-        await tester.pumpWidget(themedHost(const _Expandable()));
-        await tester.tap(find.text('+4'));
-        await tester.pump();
-        await tester.pump(const Duration(microseconds: 62500));
+    testWidgets('fo06_01/us05/fr04: the content clips to the animating size, and only while '
+        'it moves', (tester) async {
+      await tester.pumpWidget(themedHost(const _Expandable()));
+      await tester.tap(find.text('+4'));
+      await tester.pump();
+      await tester.pump(const Duration(microseconds: 62500));
 
-        final wrap = tester.renderObject(find.byType(WrapOverflowFrame));
-        expect(
-          wrap,
-          paints..clipRect(rect: Rect.fromLTWH(0, 0, 230, _height(tester))),
-        );
+      final wrap = tester.renderObject(find.byType(WrapOverflowFrame));
+      expect(
+        wrap,
+        paints..clipRect(rect: Rect.fromLTWH(0, 0, 230, _height(tester))),
+      );
 
-        await tester.pumpAndSettle();
-        expect(wrap, isNot(paints..clipRect()));
-      },
-    );
+      await tester.pumpAndSettle();
+      expect(wrap, isNot(paints..clipRect()));
+    });
 
     for (final (name, features, disable) in const [
       (
@@ -1630,7 +1603,7 @@ void main() {
       ("the app's disableAnimations", FakeAccessibilityFeatures(), true),
     ]) {
       testWidgets(
-        'fo06/us14/s6, fo06/us14/fr04: under $name an expand shows every tag at its '
+        'fo06_01/us05/s6, fo06_01/us05/fr04: under $name an expand shows every tag at its '
         'full size at once',
         (tester) async {
           tester.platformDispatcher.accessibilityFeaturesTestValue = features;
@@ -1654,7 +1627,7 @@ void main() {
       );
     }
 
-    testWidgets('fo06/us14/fr04/e01: a change of constraints, children, or gap lays out at '
+    testWidgets('fo06_01/us05/fr04/e01: a change of constraints, children, or gap lays out at '
         'the new size at once, also mid-move', (tester) async {
       await tester.pumpWidget(themedHost(const _Expandable()));
       expandable(tester).set(expanded: true);
@@ -1686,7 +1659,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us14/fr04/e02: children an expand shows appear at once, with no fade',
+      'fo06_01/us05/fr04/e02: children an expand shows appear at once, with no fade',
       (tester) async {
         await tester.pumpWidget(themedHost(const _Expandable()));
         await tester.tap(find.text('+4'));
@@ -1710,7 +1683,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us14/fr04/e03: with overflowBuilder set, both limits switching '
+      'fo06_01/us05/fr04/e03: with overflowBuilder set, both limits switching '
       "between null and a value animate the size and keep the children's "
       'State',
       (tester) async {
@@ -1734,7 +1707,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us14/fr04/e04: with no overflowBuilder, both limits switching between '
+      'fo06_01/us05/fr04/e04: with no overflowBuilder, both limits switching between '
       'null and a value remount the children with no animation',
       (tester) async {
         Widget build(int? maxRuns) => themedHost(
@@ -1761,7 +1734,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us14/fr04/e05: a bare wrap and a styled wrap move their size the same '
+    testWidgets('fo06_01/us05/fr04/e05: a bare wrap and a styled wrap move their size the same '
         'way', (tester) async {
       for (final style in [null, const WidgetStyle()]) {
         // A new key per style gives each pass a collapsed wrap.
@@ -1800,7 +1773,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us14/fr04: an animated limit change lays out with no FlutterError',
+      'fo06_01/us05/fr04: an animated limit change lays out with no FlutterError',
       (tester) async {
         await tester.pumpWidget(themedHost(const _Expandable()));
         await tester.tap(find.text('+4'));
@@ -1817,7 +1790,7 @@ void main() {
       },
     );
 
-    testWidgets("fo06/us14/fr04: a parent's dry layout mid-move returns the size the frame "
+    testWidgets("fo06_01/us05/fr04: a parent's dry layout mid-move returns the size the frame "
         'laid out', (tester) async {
       await tester.pumpWidget(themedHost(const _Expandable()));
       await tester.tap(find.text('+4'));
@@ -1832,29 +1805,26 @@ void main() {
       expect(wrap.getDryLayout(wrap.constraints), wrap.size, reason: 'mid');
     });
 
-    testWidgets(
-      'fo06/us14/s6, NFR-U03: reduced motion that turns on mid-move shows the '
-      'full size in that frame',
-      (tester) async {
-        Widget host({required bool reduce}) => MediaQuery(
-          data: MediaQueryData.fromView(tester.view)
-              .copyWith(disableAnimations: reduce),
-          child: themedHost(const _Expandable()),
-        );
-        await tester.pumpWidget(host(reduce: false));
-        await tester.tap(find.text('+4'));
-        await tester.pump();
-        await tester.pump(const Duration(microseconds: 62500));
-        expect(_height(tester), moreOrLessEquals(46 + 26 * _mid));
+    testWidgets('fo06_01/us05/s6, NFR-U03: reduced motion that turns on mid-move shows the '
+        'full size in that frame', (tester) async {
+      Widget host({required bool reduce}) => MediaQuery(
+        data: MediaQueryData.fromView(tester.view)
+            .copyWith(disableAnimations: reduce),
+        child: themedHost(const _Expandable()),
+      );
+      await tester.pumpWidget(host(reduce: false));
+      await tester.tap(find.text('+4'));
+      await tester.pump();
+      await tester.pump(const Duration(microseconds: 62500));
+      expect(_height(tester), moreOrLessEquals(46 + 26 * _mid));
 
-        await tester.pumpWidget(host(reduce: true));
+      await tester.pumpWidget(host(reduce: true));
 
-        expect(_height(tester), 72);
-        expect(tester.binding.transientCallbackCount, 0);
-      },
-    );
+      expect(_height(tester), 72);
+      expect(tester.binding.transientCallbackCount, 0);
+    });
 
-    testWidgets('fo06/us14/fr04: a wrap a GlobalKey moves mid-move shows its full size in '
+    testWidgets('fo06_01/us05/fr04: a wrap a GlobalKey moves mid-move shows its full size in '
         'that frame, with no ticker left running', (tester) async {
       final key = GlobalKey();
       Widget host({required bool padded}) => themedHost(
@@ -1881,7 +1851,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('fo06/us14/fr04: under IntrinsicHeight an expand neither asserts nor sticks '
+    testWidgets('fo06_01/us05/fr04: under IntrinsicHeight an expand neither asserts nor sticks '
         'at the old size', (tester) async {
       Widget build(int? maxRuns) => themedHost(
         SizedBox(
@@ -1903,7 +1873,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us14/fr04: under IntrinsicHeight an expand after a hidden child '
+      'fo06_01/us05/fr04: under IntrinsicHeight an expand after a hidden child '
       'rebuilt itself in the layout lays the ancestor out to the new size',
       (tester) async {
         Widget build(int? maxRuns) => themedHost(
@@ -1940,7 +1910,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us14/fr04: under IntrinsicHeight an expand after a cut flip resized '
+    testWidgets('fo06_01/us05/fr04: under IntrinsicHeight an expand after a cut flip resized '
         'a child lays the ancestor out to the new size', (tester) async {
       Widget build(int? maxRuns) => themedHost(
         SizedBox(
@@ -1977,7 +1947,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('fo06/us14/fr04: under IntrinsicHeight a shown child that grows by its own '
+    testWidgets('fo06_01/us05/fr04: under IntrinsicHeight a shown child that grows by its own '
         'setState lays the ancestor out to its new size in the next frame, '
         'then schedules no more frames', (tester) async {
       await tester.pumpWidget(
@@ -2010,7 +1980,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('fo06/us14/fr04, NFR-U03: under IntrinsicHeight and reduced motion an expand '
+    testWidgets('fo06_01/us05/fr04, NFR-U03: under IntrinsicHeight and reduced motion an expand '
         'in the frame that measures again after a child grew lays the '
         'ancestor out to the size the expand shows', (tester) async {
       Widget build(int maxRuns) => MediaQuery(
@@ -2056,7 +2026,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us14/fr04: between a limit change and its layout, dry layout returns '
+      'fo06_01/us05/fr04: between a limit change and its layout, dry layout returns '
       'the size shown now and the cross-axis intrinsic the target',
       (tester) async {
         await tester.pumpWidget(themedHost(const _Expandable()));
@@ -2080,7 +2050,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us14/fr04, fo06/us14/fr01/e07: an upward wrap keeps its first run on its '
+    testWidgets('fo06_01/us05/fr04, fo06_01/us05/fr01/e07: an upward wrap keeps its first run on its '
         'bottom edge while an expand moves the size', (tester) async {
       Widget build(int? maxRuns) => themedHost(
         SizedBox(
@@ -2111,7 +2081,7 @@ void main() {
       );
     });
 
-    testWidgets('fo06/us14/fr04, fo06/us14/fr01/e07: a right-to-left wrap keeps its first run on '
+    testWidgets('fo06_01/us05/fr04, fo06_01/us05/fr01/e07: a right-to-left wrap keeps its first run on '
         'its right edge while an expand moves the size', (tester) async {
       Widget build(int? maxRuns) => themedHost(
         SizedBox(
@@ -2145,7 +2115,7 @@ void main() {
       (WrapAlignment.end, 1.0),
     ]) {
       testWidgets(
-        'fo06/us14/fr04: a wrap with alignment and runAlignment $alignment keeps '
+        'fo06_01/us05/fr04: a wrap with alignment and runAlignment $alignment keeps '
         'its first run in place while an expand or a collapse moves the size',
         (tester) async {
           Widget build(int? maxRuns) => themedHost(
@@ -2197,7 +2167,7 @@ void main() {
       WrapAlignment.spaceEvenly,
     ]) {
       testWidgets(
-        'fo06/us14/fr04/e06, s03/inv40: under loose width an expand that widens '
+        'fo06_01/us05/fr04/e06, fo06_01/inv40: under loose width an expand that widens '
         'the wrap moves no item of a $alignment run at the start of the '
         'move, which spreads the free space over the size shown',
         (tester) async {
@@ -2246,7 +2216,7 @@ void main() {
         WrapAlignment.spaceEvenly,
       ]) {
         testWidgets(
-          'fo06/us14/fr04/e06, s03/inv40: under $textDirection an expand that '
+          'fo06_01/us05/fr04/e06, fo06_01/inv40: under $textDirection an expand that '
           'widens a $alignment run past the size shown keeps its items in '
           'place, its start edge held',
           (tester) async {
@@ -2282,45 +2252,42 @@ void main() {
       }
     }
 
-    testWidgets(
-      'fo06/us14/fr04/e06, s03/inv40: an expand that narrows the wrap keeps a '
-      'spaceBetween run that keeps its items in place at the start of the '
-      'move, then spreads it over the size shown',
-      (tester) async {
-        Widget build(int? maxRuns) => themedHost(
-          SizedBox(
-            width: 230,
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: WrapLayout(
-                gap: 10,
-                runGap: 6,
-                alignment: WrapAlignment.spaceBetween,
-                maxRuns: maxRuns,
-                overflowBuilder: _more,
-                children: _tags(12),
-              ),
+    testWidgets('fo06_01/us05/fr04/e06, fo06_01/inv40: an expand that narrows the wrap keeps a '
+        'spaceBetween run that keeps its items in place at the start of the '
+        'move, then spreads it over the size shown', (tester) async {
+      Widget build(int? maxRuns) => themedHost(
+        SizedBox(
+          width: 230,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: WrapLayout(
+              gap: 10,
+              runGap: 6,
+              alignment: WrapAlignment.spaceBetween,
+              maxRuns: maxRuns,
+              overflowBuilder: _more,
+              children: _tags(12),
             ),
           ),
-        );
-        // Run 0, 190 wide, spread over the 230 the "+4" run sets.
-        await tester.pumpWidget(build(2));
-        final before = _rectIn(tester, 'tag 3');
-        expect(before, const Rect.fromLTWH(190, 0, 40, 20));
+        ),
+      );
+      // Run 0, 190 wide, spread over the 230 the "+4" run sets.
+      await tester.pumpWidget(build(2));
+      final before = _rectIn(tester, 'tag 3');
+      expect(before, const Rect.fromLTWH(190, 0, 40, 20));
 
-        await tester.pumpWidget(build(null));
-        expect(_rectIn(tester, 'tag 3'), before, reason: 'first frame');
+      await tester.pumpWidget(build(null));
+      expect(_rectIn(tester, 'tag 3'), before, reason: 'first frame');
 
-        await tester.pump(const Duration(microseconds: 62500));
-        final width = tester.getSize(find.byType(WrapOverflowFrame)).width;
-        expect(width, moreOrLessEquals(230 - 40 * _mid));
-        expect(
-          _rectIn(tester, 'tag 3').right,
-          moreOrLessEquals(width),
-          reason: 'mid-move',
-        );
-      },
-    );
+      await tester.pump(const Duration(microseconds: 62500));
+      final width = tester.getSize(find.byType(WrapOverflowFrame)).width;
+      expect(width, moreOrLessEquals(230 - 40 * _mid));
+      expect(
+        _rectIn(tester, 'tag 3').right,
+        moreOrLessEquals(width),
+        reason: 'mid-move',
+      );
+    });
   });
 }
 

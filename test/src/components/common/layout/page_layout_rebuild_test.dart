@@ -56,35 +56,38 @@ Widget _page({
 );
 
 void main() {
-  group('PageLayout build counts (US-18 FR-02; layout s03 INV-63)', () {
-    testWidgets('fo06/us18/fr02/e01: a drawer opens and closes, no slot builds '
-        'again', (tester) async {
-      _view(tester, const Size(390, 844));
-      final counts = <String, int>{};
-      final controller = PageLayoutController();
-      addTearDown(controller.dispose);
-      await tester.pumpWidget(
-        _page(
-          header: _Counter('header', counts),
-          left: _Counter('left', counts),
-          body: _Counter('body', counts),
-          footer: _Counter('footer', counts),
-          controller: controller,
-        ),
-      );
-      counts.clear();
-      controller.openLeft();
-      await tester.pumpAndSettle();
-      controller.close();
-      await tester.pumpAndSettle();
-      // 'left' builds once when the drawer shows its content; every other
-      // slot builds zero times.
-      expect(counts.keys.where((key) => key != 'left'), isEmpty);
-      expect(counts['left'], 1);
-    });
+  group('PageLayout build counts (FO-06-04 US-01 FR-02; FO-06-04 INV-63)', () {
+    testWidgets(
+      'fo06_04/us01/fr02/e01: a drawer opens and closes, no slot builds '
+      'again',
+      (tester) async {
+        _view(tester, const Size(390, 844));
+        final counts = <String, int>{};
+        final controller = PageLayoutController();
+        addTearDown(controller.dispose);
+        await tester.pumpWidget(
+          _page(
+            header: _Counter('header', counts),
+            left: _Counter('left', counts),
+            body: _Counter('body', counts),
+            footer: _Counter('footer', counts),
+            controller: controller,
+          ),
+        );
+        counts.clear();
+        controller.openLeft();
+        await tester.pumpAndSettle();
+        controller.close();
+        await tester.pumpAndSettle();
+        // 'left' builds once when the drawer shows its content; every other
+        // slot builds zero times.
+        expect(counts.keys.where((key) => key != 'left'), isEmpty);
+        expect(counts['left'], 1);
+      },
+    );
 
     testWidgets(
-      'fo06/us18/fr02/e01: the iOS slide drawer opens and closes, no slot '
+      'fo06_04/us01/fr02/e01: the iOS slide drawer opens and closes, no slot '
       'builds again',
       (tester) async {
         _view(tester, const Size(390, 844));
@@ -112,7 +115,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us18/fr02/e02: fo06/us19/fr06/e04: a 60-frame pane drag builds no slot',
+      'fo06_04/us01/fr02/e02: fo06_04/us02/fr06/e04: a 60-frame pane drag builds no slot',
       (tester) async {
         _view(tester, const Size(1300, 800));
         final counts = <String, int>{};
@@ -138,29 +141,26 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us18/fr02/e03: a tablet-to-desktop resize, both above the drawer '
-      'cut, builds no slot',
-      (tester) async {
-        _view(tester, const Size(1000, 800)); // tablet
-        final counts = <String, int>{};
-        await tester.pumpWidget(
-          _page(
-            header: _Counter('header', counts),
-            left: _Counter('left', counts),
-            body: _Counter('body', counts),
-            footer: _Counter('footer', counts),
-          ),
-        );
-        counts.clear();
-        tester.view.physicalSize = const Size(1300, 800); // desktop
-        await tester.pump();
-        expect(counts, isEmpty);
-      },
-    );
+    testWidgets('fo06_04/us01/fr02/e03: a tablet-to-desktop resize, both above the drawer '
+        'cut, builds no slot', (tester) async {
+      _view(tester, const Size(1000, 800)); // tablet
+      final counts = <String, int>{};
+      await tester.pumpWidget(
+        _page(
+          header: _Counter('header', counts),
+          left: _Counter('left', counts),
+          body: _Counter('body', counts),
+          footer: _Counter('footer', counts),
+        ),
+      );
+      counts.clear();
+      tester.view.physicalSize = const Size(1300, 800); // desktop
+      await tester.pump();
+      expect(counts, isEmpty);
+    });
 
     testWidgets(
-      'fo06/us19/fr01/e05: a drawer-cut crossing remounts no center slot',
+      'fo06_04/us02/fr01/e05: a drawer-cut crossing remounts no center slot',
       (tester) async {
         _view(tester, const Size(390, 844)); // mobile: left is a closed
         // drawer, never built.
@@ -183,7 +183,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us19/fr01/e05: a drawer-cut crossing down remounts no center slot',
+      'fo06_04/us02/fr01/e05: a drawer-cut crossing down remounts no center slot',
       (tester) async {
         _view(tester, const Size(1000, 800)); // tablet: left is an inline
         // pane, already built.
@@ -256,7 +256,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us18/fr02/e04: the app wraps only body, only its listener rebuilds',
+      'fo06_04/us01/fr02/e04: the app wraps only body, only its listener rebuilds',
       (tester) async {
         _view(tester, const Size(390, 844));
         final counts = <String, int>{};
@@ -279,7 +279,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us18/fr02/e05: the app wraps the whole page, every slot rebuilds',
+      'fo06_04/us01/fr02/e05: the app wraps the whole page, every slot rebuilds',
       (tester) async {
         final counts = <String, int>{};
         final state = ValueNotifier(0);

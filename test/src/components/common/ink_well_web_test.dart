@@ -61,9 +61,9 @@ int _levelOf(WidgetTester tester, Finder finder) =>
     tester.getSemantics(finder).getSemanticsData().headingLevel;
 
 void main() {
-  group('us04/fr02, s03/inv8: StratumInkWell web semantics', () {
+  group('fo06_02/us01/fr02, fo06_02/inv8: StratumInkWell web semantics', () {
     testWidgets(
-      'us04/fr02: an activation callback gives one button node on web',
+      'fo06_02/us01/fr02: an activation callback gives one button node on web',
       (tester) async {
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(
@@ -94,7 +94,7 @@ void main() {
     );
 
     testWidgets(
-      'us04/fr02/e07: a header button reads as a level 2 heading that '
+      'fo06_02/us01/fr02/e07: a header button reads as a level 2 heading that '
       'holds the button',
       (tester) async {
         final handle = tester.ensureSemantics();
@@ -140,7 +140,7 @@ void main() {
     );
 
     testWidgets(
-      'us04/fr02/e07: a caller button true splits without a callback',
+      'fo06_02/us01/fr02/e07: a caller button true splits without a callback',
       (tester) async {
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(
@@ -166,153 +166,125 @@ void main() {
       },
     );
 
-    testWidgets('us04/fr02/e09: a headingLevel sets the heading level', (
-      tester,
-    ) async {
-      final handle = tester.ensureSemantics();
-      await tester.pumpWidget(
-        webThemedHost(
-          const StratumInkWell(
-            onTap: _noop,
-            semantics: SemanticsProperties(headingLevel: 4, label: 'Recent'),
-            child: _box,
-          ),
-        ),
-      );
-
-      final heading = tester.getSemantics(find.byType(StratumInkWell));
-      expect(heading.getSemanticsData().headingLevel, 4);
-      final button = _onlyChild(heading);
-      expect(button.getSemanticsData().headingLevel, 0);
-      expect(
-        button,
-        isSemantics(label: 'Recent', isButton: true, hasTapAction: true),
-      );
-      handle.dispose();
-    });
-
-    testWidgets('us04/fr02/e09: an identifier on a heading button stays on the '
-        'one button node', (tester) async {
-      final handle = tester.ensureSemantics();
-      await tester.pumpWidget(
-        webThemedHost(
-          const StratumInkWell(
-            onTap: _noop,
-            semantics: SemanticsProperties(
-              identifier: 'x',
-              header: true,
-              headingLevel: 3,
-              label: 'L',
-            ),
-            child: _box,
-          ),
-        ),
-      );
-
-      final heading = tester.getSemantics(find.byType(StratumInkWell));
-      expect(heading.getSemanticsData().headingLevel, 3);
-      final button = _onlyChild(heading);
-      expect(button.getSemanticsData().headingLevel, 0);
-      expect(button.childrenCount, 0);
-      expect(
-        button,
-        isSemantics(
-          identifier: 'x',
-          label: 'L',
-          isHeader: false,
-          isButton: true,
-          hasTapAction: true,
-        ),
-      );
-      handle.dispose();
-    });
-
-    testWidgets('us04/fr02/e07: a right-to-left header button splits like '
-        'left-to-right', (tester) async {
-      final handle = tester.ensureSemantics();
-      await tester.pumpWidget(
-        webThemedHost(
-          const StratumInkWell(
-            onTap: _noop,
-            semantics: SemanticsProperties(header: true, label: 'Recent'),
-            child: _box,
-          ),
-          textDirection: TextDirection.rtl,
-        ),
-      );
-
-      final heading = tester.getSemantics(find.byType(StratumInkWell));
-      expect(heading.getSemanticsData().headingLevel, 2);
-      expect(
-        heading,
-        isSemantics(
-          label: '',
-          isHeader: false,
-          isButton: false,
-          hasTapAction: false,
-        ),
-      );
-      final button = _onlyChild(heading);
-      expect(button.getSemanticsData().headingLevel, 0);
-      expect(
-        button,
-        isSemantics(
-          label: 'Recent',
-          isHeader: false,
-          isButton: true,
-          hasEnabledState: true,
-          isEnabled: true,
-          isFocusable: true,
-          hasTapAction: true,
-        ),
-      );
-      handle.dispose();
-    });
-
     testWidgets(
-      'us04/fr02/e05: a disabled header button is a dimmed button in the '
-      'heading',
+      'fo06_02/us01/fr02/e09: a headingLevel sets the heading level',
       (tester) async {
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(
           webThemedHost(
             const StratumInkWell(
               onTap: _noop,
-              disabled: true,
-              semantics: SemanticsProperties(header: true, label: 'Recent'),
+              semantics: SemanticsProperties(headingLevel: 4, label: 'Recent'),
               child: _box,
             ),
           ),
         );
 
         final heading = tester.getSemantics(find.byType(StratumInkWell));
-        expect(heading.getSemanticsData().headingLevel, 2);
+        expect(heading.getSemanticsData().headingLevel, 4);
+        final button = _onlyChild(heading);
+        expect(button.getSemanticsData().headingLevel, 0);
         expect(
-          _onlyChild(heading),
+          button,
+          isSemantics(label: 'Recent', isButton: true, hasTapAction: true),
+        );
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr02/e09: an identifier on a heading button stays on the '
+      'one button node',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await tester.pumpWidget(
+          webThemedHost(
+            const StratumInkWell(
+              onTap: _noop,
+              semantics: SemanticsProperties(
+                identifier: 'x',
+                header: true,
+                headingLevel: 3,
+                label: 'L',
+              ),
+              child: _box,
+            ),
+          ),
+        );
+
+        final heading = tester.getSemantics(find.byType(StratumInkWell));
+        expect(heading.getSemanticsData().headingLevel, 3);
+        final button = _onlyChild(heading);
+        expect(button.getSemanticsData().headingLevel, 0);
+        expect(button.childrenCount, 0);
+        expect(
+          button,
           isSemantics(
-            label: 'Recent',
+            identifier: 'x',
+            label: 'L',
+            isHeader: false,
             isButton: true,
-            hasEnabledState: true,
-            isEnabled: false,
-            hasTapAction: false,
+            hasTapAction: true,
           ),
         );
         handle.dispose();
       },
     );
 
-    testWidgets('us04/fr02/e07: a caller enabled false keeps the heading and a '
-        'disabled button', (tester) async {
+    testWidgets(
+      'fo06_02/us01/fr02/e07: a right-to-left header button splits like '
+      'left-to-right',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await tester.pumpWidget(
+          webThemedHost(
+            const StratumInkWell(
+              onTap: _noop,
+              semantics: SemanticsProperties(header: true, label: 'Recent'),
+              child: _box,
+            ),
+            textDirection: TextDirection.rtl,
+          ),
+        );
+
+        final heading = tester.getSemantics(find.byType(StratumInkWell));
+        expect(heading.getSemanticsData().headingLevel, 2);
+        expect(
+          heading,
+          isSemantics(
+            label: '',
+            isHeader: false,
+            isButton: false,
+            hasTapAction: false,
+          ),
+        );
+        final button = _onlyChild(heading);
+        expect(button.getSemanticsData().headingLevel, 0);
+        expect(
+          button,
+          isSemantics(
+            label: 'Recent',
+            isHeader: false,
+            isButton: true,
+            hasEnabledState: true,
+            isEnabled: true,
+            isFocusable: true,
+            hasTapAction: true,
+          ),
+        );
+        handle.dispose();
+      },
+    );
+
+    testWidgets('fo06_02/us01/fr02/e05: a disabled header button is a dimmed button in the '
+        'heading', (tester) async {
       final handle = tester.ensureSemantics();
       await tester.pumpWidget(
         webThemedHost(
           const StratumInkWell(
             onTap: _noop,
-            semantics: SemanticsProperties(
-              enabled: false,
-              header: true,
-              label: 'Recent',
-            ),
+            disabled: true,
+            semantics: SemanticsProperties(header: true, label: 'Recent'),
             child: _box,
           ),
         ),
@@ -327,13 +299,50 @@ void main() {
           isButton: true,
           hasEnabledState: true,
           isEnabled: false,
-          hasTapAction: true,
+          hasTapAction: false,
         ),
       );
       handle.dispose();
     });
 
-    testWidgets('us04/fr02/e01: a link header stays one node', (tester) async {
+    testWidgets(
+      'fo06_02/us01/fr02/e07: a caller enabled false keeps the heading and a '
+      'disabled button',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        await tester.pumpWidget(
+          webThemedHost(
+            const StratumInkWell(
+              onTap: _noop,
+              semantics: SemanticsProperties(
+                enabled: false,
+                header: true,
+                label: 'Recent',
+              ),
+              child: _box,
+            ),
+          ),
+        );
+
+        final heading = tester.getSemantics(find.byType(StratumInkWell));
+        expect(heading.getSemanticsData().headingLevel, 2);
+        expect(
+          _onlyChild(heading),
+          isSemantics(
+            label: 'Recent',
+            isButton: true,
+            hasEnabledState: true,
+            isEnabled: false,
+            hasTapAction: true,
+          ),
+        );
+        handle.dispose();
+      },
+    );
+
+    testWidgets('fo06_02/us01/fr02/e01: a link header stays one node', (
+      tester,
+    ) async {
       final handle = tester.ensureSemantics();
       await tester.pumpWidget(
         webThemedHost(
@@ -364,38 +373,39 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('us04/fr02/e03: excludeFromSemantics builds no heading node', (
-      tester,
-    ) async {
-      final handle = tester.ensureSemantics();
-      const key = Key('host');
-      await tester.pumpWidget(
-        webThemedHost(
-          Semantics(
-            key: key,
-            container: true,
-            child: const StratumInkWell(
-              onTap: _noop,
-              excludeFromSemantics: true,
-              semantics: SemanticsProperties(header: true, label: 'Recent'),
-              child: _box,
+    testWidgets(
+      'fo06_02/us01/fr02/e03: excludeFromSemantics builds no heading node',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        const key = Key('host');
+        await tester.pumpWidget(
+          webThemedHost(
+            Semantics(
+              key: key,
+              container: true,
+              child: const StratumInkWell(
+                onTap: _noop,
+                excludeFromSemantics: true,
+                semantics: SemanticsProperties(header: true, label: 'Recent'),
+                child: _box,
+              ),
             ),
           ),
-        ),
-      );
+        );
 
-      final node = tester.getSemantics(find.byKey(key));
-      expect(node.getSemanticsData().headingLevel, 0);
-      expect(node.childrenCount, 0);
-      expect(
-        node,
-        isSemantics(label: 'Recent', isHeader: true, isButton: false),
-      );
-      handle.dispose();
-    });
+        final node = tester.getSemantics(find.byKey(key));
+        expect(node.getSemanticsData().headingLevel, 0);
+        expect(node.childrenCount, 0);
+        expect(
+          node,
+          isSemantics(label: 'Recent', isHeader: true, isButton: false),
+        );
+        handle.dispose();
+      },
+    );
 
     testWidgets(
-      'us04/fr02/e07: a box layout passes a header to the tap surface',
+      'fo06_02/us01/fr02/e07: a box layout passes a header to the tap surface',
       (tester) async {
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(
@@ -418,75 +428,69 @@ void main() {
       },
     );
 
-    testWidgets(
-      'us04/fr02/e07: a header button inside a header button splits at each '
-      'surface',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        const outerKey = Key('outer');
-        const innerKey = Key('inner');
-        await tester.pumpWidget(
-          webThemedHost(
-            const StratumInkWell(
-              key: outerKey,
+    testWidgets('fo06_02/us01/fr02/e07: a header button inside a header button splits at each '
+        'surface', (tester) async {
+      final handle = tester.ensureSemantics();
+      const outerKey = Key('outer');
+      const innerKey = Key('inner');
+      await tester.pumpWidget(
+        webThemedHost(
+          const StratumInkWell(
+            key: outerKey,
+            onTap: _noop,
+            semantics: SemanticsProperties(header: true),
+            child: StratumInkWell(
+              key: innerKey,
               onTap: _noop,
-              semantics: SemanticsProperties(header: true),
-              child: StratumInkWell(
-                key: innerKey,
-                onTap: _noop,
-                semantics: SemanticsProperties(
-                  headingLevel: 3,
-                  label: 'Recent',
-                ),
-                child: _box,
-              ),
+              semantics: SemanticsProperties(headingLevel: 3, label: 'Recent'),
+              child: _box,
             ),
           ),
-        );
+        ),
+      );
 
-        final outerHeading = tester.getSemantics(find.byKey(outerKey));
-        expect(outerHeading.getSemanticsData().headingLevel, 2);
-        expect(
-          outerHeading,
-          isSemantics(
-            label: '',
-            isHeader: false,
-            isButton: false,
-            hasTapAction: false,
-          ),
-        );
-        final outerButton = _onlyChild(outerHeading);
-        expect(outerButton.getSemanticsData().headingLevel, 0);
-        expect(
-          outerButton,
-          isSemantics(
-            label: '',
-            isHeader: false,
-            isButton: true,
-            hasTapAction: true,
-          ),
-        );
-        final innerHeading = _onlyChild(outerButton);
-        expect(innerHeading.getSemanticsData().headingLevel, 3);
-        final innerButton = _onlyChild(innerHeading);
-        expect(innerButton.getSemanticsData().headingLevel, 0);
-        expect(
-          innerButton,
-          isSemantics(
-            label: 'Recent',
-            isHeader: false,
-            isButton: true,
-            hasEnabledState: true,
-            isEnabled: true,
-            hasTapAction: true,
-          ),
-        );
-        handle.dispose();
-      },
-    );
+      final outerHeading = tester.getSemantics(find.byKey(outerKey));
+      expect(outerHeading.getSemanticsData().headingLevel, 2);
+      expect(
+        outerHeading,
+        isSemantics(
+          label: '',
+          isHeader: false,
+          isButton: false,
+          hasTapAction: false,
+        ),
+      );
+      final outerButton = _onlyChild(outerHeading);
+      expect(outerButton.getSemanticsData().headingLevel, 0);
+      expect(
+        outerButton,
+        isSemantics(
+          label: '',
+          isHeader: false,
+          isButton: true,
+          hasTapAction: true,
+        ),
+      );
+      final innerHeading = _onlyChild(outerButton);
+      expect(innerHeading.getSemanticsData().headingLevel, 3);
+      final innerButton = _onlyChild(innerHeading);
+      expect(innerButton.getSemanticsData().headingLevel, 0);
+      expect(
+        innerButton,
+        isSemantics(
+          label: 'Recent',
+          isHeader: false,
+          isButton: true,
+          hasEnabledState: true,
+          isEnabled: true,
+          hasTapAction: true,
+        ),
+      );
+      handle.dispose();
+    });
 
     testWidgets(
-      'us04/fr02/e07: adding a header and changing its level keeps the '
+      'fo06_02/us01/fr02/e07: adding a header and changing its level keeps the '
       'child State',
       (tester) async {
         final handle = tester.ensureSemantics();

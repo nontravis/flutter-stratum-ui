@@ -28,7 +28,7 @@ Future<void> _openFixture(WidgetTester tester) async {
 }
 
 void main() {
-  testWidgets('fo06/us19/fr04/e09: the host SafeArea narrows the PageLayout '
+  testWidgets('fo06_04/us02/fr04/e09: the host SafeArea narrows the PageLayout '
       'box to 382', (tester) async {
     final handle = tester.ensureSemantics();
     await _openFixture(tester);
@@ -48,20 +48,23 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('fo06/us19/fr04/e09: Open drawer opens a drawer 80% of the box '
-      'wide', (tester) async {
-    final handle = tester.ensureSemantics();
-    await _openFixture(tester);
+  testWidgets(
+    'fo06_04/us02/fr04/e09: Open drawer opens a drawer 80% of the box '
+    'wide',
+    (tester) async {
+      final handle = tester.ensureSemantics();
+      await _openFixture(tester);
 
-    await tester.tap(find.text(_openNow));
-    await tester.pumpAndSettle();
+      await tester.tap(find.text(_openNow));
+      await tester.pumpAndSettle();
 
-    final drawer = find.ancestor(
-      of: find.bySemanticsIdentifier(_linkAId),
-      matching: find.byType(ContainerLayout),
-    );
-    expect(drawer, findsWidgets);
-    expect(tester.getSize(drawer.first).width, moreOrLessEquals(305.6));
-    handle.dispose();
-  });
+      final drawer = find.ancestor(
+        of: find.bySemanticsIdentifier(_linkAId),
+        matching: find.byType(ContainerLayout),
+      );
+      expect(drawer, findsWidgets);
+      expect(tester.getSize(drawer.first).width, moreOrLessEquals(305.6));
+      handle.dispose();
+    },
+  );
 }

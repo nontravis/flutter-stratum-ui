@@ -87,7 +87,7 @@ class StratumTheme {
   /// `data.systemStyle`: the theme's look of the system bars.
   SystemStyle get systemStyle => data.systemStyle;
 
-  /// `data.focus`: the focus ring's theme look, its level 0 (FO-06 US-04
+  /// `data.focus`: the focus ring's theme look, its level 0 (FO-06-02 US-01
   /// FR-03).
   StratumFocusTokens get focus => data.focus;
 

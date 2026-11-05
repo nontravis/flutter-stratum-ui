@@ -55,7 +55,7 @@ class _HoverBuilderState extends State<HoverBuilder> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     // A disabled flip rebuilds with the new value and calls no listener
-    // (US-16 FR-05 E02).
+    // (FO-06-02 US-04 FR-05 E02).
     _disabled = StratumDisabledScope.of(context);
   }
 

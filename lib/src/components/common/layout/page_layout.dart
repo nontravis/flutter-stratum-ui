@@ -16,24 +16,23 @@ const String _settingNamespace = 'stratum.page_layout';
 const String _leftWidthName = 'left_width';
 const String _rightWidthName = 'right_width';
 
-/// Opens and closes a [PageLayout]'s drawers and holds the chosen widths of
-/// its inline side panes; [PageLayout.of] returns it (US-19 FR-03, FR-06;
-/// layout s03 INV-66 and INV-69).
+/// Opens and closes a [PageLayout]'s drawers and holds the chosen widths of its
+/// inline side panes; [PageLayout.of] returns it (FO-06-04 US-02 FR-03, FR-06;
+/// FO-06-04 INV-66 and INV-69).
 ///
 /// [openLeft], [openRight], and [close] drive the drawers of the page it is
 /// attached to; it owns the side the app asked open, while the page owns
 /// the drawn, animated drawer, and each open and close reports through
 /// `PageLayout.onDrawerChanged`. [leftWidth] and [rightWidth] hold the
 /// EndUser's chosen widths, never the window-clamped widths the page draws;
-/// null means none is chosen. Pass kept widths to the constructor to
-/// restore them, and set them from code. A kept width is data, not misuse:
-/// one that is not a finite number of at least 0, such as NaN or infinity
-/// read back from storage, reads as null in every build (US-19 FR-06 E11).
-/// It notifies only when a set
-/// changes a width: from code, or once a pane resize settles; never per
-/// drag frame, never when a window clamp changes only the drawn width, and
-/// never for a drawer. A [PageLayout] given none makes its own, as a
-/// [ScrollController], and disposes only that one.
+/// null means none is chosen. Pass kept widths to the constructor to restore
+/// them, and set them from code. A kept width is data, not misuse: one that is
+/// not a finite number of at least 0, such as NaN or infinity read back from
+/// storage, reads as null in every build (FO-06-04 US-02 FR-06 E11). It
+/// notifies only when a set changes a width: from code, or once a pane resize
+/// settles; never per drag frame, never when a window clamp changes only the
+/// drawn width, and never for a drawer. A [PageLayout] given none makes its
+/// own, as a [ScrollController], and disposes only that one.
 class PageLayoutController extends ChangeNotifier {
   /// Starts with [leftWidth] and [rightWidth], such as ones the app kept,
   /// to restore them.
@@ -72,15 +71,15 @@ class PageLayoutController extends ChangeNotifier {
 
   /// Opens the start drawer and reports it open. Does nothing while `left`
   /// is null or shows inline, where `inlinePanes` resolves yes, or its
-  /// drawer is already open (US-19 FR-03 E01; R21).
+  /// drawer is already open (FO-06-04 US-02 FR-03 E01; R21).
   void openLeft() => _layout?._open(PageDrawerSide.left);
 
   /// Opens the end drawer and reports it open, as [openLeft] does for the
   /// start drawer.
   void openRight() => _layout?._open(PageDrawerSide.right);
 
-  /// Closes the open drawer and reports it closed once it is gone; does
-  /// nothing and reports nothing while no drawer is open (US-19 FR-03 E02).
+  /// Closes the open drawer and reports it closed once it is gone; does nothing
+  /// and reports nothing while no drawer is open (FO-06-04 US-02 FR-03 E02).
   void close() => _layout?._close();
 
   /// Sets [leftWidth] and [rightWidth] as the setters do, without a notify,
@@ -100,29 +99,30 @@ class PageLayoutController extends ChangeNotifier {
       width != null && width.isFinite && width >= 0 ? width : null;
 }
 
-/// A page's slots in the geometry of the Figma page layout (US-18 FR-01):
-/// [header] across the full width on top; below it [left], full height
-/// between [header] and [footer], beside a main column of [top] over the
-/// center column ([tab] over [body] over [bottom]) and [right], which starts
-/// under [top]; [footer] across the full width at the end; and [snack]
-/// floating at the bottom center over every slot, taking no layout space.
+/// A page's slots in the geometry of the Figma page layout
+/// (FO-06-04 US-01 FR-01): [header] across the full width on top; below it
+/// [left], full height between [header] and [footer], beside a main column of
+/// [top] over the center column ([tab] over [body] over [bottom]) and [right],
+/// which starts under [top]; [footer] across the full width at the end; and
+/// [snack] floating at the bottom center over every slot, taking no layout
+/// space.
 ///
-/// A null slot builds nothing and takes no space. [left] is the start side
-/// and [right] the end side, so both mirror under [TextDirection.rtl].
-/// Slots take plain widgets: the app picks what rebuilds by placing its own
-/// state listener inside one slot or around the whole page (US-18 FR-02).
-/// Each slot sits under its own repaint boundary and a transparent
-/// [Material], so a slot hosts any SDK widget with no `Scaffold`.
+/// A null slot builds nothing and takes no space. [left] is the start side and
+/// [right] the end side, so both mirror under [TextDirection.rtl]. Slots take
+/// plain widgets: the app picks what rebuilds by placing its own state listener
+/// inside one slot or around the whole page (FO-06-04 US-01 FR-02). Each slot
+/// sits under its own repaint boundary and a transparent [Material], so a slot
+/// hosts any SDK widget with no `Scaffold`.
 ///
-/// Every slot that touches a screen edge fills under that edge's system
-/// inset while its content pads by it, as [safeArea] allows; [body] instead
-/// hands its top and bottom insets to its children, so a body list scrolls
-/// under the home indicator with its last item able to scroll clear.
-/// Children read the media insets with the page's share removed, so a
-/// nested page pads nothing twice (US-18 FR-04). While the keyboard is open
-/// and [resizeToAvoidKeyboard] holds, the page above [footer] ends at the
-/// keyboard's top, so [bottom] rides above it, and [footer] stays docked at
-/// the bottom edge under the keyboard (US-18 FR-05).
+/// Every slot that touches a screen edge fills under that edge's system inset
+/// while its content pads by it, as [safeArea] allows; [body] instead hands its
+/// top and bottom insets to its children, so a body list scrolls under the home
+/// indicator with its last item able to scroll clear. Children read the media
+/// insets with the page's share removed, so a nested page pads nothing twice
+/// (FO-06-04 US-01 FR-04). While the keyboard is open and
+/// [resizeToAvoidKeyboard] holds, the page above [footer] ends at the
+/// keyboard's top, so [bottom] rides above it, and [footer] stays docked at the
+/// bottom edge under the keyboard (FO-06-04 US-01 FR-05).
 ///
 /// Where [inlinePanes] resolves no, below [WindowSize.tablet] by default,
 /// [left] and [right] are drawers that take no space:
@@ -133,7 +133,7 @@ class PageLayoutController extends ChangeNotifier {
 /// [leftSide] and [rightSide] set each drawer's type, width bounds, page
 /// scale, and label, and [onDrawerChanged] hears each open and close. An
 /// open drawer keeps focus inside it, reads as its own named screen, and
-/// hides the page behind from screen readers (US-19 FR-02 to FR-05).
+/// hides the page behind from screen readers (FO-06-04 US-02 FR-02 to FR-05).
 ///
 /// Where [inlinePanes] resolves yes both sides sit inline beside the
 /// center column, as two nested [SplitLayout]s, with a divider the EndUser
@@ -143,16 +143,16 @@ class PageLayoutController extends ChangeNotifier {
 /// and focus, and reads as a slider. Each pane opens at the controller's
 /// chosen width, else at the theme's `layouts.left-pane-width` or
 /// `layouts.right-pane-width` for the window size, and the controller
-/// hears each settled resize as the new width (US-19 FR-06). With
+/// hears each settled resize as the new width (FO-06-04 US-02 FR-06). With
 /// [rightAsOverlay], [right] opens there instead as a front drawer over a
-/// scrim, with a close button (US-19 FR-01). A drawer open as the window
-/// crosses into inline panes closes.
+/// scrim, with a close button (FO-06-04 US-02 FR-01). A drawer open as the
+/// window crosses into inline panes closes.
 ///
 /// While [loading] holds, a layer over the whole page refuses every tap and
 /// keyboard focus, reads as a live region with the built-in loading label,
 /// and shows [loadingBuilder]'s widget, else a plain spinner; focus returns
 /// to where it sat once [loading] turns false. The layer fades in and out
-/// over the theme's `fast` level with no other movement (US-18 FR-06).
+/// over the theme's `fast` level with no other movement (FO-06-04 US-01 FR-06).
 ///
 /// Each part's style layers the theme defaults, then the app-wide
 /// [PageLayoutStyle] the application registers for [PageLayout], then
@@ -165,7 +165,7 @@ class PageLayoutController extends ChangeNotifier {
 /// A solid slot fill or page fill declares itself to the system bar
 /// resolver, so the automatic bar icons pick against what the page paints
 /// under each bar; a gradient or image fill declares nothing, and the app
-/// wraps its own `SystemBarFill` or sets explicit icons (US-18 FR-07).
+/// wraps its own `SystemBarFill` or sets explicit icons (FO-06-04 US-01 FR-07).
 /// [systemStyle] sets this page's bar style as an inner scope over the
 /// app-wide one.
 class PageLayout extends StatefulWidget {
@@ -293,7 +293,7 @@ class PageLayout extends StatefulWidget {
   final PageLayoutStyle? customStyle;
 
   /// The system bar style of this page, an inner scope over the app-wide
-  /// style; null adds no scope (US-18 FR-07).
+  /// style; null adds no scope (FO-06-04 US-01 FR-07).
   final SystemStyle? systemStyle;
 
   /// The settings key the page remembers [controller]'s side pane widths
@@ -343,8 +343,8 @@ typedef _DrawerView = ({PageDrawerSide? shown, bool open});
 
 const _DrawerView _noDrawer = (shown: null, open: false);
 
-/// The fields of [_PageLayoutScope], one dependency aspect each (layout s03
-/// INV-63).
+/// The fields of [_PageLayoutScope], one dependency aspect each
+/// (FO-06-04 INV-63).
 enum _PageAspect { controller, drawer }
 
 class _PageLayoutState extends State<PageLayout>
@@ -373,13 +373,13 @@ class _PageLayoutState extends State<PageLayout>
   /// The node loading's unfocus moved focus to, once it landed.
   FocusNode? _parkedFocus;
 
-  /// The drawer's 0-to-1 animation, which a drag also drives (layout s03
-  /// INV-65).
+  /// The drawer's 0-to-1 animation, which a drag also drives
+  /// (FO-06-04 INV-65).
   late final _drawer = AnimationController(vsync: this)
     ..addStatusListener(_onDrawerStatus);
 
   /// What the drawer stage draws, published to it with no rebuild of the
-  /// page (layout s03 INV-63).
+  /// page (FO-06-04 INV-63).
   final _drawerView = ValueNotifier<_DrawerView>(_noDrawer);
 
   /// The scope the shown drawer panel keeps focus in.
@@ -400,7 +400,7 @@ class _PageLayoutState extends State<PageLayout>
 
   /// Bumped after each frame in which the app rebuilt this page while a
   /// `page` drawer shows; its route listens, since it keeps its page built
-  /// and so would show the slots it opened with (US-18 FR-02 E05).
+  /// and so would show the slots it opened with (FO-06-04 US-01 FR-02 E05).
   final _pageBuilds = ValueNotifier<int>(0);
 
   /// The splits of `left` beside the main column and of the center column
@@ -645,12 +645,12 @@ class _PageLayoutState extends State<PageLayout>
   }
 
   /// Keeps the slot node that holds focus as loading turns true, and hands
-  /// focus back as loading turns false (US-18 FR-06 E05): to that node, as
-  /// long as focus still sits where loading parked it, and then into a
-  /// drawer asked open meanwhile, which keeps focus inside (layout s03
-  /// INV-68). A route above the page, or a hidden branch, keeps its
-  /// focus: the page's [PageAreasProbe] answers that, so this State
-  /// depends on no route and rebuilds on no push or pop.
+  /// focus back as loading turns false (FO-06-04 US-01 FR-06 E05): to that
+  /// node, as long as focus still sits where loading parked it, and then into a
+  /// drawer asked open meanwhile, which keeps focus inside (FO-06-04 INV-68). A
+  /// route above the page, or a hidden branch, keeps its focus: the page's
+  /// [PageAreasProbe] answers that, so this State depends on no route and
+  /// rebuilds on no push or pop.
   void _moveFocusForLoading() {
     final manager = FocusManager.instance;
     if (widget.loading) {
@@ -715,7 +715,7 @@ class _PageLayoutState extends State<PageLayout>
           ? _page(style, look, theme, page)
           : SystemStyleScope(
               // Outermost, so the scope's sized look annotation covers both
-              // bars' points (US-18 FR-07).
+              // bars' points (FO-06-04 US-01 FR-07).
               style: widget.systemStyle!,
               child: _page(style, look, theme, page),
             ),
@@ -737,7 +737,7 @@ class _PageLayoutState extends State<PageLayout>
       ),
       // Always wraps, so a style animation crossing the solid/non-solid
       // line resets no State (performance review Minor); a page fill
-      // declares itself as every slot does (US-18 FR-07), else fully
+      // declares itself as every slot does (FO-06-04 US-01 FR-07), else fully
       // transparent, which blends as nothing (system_bars.dart:269).
       child: SystemBarFill(
         color: solidFillColor(style.outer ?? const WidgetStyle()),
@@ -842,11 +842,11 @@ class _PageLayoutState extends State<PageLayout>
   // MARK: - Drawers
 
   /// Whether [PageLayout.inlinePanes] resolves yes for the window size,
-  /// so `left` and `right` sit inline (layout s03 INV-69).
+  /// so `left` and `right` sit inline (FO-06-04 INV-69).
   bool get _inlinePanes => widget.inlinePanes.resolve(_windowSize);
 
   /// Whether [side] is `right` shown as the front overlay drawer, where
-  /// the panes sit inline (US-19 FR-01 E04).
+  /// the panes sit inline (FO-06-04 US-02 FR-01 E04).
   bool _isOverlay(PageDrawerSide side) =>
       side == PageDrawerSide.right && widget.rightAsOverlay && _inlinePanes;
 
@@ -887,7 +887,7 @@ class _PageLayoutState extends State<PageLayout>
   };
 
   /// Opens [side]'s drawer, unless it has no drawer here or is already
-  /// open (US-19 FR-03 E01; R21).
+  /// open (FO-06-04 US-02 FR-03 E01; R21).
   void _open(PageDrawerSide side) {
     if (!_isDrawer(side) || _controller._openSide == side) return;
     _show(side);
@@ -927,7 +927,7 @@ class _PageLayoutState extends State<PageLayout>
 
   /// Moves focus into [side]'s panel once the frame that shows it lands:
   /// a focus scope node takes a request only while it is in the focus
-  /// tree (US-19 FR-05).
+  /// tree (FO-06-04 US-02 FR-05).
   ///
   /// A page under another route, such as an open modal, or in a hidden
   /// branch, takes no focus from it; the page's [PageAreasProbe] answers
@@ -942,7 +942,7 @@ class _PageLayoutState extends State<PageLayout>
 
   /// Pushes [side]'s content as a page through the app's page transitions,
   /// rebuilt each time the app rebuilds this page; once it pops, the drawer
-  /// reads closed (US-19 FR-02 E03).
+  /// reads closed (FO-06-04 US-02 FR-02 E03).
   void _pushPage(NavigatorState navigator, PageDrawerSide side) {
     final route = MaterialPageRoute<void>(
       builder: (_) => ValueListenableBuilder<int>(
@@ -962,7 +962,7 @@ class _PageLayoutState extends State<PageLayout>
     );
   }
 
-  /// Closes the open drawer; nothing happens while none is open (US-19
+  /// Closes the open drawer; nothing happens while none is open (FO-06-04 US-02
   /// FR-03 E02).
   void _close() {
     if (_controller._openSide == null) return;
@@ -1011,7 +1011,7 @@ class _PageLayoutState extends State<PageLayout>
 
   /// Closes the drawer of a side that no longer opens as one, since the
   /// window crossed into inline panes or the app turned `inlinePanes` or
-  /// the overlay choice (US-19 FR-01 E05; Q26).
+  /// the overlay choice (FO-06-04 US-02 FR-01 E05; Q26).
   ///
   /// It closes at once and reports once the frame ends, so an app that sets
   /// its own state from `onDrawerChanged` never does so during a build.
@@ -1074,7 +1074,7 @@ class _PageLayoutState extends State<PageLayout>
   }
 
   /// Opens the dragged drawer on a fling toward open or a release past
-  /// half open, and closes it otherwise (US-19 FR-02 E06, FR-03).
+  /// half open, and closes it otherwise (FO-06-04 US-02 FR-02 E06, FR-03).
   void _dragEnd(double velocity) {
     final side = _dragSide;
     if (side == null) return;
@@ -1095,8 +1095,8 @@ class _PageLayoutState extends State<PageLayout>
 
   /// [side]'s drawer, or null where it has none: the overlay drawer is a
   /// `front` drawer as wide as the theme's `layouts.overlay-drawer-width`
-  /// for the window size, never wider than the box (US-19 FR-01, FR-04
-  /// E10), with the side's label (US-19 FR-01 E04).
+  /// for the window size, never wider than the box (FO-06-04 US-02 FR-01, FR-04
+  /// E10), with the side's label (FO-06-04 US-02 FR-01 E04).
   PageSide? _drawerSide(PageDrawerSide side) {
     if (!_isDrawer(side)) return null;
     if (!_isOverlay(side)) return _sideOf(side);
@@ -1109,10 +1109,10 @@ class _PageLayoutState extends State<PageLayout>
     );
   }
 
-  /// [side]'s drawer panel: its slot in the side's resolved slot fill under
-  /// the `shadow/4` effect, with [corners] on its screen corners, padded by
-  /// the insets of the top, bottom, and its own screen edge, and the close
-  /// button over it as the overlay drawer (US-19 FR-01 E04, FR-04; R18).
+  /// [side]'s drawer panel: its slot in the side's resolved slot fill under the
+  /// `shadow/4` effect, with [corners] on its screen corners, padded by the
+  /// insets of the top, bottom, and its own screen edge, and the close button
+  /// over it as the overlay drawer (FO-06-04 US-02 FR-01 E04, FR-04; R18).
   Widget _drawerPanel(
     PageDrawerSide side,
     BorderRadius corners,
@@ -1135,8 +1135,8 @@ class _PageLayoutState extends State<PageLayout>
   }
 
   /// [child] filling the overlay drawer, with a close button at its top end
-  /// that Tab visits after [child], as `ModalLayout` shows its own (US-19
-  /// FR-01 E04).
+  /// that Tab visits after [child], as `ModalLayout` shows its own
+  /// (FO-06-04 US-02 FR-01 E04).
   Widget _withClose(Widget child) => FocusTraversalGroup(
     policy: OrderedTraversalPolicy(),
     child: StackLayout(
@@ -1164,7 +1164,7 @@ class _PageLayoutState extends State<PageLayout>
   /// [side]'s content as the page a `page` drawer opens, read at the
   /// route's [context]: the side's slot fill over the whole screen and its
   /// content padded by every inset, read as a named screen that takes focus
-  /// and closes by Esc (US-19 FR-02 E03, FR-03 E07, FR-05).
+  /// and closes by Esc (FO-06-04 US-02 FR-02 E03, FR-03 E07, FR-05).
   Widget _drawerPage(BuildContext context, PageDrawerSide side) {
     final start = side == PageDrawerSide.left;
     final style = _style(context);
@@ -1203,7 +1203,7 @@ class _PageLayoutState extends State<PageLayout>
 
   /// Rebuilds the shown `page` drawer's content with the app's new slots
   /// once this frame ends: its route lives outside this subtree, so marking
-  /// it during this build would assert (US-18 FR-02 E05).
+  /// it during this build would assert (FO-06-04 US-01 FR-02 E05).
   void _rebuildDrawerPage() {
     if (_pageRoute == null) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1224,11 +1224,11 @@ class _PageLayoutState extends State<PageLayout>
 
   // MARK: - Layout
 
-  /// The slots in the geometry of layout s03 INV-61, a null slot and
+  /// The slots in the geometry of FO-06-04 INV-61, a null slot and
   /// a drawer side left out, above a footer room at least [keyboard] tall:
   /// the page above
   /// the footer then ends at the keyboard's top while the footer stays
-  /// docked at the bottom edge (US-18 FR-05 E04, E05).
+  /// docked at the bottom edge (FO-06-04 US-01 FR-05 E04, E05).
   Widget _geometry(PageLayoutStyle style, _SlotLook look, double keyboard) {
     final page = widget;
     Widget? slot(_Slot which, Widget? child, WidgetStyle? fill) =>
@@ -1343,17 +1343,17 @@ class _PageLayoutState extends State<PageLayout>
 
   /// [column] beside [side]'s inline [pane], or alone where [side] has
   /// none, as one [SplitLayout] at Tab [order], its divider painted by the
-  /// side's divider builder (layout s03 INV-61 and INV-69; R17).
+  /// side's divider builder (FO-06-04 INV-61 and INV-69; R17).
   ///
   /// The divider's Home, End, and slider speak for [pane], the WAI-ARIA
   /// window splitter's primary pane, so `right`'s split passes its end pane
-  /// as primary (US-19 FR-06 E02).
+  /// as primary (FO-06-04 US-02 FR-06 E02).
   ///
   /// The pane opens at the controller's chosen width, so a width set from
   /// code moves it, with no rebuild of any slot. The split stays in the tree
   /// with the pane inline and as a drawer alike, null where the panes sit
   /// as drawers, so `inlinePanes` flipping remounts nothing in [column]
-  /// (US-19 FR-01 E05).
+  /// (FO-06-04 US-02 FR-01 E05).
   Widget _sideSplit(
     PageDrawerSide side, {
     required Widget column,
@@ -1408,7 +1408,7 @@ class _PageLayoutState extends State<PageLayout>
   ///
   /// A chosen width that is not a finite number of at least 0 reads as
   /// none here too, so a controller whose getter skips the check still
-  /// lays out (US-19 FR-06 E11).
+  /// lays out (FO-06-04 US-02 FR-06 E11).
   double _paneWidth(PageDrawerSide side) {
     final chosen = switch (side) {
       PageDrawerSide.left => _controller.leftWidth,
@@ -1459,7 +1459,7 @@ class _PageLayoutState extends State<PageLayout>
 
   /// Hands [side]'s settled move to the controller as the pane's width, and
   /// clears the split's own choice, so the pane keeps that width, not a
-  /// share, as the window resizes (US-19 FR-06; R22).
+  /// share, as the window resizes (FO-06-04 US-02 FR-06; R22).
   ///
   /// The split notifies only once an EndUser's move settles; the controller
   /// then notifies the app once.
@@ -1531,8 +1531,8 @@ class _PageLayoutState extends State<PageLayout>
     );
   }
 
-  /// The theme layer of every part (US-18 FR-03; NFR-E01): the edge slots
-  /// fill the surface token, the page and the body the normal token.
+  /// The theme layer of every part (FO-06-04 US-01 FR-03; NFR-E01): the edge
+  /// slots fill the surface token, the page and the body the normal token.
   PageLayoutStyle _themeStyle(StratumTheme theme) {
     final fills = theme.color.background.defaults;
     final edge = WidgetStyle(backgroundColor: fills.surface);
@@ -1566,7 +1566,7 @@ class _PageLayoutState extends State<PageLayout>
   }
 
   /// The screen edges [slot] touches in the geometry of the slots present
-  /// (layout s03 INV-64).
+  /// (FO-06-04 INV-64).
   _Edges _edgesOf(_Slot slot) {
     final page = widget;
     final noHeader = page.header == null;
@@ -1610,7 +1610,7 @@ class _PageLayoutState extends State<PageLayout>
   /// touched edge whose [PageLayout.safeArea] flag is false pads nothing
   /// either, and the slot's children read its inset too. Every other inset
   /// is removed for the slot's children, and so is the keyboard while the
-  /// page makes room for it (layout s03 INV-64).
+  /// page makes room for it (FO-06-04 INV-64).
   Widget _slotBox(
     _Slot slot,
     Widget child,
@@ -1654,7 +1654,7 @@ class _PageLayoutState extends State<PageLayout>
       // Always wraps, so a style animation crossing the solid/non-solid
       // line resets no slot State (performance review Minor); a solid
       // fill declares itself, else fully transparent, which blends as
-      // nothing (system_bars.dart:269; US-18 FR-07).
+      // nothing (system_bars.dart:269; FO-06-04 US-01 FR-07).
       child: SystemBarFill(color: solidFillColor(box), child: slots),
     );
   }
@@ -1662,8 +1662,8 @@ class _PageLayoutState extends State<PageLayout>
 
 /// Publishes a [PageLayout]'s controller, for [PageLayout.of], and what its
 /// drawer stage draws, one dependency aspect each, so a drawer change
-/// rebuilds the stage and never a [PageLayout.of] reader (layout s03
-/// INV-63).
+/// rebuilds the stage and never a [PageLayout.of] reader
+/// (FO-06-04 INV-63).
 class _PageLayoutScope extends InheritedModel<_PageAspect> {
   const new({
     required this.controller,
@@ -1707,9 +1707,9 @@ class _DrawerReader extends StatelessWidget {
 }
 
 /// [child] under its context's media data with the padding of every side
-/// removed but the sides [keep] names, from the start, and with the
-/// keyboard's bottom view inset removed under [removeKeyboard], so a nested
-/// page pads and shrinks nothing twice (US-18 FR-04 E03, E04, FR-05 E03).
+/// removed but the sides [keep] names, from the start, and with the keyboard's
+/// bottom view inset removed under [removeKeyboard], so a nested page pads and
+/// shrinks nothing twice (FO-06-04 US-01 FR-04 E03, E04, FR-05 E03).
 class _SlotMedia extends StatelessWidget {
   const new({
     required this.keep,
@@ -1738,7 +1738,7 @@ class _SlotMedia extends StatelessWidget {
   }
 }
 
-/// The layer that blocks a [PageLayout] while [loading] (US-18 FR-06):
+/// The layer that blocks a [PageLayout] while [loading] (FO-06-04 US-01 FR-06):
 /// built only while [loading] holds or its fade-out runs, so its spinner
 /// schedules no frame once hidden.
 class _LoadingLayer extends StatefulWidget {

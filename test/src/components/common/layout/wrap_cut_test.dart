@@ -6,7 +6,7 @@ final _twelve = List<double>.filled(12, 40);
 
 void main() {
   group('cutWrap', () {
-    test("fo06/us14/fr01/e07: runs follow Flutter's run rule", () {
+    test("fo06_01/us05/fr01/e07: runs follow Flutter's run rule", () {
       final cut = cutWrap(
         extents: List<double>.filled(5, 40),
         limit: 100,
@@ -18,23 +18,20 @@ void main() {
       expect(cut.runCount, 3);
     });
 
-    test(
-      'fo06/us14/fr01/e07: a child within precisionErrorTolerance of the limit '
-      'stays in its run',
-      () {
-        final cut = cutWrap(extents: [50, 50], limit: 100 - 1e-11, spacing: 0);
+    test('fo06_01/us05/fr01/e07: a child within precisionErrorTolerance of the limit '
+        'stays in its run', () {
+      final cut = cutWrap(extents: [50, 50], limit: 100 - 1e-11, spacing: 0);
 
-        expect(cut.runOf, [0, 0]);
-      },
-    );
+      expect(cut.runOf, [0, 0]);
+    });
 
-    test('fo06/us14/fr01/e07: an oversize child takes a run of its own', () {
+    test('fo06_01/us05/fr01/e07: an oversize child takes a run of its own', () {
       final cut = cutWrap(extents: [300, 40], limit: 190, spacing: 10);
 
       expect(cut.runOf, [0, 1]);
     });
 
-    test('fo06/us14/s1, fo06/us14/fr01, fo06/us14/fr02: two runs hold 8 children and the '
+    test('fo06_01/us05/s1, fo06_01/us05/fr01, fo06_01/us05/fr02: two runs hold 8 children and the '
         'overflow child, which counts 4', () {
       final counts = <int>[];
       final cut = cutWrap(
@@ -53,7 +50,7 @@ void main() {
       expect(counts, [4]);
     });
 
-    test('fo06/us14/s2, fo06/us14/fr01/e01, s03/inv37: the limit that hides more wins', () {
+    test('fo06_01/us05/s2, fo06_01/us05/fr01/e01, fo06_01/inv37: the limit that hides more wins', () {
       final counts = <int>[];
       double more(int count) {
         counts.add(count);
@@ -83,7 +80,7 @@ void main() {
       expect(counts, [7, 4]);
     });
 
-    test('fo06/us14/s3, fo06/us14/fr02/e01: with nothing hidden no overflow child is '
+    test('fo06_01/us05/s3, fo06_01/us05/fr02/e01: with nothing hidden no overflow child is '
         'asked for', () {
       var asked = false;
       final cut = cutWrap(
@@ -102,28 +99,25 @@ void main() {
       expect(asked, isFalse);
     });
 
-    test(
-      'fo06/us14/fr01/e04: an overflow child with both limits null shows every '
-      'child and is never asked for',
-      () {
-        var asked = false;
-        final cut = cutWrap(
-          extents: _twelve,
-          limit: 230,
-          spacing: 10,
-          overflowExtent: (_) {
-            asked = true;
-            return 30;
-          },
-        );
+    test('fo06_01/us05/fr01/e04: an overflow child with both limits null shows every '
+        'child and is never asked for', () {
+      var asked = false;
+      final cut = cutWrap(
+        extents: _twelve,
+        limit: 230,
+        spacing: 10,
+        overflowExtent: (_) {
+          asked = true;
+          return 30;
+        },
+      );
 
-        expect(cut.shown, 12);
-        expect(cut.overflowRun, isNull);
-        expect(asked, isFalse);
-      },
-    );
+      expect(cut.shown, 12);
+      expect(cut.overflowRun, isNull);
+      expect(asked, isFalse);
+    });
 
-    test('fo06/us14/fr02/e02: with no overflow extent the cut hides with no '
+    test('fo06_01/us05/fr02/e02: with no overflow extent the cut hides with no '
         'overflow child', () {
       final cut = cutWrap(
         extents: _twelve,
@@ -137,71 +131,62 @@ void main() {
       expect(cut.runCount, 2);
     });
 
-    test(
-      'fo06/us14/fr02/e03: below maxRuns an overflow child that does not fit '
-      'opens a new run',
-      () {
-        for (final maxRuns in [null, 3]) {
-          final cut = cutWrap(
-            extents: _twelve,
-            limit: 190,
-            spacing: 10,
-            maxRuns: maxRuns,
-            maxChildren: 4,
-            overflowExtent: (_) => 30,
-          );
-
-          expect(cut.runOf, [0, 0, 0, 0], reason: 'maxRuns $maxRuns');
-          expect(cut.overflowRun, 1, reason: 'maxRuns $maxRuns');
-        }
-      },
-    );
-
-    test(
-      'fo06/us14/fr02/e04, s03/inv37: at the maxRuns cap shown children hide '
-      'from the end, one at a time, and the count grows with each',
-      () {
-        final counts = <int>[];
+    test('fo06_01/us05/fr02/e03: below maxRuns an overflow child that does not fit '
+        'opens a new run', () {
+      for (final maxRuns in [null, 3]) {
         final cut = cutWrap(
           extents: _twelve,
           limit: 190,
           spacing: 10,
-          maxRuns: 2,
-          overflowExtent: (count) {
-            counts.add(count);
-            return 90;
-          },
+          maxRuns: maxRuns,
+          maxChildren: 4,
+          overflowExtent: (_) => 30,
         );
 
-        expect(cut.runOf, [0, 0, 0, 0, 1, 1]);
-        expect(cut.overflowRun, 1);
-        expect(counts, [4, 5, 6]);
-      },
-    );
+        expect(cut.runOf, [0, 0, 0, 0], reason: 'maxRuns $maxRuns');
+        expect(cut.overflowRun, 1, reason: 'maxRuns $maxRuns');
+      }
+    });
 
-    test(
-      'fo06/us14/fr02/e04: under maxRuns 1 an oversize first child hides for '
-      'an overflow child that fits alone, which counts it',
-      () {
-        final counts = <int>[];
-        final cut = cutWrap(
-          extents: [400, 40, 40],
-          limit: 230,
-          spacing: 10,
-          maxRuns: 1,
-          overflowExtent: (count) {
-            counts.add(count);
-            return 30;
-          },
-        );
+    test('fo06_01/us05/fr02/e04, fo06_01/inv37: at the maxRuns cap shown children hide '
+        'from the end, one at a time, and the count grows with each', () {
+      final counts = <int>[];
+      final cut = cutWrap(
+        extents: _twelve,
+        limit: 190,
+        spacing: 10,
+        maxRuns: 2,
+        overflowExtent: (count) {
+          counts.add(count);
+          return 90;
+        },
+      );
 
-        expect(cut.runOf, isEmpty);
-        expect(cut.overflowRun, 0);
-        expect(counts, [2, 3]);
-      },
-    );
+      expect(cut.runOf, [0, 0, 0, 0, 1, 1]);
+      expect(cut.overflowRun, 1);
+      expect(counts, [4, 5, 6]);
+    });
 
-    test('fo06/us14/fr02/e05: an overflow child wider than a run sits alone in the '
+    test('fo06_01/us05/fr02/e04: under maxRuns 1 an oversize first child hides for '
+        'an overflow child that fits alone, which counts it', () {
+      final counts = <int>[];
+      final cut = cutWrap(
+        extents: [400, 40, 40],
+        limit: 230,
+        spacing: 10,
+        maxRuns: 1,
+        overflowExtent: (count) {
+          counts.add(count);
+          return 30;
+        },
+      );
+
+      expect(cut.runOf, isEmpty);
+      expect(cut.overflowRun, 0);
+      expect(counts, [2, 3]);
+    });
+
+    test('fo06_01/us05/fr02/e05: an overflow child wider than a run sits alone in the '
         'last allowed run', () {
       final counts = <int>[];
       double wide(int count) {
@@ -233,7 +218,7 @@ void main() {
       expect(counts, [8, 9, 10, 11, 12]);
     });
 
-    test('fo06/us14/fr01/e03, fo06/us14/fr02/e06: maxChildren 0 shows the overflow child '
+    test('fo06_01/us05/fr01/e03, fo06_01/us05/fr02/e06: maxChildren 0 shows the overflow child '
         'alone with every child counted', () {
       final counts = <int>[];
       final counted = cutWrap(

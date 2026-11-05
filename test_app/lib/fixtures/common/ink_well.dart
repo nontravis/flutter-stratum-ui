@@ -1,7 +1,7 @@
 import 'package:stratum_ui/stratum_ui.dart';
 
 /// Shortcut-bearing button fixture for the menu key and the screen-reader
-/// menu action of a `StratumInkWell` (FO-06 US-05 FR-01).
+/// menu action of a `StratumInkWell` (FO-06-02 US-02 FR-01).
 ///
 /// Button `Menu target` takes a tap and a secondary tap, which the menu key,
 /// Shift+F10, and the custom semantics action `Show menu` (the built-in

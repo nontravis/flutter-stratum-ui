@@ -122,7 +122,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us01/fr01: semantics, repaintBoundary, and keepAlive stay bare',
+      'fo06_01/us01/fr01: semantics, repaintBoundary, and keepAlive stay bare',
       (tester) async {
         await tester.pumpWidget(
           themedHost(
@@ -193,7 +193,7 @@ void main() {
     });
 
     testWidgets(
-      'fo06/us01/fr01: wraps from outside in: keepAlive, repaint, rotate',
+      'fo06_01/us01/fr01: wraps from outside in: keepAlive, repaint, rotate',
       (tester) async {
         await tester.pumpWidget(
           themedHost(
@@ -215,32 +215,29 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us01/s3, fo06/us01/fr03/e02: the semantic rect equals the box '
-      'and excludes the margin',
-      (tester) async {
-        final handle = tester.ensureSemantics();
-        await tester.pumpWidget(
-          themedHost(
-            const _Layout(
-              style: WidgetStyle(
-                width: 40,
-                height: 20,
-                margin: EdgeInsets.all(8),
-              ),
-              semantics: SemanticsProperties(label: 'box'),
+    testWidgets('fo06_01/us01/s3, fo06_01/us01/fr03/e02: the semantic rect equals the box '
+        'and excludes the margin', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        themedHost(
+          const _Layout(
+            style: WidgetStyle(
+              width: 40,
+              height: 20,
+              margin: EdgeInsets.all(8),
             ),
+            semantics: SemanticsProperties(label: 'box'),
           ),
-        );
+        ),
+      );
 
-        expect(tester.getSize(find.byType(_Layout)), const Size(56, 36));
-        final node = tester.getSemantics(find.bySemanticsLabel('box'));
-        expect(node.rect.size, const Size(40, 20));
-        handle.dispose();
-      },
-    );
+      expect(tester.getSize(find.byType(_Layout)), const Size(56, 36));
+      final node = tester.getSemantics(find.bySemanticsLabel('box'));
+      expect(node.rect.size, const Size(40, 20));
+      handle.dispose();
+    });
 
-    testWidgets('fo06/us01/fr03: the semantic rect rotates with the box', (
+    testWidgets('fo06_01/us01/fr03: the semantic rect rotates with the box', (
       tester,
     ) async {
       final handle = tester.ensureSemantics();
@@ -411,28 +408,33 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us04/fr03/e16: interaction.customStyle forwards to the '
-        'tap surface', (tester) async {
-      const style = StratumInkWellStyle(
-        focus: StratumFocusBorderStyle(width: WidgetStatePropertyAll(4)),
-      );
-      await tester.pumpWidget(
-        themedHost(
-          const ContainerLayout(
-            interaction: Interaction(onTap: _noop, customStyle: style),
-            child: SizedBox(width: 40, height: 20),
+    testWidgets(
+      'fo06_02/us01/fr03/e16: interaction.customStyle forwards to the '
+      'tap surface',
+      (tester) async {
+        const style = StratumInkWellStyle(
+          focus: StratumFocusBorderStyle(width: WidgetStatePropertyAll(4)),
+        );
+        await tester.pumpWidget(
+          themedHost(
+            const ContainerLayout(
+              interaction: Interaction(onTap: _noop, customStyle: style),
+              child: SizedBox(width: 40, height: 20),
+            ),
           ),
-        ),
-      );
+        );
 
-      expect(
-        tester.widget<StratumInkWell>(find.byType(StratumInkWell)).customStyle,
-        style,
-      );
-    });
+        expect(
+          tester
+              .widget<StratumInkWell>(find.byType(StratumInkWell))
+              .customStyle,
+          style,
+        );
+      },
+    );
 
     testWidgets(
-      "fo06/us11/fr01: an interaction animates a style over the theme's "
+      "fo06_01/inv3: an interaction animates a style over the theme's "
       'fast level by default',
       (tester) async {
         await tester.pumpWidget(
@@ -455,7 +457,7 @@ void main() {
       },
     );
 
-    testWidgets('fo06/us11/fr01: with no theme above it takes the package '
+    testWidgets('fo06_01/inv3: with no theme above it takes the package '
         "default's fast level", (tester) async {
       await tester.pumpWidget(
         const Directionality(
@@ -633,7 +635,7 @@ void main() {
       expect(builds.count, 1);
     });
 
-    testWidgets('fo05/us04/fr02/e01, s03/inv84: a style with no overrides '
+    testWidgets('fo05/us04/fr02/e01, fo06_01/inv84: a style with no overrides '
         'builds with no WindowSizeScope above', (tester) async {
       await tester.pumpWidget(
         const Directionality(
@@ -724,32 +726,35 @@ void main() {
   });
 
   group('BoxLayout scroll', () {
-    testWidgets('fo06/us02/fr01, fo06/us02/s4: scrolls inside the box along '
-        'scrollDirection', (tester) async {
-      await tester.pumpWidget(
-        themedHost(
-          const _Layout(
-            style: WidgetStyle(backgroundColor: Color(0xFFFFFFFF)),
-            scroll: Scroll(),
-            axis: Axis.horizontal,
+    testWidgets(
+      'fo06_03/us01/fr01, fo06_03/us01/s4: scrolls inside the box along '
+      'scrollDirection',
+      (tester) async {
+        await tester.pumpWidget(
+          themedHost(
+            const _Layout(
+              style: WidgetStyle(backgroundColor: Color(0xFFFFFFFF)),
+              scroll: Scroll(),
+              axis: Axis.horizontal,
+            ),
           ),
-        ),
-      );
+        );
 
-      final scroll = find.byType(SingleChildScrollView);
-      expect(
-        find.ancestor(of: scroll, matching: find.byType(AnimatedStyledBox)),
-        findsOneWidget,
-      );
-      expect(
-        tester.widget<SingleChildScrollView>(scroll).scrollDirection,
-        Axis.horizontal,
-      );
-      expect(
-        find.ancestor(of: scroll, matching: find.byType(ScrollConfiguration)),
-        findsWidgets,
-      );
-    });
+        final scroll = find.byType(SingleChildScrollView);
+        expect(
+          find.ancestor(of: scroll, matching: find.byType(AnimatedStyledBox)),
+          findsOneWidget,
+        );
+        expect(
+          tester.widget<SingleChildScrollView>(scroll).scrollDirection,
+          Axis.horizontal,
+        );
+        expect(
+          find.ancestor(of: scroll, matching: find.byType(ScrollConfiguration)),
+          findsWidgets,
+        );
+      },
+    );
 
     testWidgets('a null scroll builds no scroll view', (tester) async {
       await tester.pumpWidget(themedHost(const _Layout(style: WidgetStyle())));
@@ -891,7 +896,7 @@ void main() {
     }
 
     testWidgets(
-      'fo06/us02/fr03: ratio with scroll shapes the frame and scrolls the '
+      'fo06_03/us01/fr03: ratio with scroll shapes the frame and scrolls the '
       'content',
       (tester) async {
         await tester.pumpWidget(
@@ -919,9 +924,10 @@ void main() {
       },
     );
 
-    // The tap-surface focus rule (us04/fr03): not disabled, canRequestFocus,
-    // a focus type other than none, and an activation callback or a
-    // shortcut. The box gives up its own Tab stop exactly when it holds.
+    // The tap-surface focus rule (fo06_02/us01/fr03): not disabled,
+    // canRequestFocus, a focus type other than none, and an activation
+    // callback or a shortcut. The box gives up its own Tab stop exactly when
+    // it holds.
     const shortcut = {SingleActivator(LogicalKeyboardKey.keyA): _noop};
     for (final (name, surfaceStop, interaction)
         in <(String, bool, Interaction Function(FocusNode))>[

@@ -201,7 +201,7 @@ class ReorderableListViewLayout extends StatelessWidget {
   /// Names the focusable list for a screen reader.
   final String? semanticsLabel;
 
-  /// The view's focus ring style, level 3 (FO-06 US-07 FR-03), beside
+  /// The view's focus ring style, level 3 (FO-06-03 US-03 FR-03), beside
   /// `style`, which draws the box.
   final ScrollFocusStyle? scrollFocusStyle;
 
@@ -3996,7 +3996,7 @@ class _ReorderableBodyState extends State<_ReorderableBody>
 
   /// [item] with its long-press listener and its reorder keys. It wraps
   /// the item first in the item root marker, which a leaving item keeps,
-  /// inactive (layout s03 INV-81). A leaving item keeps the same
+  /// inactive (FO-06-03 INV-81). A leaving item keeps the same
   /// widgets, so its State stays, but takes no long-press drag and
   /// registers no node.
   Widget _wrapItem(Widget item, {required int index, required bool exiting}) {

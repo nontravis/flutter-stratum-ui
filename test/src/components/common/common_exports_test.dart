@@ -26,7 +26,7 @@ void main() {
     expect(utility, isNot(contains('todo.dart')));
   });
 
-  test('fo06/us01/fr01, fo08/us01/fr01: the debug prop and the performance '
+  test('fo06_01/us01/fr01, fo08/us01/fr01: the debug prop and the performance '
       'monitor are gone', () {
     expect(
       File('lib/src/components/common/widget_performance_monitor.dart')
@@ -129,7 +129,7 @@ void main() {
   });
 
   test(
-    's03/inv81: the barrel hides the item root marker and the pass node',
+    'fo06_03/inv81: the barrel hides the item root marker and the pass node',
     () {
       final source = File('lib/src/components/common/common.dart')
           .readAsStringSync();

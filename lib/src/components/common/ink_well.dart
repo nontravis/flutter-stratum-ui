@@ -52,7 +52,7 @@ bool tapSurfaceTakesFocus({
 
 /// Whether a box layout builds the tap surface for [interaction]: an
 /// activation callback, `onHover`, `onHighlightChanged`, `onFocusChange`,
-/// or a non-empty `shortcuts` map (layout s03 INV-2).
+/// or a non-empty `shortcuts` map (FO-06-02 INV-2).
 ///
 /// The one tap-surface build rule: `BoxLayout` builds a [StratumInkWell]
 /// exactly when it holds, and `ContainerLayout.builder` reads the surface's
@@ -220,7 +220,7 @@ class StratumInkWell extends StatefulWidget {
   /// when no activation callback is set, and never while the surface is
   /// disabled. Turning disabled under the pointer calls it once with false,
   /// and turning enabled again under it calls it once with true, after the
-  /// frame that applies the change (US-04 FR-04 E05, E06).
+  /// frame that applies the change (FO-06-02 US-01 FR-04 E05, E06).
   final ValueChanged<bool>? onHover;
   final ValueChanged<bool>? onHighlightChanged;
 
@@ -299,7 +299,7 @@ class StratumInkWell extends StatefulWidget {
 
   /// This surface's own style: its `focus` field restyles this surface's
   /// focus ring, level 3, over the app-wide `StratumInkWellStyle` under
-  /// `StratumInkWell` in `componentPartDefaults`, level 2 (FO-06 US-04
+  /// `StratumInkWell` in `componentPartDefaults`, level 2 (FO-06-02 US-01
   /// FR-03); every field of it takes effect (NFR-E02).
   final StratumInkWellStyle? customStyle;
 
@@ -334,7 +334,7 @@ class _StratumInkWellState extends State<StratumInkWell>
 
   // Whether a mouse pointer is over the surface, disabled or not: the
   // region in `build` reports it in every state, so a disabled flip under
-  // a still pointer knows the pointer is there (US-04 FR-04 E05, E06).
+  // a still pointer knows the pointer is there (FO-06-02 US-01 FR-04 E05, E06).
   final ValueNotifier<bool> _pointerInside = ValueNotifier(false);
 
   // The value `onHover` last reported: a pointer over the surface while it
@@ -503,7 +503,7 @@ class _StratumInkWellState extends State<StratumInkWell>
 
   /// Calls `onHover` when "a pointer over the surface while it is not
   /// disabled" changed since the last call: on enter and exit, and on a
-  /// disabled flip under the pointer (US-04 FR-04 E03, E05, E06).
+  /// disabled flip under the pointer (FO-06-02 US-01 FR-04 E03, E05, E06).
   void _reportHover() {
     final hovered = _pointerInside.value && !(_trackedDisabled ?? false);
     if (hovered == _hoverReported) return;
@@ -666,7 +666,7 @@ class _StratumInkWellState extends State<StratumInkWell>
     }
     // Always built with its handlers, so toggling onHover or disabled never
     // changes the structure below and the pointer stays tracked while
-    // disabled (US-04 FR-04 E05, E06).
+    // disabled (FO-06-02 US-01 FR-04 E05, E06).
     result = MouseRegion(
       onEnter: (_) => _handlePointer(inside: true),
       onExit: (_) => _handlePointer(inside: false),
@@ -966,14 +966,15 @@ class _RenderCallerSemantics extends RenderSemanticsAnnotations {
     // `rendering/object.dart:4941@3.47.7` makes a non-null `identifier` a
     // semantic boundary, which would split this node off the surface's
     // container; resetting it to `container` lets the caller's fields,
-    // identifier included, merge into the surface's one node (US-04 FR-02).
+    // identifier included, merge into the surface's one node (FO-06-02 US-01
+    // FR-02).
     if (_underSurface) config.isSemanticBoundary = container;
   }
 }
 
 /// Marks a reorder item's root, so a flagged node below, such as the pass
 /// node `StratumDisabled` builds, can seed its [_ItemRootFlag.role] from
-/// this marker (layout s03 INV-81).
+/// this marker (FO-06-03 INV-81).
 ///
 /// `_wrapItem` wraps every item in this first, [active] false for a
 /// leaving item, which keeps the marker, inactive, so the item keeps its
@@ -992,7 +993,7 @@ class ReorderItemRoot extends StatelessWidget {
   /// [customSemanticsActions] that, while the item's root surface joins
   /// it, also describes that surface's custom actions, the caller's and its
   /// secondary tap, so the two share the one config Flutter merges into
-  /// (layout s03 INV-81, D6(a)). A leaving item builds it too, with
+  /// (FO-06-03 INV-81, D6(a)). A leaving item builds it too, with
   /// no container and no actions, so its element stays across the leave.
   static Widget itemNode({
     required bool container,
@@ -1026,7 +1027,7 @@ bool _insideItemRoot(BuildContext context) =>
     context.dependOnInheritedWidgetOfExactType<_ItemRootScope>() != null;
 
 /// How a flagged node describes its semantics config at a reorder item
-/// root (layout s03 INV-81; base s03 INV-15).
+/// root (FO-06-03 INV-81; base s03 INV-15).
 enum _ItemRootRole {
   /// Outside any reorder item root: describes as [Semantics] does.
   none,
@@ -1102,7 +1103,7 @@ class _ItemRootMarker extends SingleChildRenderObjectWidget {
 
 /// The render object [ReorderItemRoot] builds: opens no semantics node of
 /// its own, and flags every pass node a seed finds below it `join`
-/// (layout s03 INV-81).
+/// (FO-06-03 INV-81).
 class _RenderItemRoot extends RenderProxyBox {
   new(this._active);
 
@@ -1333,8 +1334,8 @@ class _RenderItemRoot extends RenderProxyBox {
 /// The `Semantics` layer `StratumDisabled` builds in place of [Semantics]:
 /// joins the item's node while a reorder item root's marker flags it
 /// `join`, and describes nothing while flagged `hidden`, a pass node
-/// above a root surface (M1-T2). Kept out of the barrel (layout s03
-/// INV-81; base s03 INV-15).
+/// above a root surface (M1-T2). Kept out of the barrel
+/// (FO-06-03 INV-81; base s03 INV-15).
 class ItemRootPassSemantics extends Semantics {
   new({super.key, super.container, super.enabled, super.child});
 
@@ -1398,7 +1399,7 @@ class _RenderPassSemantics extends RenderSemanticsAnnotations
 /// [Semantics] for its outer node: joins the whole reorder item's node
 /// while a marker flags it `join`, so the surface's label, button role,
 /// enabled state, tap, and custom actions sit beside the item's move
-/// actions on one node (layout s03 INV-81).
+/// actions on one node (FO-06-03 INV-81).
 /// `ContainerLayout(interaction:)` reaches this too, since it builds a
 /// [StratumInkWell] (`box_layout.dart:219`).
 class _SurfaceSemantics extends Semantics {
@@ -1570,7 +1571,7 @@ class _ItemNodeSemantics extends Semantics {
 /// moves from its properties and, while it links a root surface
 /// ([joined]), that surface's custom actions in the same config, since
 /// two configs that both carry custom actions never merge
-/// (`semantics/semantics.dart:6755@3.47.7`; layout s03 INV-81).
+/// (`semantics/semantics.dart:6755@3.47.7`; FO-06-03 INV-81).
 /// It links the surface its own semantics walk exposes ([_exposedRoot]),
 /// so the actions sit here exactly when Flutter would expose them on the
 /// surface's own config.

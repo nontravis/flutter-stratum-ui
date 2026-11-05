@@ -174,7 +174,7 @@ class _PinnedHeader extends SliverPersistentHeaderDelegate {
 void main() {
   group('NestedScrollViewLayout keys', () {
     testWidgets(
-      'fo06/us12/fr02, fo06/us12/s1: Down collapses the header 50 px per '
+      'fo06_03/us06/fr02, fo06_03/us06/s1: Down collapses the header 50 px per '
       'press and then scrolls the list',
       (tester) async {
         final before = _node('before');
@@ -195,7 +195,7 @@ void main() {
     );
 
     testWidgets('under reduced motion Down jumps along the range '
-        '(fo06/us07/fr04)', (tester) async {
+        '(fo06_03/us03/fr04)', (tester) async {
       final before = _node('before');
       await tester.pumpWidget(
         MediaQuery(
@@ -305,7 +305,7 @@ void main() {
 
   group('NestedScrollViewLayout focus', () {
     testWidgets(
-      'fo06/us12/fr01: the layout is not a Tab stop; its body list is',
+      'fo06_03/us06/fr01: the layout is not a Tab stop; its body list is',
       (tester) async {
         final before = _node('before');
         await tester.pumpWidget(_nested(before: before));

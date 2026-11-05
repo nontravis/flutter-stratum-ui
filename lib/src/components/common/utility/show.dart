@@ -6,7 +6,7 @@ import 'package:stratum_ui/src/animations/screen_transition.dart'
     show curveOf, durationOf, reverseDurationOf;
 import 'package:stratum_ui/src/src.dart';
 
-/// How a [Show] moves between shown and hidden (FO-06 US-15 FR-01).
+/// How a [Show] moves between shown and hidden (FO-06-01 US-06 FR-01).
 enum ShowTransition {
   /// Takes its full size at once and fades; hides by fading, then takes no
   /// space.
@@ -24,12 +24,12 @@ enum ShowTransition {
 }
 
 /// The edge a [ShowTransition.slide] comes from and leaves toward;
-/// [start] and [end] follow the text direction (US-15 FR-02).
+/// [start] and [end] follow the text direction (FO-06-01 US-06 FR-02).
 enum ShowSlideDirection { top, bottom, start, end }
 
 /// Shows [child] while [visible] is true and hides it while false, by
 /// [transition], over the theme's default motion level on its `standard`
-/// curve both ways (FO-06 US-15).
+/// curve both ways (FO-06-01 US-06).
 ///
 /// One [AnimationController] drives every transition, forward over the
 /// show duration and back over the hide duration, so a flip of [visible]
@@ -92,7 +92,7 @@ class Show extends StatefulWidget {
 
 class _ShowState extends State<Show> with SingleTickerProviderStateMixin {
   /// 0 hidden, 1 shown; forward over the show duration, reverse over the
-  /// hide duration (layout s03 INV-43).
+  /// hide duration (FO-06-01 INV-43).
   late final AnimationController _controller;
 
   /// The curve both ways (PD9).
@@ -124,7 +124,7 @@ class _ShowState extends State<Show> with SingleTickerProviderStateMixin {
   Offset _edgeOffset = Offset.zero;
 
   /// Takes focus when focus sat inside content that hides; Tab skips it
-  /// (layout s03 INV-46, the rule of `IndexedStackLayout`).
+  /// (FO-06-01 INV-46, the rule of `IndexedStackLayout`).
   final _showNode = FocusNode(debugLabel: 'Show', skipTraversal: true);
 
   /// Marks the content's subtree only.
@@ -207,9 +207,9 @@ class _ShowState extends State<Show> with SingleTickerProviderStateMixin {
     _aim(now);
   }
 
-  /// Re-aims at the real track once the motion settles (US-15 FR-01 E07),
-  /// then rebuilds once the hide motion ends, so the content leaves the
-  /// tree.
+  /// Re-aims at the real track once the motion settles (FO-06-01 US-06 FR-01
+  /// E07), then rebuilds once the hide motion ends, so the content leaves
+  /// the tree.
   void _onStatus(AnimationStatus status) {
     if (!status.isAnimating) _aim(_look);
     if (status.isDismissed) setState(() {});
@@ -327,7 +327,7 @@ class _ShowState extends State<Show> with SingleTickerProviderStateMixin {
   }
 
   /// The size change on both axes, anchored at the top start corner, with
-  /// the fade and the slide inside it (layout s03 INV-45; PD6, PD7).
+  /// the fade and the slide inside it (FO-06-01 INV-45; PD6, PD7).
   Widget _motion() => _SizeFactorBox(
     factor: _sizeFactor,
     slide: _slide,
@@ -343,7 +343,7 @@ class _ShowState extends State<Show> with SingleTickerProviderStateMixin {
 typedef _Look = ({double size, double opacity, Offset slide});
 
 /// Sizes itself to its child's size times [factor] and places the child at
-/// the top start corner (layout s03 INV-45; PD6, PD7).
+/// the top start corner (FO-06-01 INV-45; PD6, PD7).
 ///
 /// The child lays out under the incoming constraints unchanged, so a shown
 /// child stretches as it would with no show around it. It clips to its own

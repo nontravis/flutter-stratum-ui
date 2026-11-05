@@ -1,5 +1,5 @@
 """PageLayout remembers the left pane width across a real process restart (FO-10 US-01),
-and a screen reader announces the busy page (FO-06 US-18 scenario 7).
+and a screen reader announces the busy page (FO-06-04 US-01 scenario 7).
 
 The restart test drives the `common/page_layout` fixture. The restart happens outside the
 app, so the answer lives at this level: the first frame after the second cold start must
@@ -116,7 +116,7 @@ def test_left_pane_width_survives_a_real_restart(
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us18/s7")
+@pytest.mark.req("fo06_04/us01/s7")
 def test_talkback_announces_the_busy_page_when_loading_turns_on(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog
 ) -> None:
@@ -136,7 +136,7 @@ def test_talkback_announces_the_busy_page_when_loading_turns_on(
 
 @pytest.mark.ios
 @pytest.mark.level2
-@pytest.mark.req("fo06/us18/s7")
+@pytest.mark.req("fo06_04/us01/s7")
 def test_voiceover_announces_the_busy_page_when_loading_turns_on(
     driver: Any, platform: str, app_id: str
 ) -> None:

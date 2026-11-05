@@ -185,27 +185,30 @@ void main() {
       expect(tester.state(find.byType(_Probe)), same(before));
     });
 
-    testWidgets('fo06/us02/fr02: fillViewport stretches short content to the '
-        'viewport', (tester) async {
-      await tester.pumpWidget(
-        _sized(
-          const Size(100, 300),
-          const ColumnLayout(
-            scroll: Scroll(fillViewport: true),
-            style: WidgetStyle(padding: EdgeInsets.all(10)),
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(key: _a, height: 20),
-              SizedBox(key: _b, height: 20),
-            ],
+    testWidgets(
+      'fo06_03/us01/fr02: fillViewport stretches short content to the '
+      'viewport',
+      (tester) async {
+        await tester.pumpWidget(
+          _sized(
+            const Size(100, 300),
+            const ColumnLayout(
+              scroll: Scroll(fillViewport: true),
+              style: WidgetStyle(padding: EdgeInsets.all(10)),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(key: _a, height: 20),
+                SizedBox(key: _b, height: 20),
+              ],
+            ),
           ),
-        ),
-      );
+        );
 
-      final top = tester.getTopLeft(find.byType(ColumnLayout)).dy;
-      expect(tester.getTopLeft(find.byKey(_a)).dy - top, 10);
-      expect(tester.getBottomLeft(find.byKey(_b)).dy - top, 290);
-    });
+        final top = tester.getTopLeft(find.byType(ColumnLayout)).dy;
+        expect(tester.getTopLeft(find.byKey(_a)).dy - top, 10);
+        expect(tester.getBottomLeft(find.byKey(_b)).dy - top, 290);
+      },
+    );
 
     testWidgets('without fillViewport a max-size column keeps its content '
         'height', (tester) async {

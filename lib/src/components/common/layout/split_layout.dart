@@ -87,13 +87,13 @@ typedef SplitDividerBuilder = Widget Function(
 /// stays as chosen. A list whose length differs from the panes' applies to
 /// none. A kept value is data, not misuse: an entry that is not a finite
 /// number of at least 0, such as NaN or infinity read back from storage,
-/// reads as null in every build (US-21 FR-02 E06).
+/// reads as null in every build (FO-06-04 US-04 FR-02 E06).
 ///
-/// It notifies only when a resize settles: a drag's end, one arrow-key,
-/// Home, or End step, a slider action, or a set from code that changes
-/// [fractions]; never per drag frame and never when a narrower window
-/// clamps only the drawn sizes (US-21 FR-02). A [SplitLayout] given none
-/// makes its own, as a [ScrollController], and disposes only that one.
+/// It notifies only when a resize settles: a drag's end, one arrow-key, Home,
+/// or End step, a slider action, or a set from code that changes [fractions];
+/// never per drag frame and never when a narrower window clamps only the drawn
+/// sizes (FO-06-04 US-04 FR-02). A [SplitLayout] given none makes its own, as a
+/// [ScrollController], and disposes only that one.
 class SplitLayoutController extends ChangeNotifier {
   /// Starts with [fractions], such as ones the app kept, to restore them.
   new({List<double?>? fractions}) : _fractions = _held(fractions);
@@ -123,7 +123,7 @@ class SplitLayoutController extends ChangeNotifier {
 }
 
 /// Lays out its [panes] side by side along [axis], with a divider the
-/// EndUser drags between each two neighbors (US-21).
+/// EndUser drags between each two neighbors (FO-06-04 US-04).
 ///
 /// A null pane does not show, and the shown panes fill the split. Under
 /// [TextDirection.rtl] a horizontal split mirrors, so the first pane sits
@@ -144,8 +144,8 @@ class SplitLayoutController extends ChangeNotifier {
 ///
 /// The split needs a bounded extent along [axis]. It builds on
 /// `MultiSplitView` of `multi_split_view` for its layout and its pane
-/// limits, and draws its own translucent hit layer over the seams (layout
-/// s03 INV-75).
+/// limits, and draws its own translucent hit layer over the seams
+/// (FO-06-04 INV-75).
 class SplitLayout extends StatefulWidget {
   const new({
     super.key,
@@ -182,7 +182,7 @@ class SplitLayout extends StatefulWidget {
   /// This split's own style: its `focus` field restyles the focus ring of
   /// every divider of this split, level 3, over the app-wide
   /// `SplitLayoutStyle` under `SplitLayout` in `componentPartDefaults`,
-  /// level 2 (FO-06 US-21 FR-05); every field of it takes effect (NFR-E02).
+  /// level 2 (FO-06-04 US-04 FR-05); every field of it takes effect (NFR-E02).
   final SplitLayoutStyle? customStyle;
 
   /// The settings key the split remembers its fractions under, in the
@@ -197,11 +197,11 @@ class SplitLayout extends StatefulWidget {
 
   /// Whether each divider speaks for the pane after it, the WAI-ARIA window
   /// splitter's primary pane, as `PageLayout`'s `right` divider does for its
-  /// side pane (US-19 FR-06): End then takes that pane to its maximum and
-  /// Home to its minimum, and the slider reads its share and widens it by
+  /// side pane (FO-06-04 US-02 FR-06): End then takes that pane to its maximum
+  /// and Home to its minimum, and the slider reads its share and widens it by
   /// increase. False keeps all of this on the pane before the divider. The
-  /// arrow keys move by screen direction either way (layout s03 INV-75).
-  /// Kept inside the package.
+  /// arrow keys move by screen direction either way (FO-06-04 INV-75). Kept
+  /// inside the package.
   @internal
   final bool endPrimary;
 

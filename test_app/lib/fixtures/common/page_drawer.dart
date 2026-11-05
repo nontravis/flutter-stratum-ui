@@ -1,7 +1,7 @@
 import 'package:stratum_ui/stratum_ui.dart';
 
 /// Drawer fixture for the open drawer and its scrim that a `PageLayout` shows
-/// (FO-06 US-19 FR-05).
+/// (FO-06-04 US-02 FR-05).
 ///
 /// A page whose `left` is a drawer on every window size: text `Drawer link A`
 /// (id `page_drawer.link_a`) and text `Drawer link B`. The body holds text

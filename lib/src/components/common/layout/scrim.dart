@@ -1,20 +1,19 @@
 import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
 import 'package:stratum_ui/src/src.dart';
 
-/// The scrim a modal layout's route and a page drawer share (layout s03
-/// INV-67 and INV-72): the theme's `normal-inverse` color, its own
-/// alpha times the `opacity.scrim` opacity as a Figma layer opacity,
-/// blurred by `blur/1`, fading with [animation], over a [ModalBarrier] that
-/// blocks what sits under it for taps
-/// and screen readers, reads the dismiss label, and calls [onDismiss] on a
-/// tap; with [showBackground] false only the barrier stays (US-20 FR-06;
-/// US-19 FR-04, FR-05).
+/// The scrim a modal layout's route and a page drawer share (FO-06-04 INV-67
+/// and INV-72): the theme's `normal-inverse` color, its own alpha times the
+/// `opacity.scrim` opacity as a Figma layer opacity, blurred by `blur/1`,
+/// fading with [animation], over a [ModalBarrier] that blocks what sits under
+/// it for taps and screen readers, reads the dismiss label, and calls
+/// [onDismiss] on a tap; with [showBackground] false only the barrier stays
+/// (FO-06-04 US-03 FR-06; FO-06-04 US-02 FR-04, FR-05).
 ///
-/// It reads the theme from its own context, so a theme switch restyles an
-/// open scrim (US-20 FR-06 E02, E06; US-19 FR-04 E06). It declares the
-/// color it paints at this frame for the automatic bar icons, so the icons
-/// flip when the blend crosses the contrast pick, as the eye sees it, in
-/// every mode the fade runs (US-19 FR-04 E08; US-20 FR-06 E07).
+/// It reads the theme from its own context, so a theme switch restyles an open
+/// scrim (FO-06-04 US-03 FR-06 E02, E06; FO-06-04 US-02 FR-04 E06). It declares
+/// the color it paints at this frame for the automatic bar icons, so the icons
+/// flip when the blend crosses the contrast pick, as the eye sees it, in every
+/// mode the fade runs (FO-06-04 US-02 FR-04 E08; FO-06-04 US-03 FR-06 E07).
 class Scrim extends StatelessWidget {
   const new({
     super.key,

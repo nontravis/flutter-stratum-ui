@@ -22,7 +22,7 @@ mixin _$StratumThemeConfig {
  Map<String, Color> get palette; StratumColorSets get color; StratumTypography get typography;/// The merged `animation` group (spec section 8.1).
  StratumAnimationConfig get animation;/// The merged `opacity` group: `disabled`, the opacity of a disabled
 /// component (FO-08 US-07), and `scrim`, a modal layout's background
-/// scrim (FO-06 US-20), each from 0 to 1; 0.5 in the package default.
+/// scrim (FO-06-04 US-03), each from 0 to 1; 0.5 in the package default.
  Map<String, double> get opacity;/// The merged `border` group: `sm`, `md`, `lg`, each a width in logical
 /// pixels of 0 or more (config s03 INV-12); 0.5, 1, 1.5 in the
 /// package default.
@@ -210,11 +210,11 @@ class _StratumThemeConfig implements StratumThemeConfig {
 @override final  StratumAnimationConfig animation;
 /// The merged `opacity` group: `disabled`, the opacity of a disabled
 /// component (FO-08 US-07), and `scrim`, a modal layout's background
-/// scrim (FO-06 US-20), each from 0 to 1; 0.5 in the package default.
+/// scrim (FO-06-04 US-03), each from 0 to 1; 0.5 in the package default.
  final  Map<String, double> _opacity;
 /// The merged `opacity` group: `disabled`, the opacity of a disabled
 /// component (FO-08 US-07), and `scrim`, a modal layout's background
-/// scrim (FO-06 US-20), each from 0 to 1; 0.5 in the package default.
+/// scrim (FO-06-04 US-03), each from 0 to 1; 0.5 in the package default.
 @override Map<String, double> get opacity {
   if (_opacity is EqualUnmodifiableMapView) return _opacity;
   // ignore: implicit_dynamic_type

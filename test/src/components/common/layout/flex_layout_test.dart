@@ -324,7 +324,7 @@ void main() {
     ]) {
       testWidgets('with crossAxisIntrinsic, a direction change keeps a '
           "focused TextField's State, text, focus, and size: $name "
-          '(fo06/us08/fr01/e01)', (tester) async {
+          '(fo06_01/us02/fr01/e01)', (tester) async {
         Widget flex(Axis direction) => MaterialApp(
           home: Material(
             child: Center(

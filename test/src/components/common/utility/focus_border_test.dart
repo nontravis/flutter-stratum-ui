@@ -183,7 +183,7 @@ Future<void> _expectShownLooksOnly(
 void main() {
   group('StratumFocusBorder look', () {
     testWidgets(
-      'fo06/us04/fr03: an outside ring shows only when focused, 3 px in '
+      'fo06_02/us01/fr03: an outside ring shows only when focused, 3 px in '
       'border.subtle.blue after a 2 px gap at the child radius plus the gap',
       (tester) async {
         for (final state in [FullWidgetState.normal, FullWidgetState.hovered]) {
@@ -202,7 +202,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us04/fr03/e07: an outside ring with insideEdge paints the outside '
+      'fo06_02/us01/fr03/e07: an outside ring with insideEdge paints the outside '
       'color and width on the inner edge at the child radius, gap unused',
       (tester) async {
         for (final gap in [null, 6.0]) {
@@ -235,7 +235,7 @@ void main() {
     );
 
     testWidgets(
-      'fo06/us04/fr03: an inside ring paints border.default.normal on the inner '
+      'fo06_02/us01/fr03: an inside ring paints border.default.normal on the inner '
       'edge, 3 px when hovered and 2 px when focused, nothing when normal',
       (tester) async {
         await tester.pumpWidget(_ring(customStyle: _inside));
@@ -261,113 +261,116 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us04/fr03/e11: every other FullWidgetState value shows the normal '
-      'look, no ring, in either placement',
-      (tester) async {
-        const shown = {
-          FullWidgetState.normal,
-          FullWidgetState.hovered,
-          FullWidgetState.focused,
-        };
-        for (final placement in StratumFocusBorderPlacement.values) {
-          for (final state in FullWidgetState.values) {
-            if (shown.contains(state)) continue;
-            await tester.pumpWidget(
-              _ring(
-                state: state,
-                customStyle: StratumFocusBorderStyle(placement: placement),
-              ),
-            );
-            await tester.pumpAndSettle();
-            expect(_hidden(tester), isTrue, reason: '$placement $state');
-          }
-        }
-      },
-    );
-
-    testWidgets(
-      'fo06/us04/fr03: a ring around a child with no radius takes the gap as '
-      'its radius',
-      (tester) async {
-        await tester.pumpWidget(
-          _ring(state: FullWidgetState.focused, borderRadius: null),
-        );
-        await tester.pumpAndSettle();
-
-        final ring = _painted(tester);
-        expect(ring.inner, _rrect(-2, -2, 42, 22, 2));
-        expect(ring.outer, _rrect(-5, -5, 45, 25, 5));
-      },
-    );
-  });
-
-  group('StratumFocusBorder levels', () {
-    testWidgets('fo06/us04/fr03/e08: one width for every shown state applies '
-        'to both, and a width per state to each', (tester) async {
-      for (final state in [FullWidgetState.hovered, FullWidgetState.focused]) {
-        await tester.pumpWidget(
-          _ring(
-            state: state,
-            customStyle: _inside.copyWith(
-              width: const WidgetStatePropertyAll(4),
+    testWidgets('fo06_02/us01/fr03/e11: every other FullWidgetState value shows the normal '
+        'look, no ring, in either placement', (tester) async {
+      const shown = {
+        FullWidgetState.normal,
+        FullWidgetState.hovered,
+        FullWidgetState.focused,
+      };
+      for (final placement in StratumFocusBorderPlacement.values) {
+        for (final state in FullWidgetState.values) {
+          if (shown.contains(state)) continue;
+          await tester.pumpWidget(
+            _ring(
+              state: state,
+              customStyle: StratumFocusBorderStyle(placement: placement),
             ),
-          ),
-        );
-        await tester.pumpAndSettle();
-        expect(
-          _painted(tester).inner,
-          _rrect(4, 4, 36, 16, 6),
-          reason: '$state',
-        );
+          );
+          await tester.pumpAndSettle();
+          expect(_hidden(tester), isTrue, reason: '$placement $state');
+        }
       }
-
-      final perState = _inside.copyWith(
-        width: const WidgetStateProperty.fromMap({
-          WidgetState.hovered: 6,
-          WidgetState.focused: 1,
-        }),
-      );
-      await tester.pumpWidget(
-        _ring(state: FullWidgetState.hovered, customStyle: perState),
-      );
-      await tester.pumpAndSettle();
-      expect(_painted(tester).inner, _rrect(6, 6, 34, 14, 4));
-
-      await tester.pumpWidget(
-        _ring(state: FullWidgetState.focused, customStyle: perState),
-      );
-      await tester.pumpAndSettle();
-      expect(_painted(tester).inner, _rrect(1, 1, 39, 19, 9));
     });
 
-    testWidgets('fo06/us04/fr03/e14: each field takes the highest level that '
-        'sets it, and a field no level sets keeps level 0', (tester) async {
+    testWidgets('fo06_02/us01/fr03: a ring around a child with no radius takes the gap as '
+        'its radius', (tester) async {
       await tester.pumpWidget(
-        _ring(
-          state: FullWidgetState.focused,
-          parts: const {
-            StratumFocusBorder: StratumFocusBorderStyle(
-              color: WidgetStatePropertyAll(_red),
-              width: WidgetStatePropertyAll(9),
-            ),
-          },
-          customStyle: const StratumFocusBorderStyle(
-            width: WidgetStatePropertyAll(5),
-          ),
-        ),
+        _ring(state: FullWidgetState.focused, borderRadius: null),
       );
       await tester.pumpAndSettle();
 
       final ring = _painted(tester);
-      expect(ring.color, isSameColorAs(_red));
-      // Width 5 from the instance over the app-wide 9; the 2 px gap from
-      // the theme's focus group.
-      expect(ring.inner, _rrect(-2, -2, 42, 22, 12));
-      expect(ring.outer, _rrect(-7, -7, 47, 27, 17));
+      expect(ring.inner, _rrect(-2, -2, 42, 22, 2));
+      expect(ring.outer, _rrect(-5, -5, 45, 25, 5));
     });
+  });
 
-    testWidgets('fo06/us04/fr03/e14, PD4: a level that sets a field for one '
+  group('StratumFocusBorder levels', () {
+    testWidgets(
+      'fo06_02/us01/fr03/e08: one width for every shown state applies '
+      'to both, and a width per state to each',
+      (tester) async {
+        for (final state in [
+          FullWidgetState.hovered,
+          FullWidgetState.focused,
+        ]) {
+          await tester.pumpWidget(
+            _ring(
+              state: state,
+              customStyle: _inside.copyWith(
+                width: const WidgetStatePropertyAll(4),
+              ),
+            ),
+          );
+          await tester.pumpAndSettle();
+          expect(
+            _painted(tester).inner,
+            _rrect(4, 4, 36, 16, 6),
+            reason: '$state',
+          );
+        }
+
+        final perState = _inside.copyWith(
+          width: const WidgetStateProperty.fromMap({
+            WidgetState.hovered: 6,
+            WidgetState.focused: 1,
+          }),
+        );
+        await tester.pumpWidget(
+          _ring(state: FullWidgetState.hovered, customStyle: perState),
+        );
+        await tester.pumpAndSettle();
+        expect(_painted(tester).inner, _rrect(6, 6, 34, 14, 4));
+
+        await tester.pumpWidget(
+          _ring(state: FullWidgetState.focused, customStyle: perState),
+        );
+        await tester.pumpAndSettle();
+        expect(_painted(tester).inner, _rrect(1, 1, 39, 19, 9));
+      },
+    );
+
+    testWidgets(
+      'fo06_02/us01/fr03/e14: each field takes the highest level that '
+      'sets it, and a field no level sets keeps level 0',
+      (tester) async {
+        await tester.pumpWidget(
+          _ring(
+            state: FullWidgetState.focused,
+            parts: const {
+              StratumFocusBorder: StratumFocusBorderStyle(
+                color: WidgetStatePropertyAll(_red),
+                width: WidgetStatePropertyAll(9),
+              ),
+            },
+            customStyle: const StratumFocusBorderStyle(
+              width: WidgetStatePropertyAll(5),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        final ring = _painted(tester);
+        expect(ring.color, isSameColorAs(_red));
+        // Width 5 from the instance over the app-wide 9; the 2 px gap from
+        // the theme's focus group.
+        expect(ring.inner, _rrect(-2, -2, 42, 22, 12));
+        expect(ring.outer, _rrect(-7, -7, 47, 27, 17));
+      },
+    );
+
+    testWidgets('fo06_02/us01/fr03/e14, PD4: a level that sets a field for one '
         'state leaves the other state to the level below', (tester) async {
       final hoveredOnly = _inside.copyWith(
         width: const WidgetStateProperty.fromMap({WidgetState.hovered: 6}),
@@ -380,7 +383,7 @@ void main() {
       expect(_painted(tester).inner, _rrect(2, 2, 38, 18, 8));
     });
 
-    testWidgets('fo06/us04/fr03/e13: a style at any level restyles only the '
+    testWidgets('fo06_02/us01/fr03/e13: a style at any level restyles only the '
         'shown looks', (tester) async {
       await _expectShownLooksOnly(
         tester,
@@ -398,22 +401,27 @@ void main() {
       );
     });
 
-    testWidgets('fo06/us04/fr03/e07, e14: a restyled width keeps insideEdge on '
-        'the inner edge with no gap', (tester) async {
-      await tester.pumpWidget(
-        _ring(
-          state: FullWidgetState.focused,
-          insideEdge: true,
-          customStyle: _redStyle.copyWith(gap: const WidgetStatePropertyAll(6)),
-        ),
-      );
-      await tester.pumpAndSettle();
+    testWidgets(
+      'fo06_02/us01/fr03/e07, e14: a restyled width keeps insideEdge on '
+      'the inner edge with no gap',
+      (tester) async {
+        await tester.pumpWidget(
+          _ring(
+            state: FullWidgetState.focused,
+            insideEdge: true,
+            customStyle: _redStyle.copyWith(
+              gap: const WidgetStatePropertyAll(6),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
 
-      final ring = _painted(tester);
-      expect(ring.color, isSameColorAs(_red));
-      expect(ring.outer, _rrect(0, 0, 40, 20, 10));
-      expect(ring.inner, _rrect(5, 5, 35, 15, 5));
-    });
+        final ring = _painted(tester);
+        expect(ring.color, isSameColorAs(_red));
+        expect(ring.outer, _rrect(0, 0, 40, 20, 10));
+        expect(ring.inner, _rrect(5, 5, 35, 15, 5));
+      },
+    );
 
     testWidgets('fo03/us06/fr01/e03, Review Focus: a level-1 value of another '
         'type is an error that names both types', (tester) async {
@@ -463,7 +471,7 @@ void main() {
   });
 
   group('StratumFocusBorder second ring and glow', () {
-    testWidgets('fo06/us04/fr03/e17: a second ring color draws a ring '
+    testWidgets('fo06_02/us01/fr03/e17: a second ring color draws a ring '
         'touching the first, outward from an outside ring, at its width '
         'unless set', (tester) async {
       const green = Color(0xFF00FF00);
@@ -490,7 +498,7 @@ void main() {
       }
     });
 
-    testWidgets('fo06/us04/fr03/e17, R10(4): on an inside ring the second '
+    testWidgets('fo06_02/us01/fr03/e17, R10(4): on an inside ring the second '
         'ring stacks inward, touching the first', (tester) async {
       await tester.pumpWidget(
         _ring(
@@ -512,30 +520,33 @@ void main() {
       expect(second.inner, _rrect(4, 4, 36, 16, 6));
     });
 
-    testWidgets('fo06/us04/fr03/e17, R10(4): on an insideEdge ring the second '
-        'ring stacks inward and stays inside the box', (tester) async {
-      await tester.pumpWidget(
-        _ring(
-          state: FullWidgetState.focused,
-          insideEdge: true,
-          customStyle: const StratumFocusBorderStyle(
-            secondRing: WidgetStatePropertyAll((
-              color: Color(0xFF00FF00),
-              width: null,
-            )),
+    testWidgets(
+      'fo06_02/us01/fr03/e17, R10(4): on an insideEdge ring the second '
+      'ring stacks inward and stays inside the box',
+      (tester) async {
+        await tester.pumpWidget(
+          _ring(
+            state: FullWidgetState.focused,
+            insideEdge: true,
+            customStyle: const StratumFocusBorderStyle(
+              secondRing: WidgetStatePropertyAll((
+                color: Color(0xFF00FF00),
+                width: null,
+              )),
+            ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      final [second, first] = _rings(tester);
-      expect(first.outer, _rrect(0, 0, 40, 20, 10));
-      expect(first.inner, _rrect(3, 3, 37, 17, 7));
-      expect(second.outer, _rrect(3, 3, 37, 17, 7));
-      expect(second.inner, _rrect(6, 6, 34, 14, 4));
-    });
+        final [second, first] = _rings(tester);
+        expect(first.outer, _rrect(0, 0, 40, 20, 10));
+        expect(first.inner, _rrect(3, 3, 37, 17, 7));
+        expect(second.outer, _rrect(3, 3, 37, 17, 7));
+        expect(second.inner, _rrect(6, 6, 34, 14, 4));
+      },
+    );
 
-    testWidgets('fo06/us04/fr03/e17, e13: a nothing look shows neither ring '
+    testWidgets('fo06_02/us01/fr03/e17, e13: a nothing look shows neither ring '
         'nor the glow', (tester) async {
       // debugDisableShadows, on by default in tests, drops the maskFilter
       // _glow reads (test/src/components/common/style/style_decoration_test.dart
@@ -564,7 +575,7 @@ void main() {
       }
     });
 
-    testWidgets('fo06/us04/fr03/e18: a glow paints a soft halo along the '
+    testWidgets('fo06_02/us01/fr03/e18: a glow paints a soft halo along the '
         "shown ring and never changes the child's layout size", (tester) async {
       debugDisableShadows = false;
       try {
@@ -608,7 +619,7 @@ void main() {
         'StratumFocusBorderStyle.color',
       ),
     ]) {
-      testWidgets('fo06/us04/fr03/e19: $name at level 1 or 3 fails a debug '
+      testWidgets('fo06_02/us01/fr03/e19: $name at level 1 or 3 fails a debug '
           'assert naming the field', (tester) async {
         await tester.pumpWidget(
           _ring(state: FullWidgetState.focused, customStyle: style),
@@ -639,24 +650,27 @@ void main() {
       });
     }
 
-    testWidgets('fo06/us04/fr03/e19: an inside ring checks both shown states; '
-        'an outside ring checks focused only', (tester) async {
-      const hoveredZero = WidgetStateProperty<double?>.fromMap({
-        WidgetState.hovered: 0,
-        WidgetState.focused: 2,
-      });
-      await tester.pumpWidget(
-        _ring(customStyle: _inside.copyWith(width: hoveredZero)),
-      );
-      expect(tester.takeException(), isA<FlutterError>());
+    testWidgets(
+      'fo06_02/us01/fr03/e19: an inside ring checks both shown states; '
+      'an outside ring checks focused only',
+      (tester) async {
+        const hoveredZero = WidgetStateProperty<double?>.fromMap({
+          WidgetState.hovered: 0,
+          WidgetState.focused: 2,
+        });
+        await tester.pumpWidget(
+          _ring(customStyle: _inside.copyWith(width: hoveredZero)),
+        );
+        expect(tester.takeException(), isA<FlutterError>());
 
-      await tester.pumpWidget(
-        _ring(customStyle: const StratumFocusBorderStyle(width: hoveredZero)),
-      );
-      expect(tester.takeException(), isNull);
-    });
+        await tester.pumpWidget(
+          _ring(customStyle: const StratumFocusBorderStyle(width: hoveredZero)),
+        );
+        expect(tester.takeException(), isNull);
+      },
+    );
 
-    testWidgets('fo06/us04/fr03, Review Focus: a per-state width for the '
+    testWidgets('fo06_02/us01/fr03, Review Focus: a per-state width for the '
         'focused look only builds in every state of an outside ring', (
       tester,
     ) async {
@@ -677,70 +691,73 @@ void main() {
   });
 
   group('StratumFocusBorder reach', () {
-    testWidgets('fo06/us07/fr03/e01: an outside ring reaches its gap plus its '
-        "width, plus a second ring's width when one is set", (tester) async {
-      double? reach;
-      Widget host({
-        Map<Type, Object> parts = const {},
-        StratumFocusBorderStyle? customStyle,
-      }) => themedHost(
-        StratumComponentDefaults(
-          styles: const {},
-          parts: parts,
-          child: Builder(
-            builder: (context) {
-              reach = focusBorderOutsideReach(
-                context,
-                customStyle: customStyle,
-              );
-              return const SizedBox();
+    testWidgets(
+      'fo06_03/us03/fr03/e01: an outside ring reaches its gap plus its '
+      "width, plus a second ring's width when one is set",
+      (tester) async {
+        double? reach;
+        Widget host({
+          Map<Type, Object> parts = const {},
+          StratumFocusBorderStyle? customStyle,
+        }) => themedHost(
+          StratumComponentDefaults(
+            styles: const {},
+            parts: parts,
+            child: Builder(
+              builder: (context) {
+                reach = focusBorderOutsideReach(
+                  context,
+                  customStyle: customStyle,
+                );
+                return const SizedBox();
+              },
+            ),
+          ),
+        );
+
+        await tester.pumpWidget(host());
+        expect(reach, 5);
+
+        await tester.pumpWidget(
+          host(
+            parts: const {
+              StratumFocusBorder: StratumFocusBorderStyle(
+                width: WidgetStatePropertyAll(4),
+              ),
             },
           ),
-        ),
-      );
+        );
+        expect(reach, 6);
 
-      await tester.pumpWidget(host());
-      expect(reach, 5);
-
-      await tester.pumpWidget(
-        host(
-          parts: const {
-            StratumFocusBorder: StratumFocusBorderStyle(
-              width: WidgetStatePropertyAll(4),
+        await tester.pumpWidget(
+          host(
+            customStyle: const StratumFocusBorderStyle(
+              gap: WidgetStatePropertyAll(1),
+              secondRing: WidgetStatePropertyAll((
+                color: Color(0xFF00FF00),
+                width: null,
+              )),
             ),
-          },
-        ),
-      );
-      expect(reach, 6);
-
-      await tester.pumpWidget(
-        host(
-          customStyle: const StratumFocusBorderStyle(
-            gap: WidgetStatePropertyAll(1),
-            secondRing: WidgetStatePropertyAll((
-              color: Color(0xFF00FF00),
-              width: null,
-            )),
           ),
-        ),
-      );
-      expect(reach, 7);
+        );
+        expect(reach, 7);
 
-      await tester.pumpWidget(
-        host(
-          customStyle: const StratumFocusBorderStyle(
-            secondRing: WidgetStatePropertyAll((
-              color: Color(0xFF00FF00),
-              width: 2,
-            )),
-            glow: WidgetStatePropertyAll([BoxShadow(blurRadius: 40)]),
+        await tester.pumpWidget(
+          host(
+            customStyle: const StratumFocusBorderStyle(
+              secondRing: WidgetStatePropertyAll((
+                color: Color(0xFF00FF00),
+                width: 2,
+              )),
+              glow: WidgetStatePropertyAll([BoxShadow(blurRadius: 40)]),
+            ),
           ),
-        ),
-      );
-      expect(reach, 7);
-    });
+        );
+        expect(reach, 7);
+      },
+    );
 
-    testWidgets('fo06/us04/fr03: an inside-placed host style reaches '
+    testWidgets('fo06_02/us01/fr03: an inside-placed host style reaches '
         'nothing past its child, not the outside floor', (tester) async {
       double? reach;
       await tester.pumpWidget(
@@ -765,7 +782,7 @@ void main() {
       expect(reach, 0);
     });
 
-    testWidgets('fo06/us07/fr03/e03: no Stratum theme above, no reach', (
+    testWidgets('fo06_03/us03/fr03/e03: no Stratum theme above, no reach', (
       tester,
     ) async {
       double? reach;
@@ -783,7 +800,7 @@ void main() {
 
   group('StratumFocusBorder motion', () {
     testWidgets(
-      "fo06/us04/fr03: the ring fades over the theme's fast level on its "
+      "fo06_02/us01/fr03: the ring fades over the theme's fast level on its "
       'standard curve',
       (tester) async {
         final theme = motionTheme(
@@ -819,29 +836,26 @@ void main() {
       },
     );
 
-    testWidgets(
-      'fo06/us04/fr03: a state flip before the fade settles continues smoothly '
-      'from the live value, not a restart',
-      (tester) async {
-        await tester.pumpWidget(_ring());
-        await tester.pumpWidget(_ring(state: FullWidgetState.focused));
-        await tester.pump(const Duration(milliseconds: 60));
-        final rising = _painted(tester).color.a;
-        expect(rising, greaterThan(0));
-        expect(rising, lessThan(1));
+    testWidgets('fo06_02/us01/fr03: a state flip before the fade settles continues smoothly '
+        'from the live value, not a restart', (tester) async {
+      await tester.pumpWidget(_ring());
+      await tester.pumpWidget(_ring(state: FullWidgetState.focused));
+      await tester.pump(const Duration(milliseconds: 60));
+      final rising = _painted(tester).color.a;
+      expect(rising, greaterThan(0));
+      expect(rising, lessThan(1));
 
-        await tester.pumpWidget(_ring());
-        expect(_painted(tester).color.a, moreOrLessEquals(rising));
+      await tester.pumpWidget(_ring());
+      expect(_painted(tester).color.a, moreOrLessEquals(rising));
 
-        await tester.pump(const Duration(milliseconds: 20));
-        expect(_painted(tester).color.a, lessThan(rising));
-      },
-    );
+      await tester.pump(const Duration(milliseconds: 20));
+      expect(_painted(tester).color.a, lessThan(rising));
+    });
   });
 
   group('StratumFocusBorder layout', () {
     testWidgets(
-      'fo06/us04/fr03/e09: no style, state, placement, or width changes the '
+      'fo06_02/us01/fr03/e09: no style, state, placement, or width changes the '
       "child's layout size, position, or State",
       (tester) async {
         await tester.pumpWidget(_ring());
@@ -899,8 +913,9 @@ void main() {
       ('dark', defaultThemeSet.dark!),
     ]) {
       testWidgets(
-        'us04/nf01: in the package default $mode theme the outside ring '
-        'paints border.subtle.blue and the inside ring border.default.normal',
+        'fo06_02/us01/nf01: in the package default $mode theme the outside '
+        'ring paints border.subtle.blue and the inside ring '
+        'border.default.normal',
         (tester) async {
           await tester.pumpWidget(
             _ring(state: FullWidgetState.focused, theme: theme),
@@ -935,36 +950,33 @@ void main() {
       );
     }
 
-    testWidgets(
-      'us04/nf01: swapping the theme while focused lerps the ring color, '
-      'not a pop',
-      (tester) async {
-        final light = defaultThemeSet.light;
-        final dark = defaultThemeSet.dark!;
-        await tester.pumpWidget(
-          _ring(state: FullWidgetState.focused, theme: light),
-        );
-        await tester.pumpAndSettle();
-        expect(
-          _painted(tester).color,
-          isSameColorAs(light.color.border.subtle.blue),
-        );
+    testWidgets('fo06_02/us01/nf01: swapping the theme while focused lerps the ring color, '
+        'not a pop', (tester) async {
+      final light = defaultThemeSet.light;
+      final dark = defaultThemeSet.dark!;
+      await tester.pumpWidget(
+        _ring(state: FullWidgetState.focused, theme: light),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        _painted(tester).color,
+        isSameColorAs(light.color.border.subtle.blue),
+      );
 
-        await tester.pumpWidget(
-          _ring(state: FullWidgetState.focused, theme: dark),
-        );
-        await tester.pump(const Duration(milliseconds: 60));
-        final mid = _painted(tester).color;
-        expect(mid, isNot(isSameColorAs(light.color.border.subtle.blue)));
-        expect(mid, isNot(isSameColorAs(dark.color.border.subtle.blue)));
+      await tester.pumpWidget(
+        _ring(state: FullWidgetState.focused, theme: dark),
+      );
+      await tester.pump(const Duration(milliseconds: 60));
+      final mid = _painted(tester).color;
+      expect(mid, isNot(isSameColorAs(light.color.border.subtle.blue)));
+      expect(mid, isNot(isSameColorAs(dark.color.border.subtle.blue)));
 
-        await tester.pumpAndSettle();
-        expect(
-          _painted(tester).color,
-          isSameColorAs(dark.color.border.subtle.blue),
-        );
-      },
-    );
+      await tester.pumpAndSettle();
+      expect(
+        _painted(tester).color,
+        isSameColorAs(dark.color.border.subtle.blue),
+      );
+    });
   });
 
   group('StratumFocusBorder accessibility gate', () {
@@ -992,7 +1004,7 @@ void main() {
       ('MediaQuery.disableAnimations', true),
       ('the platform reduceMotion flag', false),
     ]) {
-      testWidgets('NFR-U03, fo06/us04/fr03/e06: under $name the ring, its '
+      testWidgets('NFR-U03, fo06_02/us01/fr03/e06: under $name the ring, its '
           'second ring, and its glow take their new look at once', (
         tester,
       ) async {
@@ -1037,23 +1049,26 @@ void main() {
       });
     }
 
-    testWidgets('NFR-U01 exception, us04/nf01: an app-wide focus style color '
-        'replaces the token that fails 3:1', (tester) async {
-      const strong = Color(0xFF1D4ED8);
-      await tester.pumpWidget(
-        _ring(
-          state: FullWidgetState.focused,
-          theme: defaultThemeSet.light,
-          parts: const {
-            StratumFocusBorder: StratumFocusBorderStyle(
-              color: WidgetStatePropertyAll(strong),
-            ),
-          },
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(_painted(tester).color, isSameColorAs(strong));
-    });
+    testWidgets(
+      'NFR-U01 exception, fo06_02/us01/nf01: an app-wide focus style color '
+      'replaces the token that fails 3:1',
+      (tester) async {
+        const strong = Color(0xFF1D4ED8);
+        await tester.pumpWidget(
+          _ring(
+            state: FullWidgetState.focused,
+            theme: defaultThemeSet.light,
+            parts: const {
+              StratumFocusBorder: StratumFocusBorderStyle(
+                color: WidgetStatePropertyAll(strong),
+              ),
+            },
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(_painted(tester).color, isSameColorAs(strong));
+      },
+    );
 
     Widget highContrast(Widget child) => StratumThemeApplication(
       themes: defaultThemeSet,
@@ -1065,44 +1080,47 @@ void main() {
       ),
     );
 
-    testWidgets('NFR-U07, us04/nf01: under high contrast the ring paints the '
-        'high-contrast token, and an app-wide focus style still shows its '
-        'own color', (tester) async {
-      await tester.pumpWidget(
-        highContrast(
-          const StratumFocusBorder(
-            state: FullWidgetState.focused,
-            child: _Probe(),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-      final contrast = defaultThemeSet.highContrastLight!;
-      expect(
-        _painted(tester).color,
-        isSameColorAs(contrast.focus.outsideColor),
-      );
-
-      const own = Color(0xFF7C3AED);
-      await tester.pumpWidget(
-        highContrast(
-          const StratumComponentDefaults(
-            styles: {},
-            parts: {
-              StratumFocusBorder: StratumFocusBorderStyle(
-                color: WidgetStatePropertyAll(own),
-              ),
-            },
-            child: StratumFocusBorder(
+    testWidgets(
+      'NFR-U07, fo06_02/us01/nf01: under high contrast the ring paints the '
+      'high-contrast token, and an app-wide focus style still shows its '
+      'own color',
+      (tester) async {
+        await tester.pumpWidget(
+          highContrast(
+            const StratumFocusBorder(
               state: FullWidgetState.focused,
               child: _Probe(),
             ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
-      expect(_painted(tester).color, isSameColorAs(own));
-    });
+        );
+        await tester.pumpAndSettle();
+        final contrast = defaultThemeSet.highContrastLight!;
+        expect(
+          _painted(tester).color,
+          isSameColorAs(contrast.focus.outsideColor),
+        );
+
+        const own = Color(0xFF7C3AED);
+        await tester.pumpWidget(
+          highContrast(
+            const StratumComponentDefaults(
+              styles: {},
+              parts: {
+                StratumFocusBorder: StratumFocusBorderStyle(
+                  color: WidgetStatePropertyAll(own),
+                ),
+              },
+              child: StratumFocusBorder(
+                state: FullWidgetState.focused,
+                child: _Probe(),
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(_painted(tester).color, isSameColorAs(own));
+      },
+    );
 
     testWidgets('NFR-U08: focus shows as an outline shape under high '
         'contrast, not a color change alone', (tester) async {

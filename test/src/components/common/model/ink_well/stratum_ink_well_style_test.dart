@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui/src/src.dart';
 
 void main() {
-  test('fo06/us04/fr03: R5, freezed-models convention, the tap surface '
+  test('fo06_02/us01/fr03: R5, freezed-models convention, the tap surface '
       'style holds its focus look, with value == and copyWith', () {
     // Built at run time from a parameter, so the checks read `==`.
     StratumInkWellStyle make(Color color) => StratumInkWellStyle(

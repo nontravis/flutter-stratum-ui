@@ -1,6 +1,6 @@
 """Group label: a screen reader reads the wrapped group's label before its field.
 
-Drives the `common/focus_builder` fixture (FO-06 US-16 scenario 7; FR-04 E01). A heading,
+Drives the `common/focus_builder` fixture (FO-06-02 US-04 scenario 7; FR-04 E01). A heading,
 then a `FocusBuilder` whose `semantics` label is the address group around one plain text field
 labeled `ถนน`, as the demo builds it. Group and field merge into one node, so they read at ONE
 stop: the label `ที่อยู่จัดส่ง`, then `ถนน`, with the text-field flags. The test reads the speech
@@ -58,7 +58,7 @@ def _assert_group_read_before_field(spoken: str) -> None:
 @pytest.mark.android
 @pytest.mark.level2
 @pytest.mark.talkback_avd
-@pytest.mark.req("fo06/us16/s7")
+@pytest.mark.req("fo06_02/us04/s7")
 def test_talkback_reads_the_group_label_before_the_street_field(
     driver: Any, platform: str, app_id: str, talkback: TalkBackLog, keyboard: UhidKeyboard
 ) -> None:
@@ -79,7 +79,7 @@ def test_talkback_reads_the_group_label_before_the_street_field(
 
 @pytest.mark.ios
 @pytest.mark.level2
-@pytest.mark.req("fo06/us16/s7")
+@pytest.mark.req("fo06_02/us04/s7")
 def test_voiceover_reads_the_group_label_before_the_street_field(
     driver: Any, platform: str, app_id: str
 ) -> None:

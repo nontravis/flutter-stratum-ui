@@ -97,7 +97,7 @@ class _StateContent extends StatelessWidget {
   final Widget Function(BuildContext context, InteractionState state) builder;
 
   /// Whether the box builds a tap surface. Without one every value is
-  /// false, and no surface farther up is read (US-17 FR-04).
+  /// false, and no surface farther up is read (FO-06-02 US-05 FR-04).
   final bool hasTapSurface;
 
   @override
