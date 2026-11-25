@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stratum_ui/src/components/common/ink_well.dart'
+import 'package:flutter_stratum_ui/src/components/common/ink_well.dart'
     show ItemRootPassSemantics;
-import 'package:stratum_ui/src/themes/theme_application.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_application.dart';
 
 /// The disabled look and behavior the component bases wrap around every
 /// component (FO-08 US-07; base s03 INV-12 to INV-17 and INV-19).

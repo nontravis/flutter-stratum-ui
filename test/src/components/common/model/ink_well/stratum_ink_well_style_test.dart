@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 void main() {
   test('fo06_02/us01/fr03: R5, freezed-models convention, the tap surface '

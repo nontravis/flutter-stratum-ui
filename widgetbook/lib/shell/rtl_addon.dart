@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:widgetbook/widgetbook.dart' hide ThemeMode;
 
 /// The toolbar's right-to-left setting, apart from the language: when on, the

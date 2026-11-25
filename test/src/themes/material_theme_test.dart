@@ -1,10 +1,10 @@
 import 'package:animations/animations.dart'
     show FadeThroughTransition, SharedAxisTransition;
 import 'package:flutter/cupertino.dart' show CupertinoPageTransition;
+import 'package:flutter_stratum_ui/src/animations/stratum_page_transitions_builder.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/animations/stratum_page_transitions_builder.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 import 'config/theme_fixtures.dart' show layer;
@@ -201,7 +201,7 @@ void main() {
         StratumThemeConfig.parse(
           base: const StratumThemeSource(
             id: 'stratum-default',
-            folder: 'packages/stratum_ui/assets/themes/default',
+            folder: 'packages/flutter_stratum_ui/assets/themes/default',
             yaml: defaultThemeSource,
           ),
           layers: [

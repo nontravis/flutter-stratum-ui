@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
 
 void main() {
   test('values run from smallest to largest', () {

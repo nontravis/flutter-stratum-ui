@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  stratum_ui:
+  flutter_stratum_ui:
     path: ../
 
   # Flutter's own labels in Thai for the screen reader checks page
@@ -41,7 +41,7 @@ dependencies:
     sdk: flutter
 
   # The router of the page transition demo (lib/transition_demo.dart,
-  # F-01 US-10) only; never a dependency of stratum_ui.
+  # F-01 US-10) only; never a dependency of flutter_stratum_ui.
   go_router: ^18.1.2
 
   # The following adds the Cupertino Icons font to your application.

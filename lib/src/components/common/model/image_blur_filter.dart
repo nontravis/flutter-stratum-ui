@@ -1,7 +1,7 @@
 import 'dart:ui' show ImageFilter, TileMode, lerpDouble;
 
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/image_blur_filter.freezed.dart';
 

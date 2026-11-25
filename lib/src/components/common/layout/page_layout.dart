@@ -1,14 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/scheduler.dart';
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/components/common/layout/page_areas.dart';
-import 'package:stratum_ui/src/components/common/layout/page_drawer.dart'
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/page_areas.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/page_drawer.dart'
     show PageDrawerStage, resolveDrawerType;
-import 'package:stratum_ui/src/components/common/model/page_layout/page_areas.dart';
-import 'package:stratum_ui/src/components/common/model/solid_fill.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/setting_binding.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/page_layout/page_areas.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/solid_fill.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/setting_binding.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The settings namespace and the value names a page remembers its side
 /// pane widths under (PD11).

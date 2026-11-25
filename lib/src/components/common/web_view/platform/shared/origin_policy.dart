@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/components/common/model/web_view/redacted_url.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/redacted_url.dart';
 
 /// Returns the origin of [url]: lowercase scheme and host, plus the port.
 ///

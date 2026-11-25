@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_error.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_source.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/message_script.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/native_bridge_session.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_error.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_source.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/message_script.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/native_bridge_session.dart';
 
 import '../../fakes/native_bridge_envelope.dart';
 import '../../fakes/recording_listener.dart';

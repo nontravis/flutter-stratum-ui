@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
 
 /// The swappable store contract a widget setting controller reads and writes
 /// (US-06).

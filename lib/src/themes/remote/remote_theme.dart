@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:flutter_stratum_ui/src/themes/config/format_error.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/config/format_error.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/remote_theme.freezed.dart';
 

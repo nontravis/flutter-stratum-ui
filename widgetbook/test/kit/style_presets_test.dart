@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_widgetbook/kit/style_presets.dart';
 
 import '../support/catalog_theme.dart';

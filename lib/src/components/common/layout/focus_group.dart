@@ -1,8 +1,8 @@
 import 'package:flutter/rendering.dart'
     show KeepAliveParentDataMixin, RenderAbstractViewport;
-import 'package:stratum_ui/src/components/common/layout/scroll_frame.dart'
+import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart'
     show movesForward, placeOriginFirst;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// How a [FocusGroupFrame] lays its items out on screen.
 enum FocusGroupAxis { vertical, horizontal, wrap }

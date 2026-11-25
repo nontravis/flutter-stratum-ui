@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/animations/screen_transition.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/animations/screen_transition.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A page for a declarative router's page builder, such as go_router's
 /// `pageBuilder` (`key: state.pageKey`), or a Navigator 2.0 page list.

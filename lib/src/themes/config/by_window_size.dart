@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
 
 part 'generated/by_window_size.freezed.dart';
 

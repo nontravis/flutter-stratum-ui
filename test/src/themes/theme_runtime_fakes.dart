@@ -1,14 +1,14 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_font_loader.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/theme_font_loader.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 import 'config/theme_fixtures.dart' show layer;
 
 /// The asset key of the package default theme file.
 const packageDefaultKey =
-    'packages/stratum_ui/assets/themes/default/theme.yaml';
+    'packages/flutter_stratum_ui/assets/themes/default/theme.yaml';
 
 /// The asset key of the app theme [id].
 String themeKey(String id) => 'assets/themes/$id/theme.yaml';

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// How long after `Require update in 10 s` taps the fake checker answers
 /// `required`, so a screen reader turned on before the swap still meets the

@@ -1,8 +1,8 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
-import 'package:stratum_ui/src/themes/typography/google_font_weights.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
-import 'package:stratum_ui/src/themes/typography/text_size.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/window_size_yaml_name.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_font_weights.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/text_size.dart';
 
 typedef _CacheKey = (StratumTextStyle, Locale, WindowSize?, TextScaler);
 

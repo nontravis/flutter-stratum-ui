@@ -8,10 +8,10 @@ import 'baseline.dart';
 
 import 'package:flutter/rendering.dart'
     show ItemExtentBuilder, RenderAbstractViewport, ScrollCacheExtent;
-import 'package:stratum_ui/src/components/common/layout/focus_group.dart';
-import 'package:stratum_ui/src/components/common/layout/scroll_frame.dart';
-import 'package:stratum_ui/src/extensions/context_extension.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/focus_group.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart';
+import 'package:flutter_stratum_ui/src/extensions/context_extension.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A lazy list whose items the user reorders, inside a [WidgetStyle] box.
 ///

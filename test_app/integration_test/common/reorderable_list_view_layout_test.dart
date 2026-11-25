@@ -50,9 +50,9 @@
 //     -d web-server --browser-name=chrome
 import 'dart:ui' show Tristate;
 
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 
 /// A reorderable list of five 40 px items, keyed by their stable id, that
 /// applies every move it reports to its own `ids`.

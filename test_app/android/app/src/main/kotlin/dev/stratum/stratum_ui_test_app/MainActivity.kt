@@ -10,7 +10,7 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         // The device tests' own oracle for the WebView bridge: it asks the
-        // system WebView directly, so it shares nothing with stratum_ui's code.
+        // system WebView directly, so it shares nothing with flutter_stratum_ui's code.
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, WEB_VIEW_FEATURES_CHANNEL)
             .setMethodCallHandler { call, result ->
                 when (call.method) {

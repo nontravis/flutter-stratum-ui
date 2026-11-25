@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/themes/system/system_style.dart';
-import 'package:stratum_ui/src/themes/system/system_style_region.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_region.dart';
 
 /// Sets the system bar style of the screen, or the part of it, that
 /// [child] paints, over the app-wide style, on any screen and any router

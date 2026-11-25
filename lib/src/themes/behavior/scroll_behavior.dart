@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The design system's scroll behavior: Material scrollbars and physics,
 /// with no overscroll glow or stretch on any platform.

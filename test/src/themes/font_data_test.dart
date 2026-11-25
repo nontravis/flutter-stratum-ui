@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 void main() {
   test('qualifiedFamily is the family for an app font', () {
@@ -10,9 +10,9 @@ void main() {
     expect(
       const StratumFontData(
         family: 'Inter',
-        package: 'stratum_ui',
+        package: 'flutter_stratum_ui',
       ).qualifiedFamily,
-      'packages/stratum_ui/Inter',
+      'packages/flutter_stratum_ui/Inter',
     );
   });
 

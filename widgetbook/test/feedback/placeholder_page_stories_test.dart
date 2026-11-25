@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_widgetbook/components.g.dart';
 import 'package:stratum_ui_widgetbook/feedback/placeholder_page.stories.dart';
 import 'package:stratum_ui_widgetbook/kit/docs/accessibility_notes_doc_block.dart';

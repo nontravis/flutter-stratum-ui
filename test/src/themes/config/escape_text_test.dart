@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/themes/config/escape_text.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/config/escape_text.dart';
 
 /// Printable ASCII but `"` and `\`, or a whole `\uXXXX` escape.
 final _whole = RegExp(r'^(?:[\x20\x21\x23-\x5b\x5d-\x7e]|\\u[0-9a-f]{4})*$');

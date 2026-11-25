@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/redacted_url.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/redacted_url.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/web_view_error.freezed.dart';
 

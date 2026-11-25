@@ -2,9 +2,9 @@
 // (F-01 US-10), on any device or browser:
 //
 //   flutter run -d <device> -t lib/transition_demo.dart
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:go_router/go_router.dart'
     show GoRoute, GoRouter, GoRouterHelper, GoRouterState, ShellRoute;
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_example/font_licenses.dart';
 
 Future<void> main() async {
@@ -13,16 +13,16 @@ Future<void> main() async {
   runApp(TransitionDemoApp(themes: await loadTransitionDemoTheme()));
 }
 
-/// The package default theme, read from the stratum_ui package assets.
+/// The package default theme, read from the flutter_stratum_ui package assets.
 Future<StratumThemeSet> loadTransitionDemoTheme() async {
   final text = await rootBundle.loadString(
-    'packages/stratum_ui/assets/themes/default/theme.yaml',
+    'packages/flutter_stratum_ui/assets/themes/default/theme.yaml',
   );
   return StratumThemeSet.fromConfig(
     StratumThemeConfig.parse(
       base: StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: text,
       ),
     ),

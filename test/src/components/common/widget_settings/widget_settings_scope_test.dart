@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_scope.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_scope.dart';
 
 /// Counts how many times the widget it is passed to has built.
 class _BuildCount {

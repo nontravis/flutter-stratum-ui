@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// How long one splash generation lives before the fixture bumps its key and
 /// the splash starts again, in every cycle.

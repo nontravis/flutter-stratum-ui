@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
-import 'package:flutter_test/flutter_test.dart';
 // The fixture's web view needs the platform seam the package keeps out of its
 // barrel, so a widget test never opens a real platform view.
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_source.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_source.dart';
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui_test_app/fixture_app.dart';
 import 'package:stratum_ui_test_app/fixtures/common/web_view.dart';
 

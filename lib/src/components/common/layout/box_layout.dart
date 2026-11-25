@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:stratum_ui/src/components/common/ink_well.dart';
-import 'package:stratum_ui/src/components/common/layout/scroll_frame.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/ink_well.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The base of the box layouts: one build pipeline for style, transforms,
 /// interaction, semantics, and scrolling.

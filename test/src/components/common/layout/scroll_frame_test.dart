@@ -4,9 +4,9 @@
 // meet FO-06-02 US-01 FR-06 (FO-06-03 US-03 gate block).
 
 import 'package:flutter/rendering.dart' show ViewportOffset;
+import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/layout/scroll_frame.dart';
-import 'package:stratum_ui/src/src.dart';
 
 import '../fakes/fake_stratum_theme.dart';
 

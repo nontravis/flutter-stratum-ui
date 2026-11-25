@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 import 'remote_fakes.dart';
 import 'remote_test_zip.dart';
@@ -181,7 +181,7 @@ void main() {
 
     expect(errorReports, hasLength(1));
     final report = errorReports.single;
-    expect(report.library, 'stratum_ui');
+    expect(report.library, 'flutter_stratum_ui');
     expect(report.exception, isA<StratumRemoteThemeException>());
     expect(
       (report.exception as StratumRemoteThemeException).code,

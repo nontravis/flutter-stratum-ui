@@ -1,7 +1,7 @@
+import 'package:flutter_stratum_ui/src/themes/constant/font_type.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/dimension.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/constant/font_type.dart';
-import 'package:stratum_ui/src/themes/typography/dimension.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/typography_models.freezed.dart';
 

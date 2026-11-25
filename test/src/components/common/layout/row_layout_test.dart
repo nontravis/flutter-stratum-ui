@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 const _a = ValueKey<String>('a');
 const _b = ValueKey<String>('b');

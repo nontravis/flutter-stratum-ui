@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:stratum_ui/src/themes/system/system_style.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style.dart';
 
 /// One Stratum layer of the system bar style in the layer tree (FO-03
 /// US-14; themes s03 INV-38 to INV-40). Each subtype sits in an

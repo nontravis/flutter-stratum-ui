@@ -1,8 +1,8 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_region.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/system/system_style.dart';
-import 'package:stratum_ui/src/themes/system/system_style_region.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/system_bars.freezed.dart';
 

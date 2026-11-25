@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Drawer fixture for the open drawer and its scrim that a `PageLayout` shows
 /// (FO-06-04 US-02 FR-05).

@@ -1,17 +1,17 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/check_keys.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/load.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/merge.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/read_values.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/resolve_aliases.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_theme_config.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/system_names.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_convert.dart';
+import 'package:flutter_stratum_ui/src/themes/config/transition_names.dart';
+import 'package:flutter_stratum_ui/src/themes/config/widget_size_names.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/check_keys.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/load.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/merge.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/read_values.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/resolve_aliases.dart';
-import 'package:stratum_ui/src/themes/config/plain_theme_config.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
-import 'package:stratum_ui/src/themes/config/system_names.dart';
-import 'package:stratum_ui/src/themes/config/theme_convert.dart';
-import 'package:stratum_ui/src/themes/config/transition_names.dart';
-import 'package:stratum_ui/src/themes/config/widget_size_names.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 import '../theme_fixtures.dart';
 

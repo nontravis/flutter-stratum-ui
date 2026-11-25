@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/theme_source.freezed.dart';
 
@@ -15,7 +15,7 @@ class StratumThemeSource with _$StratumThemeSource {
   final String id;
 
   /// The folder that holds the file, for example
-  /// `packages/stratum_ui/assets/themes/default`. Asset slot paths the file
+  /// `packages/flutter_stratum_ui/assets/themes/default`. Asset slot paths the file
   /// sets resolve against it.
   final String folder;
 

@@ -38,8 +38,8 @@ List<(String, String)> _edges(String entry) {
       expect(match[3], isNot(matches(_condition)), reason: '$file: $uri');
       edges.add((file, uri));
       final String target;
-      if (uri.startsWith('package:stratum_ui/')) {
-        target = p.join('lib', uri.substring('package:stratum_ui/'.length));
+      if (uri.startsWith('package:flutter_stratum_ui/')) {
+        target = p.join('lib', uri.substring('package:flutter_stratum_ui/'.length));
       } else if (uri.contains(':')) {
         continue;
       } else {
@@ -57,7 +57,7 @@ List<String> _refused(String entry, {required bool refuseIo}) => [
   for (final (file, uri) in _edges(entry))
     if (uri.startsWith('package:flutter/') ||
         uri == 'dart:ui' ||
-        uri == 'package:stratum_ui/src/src.dart' ||
+        uri == 'package:flutter_stratum_ui/src/src.dart' ||
         p.normalize(p.join(p.dirname(file), uri)) ==
             p.join('lib', 'src', 'src.dart') ||
         (refuseIo && uri == 'dart:io'))

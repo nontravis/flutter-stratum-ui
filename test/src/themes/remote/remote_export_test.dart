@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 
 void main() {
   test('d1: the package exports the remote theme API', () {

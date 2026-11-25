@@ -1,12 +1,12 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/escape_text.dart';
-import 'package:stratum_ui/src/themes/config/theme_convert.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_bundle.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_installer.dart';
-import 'package:stratum_ui/src/themes/theme_font_loader.dart';
-import 'package:stratum_ui/src/themes/theme_parse.dart';
-import 'package:stratum_ui/src/themes/typography/google_font_weights.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/escape_text.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_convert.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_bundle.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_installer.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_font_loader.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_parse.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_font_weights.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 /// A registered theme's parse source id and its folder in the bundle.
 typedef _Registered = ({String sourceId, String folder});
@@ -53,7 +53,7 @@ class StratumThemeController extends ChangeNotifier {
   /// `default` file keeps the id `default`.
   static const _packageDefaultId = 'stratum-default';
   static const _packageDefaultFolder =
-      'packages/stratum_ui/assets/themes/default';
+      'packages/flutter_stratum_ui/assets/themes/default';
   static final _themeFile = RegExp(r'^assets/themes/([^/]+)/theme\.yaml$');
 
   final RemoteThemeBundle _bundle;
@@ -416,7 +416,7 @@ class StratumThemeController extends ChangeNotifier {
             FlutterErrorDetails(
               exception: error,
               stack: stack,
-              library: 'stratum_ui',
+              library: 'flutter_stratum_ui',
               context: ErrorDescription(
                 'while installing the kept zip '
                 '"${escapeZipText(theme.id)}" at preload (${error.code.key})',

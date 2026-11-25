@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/transition_names.dart';
+import 'package:flutter_stratum_ui/src/themes/config/window_size_yaml_name.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/transition_names.dart';
-import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 
@@ -11,7 +11,7 @@ import '../components/common/fakes/fake_stratum_theme.dart';
 StratumThemeConfig _defaultConfig() => StratumThemeConfig.parse(
   base: StratumThemeSource(
     id: 'stratum-default',
-    folder: 'packages/stratum_ui/assets/themes/default',
+    folder: 'packages/flutter_stratum_ui/assets/themes/default',
     yaml: File('assets/themes/default/theme.yaml').readAsStringSync(),
   ),
 );
@@ -189,7 +189,7 @@ void main() {
     StratumThemeConfig parse(String key) => StratumThemeConfig.parse(
       base: StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: File('assets/themes/default/theme.yaml').readAsStringSync(),
       ),
       layers: [

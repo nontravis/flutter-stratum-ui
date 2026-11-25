@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/redacted_url.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/redacted_url.dart';
 
 void main() {
   group('redactedUrl (co01_02/us03/nf01: NFR-Sec06)', () {

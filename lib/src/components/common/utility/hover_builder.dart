@@ -1,6 +1,6 @@
-import 'package:stratum_ui/src/components/common/base/disabled.dart'
+import 'package:flutter_stratum_ui/src/components/common/base/disabled.dart'
     show StratumDisabledScope;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Builds [builder] from whether a pointer is over the widget it builds.
 ///

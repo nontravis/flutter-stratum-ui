@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
 
 void main() {
   test(

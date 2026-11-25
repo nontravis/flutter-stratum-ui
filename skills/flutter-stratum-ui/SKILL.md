@@ -1,14 +1,14 @@
 ---
-name: stratum-flutter-ui
+name: flutter-stratum-ui
 description: Use when building or changing a Flutter app on Stratum UI (screen, layout, taps, hover, keyboard and focus, theme, app start, or any Stratum* widget). Layout triggers are *Layout primitives (ColumnLayout, ContainerLayout.builder), showModalLayout, reorderable lists, and Space spacing. Interaction triggers are Interaction, HoverBuilder, FocusBuilder, and focus rings (StratumFocusBorder). Theme triggers are StratumThemeController install and switching, StratumThemeApplication, remote and preloaded themes, StratumSplashScreen, theme.yaml tokens (border, shadow, blur), and context.* reads (context.themeData, KeyboardVisibilityScope.setVisibleForTesting). Widget triggers are StratumWebView, StratumWebZoom, page transitions (StratumTransitionPage), StratumCaret, named colors (ColorEnum), Thai labels and supportedLocales, Show and disabled dimming, StratumPlaceholderPage, and update prompts (StratumUpdateGate, UpdateChecker).
 ---
 
 # Stratum Flutter UI
 
-Every screen and component in an app that depends on `stratum_ui` builds on this layout family. Each primitive styles
+Every screen and component in an app that depends on `flutter_stratum_ui` builds on this layout family. Each primitive styles
 its own box (`style: WidgetStyle`), takes one interaction (`interaction: Interaction`) for taps, hover, and
 shortcuts, and scrolls through one `scroll: Scroll` model — never a raw `Container`, `Column`, `Row`, or
-`ListView`. Import the barrel: `package:stratum_ui/src/src.dart`.
+`ListView`. Import the barrel: `package:flutter_stratum_ui/src/src.dart`.
 
 Names: screen-building blocks carry no `Stratum` prefix (`Interaction`, `Scroll`, `TapTargetSize`, `FocusGroup`,
 `ReorderableItemsController`, `Show`, `ShowTransition`, `ShowSlideDirection`), while design-drawn components and theme

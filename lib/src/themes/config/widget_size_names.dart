@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
 
 /// The widget size names a `theme.yaml` `component` group may hold, in
 /// `WidgetSize` order. A test pins them to `WidgetSize.values`.

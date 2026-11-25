@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/themes/remote/remote_entry_path.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_entry_path.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 Matcher _unsafe(String path) => throwsA(
   isA<RemoteThemeFailure>()

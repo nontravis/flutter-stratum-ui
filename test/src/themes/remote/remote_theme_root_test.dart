@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_root.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_root.dart';
 
 Matcher _missing(String cause) => throwsA(
   isA<RemoteThemeFailure>()

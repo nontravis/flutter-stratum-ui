@@ -1,23 +1,23 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/parse_values.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_installer.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_font_loader.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_parse.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/parse_values.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_installer.dart';
-import 'package:stratum_ui/src/themes/theme_font_loader.dart';
-import 'package:stratum_ui/src/themes/theme_parse.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 import '../../components/common/fakes/default_theme_yaml.g.dart';
 import 'remote_test_zip.dart';
 
 /// The asset key of the package default theme file.
 const remotePackageDefaultKey =
-    'packages/stratum_ui/assets/themes/default/theme.yaml';
+    'packages/flutter_stratum_ui/assets/themes/default/theme.yaml';
 
 /// The package default theme as preload reads it, from the generated yaml
 /// copy, so these fakes run on the web.
 StratumThemeSource get remotePackageDefault => const StratumThemeSource(
   id: 'stratum-default',
-  folder: 'packages/stratum_ui/assets/themes/default',
+  folder: 'packages/flutter_stratum_ui/assets/themes/default',
   yaml: defaultThemeYaml,
 );
 

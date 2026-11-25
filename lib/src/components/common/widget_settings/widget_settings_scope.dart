@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_box.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_box.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
 
 /// Publishes a [StratumWidgetSettingsController] to its descendants (US-02
 /// FR-04; US-03 FR-01, FR-02; PD6).

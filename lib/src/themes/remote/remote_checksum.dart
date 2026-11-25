@@ -1,5 +1,5 @@
 import 'package:crypto/crypto.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 final _checksumText = RegExp(r'^sha256:[0-9a-fA-F]{64}$');
 

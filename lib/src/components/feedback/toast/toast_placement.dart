@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/model/responsive/responsive.dart';
-import 'package:stratum_ui/src/components/common/model/toast/stratum_toast_placement.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/responsive/responsive.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/toast/stratum_toast_placement.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 /// The default placement of a call that passes none: a float notice in
 /// the bottom center corner on mobile and tablet, bottom start on

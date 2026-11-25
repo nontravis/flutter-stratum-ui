@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/components/common/layout/scroll_frame.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A [CustomScrollView] that scrolls inside a [WidgetStyle] box.
 ///

@@ -1,8 +1,8 @@
 @TestOn('browser')
 library;
 
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_widgetbook/utility/web_zoom.stories.dart';
 
 void main() {

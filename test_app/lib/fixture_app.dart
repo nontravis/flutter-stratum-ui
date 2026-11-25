@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 import 'fixtures/fixtures.dart';
 

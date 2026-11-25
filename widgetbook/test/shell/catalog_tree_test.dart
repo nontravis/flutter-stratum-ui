@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_widgetbook/shell/catalog_section.dart';
 import 'package:stratum_ui_widgetbook/shell/catalog_tree.dart';
 // WidgetbookApp is @internal and unexported; widgetbook's own tests pump it.

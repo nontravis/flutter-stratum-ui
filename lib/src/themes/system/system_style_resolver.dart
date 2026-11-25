@@ -7,9 +7,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/themes/system/system_bars.dart';
-import 'package:stratum_ui/src/themes/system/system_style.dart';
-import 'package:stratum_ui/src/themes/system/system_style_region.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_bars.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_region.dart';
 
 /// Whether the resolver takes the platform for the web; null reads
 /// `kIsWeb`. Tests set it and reset it to null in `tearDown`.
@@ -450,7 +450,7 @@ final class _SystemStyleResolver {
             FlutterErrorDetails(
               exception: exception,
               stack: stack,
-              library: 'stratum_ui',
+              library: 'flutter_stratum_ui',
               context: ErrorDescription(
                 'while sending the system bar mode $mode',
               ),

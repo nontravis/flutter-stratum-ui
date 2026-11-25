@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_error.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_error.dart';
 
 void main() {
   test('errors compare by every field', () {

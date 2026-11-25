@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart'
     show RenderIntrinsicHeight, RenderIntrinsicWidth, RenderProxyBox;
-import 'package:stratum_ui/src/components/common/layout/focus_group.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/focus_group.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A [Flex] on [BoxLayout]: style, interaction, semantics, and scrolling
 /// come from the base class.

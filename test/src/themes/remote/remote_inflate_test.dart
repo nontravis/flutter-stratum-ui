@@ -3,8 +3,8 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart' show Deflate;
+import 'package:flutter_stratum_ui/src/themes/remote/remote_inflate.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_inflate.dart';
 
 /// A deflate bit writer, low bit first, as RFC 1951 packs a stream.
 final class _Bits {

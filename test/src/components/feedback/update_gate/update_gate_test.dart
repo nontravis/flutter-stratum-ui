@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/components/common/base/disabled.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/base/disabled.dart';
-import 'package:stratum_ui/src/src.dart';
 
 // NFR-U01 n/a: the gate paints nothing.
 // NFR-U03 n/a: the gate runs no animation; screens swap at once.

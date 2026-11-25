@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Address the `URL` tab loads when the fixture opens without one.
 final _defaultAddress = Uri.parse('https://flutter.dev');

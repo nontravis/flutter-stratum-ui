@@ -1,10 +1,10 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/parse_values.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_parse.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/parse_values.dart';
-import 'package:stratum_ui/src/themes/theme_parse.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 /// Runs every test of the package with a Google Fonts family lookup that
 /// answers the bare family name and starts no fetch, and a fresh in-memory

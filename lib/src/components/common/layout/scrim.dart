@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The scrim a modal layout's route and a page drawer share (FO-06-04 INV-67
 /// and INV-72): the theme's `normal-inverse` color, its own alpha times the

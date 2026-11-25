@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_configuration.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_error.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_source.dart';
-import 'package:stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_configuration.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_error.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_source.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
 
 /// Displays a web page or an HTML document on Android, iOS, macOS, Windows,
 /// Linux, and the web.
@@ -222,7 +222,7 @@ class _StratumWebViewState extends State<StratumWebView> {
         FlutterErrorDetails(
           exception: error,
           stack: stack,
-          library: 'stratum_ui',
+          library: 'flutter_stratum_ui',
           context: ErrorDescription('while loading a StratumWebView source'),
         ),
       );

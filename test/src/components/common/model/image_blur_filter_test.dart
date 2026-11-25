@@ -1,7 +1,7 @@
 import 'dart:ui' show TileMode;
 
+import 'package:flutter_stratum_ui/src/components/common/model/image_blur_filter.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/image_blur_filter.dart';
 
 void main() {
   group('ImageBlurFilter.lerp', () {

@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:stratum_ui_widgetbook/kit/docs/accessibility_notes_doc_block.dart';
 import 'package:stratum_ui_widgetbook/kit/docs/catalog_docs.dart';
 import 'package:stratum_ui_widgetbook/kit/docs/usage_doc_block.dart';

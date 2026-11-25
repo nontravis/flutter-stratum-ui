@@ -2,10 +2,10 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart' show getCrc32;
-import 'package:stratum_ui/src/themes/remote/remote_entry_path.dart';
-import 'package:stratum_ui/src/themes/remote/remote_inflate.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_root.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_entry_path.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_inflate.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_root.dart';
 
 const _endSignature = 0x06054b50;
 const _zip64EndSignature = 0x06064b50;

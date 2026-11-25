@@ -4,9 +4,9 @@ library;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/src/themes/remote/generated/google_font_names.g.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:stratum_ui/src/themes/remote/generated/google_font_names.g.dart';
 import 'package:yaml/yaml.dart';
 
 const _path = 'lib/src/themes/remote/generated/google_font_names.g.dart';

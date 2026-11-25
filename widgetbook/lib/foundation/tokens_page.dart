@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Lists every token group of the active theme: color, space, radius,
 /// typography, and shadow, each row with its name and a sample drawn with its

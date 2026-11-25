@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 void main() {
   test('fo06_04/us04/fr01: SplitPane has value equality and copyWith', () {

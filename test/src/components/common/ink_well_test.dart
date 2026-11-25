@@ -5,10 +5,10 @@
 
 import 'dart:io';
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/ink_well.dart'
+import 'package:flutter_stratum_ui/src/components/common/ink_well.dart'
     show tapSurfaceCallerSemantics, tapSurfaceHeadingLevel;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import 'fakes/fake_stratum_theme.dart';
 

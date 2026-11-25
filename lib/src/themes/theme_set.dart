@@ -1,6 +1,6 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/theme_convert.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_convert.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 
 part 'generated/theme_set.freezed.dart';
 

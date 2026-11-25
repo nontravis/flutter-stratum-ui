@@ -13,10 +13,10 @@
 // NFR-U08 n/a: no declaration shows a state.
 // NFR-U09 n/a: no declaration handles a gesture.
 import 'package:flutter/rendering.dart' show debugOnProfilePaint;
+import 'package:flutter_stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_bars.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/system/system_bars.dart';
 
 import '../../../themes/system/system_style_fakes.dart';
 import '../fakes/fake_stratum_theme.dart' show defaultThemeSet;

@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 /// The `theme.yaml` spelling of a [WindowSize].
 extension WindowSizeYamlName on WindowSize {

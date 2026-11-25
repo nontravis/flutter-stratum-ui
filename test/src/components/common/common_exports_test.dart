@@ -3,8 +3,8 @@ library;
 
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 
 void main() {
   test('D6: the three stubs are gone and unexported', () {

@@ -3,9 +3,9 @@ library;
 
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 /// Every value model file on the shared annotation (freezed-models design
 /// 5.2, R4 Q1, plan P4). A task that moves a model onto `@valueModel` adds

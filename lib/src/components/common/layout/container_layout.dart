@@ -1,6 +1,6 @@
-import 'package:stratum_ui/src/components/common/ink_well.dart'
+import 'package:flutter_stratum_ui/src/components/common/ink_well.dart'
     show interactionNeedsTapSurface, tapSurfaceStateOf;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A box that paints a [WidgetStyle] around [child], or around the content
 /// [builder] builds from the box's [InteractionState].

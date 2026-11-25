@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/native_bridge_session.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/native_bridge_session.dart';
 import 'package:webview_flutter/webview_flutter.dart' as wf;
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';

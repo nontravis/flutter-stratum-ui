@@ -1,11 +1,11 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/rendering.dart' show RenderRepaintBoundary;
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/layout/page_drawer.dart'
+import 'package:flutter_stratum_ui/src/components/common/layout/page_drawer.dart'
     show PageDrawerStage, defaultDrawerType, drawerWidth;
-import 'package:stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../fakes/fake_stratum_theme.dart';
 

@@ -1,10 +1,10 @@
-import 'package:stratum_ui/src/themes/config/animation_config.dart';
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
-import 'package:stratum_ui/src/themes/config/shadow_layer.dart';
-import 'package:stratum_ui/src/themes/config/theme_asset.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
-import 'package:stratum_ui/src/themes/typography/dimension.dart';
-import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
+import 'package:flutter_stratum_ui/src/themes/config/animation_config.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/config/shadow_layer.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_asset.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/dimension.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/typography_parser.dart';
 
 /// Stage 5's result (FO-01 s01 Theme config data): the data of
 /// `StratumThemeConfig` with each color an ARGB int, each per-window-size

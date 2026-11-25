@@ -1,5 +1,5 @@
 import 'package:flutter/animation.dart';
-import 'package:stratum_ui/src/themes/config/animation_config.dart';
+import 'package:flutter_stratum_ui/src/themes/config/animation_config.dart';
 
 /// The Flutter [Curve] of a [StratumCurve] (design S2): kept out of the
 /// model so the model compiles in the Dart VM, and exported through the

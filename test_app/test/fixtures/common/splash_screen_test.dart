@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart' show CircularProgressIndicator;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart' show StratumThemeController;
 import 'package:flutter_test/flutter_test.dart';
-// stratum_ui owns shared_preferences as its settings store seam; the splash
+// flutter_stratum_ui owns shared_preferences as its settings store seam; the splash
 // makes its own settings controller over the default store, which needs a
 // platform instance, as the package's own flutter_test_config provides.
 // ignore: depend_on_referenced_packages
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 // ignore: depend_on_referenced_packages
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
-import 'package:stratum_ui/stratum_ui.dart' show StratumThemeController;
 import 'package:stratum_ui_test_app/fixture_app.dart';
 import 'package:stratum_ui_test_app/fixtures/common/splash_screen.dart';
 

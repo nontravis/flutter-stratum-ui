@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/system/system_style.dart';
 
 const _full = SystemStyle(
   statusBarIcons: SystemBarIcons.auto,

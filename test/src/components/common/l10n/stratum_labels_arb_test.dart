@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/stratum_labels.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/l10n/stratum_labels.dart';
 
 /// The folder that holds the ARB files and the Dart generated from them.
 const _dir = 'lib/src/components/common/l10n';

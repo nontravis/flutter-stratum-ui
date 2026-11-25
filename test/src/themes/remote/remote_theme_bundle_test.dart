@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_bundle.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_bundle.dart';
 
 class _Parent extends AssetBundle {
   final reads = <String>[];

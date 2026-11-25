@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Puts the app's own update and maintenance screens in place of the app,
 /// or the app's own update dialog over it, by the answers of the app's

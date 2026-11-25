@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
 
 /// The `$schema` line every theme file starts with.
 const schemaLine = r'$schema: stratum-theme/v2.0.0';
@@ -167,7 +167,7 @@ final String componentBaseYaml = baseYaml.replaceFirst(
 );
 
 /// The folder of the package default in [sources].
-const baseFolder = 'packages/stratum_ui/assets/themes/default';
+const baseFolder = 'packages/flutter_stratum_ui/assets/themes/default';
 
 /// [base] as the source `base`, then each of [layers] as `layer1`,
 /// `layer2`, and so on, each in the folder `themes/<id>`.

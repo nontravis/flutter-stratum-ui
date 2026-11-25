@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// One entry of the toolbar's theme list: a theme set shown in one mode.
 typedef CatalogTheme = ({String id, ThemeMode mode, StratumThemeSet themes});

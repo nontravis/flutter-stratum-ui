@@ -1,8 +1,8 @@
 @TestOn('browser')
 library;
 
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 /// [child] in a 400 by 300 box; [reduced] asks for `disableAnimations`.
 Widget _host(Widget child, {bool reduced = false}) => MediaQuery(

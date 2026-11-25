@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_resolution.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_resolution.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Wraps the app in Stratum's layers, outer to inner: the theme runtime
 /// (US-01 FR-03, or [controller]), then, inside
@@ -420,7 +420,7 @@ class _ReportedStartFailureState extends State<_ReportedStartFailure> {
       FlutterErrorDetails(
         exception: failure,
         stack: failure is Error ? failure.stackTrace : null,
-        library: 'stratum_ui',
+        library: 'flutter_stratum_ui',
         context: ErrorDescription('while preloading the start theme'),
       ),
     );

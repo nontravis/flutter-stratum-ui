@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart' show MatrixUtils;
 import 'package:flutter/semantics.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart' show StratumThemeController;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart' show StratumThemeController;
 import 'package:stratum_ui_test_app/fixture_app.dart';
 
 const _fixtureId = 'common/focus_builder';

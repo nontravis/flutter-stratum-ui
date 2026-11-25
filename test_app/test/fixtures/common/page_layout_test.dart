@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_test_app/fixtures/common/page_layout.dart';
 
 import '../one_actionable_node.dart';

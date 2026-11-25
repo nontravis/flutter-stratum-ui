@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 void main() {
   test('fo06_03/us03/fr03: R5, R7(1), freezed-models convention, the scrolling '

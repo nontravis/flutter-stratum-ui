@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/themes/system/system_style_region.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_region.dart';
 
 /// Declares [color], the fill [child] paints, for the automatic bar icons
 /// of a bar whose point [child] covers (FO-03 US-14 FR-02, FR-05).

@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_error.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_source.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_error.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_source.dart';
 
 /// Who sent one message a platform delivered (US-03 FR-05); only the
 /// library reads it, and `StratumWebViewMessage` carries no sender field.

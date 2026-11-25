@@ -16,9 +16,9 @@
 //
 //   flutter test integration_test/common/page_layout_restart_1_linux_test.dart -d linux
 //   flutter test integration_test/common/page_layout_restart_2_linux_test.dart -d linux
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_test_app/fixture_app.dart';
 import 'package:stratum_ui_test_app/fixtures/common/page_layout.dart';
 
@@ -42,7 +42,7 @@ const _skipReason =
 /// `false` on Linux, the reason elsewhere, so another platform reports a skip.
 Object get _skip => _isLinux ? false : _skipReason;
 
-/// Captures every report library `stratum_ui` makes through
+/// Captures every report library `flutter_stratum_ui` makes through
 /// `FlutterError.reportError` during this test, and passes every other
 /// report, a failed `expect` included, to the previous handler; restores
 /// that handler in [addTearDown]. A handler that swallowed every report once
@@ -51,7 +51,7 @@ List<FlutterErrorDetails> _captureErrorReports() {
   final reported = <FlutterErrorDetails>[];
   final previous = FlutterError.onError;
   FlutterError.onError = (details) {
-    if (details.library == 'stratum_ui') {
+    if (details.library == 'flutter_stratum_ui') {
       reported.add(details);
     } else {
       previous?.call(details);

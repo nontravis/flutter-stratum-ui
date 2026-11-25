@@ -1,8 +1,8 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/theme_convert.dart';
-import 'package:stratum_ui/src/themes/remote/remote_install_check.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_bundle.dart';
-import 'package:stratum_ui/src/themes/theme_parse.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_convert.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_install_check.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_bundle.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_parse.dart';
 
 /// One install that passed D2 steps 1 to 10, ready to register.
 final class RemoteInstall {

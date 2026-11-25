@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart' show EditableText;
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart'
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart'
     show KeyboardVisibilityScope, StratumThemeController;
+import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui_test_app/fixture_app.dart';
 
 import '../one_actionable_node.dart';

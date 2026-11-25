@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/services.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_error.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/html_bridge_bootstrap.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/message_script.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/origin_policy.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_error.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/html_bridge_bootstrap.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/message_script.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/origin_policy.dart';
 
 /// Name of the JavaScript channel pages call on Windows and Linux
 /// (`webview_all_adapter.dart`).

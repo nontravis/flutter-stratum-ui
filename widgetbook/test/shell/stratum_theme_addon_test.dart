@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_widgetbook/shell/catalog_themes.dart';
 import 'package:stratum_ui_widgetbook/shell/stratum_theme_addon.dart';
 
@@ -16,7 +16,7 @@ class _ThemeBundle extends AssetBundle {
   final String yaml;
 
   static const _keys = [
-    'packages/stratum_ui/assets/themes/default/theme.yaml',
+    'packages/flutter_stratum_ui/assets/themes/default/theme.yaml',
     'assets/themes/default/theme.yaml',
   ];
 

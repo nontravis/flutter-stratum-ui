@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A page to place where a screen is not built yet (CO-05-08): a title,
 /// and an icon and a message only when passed, centered in the space its

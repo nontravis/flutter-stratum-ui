@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart' show ValueChanged;
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/redacted_url.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_error.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/redacted_url.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_error.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/web_view_configuration.freezed.dart';
 

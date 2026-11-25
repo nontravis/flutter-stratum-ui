@@ -1,6 +1,6 @@
 // ignore_for_file: implementation_imports
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 import '../widgets/animating_boxes.dart';
 import '../widgets/glass_cards.dart';

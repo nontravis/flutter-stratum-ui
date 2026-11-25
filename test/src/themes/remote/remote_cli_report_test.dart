@@ -1,9 +1,9 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/parse_values.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_theme_config.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_cli_report.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_install_check.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/parse_values.dart';
-import 'package:stratum_ui/src/themes/config/plain_theme_config.dart';
-import 'package:stratum_ui/src/themes/remote/remote_cli_report.dart';
-import 'package:stratum_ui/src/themes/remote/remote_install_check.dart';
 
 import 'remote_fakes.dart';
 import 'remote_test_zip.dart';

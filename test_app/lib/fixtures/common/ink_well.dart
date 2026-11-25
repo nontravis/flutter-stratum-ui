@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Shortcut-bearing button fixture for the menu key and the screen-reader
 /// menu action of a `StratumInkWell` (FO-06-02 US-02 FR-01).

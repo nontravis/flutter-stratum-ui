@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/html_bridge_bootstrap.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/html_bridge_bootstrap.dart';
 
 /// The inbound nonce that the native bootstrap in [html] carries.
 String nonceIn(String html) =>

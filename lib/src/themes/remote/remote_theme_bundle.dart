@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:stratum_ui/src/themes/remote/remote_install_check.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_install_check.dart';
 
 /// The overlay asset bundle of FO-04 (design D3): serves the entries of
 /// each installed theme zip from memory under

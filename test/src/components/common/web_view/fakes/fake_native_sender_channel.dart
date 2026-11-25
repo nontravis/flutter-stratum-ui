@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/components/common/web_view/platform/adapters/native_sender_channel.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/native_bridge_session.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/adapters/native_sender_channel.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/native_bridge_session.dart';
 import 'package:webview_flutter/webview_flutter.dart' as wf;
 
 /// Stands in for the package's Kotlin and Swift sender channel.

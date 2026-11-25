@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 final _remoteId = RegExp(r'^[a-z0-9_-]+$');
 

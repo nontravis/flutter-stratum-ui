@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/themes/config/format_error.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/format_error.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
 import 'package:yaml/yaml.dart';
 
 /// One file's plain tree after stage 2, and the origin of each of its

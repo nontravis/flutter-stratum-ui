@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
 
 /// A counting, failure-injecting [StratumWidgetSettingStore] for tests.
 ///

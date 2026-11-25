@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint, unused_import, unnecessary_import
 import 'baseline.dart';
 
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A box that paints a [WidgetStyle] around [child].
 ///

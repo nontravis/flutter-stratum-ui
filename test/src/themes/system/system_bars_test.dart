@@ -1,7 +1,7 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_bars.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_region.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/system/system_bars.dart';
-import 'package:stratum_ui/src/themes/system/system_style_region.dart';
 
 const _white = Color(0xFFFFFFFF);
 const _black = Color(0xFF000000);

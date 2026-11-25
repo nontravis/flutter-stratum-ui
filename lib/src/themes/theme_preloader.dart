@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Builds the app on a preloaded theme: shows [loading] while
 /// [StratumThemeController.preload] runs, then [builder] with the
@@ -90,7 +90,7 @@ class _StratumThemePreloaderState extends State<StratumThemePreloader> {
           FlutterErrorDetails(
             exception: error,
             stack: stack,
-            library: 'stratum_ui',
+            library: 'flutter_stratum_ui',
             context: ErrorDescription('while preloading the start theme'),
           ),
         );

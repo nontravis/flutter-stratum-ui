@@ -1,6 +1,6 @@
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
-import 'package:stratum_ui/src/themes/constant/font_size.dart';
-import 'package:stratum_ui/src/themes/typography/dimension.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/font_size.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/dimension.dart';
 
 /// The window scale entry one text reads (FO-02 typography s03 step 4): the
 /// window size `name` it is written at, whether the type's own map holds it

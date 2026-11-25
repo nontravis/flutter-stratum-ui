@@ -1,6 +1,6 @@
 import 'dart:ui' show Color;
 
-import 'package:stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
 
 /// Whether [fill] paints one solid color: a background color with no
 /// gradient and no image (FO-06-04 US-01 FR-07).

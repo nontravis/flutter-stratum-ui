@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/toast/stratum_toast_action.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/toast/stratum_toast_placement.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/feedback_state.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/components/common/model/toast/stratum_toast_action.dart';
-import 'package:stratum_ui/src/components/common/model/toast/stratum_toast_placement.dart';
-import 'package:stratum_ui/src/components/common/model/widget_style.dart';
-import 'package:stratum_ui/src/themes/constant/feedback_state.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/stratum_toast_notice.freezed.dart';
 

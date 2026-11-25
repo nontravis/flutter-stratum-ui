@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter_stratum_ui/src/themes/remote/remote_checksum.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_checksum.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 import 'remote_test_zip.dart';
 

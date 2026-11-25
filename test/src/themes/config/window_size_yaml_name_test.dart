@@ -1,7 +1,7 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/config/window_size_yaml_name.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
-import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
 
 void main() {
   group('fo01/us05/fr01: the yaml name of a window size', () {

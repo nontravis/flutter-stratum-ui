@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:stratum_ui/src/themes/config/escape_text.dart';
+import 'package:flutter_stratum_ui/src/themes/config/escape_text.dart';
 import 'package:yaml/yaml.dart';
 
 /// The most UTF-16 code units a yaml text may hold (FO-01 US-01 FR-01

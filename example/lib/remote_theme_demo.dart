@@ -8,9 +8,9 @@
 // server, and Stratum UI itself downloads nothing (FO-04). Each zip was
 // packed from the folder beside it by:
 //
-//   dart run stratum_ui:stratum_theme pack assets/remote_themes/<id> \
+//   dart run flutter_stratum_ui:stratum_theme pack assets/remote_themes/<id> \
 //     --out assets/remote_themes
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:stratum_ui_example/font_licenses.dart';
 
 /// The checksum of `assets/remote_themes/ocean.zip`, as an app's API would

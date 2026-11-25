@@ -37,7 +37,7 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; Widget sizes;
 - **Theme models** — the parsed theme types (`StratumThemeConfig`, `StratumColorSets`, `StratumTypography`,
   `StratumTypeStyle`, `StratumAnimationConfig`, and the models inside them) are immutable values with `copyWith`;
   their maps refuse changes, so derive a variant with `config.copyWith(name: ...)` instead of editing a map. A
-  `StratumCurve` gives its Flutter `Curve` as `.curve` through `package:stratum_ui/stratum_ui.dart`.
+  `StratumCurve` gives its Flutter `Curve` as `.curve` through `package:flutter_stratum_ui/flutter_stratum_ui.dart`.
   `StratumAnimationConfig.transitions` holds the `animation.transition` names, and
   `StratumTheme.of(context).animation.transition[windowSize]` gives the theme's `ScreenTransitionType` for a window
   size.
@@ -143,10 +143,10 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; Widget sizes;
   in `formatException`. Its `path` field is entry text straight from the zip: escape it before your app logs or shows
   it, since a hostile zip crafts it. `StratumThemeFormatException` and each `StratumThemeFormatError` print their
   yaml paths and messages escaped, but an error's `path` field is the raw yaml path: escape it the same way.
-- **Pack and check a theme zip** — from your app project, `dart run stratum_ui:stratum_theme pack <folder>` writes
+- **Pack and check a theme zip** — from your app project, `dart run flutter_stratum_ui:stratum_theme pack <folder>` writes
   `<id>.zip` (the id is the folder name, or `--id`; `--out <folder>` to write elsewhere) and prints `sha256:<hex>`, the
   checksum your API serves; the same folder always packs to the same bytes, and a pack into the folder itself leaves its
-  own last `<id>.zip` out. `dart run stratum_ui:stratum_theme check <file.zip>` runs your app's own install checks on a
+  own last `<id>.zip` out. `dart run flutter_stratum_ui:stratum_theme check <file.zip>` runs your app's own install checks on a
   zip, over the package default and your `assets/themes/default/theme.yaml` when your `pubspec.yaml` lists it under
   `flutter: assets:`, as the file or as `assets/themes/default/` (`assets/themes/` does not cover it), the way your app
   reads it; a file you hold but do not list is not read and prints a `warning:`. `--app-default <path>` names another
@@ -158,7 +158,7 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; Widget sizes;
   defaults line (`invalid_id`, a symbolic link or other special entry as `unsafe_entry_path`, or a file name or size a
   zip cannot hold as `unsafe_entry_path` or `archive_too_large`); 64 usage; 66 an input that cannot be read (the folder;
   a zip or `--app-default` that is not a regular file or cannot be read; your default theme; a file under the folder;
-  the stratum_ui package or its default theme; a `pubspec.yaml` that is not a regular file, is longer than 1 MiB, cannot
+  the flutter_stratum_ui package or its default theme; a `pubspec.yaml` that is not a regular file, is longer than 1 MiB, cannot
   be read, or is not yaml, such as one holding an anchor, alias, or tag or nesting deeper than 64), an `--out` that is
   not a folder, or a zip that fails to write. Names starting with `.` and `__MACOSX/` stay out of a pack. An install
   refuses an entry name holding any character outside printable ASCII, U+0020 to U+007E (a control character, an
@@ -166,9 +166,9 @@ Border, shadow, and blur tokens; System bar look; Focus ring look; Widget sizes;
   space, a part of dots only, any of `:`, `<`, `>`, `"`, `|`, `?`, `*`, a device name such as `CON`, `aux.txt`, or
   `CONIN$` in any letter case with trailing spaces before the dot trimmed, or a part holding `~` before a digit, an
   8.3 short-name marker such as `THEME~1.YAM`), and a folder entry that holds bytes; `pack` refuses such a file or
-  folder name under the folder before it writes anything, so rename it. stratum_ui allows only the google_fonts
+  folder name under the folder before it writes anything, so rename it. flutter_stratum_ui allows only the google_fonts
   version its CLI family list came from, so the CLI and your app accept the same `Google/<Name>` families. When
-  `pub get` reports a google_fonts conflict, let your own google_fonts constraint allow the version stratum_ui's
+  `pub get` reports a google_fonts conflict, let your own google_fonts constraint allow the version flutter_stratum_ui's
   `pubspec.yaml` names.
 - **Supported zip tools** — make a theme zip with `pack` or with 7-Zip, the two zip tools measured against the install;
   a zip Windows Explorer makes is not measured, so run `check` on it before you upload it.

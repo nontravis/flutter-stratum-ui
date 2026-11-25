@@ -1,8 +1,8 @@
 import 'package:flutter/rendering.dart'
     show BoxHitTestEntry, BoxHitTestResult, RenderProxyBox;
-import 'package:stratum_ui/src/animations/screen_transition.dart'
+import 'package:flutter_stratum_ui/src/animations/screen_transition.dart'
     show curveOf, durationOf;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Lets the EndUser pinch to zoom a web app between [minScale] and
 /// [maxScale], pan it, and see it clipped to this widget's bounds; on

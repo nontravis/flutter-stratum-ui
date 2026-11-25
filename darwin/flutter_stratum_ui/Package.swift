@@ -4,21 +4,21 @@
 import PackageDescription
 
 let package = Package(
-  name: "stratum_ui",
+  name: "flutter_stratum_ui",
   // The floors of webview_flutter_wkwebview, so an app needs no higher one.
   platforms: [
     .iOS("13.0"),
     .macOS("10.15"),
   ],
   products: [
-    .library(name: "stratum-ui", targets: ["stratum_ui"])
+    .library(name: "flutter-stratum-ui", targets: ["flutter_stratum_ui"])
   ],
   dependencies: [
     .package(name: "FlutterFramework", path: "../FlutterFramework"),
   ],
   targets: [
     .target(
-      name: "stratum_ui",
+      name: "flutter_stratum_ui",
       dependencies: [
         .product(name: "FlutterFramework", package: "FlutterFramework"),
       ]

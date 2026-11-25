@@ -1,8 +1,8 @@
 // The harness imports the src barrel, which also exports the theme types
 // the fake theme implements.
 // ignore_for_file: implementation_imports
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 /// Length of every traced window. Two seconds fit the timeline recorder's
 /// buffer at 144 Hz; a longer trace loses its first frames.
@@ -26,13 +26,13 @@ late StratumThemeSet _themes;
 Future<void> loadPerfTheme() async {
   GoogleFonts.config.allowRuntimeFetching = false;
   final text = await rootBundle.loadString(
-    'packages/stratum_ui/assets/themes/default/theme.yaml',
+    'packages/flutter_stratum_ui/assets/themes/default/theme.yaml',
   );
   _themes = StratumThemeSet.fromConfig(
     StratumThemeConfig.parse(
       base: StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: text,
       ),
     ),

@@ -1,12 +1,12 @@
-import 'package:stratum_ui/src/themes/config/format_error.dart';
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
-import 'package:stratum_ui/src/themes/constant/font_size.dart';
-import 'package:stratum_ui/src/themes/constant/font_type.dart';
-import 'package:stratum_ui/src/themes/font_data.dart';
-import 'package:stratum_ui/src/themes/typography/dimension.dart';
-import 'package:stratum_ui/src/themes/typography/text_size.dart';
-import 'package:stratum_ui/src/themes/typography/typography_models.dart';
+import 'package:flutter_stratum_ui/src/themes/config/format_error.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/font_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/font_type.dart';
+import 'package:flutter_stratum_ui/src/themes/font_data.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/dimension.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/text_size.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/typography_models.dart';
 
 /// One entry of `typography.types` as stage 5 reads it: the plain twin of
 /// `StratumTypeStyle`, its weight a number (FO-01 s01 Theme config data).

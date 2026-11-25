@@ -1,4 +1,4 @@
-export 'package:stratum_ui/src/themes/config/escape_text.dart'
+export 'package:flutter_stratum_ui/src/themes/config/escape_text.dart'
     show escapeZipText;
 
 /// Why an install from a theme zip failed: the `code` of

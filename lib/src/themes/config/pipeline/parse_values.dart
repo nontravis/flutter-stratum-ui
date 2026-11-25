@@ -1,11 +1,11 @@
-import 'package:stratum_ui/src/themes/config/pipeline/check_keys.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/load.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/merge.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/read_values.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/resolve_aliases.dart';
-import 'package:stratum_ui/src/themes/config/plain_theme_config.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
-import 'package:stratum_ui/src/themes/config/theme_source.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/check_keys.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/load.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/merge.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/read_values.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/resolve_aliases.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_theme_config.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_source.dart';
 
 /// Runs the five stages of spec section 7 on [base], the package default
 /// theme, and [layers] in merge order, in Dart with no Flutter (FO-01 s01

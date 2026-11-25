@@ -160,10 +160,10 @@ final class WindowSizePolicyChecker {
     if (_windowSize != null && _widgetSize != null) return;
     final session = _collection.contexts.first.currentSession;
     final windowLibrary = await session.getLibraryByUri(
-      'package:stratum_ui/src/themes/constant/window_size.dart',
+      'package:flutter_stratum_ui/src/themes/constant/window_size.dart',
     );
     final widgetLibrary = await session.getLibraryByUri(
-      'package:stratum_ui/src/themes/constant/widget_size.dart',
+      'package:flutter_stratum_ui/src/themes/constant/widget_size.dart',
     );
     _windowSize = windowLibrary is LibraryElementResult
         ? windowLibrary.element.getEnum('WindowSize')

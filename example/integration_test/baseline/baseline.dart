@@ -2,11 +2,11 @@
 // the tool again. Verbatim except this header, the baseline import,
 // and the Baseline prefix on the names the frozen files declare.
 
+export 'animated_styled_box.dart';
 export 'box_layout.dart';
+export 'column_layout.dart';
+export 'container_layout.dart';
 export 'flex_layout.dart';
 export 'ink_well.dart';
-export 'column_layout.dart';
-export 'row_layout.dart';
-export 'container_layout.dart';
-export 'animated_styled_box.dart';
 export 'reorderable_list_view_layout.dart';
+export 'row_layout.dart';

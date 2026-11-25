@@ -10,7 +10,7 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        // stratum_ui pulls flutter_local_notifications, which requires desugaring.
+        // flutter_stratum_ui pulls flutter_local_notifications, which requires desugaring.
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -48,7 +48,7 @@ kotlin {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
-    // MainActivity asks the system WebView for its bridge features; stratum_ui
+    // MainActivity asks the system WebView for its bridge features; flutter_stratum_ui
     // declares this artifact as `implementation`, so the app does not see it.
     implementation("androidx.webkit:webkit:1.16.0")
 }

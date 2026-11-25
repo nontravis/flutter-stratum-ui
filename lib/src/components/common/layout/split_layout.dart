@@ -1,5 +1,10 @@
 import 'dart:math' as math;
 
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/components/common/utility/focus_border.dart'
+    show focusStyleOver;
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/setting_binding.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:multi_split_view/multi_split_view.dart'
     show
         Area,
@@ -7,11 +12,6 @@ import 'package:multi_split_view/multi_split_view.dart'
         MultiSplitViewController,
         MultiSplitViewTheme,
         MultiSplitViewThemeData;
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/components/common/utility/focus_border.dart'
-    show focusStyleOver;
-import 'package:stratum_ui/src/components/common/widget_settings/setting_binding.dart';
-import 'package:stratum_ui/src/src.dart';
 
 /// Two sizes closer than this, in logical pixels, count as equal.
 const double _tolerance = 1e-6;

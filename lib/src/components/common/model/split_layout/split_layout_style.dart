@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/components/common/model/focus_border/stratum_focus_border_style.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/components/common/model/focus_border/stratum_focus_border_style.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/split_layout_style.freezed.dart';
 

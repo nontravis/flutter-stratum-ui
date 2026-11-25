@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A column on [FlexLayout]: style, interaction, semantics, and scrolling
 /// come from [BoxLayout].

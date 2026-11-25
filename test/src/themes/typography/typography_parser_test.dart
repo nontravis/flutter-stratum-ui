@@ -1,10 +1,10 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_convert.dart';
+import 'package:flutter_stratum_ui/src/themes/config/window_size_yaml_name.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/typography_parser.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
-import 'package:stratum_ui/src/themes/config/theme_convert.dart';
-import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
-import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
 
 const _yaml = '''
 fonts:

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_stratum_ui/src/themes/remote/remote_zip_reader.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_zip_reader.dart';
 
 import 'tool_zips/tool_zips.g.dart';
 

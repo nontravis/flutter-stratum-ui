@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_zip_reader.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_zip_writer.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
-import 'package:stratum_ui/src/themes/remote/remote_zip_reader.dart';
-import 'package:stratum_ui/src/themes/remote/remote_zip_writer.dart';
 
 Map<String, List<int>> get _files => {
   'theme.yaml': utf8.encode('name: x\n' * 50),

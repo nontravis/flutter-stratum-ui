@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 extension AppYamlMapExtension on YamlMap {
   dynamic get<T>(String key) {

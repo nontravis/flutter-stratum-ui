@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/stratum_labels.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_font_loader.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:stratum_ui/src/components/common/l10n/stratum_labels.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/theme_font_loader.dart';
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 import '../components/common/widget_settings/support/counting_setting_store.dart';

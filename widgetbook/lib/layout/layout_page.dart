@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/rendering.dart' show ScrollCacheExtent;
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:widgetbook/widgetbook.dart' hide ThemeMode;
 
 import '../kit/callback_report.dart';

@@ -1,8 +1,8 @@
 import 'dart:math' as math;
 
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A [PageLayout] side that holds a drawer: [left] is the start side and
 /// [right] the end side, so under [TextDirection.rtl] [left] opens from the

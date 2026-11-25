@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/image_blur_filter.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/components/common/model/image_blur_filter.dart';
-import 'package:stratum_ui/src/components/common/model/widget_style.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/stratum_caret_style.freezed.dart';
 

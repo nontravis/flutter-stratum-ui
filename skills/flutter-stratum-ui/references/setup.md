@@ -2,8 +2,8 @@
 
 ## Install
 
-- Add stratum_ui to the app's `pubspec.yaml` and run `flutter pub get`; it needs no `dependency_overrides`.
-- An app that carries `dependency_overrides: equatable: ^3.0.0` for stratum_ui alone drops those two lines: Stratum's
+- Add flutter_stratum_ui to the app's `pubspec.yaml` and run `flutter pub get`; it needs no `dependency_overrides`.
+- An app that carries `dependency_overrides: equatable: ^3.0.0` for flutter_stratum_ui alone drops those two lines: Stratum's
   `toastification ^3.2.2` accepts `equatable` 3. Keep them only when another package in the app graph still pins
   `equatable ^2.x` (`flutter pub deps --style=list` lists its dependents).
 

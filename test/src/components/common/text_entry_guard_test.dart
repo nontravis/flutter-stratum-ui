@@ -1,6 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
 // The public library, to prove the guard is exported.
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('primaryFocusInEditableText', () {

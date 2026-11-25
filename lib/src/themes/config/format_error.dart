@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/themes/config/escape_text.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/config/escape_text.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/format_error.freezed.dart';
 

@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 
 void main() {
   test('fo05/us05/fr05: the package exports StratumTransitionPage and '

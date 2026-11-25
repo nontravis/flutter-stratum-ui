@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:widgetbook/widgetbook.dart' hide ThemeMode;
 
 /// Shows the last callback a story reported under its [child]

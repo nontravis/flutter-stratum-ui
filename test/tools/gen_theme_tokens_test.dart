@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/transparent.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/transparent.dart';
 
 import '../../tools/gen_theme_tokens.dart';
 import '../src/components/common/fakes/fake_stratum_theme.dart';
@@ -220,7 +220,7 @@ void main() {
       expect(
         generated,
         contains(
-          "import 'package:stratum_ui/src/themes/constant/color.dart';\n",
+          "import 'package:flutter_stratum_ui/src/themes/constant/color.dart';\n",
         ),
       );
       expect(
@@ -460,7 +460,7 @@ void main() {
     expect(
       generated,
       contains(
-        "import 'package:stratum_ui/src/components/common/model/image_blur_filter.dart';\n",
+        "import 'package:flutter_stratum_ui/src/components/common/model/image_blur_filter.dart';\n",
       ),
     );
   });

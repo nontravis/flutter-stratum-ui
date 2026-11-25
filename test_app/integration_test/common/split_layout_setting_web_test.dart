@@ -1,6 +1,6 @@
 // Proves FO-10 US-03 FR-03 E01 on a real browser: with `window.localStorage`
 // full, one settled widget-setting change keeps its new size for the
-// session, the save reports exactly once with library `stratum_ui`
+// session, the save reports exactly once with library `flutter_stratum_ui`
 // (`widget_settings_controller.dart`'s own `_report`, PD12), and nothing
 // throws. Native and desktop targets have no browser storage quota to
 // fill, so this case runs only on web (`kIsWeb`), skipped everywhere else:
@@ -9,9 +9,9 @@
 //   flutter drive --driver=test_driver/integration_test.dart \
 //     --target=integration_test/common/split_layout_setting_web_test.dart \
 //     -d web-server --browser-name=chrome
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 
 import 'support/local_storage.dart';
 import 'support/pump_until.dart';
@@ -94,7 +94,7 @@ void _fillLocalStorageToQuota() {
   );
 }
 
-/// Captures every report library `stratum_ui` makes through
+/// Captures every report library `flutter_stratum_ui` makes through
 /// `FlutterError.reportError` during this test, and passes every other
 /// report, a failed `expect` included, to the previous handler: flutter_test
 /// asserts that its own handler saw a failure before it ends the test.
@@ -103,7 +103,7 @@ List<FlutterErrorDetails> _captureErrorReports() {
   final reported = <FlutterErrorDetails>[];
   final previous = FlutterError.onError;
   FlutterError.onError = (details) {
-    if (details.library == 'stratum_ui') {
+    if (details.library == 'flutter_stratum_ui') {
       reported.add(details);
     } else {
       previous?.call(details);

@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
-import 'package:stratum_ui/src/themes/remote/remote_entry_path.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_entry_path.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 /// The deflate level of every `pack` entry (FO-04 s03 Packed zip).
 const int remoteZipDeflateLevel = 6;

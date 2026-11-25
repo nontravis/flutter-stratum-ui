@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/model/widget_style.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 /// Publishes the [WindowSize] of the app window to its descendants.
 ///

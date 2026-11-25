@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/components/common/model/widget_setting/widget_setting_key.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/widget_setting/widget_setting_key.dart';
 
 void main() {
   test('fo10/us02/fr01: a key is the global part or one id, by value', () {

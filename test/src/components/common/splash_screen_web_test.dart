@@ -3,8 +3,8 @@ library;
 
 import 'dart:js_interop';
 
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 import 'package:web/web.dart' as web;
 
 import '../../themes/remote/remote_fakes.dart';

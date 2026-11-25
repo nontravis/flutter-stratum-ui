@@ -1,7 +1,7 @@
-import 'package:stratum_ui/src/components/common/layout/focus_group.dart';
-import 'package:stratum_ui/src/components/common/utility/focus_border.dart'
+import 'package:flutter_stratum_ui/src/components/common/layout/focus_group.dart';
+import 'package:flutter_stratum_ui/src/components/common/utility/focus_border.dart'
     show focusBorderOutsideReach, focusStyleOver;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The scroll behavior for a layout scroll view at [context].
 ///

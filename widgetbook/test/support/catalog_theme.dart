@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Reads the package's embedded default `theme.yaml` from disk and returns
 /// its four theme data, so catalog pages render the shipped default theme
@@ -14,7 +14,7 @@ Future<StratumThemeSet> loadDefaultThemeSet() async {
     StratumThemeConfig.parse(
       base: StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: yaml,
       ),
     ),

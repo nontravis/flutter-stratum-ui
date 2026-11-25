@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Group-label fixture for the `semantics` of a `FocusBuilder`
 /// (FO-06-02 US-04 FR-04 E01).

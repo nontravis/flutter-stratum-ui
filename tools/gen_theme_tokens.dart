@@ -5,8 +5,8 @@
 //   dart run tools/gen_theme_tokens.dart
 import 'dart:io';
 
-import 'package:stratum_ui/src/themes/config/transparent.dart';
-import 'package:stratum_ui/src/themes/constant/color.dart';
+import 'package:flutter_stratum_ui/src/themes/config/transparent.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/color.dart';
 import 'package:yaml/yaml.dart';
 
 /// The yaml the generator reads, from the package root.
@@ -101,12 +101,12 @@ String generateThemeTokens(String yaml) {
     ..writeln()
     ..writeln("import 'package:flutter/painting.dart' show BoxShadow;")
     ..writeln(
-      "import 'package:stratum_ui/src/components/common/model/image_blur_filter.dart';",
+      "import 'package:flutter_stratum_ui/src/components/common/model/image_blur_filter.dart';",
     )
-    ..writeln("import 'package:stratum_ui/src/themes/config/theme_asset.dart';")
-    ..writeln("import 'package:stratum_ui/src/themes/constant/color.dart';")
+    ..writeln("import 'package:flutter_stratum_ui/src/themes/config/theme_asset.dart';")
+    ..writeln("import 'package:flutter_stratum_ui/src/themes/constant/color.dart';")
     ..writeln(
-      "import 'package:stratum_ui/src/themes/constant/widget_size.dart';",
+      "import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';",
     )
     ..writeln()
     ..writeln(

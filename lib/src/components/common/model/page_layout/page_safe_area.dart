@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/page_safe_area.freezed.dart';
 

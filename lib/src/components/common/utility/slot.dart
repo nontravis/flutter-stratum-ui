@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Marks where content goes: a dashed, labelled placeholder that stands in
 /// for a widget not built yet.

@@ -2,9 +2,9 @@
 // through package src paths, as perf_host_test.dart does: the example does
 // not depend on google_fonts directly.
 // ignore_for_file: implementation_imports
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 import '../../integration_test/perf/perf_host.dart';
 
@@ -33,13 +33,13 @@ void main() {
     addTearDown(() => debugPrint = savedPrint);
 
     final text = await rootBundle.loadString(
-      'packages/stratum_ui/assets/themes/default/theme.yaml',
+      'packages/flutter_stratum_ui/assets/themes/default/theme.yaml',
     );
     final theme = StratumThemeSet.fromConfig(
       StratumThemeConfig.parse(
         base: StratumThemeSource(
           id: 'stratum-default',
-          folder: 'packages/stratum_ui/assets/themes/default',
+          folder: 'packages/flutter_stratum_ui/assets/themes/default',
           yaml: text,
         ),
       ),

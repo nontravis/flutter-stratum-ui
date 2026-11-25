@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/style/style_decoration.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/style/style_decoration.dart';
 
 const _radius = BorderRadius.all(Radius.circular(16));
 const _shadowColor = Color(0x40000000);

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:yaml/yaml.dart';
 
 /// Path to the copyable skill, relative to the package root.
-const _skillPath = 'skills/stratum-flutter-ui/SKILL.md';
+const _skillPath = 'skills/flutter-stratum-ui/SKILL.md';
 
 /// The Agent Skills frontmatter caps on `name:` and `description:`.
 const _nameCap = 64;

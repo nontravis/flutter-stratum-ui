@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/redacted_url.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_configuration.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_error.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_source.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/origin_policy.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/redacted_url.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_configuration.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_error.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_source.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/origin_policy.dart';
 
 /// Replaces the platform implementation for new controllers in tests.
 @visibleForTesting
@@ -335,7 +335,7 @@ final class _ControllerListener implements PlatformStratumWebViewListener {
       FlutterErrorDetails(
         exception: error,
         stack: stack,
-        library: 'stratum_ui',
+        library: 'flutter_stratum_ui',
         context: ErrorDescription('while calling StratumWebView.$callbackName'),
       ),
     );

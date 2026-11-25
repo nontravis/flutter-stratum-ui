@@ -1,20 +1,20 @@
-import 'package:stratum_ui/src/themes/config/animation_config.dart';
-import 'package:stratum_ui/src/themes/config/focus_names.dart';
-import 'package:stratum_ui/src/themes/config/format_error.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/check_keys.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/resolve_aliases.dart';
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
-import 'package:stratum_ui/src/themes/config/plain_theme_config.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
-import 'package:stratum_ui/src/themes/config/shadow_layer.dart';
-import 'package:stratum_ui/src/themes/config/system_names.dart';
-import 'package:stratum_ui/src/themes/config/theme_asset.dart';
-import 'package:stratum_ui/src/themes/config/theme_source.dart';
-import 'package:stratum_ui/src/themes/config/transition_names.dart';
-import 'package:stratum_ui/src/themes/config/widget_size_names.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
-import 'package:stratum_ui/src/themes/typography/dimension.dart';
-import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
+import 'package:flutter_stratum_ui/src/themes/config/animation_config.dart';
+import 'package:flutter_stratum_ui/src/themes/config/focus_names.dart';
+import 'package:flutter_stratum_ui/src/themes/config/format_error.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/check_keys.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/resolve_aliases.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_theme_config.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/shadow_layer.dart';
+import 'package:flutter_stratum_ui/src/themes/config/system_names.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_asset.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_source.dart';
+import 'package:flutter_stratum_ui/src/themes/config/transition_names.dart';
+import 'package:flutter_stratum_ui/src/themes/config/widget_size_names.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/dimension.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/typography_parser.dart';
 
 /// Stage 5 (spec section 7): reads the resolved tree into a
 /// [PlainThemeConfig]. Every problem goes to [errors]; the result holds

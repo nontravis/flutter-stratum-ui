@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/shared_preferences_setting_store.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/shared_preferences_setting_store.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
 
 import 'support/captured_reports.dart';
 import 'support/counting_setting_store.dart';
@@ -123,7 +123,7 @@ void main() {
     await part.setDouble('w', 400);
 
     expect(part.getDouble('w'), 400);
-    expect(reported.single.library, 'stratum_ui');
+    expect(reported.single.library, 'flutter_stratum_ui');
   });
 
   test('fo10/us03/s2: fo10/us03/fr03/e02: a failed read at load gives '

@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/themes/constant/input_method.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/constant/input_method.dart';
 
 void main() {
   test('fo03/us10/fr04: the input method is none, keyboard, or pointer, and '

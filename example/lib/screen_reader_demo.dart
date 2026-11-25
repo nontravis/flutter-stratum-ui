@@ -5,7 +5,7 @@
 import 'dart:async';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:stratum_ui_example/font_licenses.dart';
 
 Future<void> main() async {

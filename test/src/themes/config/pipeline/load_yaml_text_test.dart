@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/load_yaml_text.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/load_yaml_text.dart';
 import 'package:yaml/yaml.dart' show YamlMap, loadYamlNode;
 
 YamlTextFailure _gateFailure(String text) {

@@ -3,7 +3,7 @@ import UIKit
 import ObjectiveC
 import WebKit
 import XCTest
-@testable import stratum_ui
+@testable import flutter_stratum_ui
 
 /// Class methods with and without the C shape `matchesLookup` accepts.
 final class LookupProbe: NSObject {

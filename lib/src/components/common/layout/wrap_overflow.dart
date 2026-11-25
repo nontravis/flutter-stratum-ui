@@ -18,9 +18,9 @@ import 'package:flutter/rendering.dart'
         Selectable,
         SelectionRegistrar;
 import 'package:flutter/scheduler.dart' show SchedulerBinding, SchedulerPhase;
-import 'package:stratum_ui/src/components/common/layout/focus_group.dart';
-import 'package:stratum_ui/src/components/common/layout/wrap_cut.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/focus_group.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/wrap_cut.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The content of a [WrapLayout] in overflow mode (FO-06-01 INV-36 to INV-38):
 /// [Wrap]'s run rules, cut by [maxRuns] and [maxChildren] at the
@@ -428,7 +428,7 @@ class _WrapOverflowElement extends RenderObjectElement {
                 'or none.',
               ),
             ]),
-            library: 'stratum_ui',
+            library: 'flutter_stratum_ui',
             context: ErrorDescription('building the overflow child of $widget'),
           ),
         );
@@ -459,7 +459,7 @@ class _WrapOverflowElement extends RenderObjectElement {
         final details = FlutterErrorDetails(
           exception: error,
           stack: stack,
-          library: 'stratum_ui',
+          library: 'flutter_stratum_ui',
           context: ErrorDescription('building the overflow child of $widget'),
         );
         FlutterError.reportError(details);
@@ -509,7 +509,7 @@ class _WrapOverflowElement extends RenderObjectElement {
                 'FocusNode, or give its Focus none.',
               ),
             ]),
-            library: 'stratum_ui',
+            library: 'flutter_stratum_ui',
             context: ErrorDescription('building the overflow child of $widget'),
           ),
         );
@@ -1380,7 +1380,7 @@ class _RenderWrapOverflow extends RenderBox
               'whether it ticks or not.',
             ),
           ]),
-          library: 'stratum_ui',
+          library: 'flutter_stratum_ui',
           context: ErrorDescription('laying out $this'),
         ),
       );

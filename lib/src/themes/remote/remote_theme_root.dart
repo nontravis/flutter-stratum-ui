@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 /// Whether the zip reader skips [name]: an entry under `__MACOSX/` or one
 /// whose base name is `.DS_Store`.

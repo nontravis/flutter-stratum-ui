@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/l10n/stratum_labels.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/stratum_labels.dart';
 
 /// Stratum's built-in labels in the language of [context]'s locale: the
 /// nearest [Localizations] locale, else the view's platform locale.

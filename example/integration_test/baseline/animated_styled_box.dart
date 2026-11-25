@@ -7,11 +7,11 @@
 import 'baseline.dart';
 
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/model/widget_style.dart';
-import 'package:stratum_ui/src/extensions/context_extension.dart';
-import 'package:stratum_ui/src/components/common/style/style_decoration.dart';
-import 'package:stratum_ui/src/themes/animation.dart';
-import 'package:stratum_ui/src/themes/theme_application.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:flutter_stratum_ui/src/extensions/context_extension.dart';
+import 'package:flutter_stratum_ui/src/components/common/style/style_decoration.dart';
+import 'package:flutter_stratum_ui/src/themes/animation.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_application.dart';
 
 /// Wraps the styled box of an [BaselineAnimatedStyledBox] with the style of the
 /// current animation frame; see [BaselineAnimatedStyledBox.boxBuilder].

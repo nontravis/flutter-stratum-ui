@@ -1,8 +1,8 @@
-import 'package:stratum_ui/src/themes/config/format_error.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/load_yaml_text.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
-import 'package:stratum_ui/src/themes/config/schema_version.dart';
-import 'package:stratum_ui/src/themes/config/theme_source.dart';
+import 'package:flutter_stratum_ui/src/themes/config/format_error.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/load_yaml_text.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/schema_version.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_source.dart';
 import 'package:yaml/yaml.dart';
 
 /// Stage 1 (spec section 7): loads every one of [sources] and checks its

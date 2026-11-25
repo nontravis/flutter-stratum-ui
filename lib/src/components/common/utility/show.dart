@@ -2,9 +2,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/rendering.dart'
     show ClipRectLayer, LayerHandle, PipelineOwner, RenderAligningShiftedBox;
-import 'package:stratum_ui/src/animations/screen_transition.dart'
+import 'package:flutter_stratum_ui/src/animations/screen_transition.dart'
     show curveOf, durationOf, reverseDurationOf;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// How a [Show] moves between shown and hidden (FO-06-01 US-06 FR-01).
 enum ShowTransition {

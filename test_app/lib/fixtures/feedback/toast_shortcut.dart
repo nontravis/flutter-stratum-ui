@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Notice fixture for the keyboard shortcut that moves focus into a notice
 /// and for Esc returning it (CO-05.07 US-01 FR-05 and FR-04).

@@ -1,3 +1,8 @@
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/modal_layout.dart'
+    show ModalLayoutScope, resolveModalLayoutType;
+import 'package:flutter_stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:smooth_sheets/smooth_sheets.dart'
     show
         BouncingSheetPhysics,
@@ -9,11 +14,6 @@ import 'package:smooth_sheets/smooth_sheets.dart'
         SheetOffset,
         SheetScrollConfiguration,
         SheetSnapGrid;
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/components/common/layout/modal_layout.dart'
-    show ModalLayoutScope, resolveModalLayoutType;
-import 'package:stratum_ui/src/components/common/layout/scrim.dart' show Scrim;
-import 'package:stratum_ui/src/src.dart';
 
 /// Shows the [ModalLayout] that [builder] builds above the current page
 /// and completes with the value it pops with, else with null when the

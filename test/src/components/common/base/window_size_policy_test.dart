@@ -4,8 +4,8 @@
 @Timeout(Duration(minutes: 3))
 library;
 
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
 
 import 'window_size_policy.dart';
 
@@ -20,7 +20,7 @@ final Future<List<String>> _componentTreeHits = _checker.windowSizeRuleHits(
 
 /// A component-tree probe that compares window sizes by order (rule a).
 const String _orderProbe = '''
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 bool f(WindowSize w) => w >= WindowSize.desktop;
 ''';
@@ -28,7 +28,7 @@ bool f(WindowSize w) => w >= WindowSize.desktop;
 /// A component-tree probe whose switch over `WindowSize` keeps a `_` catch-all
 /// (rule b).
 const String _catchAllProbe = '''
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 String f(WindowSize w) => switch (w) {
       WindowSize.watch => 'watch',
@@ -39,21 +39,21 @@ String f(WindowSize w) => switch (w) {
 
 /// A component-tree probe that compares widget sizes by order: allowed.
 const String _widgetOrderProbe = '''
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
 
 bool f(WidgetSize size) => size >= WidgetSize.large;
 ''';
 
 /// An app-code probe: window-size order comparisons stay allowed there.
 const String _appOrderProbe = '''
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 bool f(WindowSize w) => w >= WindowSize.desktop;
 ''';
 
 /// A component-tree probe that maps each `WidgetSize` to a number (rule c).
 const String _widgetTableProbe = '''
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
 
 double side(WidgetSize s) => switch (s) {
       WidgetSize.tiny => 8,
@@ -69,7 +69,7 @@ double side(WidgetSize s) => switch (s) {
 /// A component-tree probe that maps a `WindowSize` to a number through a
 /// conditional expression (rule c).
 const String _windowConditionalProbe = '''
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 double f(WindowSize w) => w == WindowSize.desktop ? 1 : 2;
 ''';
@@ -78,8 +78,8 @@ double f(WindowSize w) => w == WindowSize.desktop ? 1 : 2;
 /// so it fails to compile (FO-07 US-03 FR-02 E01).
 const String _responsivePropProbe = '''
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/layout/page_layout.dart';
-import 'package:stratum_ui/src/components/common/model/responsive/responsive.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/page_layout.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/responsive/responsive.dart';
 
 Widget f() => const PageLayout(rightAsOverlay: Responsive(false));
 ''';
@@ -87,7 +87,7 @@ Widget f() => const PageLayout(rightAsOverlay: Responsive(false));
 /// A component-tree probe importing only the barrel, the repo convention,
 /// that compares window sizes by order (rule a through `export`).
 const String _barrelOrderProbe = '''
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 bool f(WindowSize w) => w >= WindowSize.desktop;
 ''';
@@ -95,7 +95,7 @@ bool f(WindowSize w) => w >= WindowSize.desktop;
 /// A barrel-importing probe whose switch over `WindowSize` keeps a `_`
 /// catch-all (rule b through `export`).
 const String _barrelCatchAllProbe = '''
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 String f(WindowSize w) => switch (w) {
       WindowSize.watch => 'watch',
@@ -107,7 +107,7 @@ String f(WindowSize w) => switch (w) {
 /// A barrel-importing probe that maps a `WindowSize` to a number through a
 /// conditional expression (rule c through `export`).
 const String _barrelConditionalProbe = '''
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 double f(WindowSize w) => w == WindowSize.desktop ? 1 : 2;
 ''';
@@ -115,7 +115,7 @@ double f(WindowSize w) => w == WindowSize.desktop ? 1 : 2;
 /// A component-tree probe that compares window sizes by their `.index`
 /// (rule a).
 const String _indexOrderProbe = '''
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 bool f(WindowSize w) => w.index >= WindowSize.desktop.index;
 ''';
@@ -123,7 +123,7 @@ bool f(WindowSize w) => w.index >= WindowSize.desktop.index;
 /// A component-tree probe whose switch statement over `WindowSize` returns a
 /// number per case (rule c).
 const String _switchStatementTableProbe = '''
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 double f(WindowSize w) {
   switch (w) {
@@ -141,7 +141,7 @@ double f(WindowSize w) {
 /// A component-tree probe that keys a map literal by `WindowSize` with
 /// number values (rule c).
 const String _mapTableProbe = '''
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 const space = {
   WindowSize.watch: 8.0,
@@ -155,7 +155,7 @@ const space = {
 /// A component-tree probe whose if chain branches on a `WindowSize` by `==`
 /// and returns a number (rule c), one hit at the chain's head.
 const String _ifChainTableProbe = '''
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 double f(WindowSize w) {
   if (w == WindowSize.desktop) {
@@ -171,8 +171,8 @@ double f(WindowSize w) {
 /// numbers, through a map literal, a switch statement, and an if chain:
 /// allowed.
 const String _textTableProbe = '''
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 const names = {WindowSize.watch: 'watch', WindowSize.mobile: 'mobile'};
 

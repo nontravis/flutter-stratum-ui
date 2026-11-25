@@ -14,12 +14,12 @@ import 'package:flutter/rendering.dart'
         RenderSemanticsAnnotations,
         RenderShiftedBox;
 import 'package:flutter/scheduler.dart' show SchedulerBinding;
-import 'package:stratum_ui/src/components/common/base/disabled.dart'
+import 'package:flutter_stratum_ui/src/components/common/base/disabled.dart'
     show StratumDisabledScope;
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/components/common/utility/focus_border.dart'
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/components/common/utility/focus_border.dart'
     show focusStyleOver;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Whether a [StratumInkWell] with these settings takes focus: not
 /// [disabled], [canRequestFocus] true, a [focusType] other than

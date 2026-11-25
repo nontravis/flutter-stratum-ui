@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_falmodel/flutter_falmodel.dart' show FullWidgetState;
-import 'package:stratum_ui/src/components/common/base/disabled.dart';
-import 'package:stratum_ui/src/components/common/base/widget_props.dart';
-import 'package:stratum_ui/src/themes/constant/color.dart';
-import 'package:stratum_ui/src/themes/constant/feedback_state.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/components/common/base/disabled.dart';
+import 'package:flutter_stratum_ui/src/components/common/base/widget_props.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/color.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/feedback_state.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 /// Base class for a Stratum component with state, such as the hovered,
 /// pressed, and focused states it derives at runtime.

@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// [count] slot placeholders named `child 1` to `child $count`, the children
 /// a layout page's stories arrange (fo11/us06/fr01); a [height] gives each a

@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/components/common/layout/wrap_cut.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/layout/wrap_cut.dart';
 
 /// Twelve 40 px children.
 final _twelve = List<double>.filled(12, 40);

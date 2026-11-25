@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 import '../../../themes/theme_runtime_fakes.dart';
 import '../fakes/fake_stratum_theme.dart';

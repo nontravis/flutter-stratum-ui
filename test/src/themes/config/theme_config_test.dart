@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 import 'theme_fixtures.dart';
 
@@ -140,7 +140,7 @@ animation:
 ''';
       final base = StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: File('assets/themes/default/theme.yaml').readAsStringSync(),
       );
       const header = 'StratumThemeFormatException: 6 problem(s) in theme.yaml';

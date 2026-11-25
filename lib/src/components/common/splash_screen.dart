@@ -1,10 +1,10 @@
 import 'package:animations/animations.dart' show PageTransitionSwitcher;
-import 'package:stratum_ui/src/animations/screen_transition.dart';
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/components/common/splash_signal/splash_signal_none.dart'
-    if (dart.library.js_interop) 'package:stratum_ui/src/components/common/splash_signal/splash_signal_web.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_resolution.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/animations/screen_transition.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/components/common/splash_signal/splash_signal_none.dart'
+    if (dart.library.js_interop) 'package:flutter_stratum_ui/src/components/common/splash_signal/splash_signal_web.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_resolution.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The step of [StratumSplashScreen] that failed, which
 /// [StratumSplashFailed.retry] runs again (FO-03 US-12 FR-01, FR-06).
@@ -310,7 +310,7 @@ class _StratumSplashScreenState<T> extends State<StratumSplashScreen<T>> {
         FlutterErrorDetails(
           exception: error,
           stack: stack,
-          library: 'stratum_ui',
+          library: 'flutter_stratum_ui',
           context: ErrorDescription(
             'while reading the package default theme for the splash screen',
           ),

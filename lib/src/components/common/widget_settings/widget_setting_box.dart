@@ -1,7 +1,7 @@
+import 'package:flutter_stratum_ui/src/components/common/model/widget_setting/widget_setting_key.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
 import 'package:meta/meta.dart';
-import 'package:stratum_ui/src/components/common/model/widget_setting/widget_setting_key.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
 
 /// One widget type's settings, reached by its fixed [namespace] (US-02
 /// FR-01).

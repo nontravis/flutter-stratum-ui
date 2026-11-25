@@ -1,7 +1,7 @@
-import 'package:stratum_ui/src/themes/config/escape_text.dart';
-import 'package:stratum_ui/src/themes/remote/remote_install_check.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/config/escape_text.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_install_check.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 // The standard error lines of the `stratum_theme` CLI (FO-04 US-02 FR-03;
 // s05 CLI output). Only `bin/stratum_theme.dart` imports this file.

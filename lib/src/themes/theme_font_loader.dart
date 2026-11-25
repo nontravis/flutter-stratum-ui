@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Test seam for the engine call a `theme` font needs (see
 /// `StratumFontSource.theme`): registering its file bytes under its family

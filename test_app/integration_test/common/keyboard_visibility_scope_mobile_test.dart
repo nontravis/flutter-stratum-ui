@@ -25,9 +25,9 @@ import 'dart:async';
 // The scope reads this plugin; the test counts the plugin's own events to prove
 // the scope follows them.
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 
 import 'support/app_lifecycle.dart';
 import 'support/host_platform.dart';

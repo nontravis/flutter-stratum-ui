@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/model/page_layout/page_areas.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/page_layout/page_areas.dart';
 
 /// The handle one `PageLayout` publishes its [PageAreas] through; the
 /// host reads the innermost one whose route is current (s03 toast

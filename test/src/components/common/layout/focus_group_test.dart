@@ -1,8 +1,7 @@
-import 'package:flutter/rendering.dart' show ScrollCacheExtent;
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/layout/focus_group.dart'
+import 'package:flutter_stratum_ui/src/components/common/layout/focus_group.dart'
     show firstTabStopIn, revealInViewports;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../fakes/fake_stratum_theme.dart';
 

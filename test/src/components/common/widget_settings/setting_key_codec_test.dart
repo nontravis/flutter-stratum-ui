@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/components/common/model/widget_setting/widget_setting_key.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/widget_setting/widget_setting_key.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
 
 void main() {
   test('fo10/us02/s1: fo10/us02/fr02/e01: a key is a fixed literal string', () {

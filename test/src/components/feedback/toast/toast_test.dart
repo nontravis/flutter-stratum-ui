@@ -1,10 +1,10 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/feedback/toast/toast_placement.dart'
+import 'package:flutter_stratum_ui/src/components/feedback/toast/toast_placement.dart'
     show defaultToastPlacement;
-import 'package:stratum_ui/src/components/feedback/toast/toast_plain_look.dart'
+import 'package:flutter_stratum_ui/src/components/feedback/toast/toast_plain_look.dart'
     show toastCloseTime;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../../themes/system/system_style_fakes.dart';
 import '../../common/fakes/fake_stratum_theme.dart';

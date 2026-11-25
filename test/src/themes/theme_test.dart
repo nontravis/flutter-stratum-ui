@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 
@@ -9,7 +9,7 @@ final StratumThemeData _data = StratumThemeSet.fromConfig(
   StratumThemeConfig.parse(
     base: const StratumThemeSource(
       id: 'stratum-default',
-      folder: 'packages/stratum_ui/assets/themes/default',
+      folder: 'packages/flutter_stratum_ui/assets/themes/default',
       yaml: defaultThemeSource,
     ),
     layers: const [

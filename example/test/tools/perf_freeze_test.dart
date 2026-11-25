@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../tools/perf_freeze.dart' hide main;
 
 const _row = '''
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Wraps an [AnimatedStyledBox]; see [GestureRowLayout] for taps.
 class RowLayout extends StatelessWidget {
@@ -17,7 +17,7 @@ class _RowLayoutState {}
 ''';
 
 const _box = '''
-import 'package:stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
 
 typedef StyledBoxBuilder = Widget Function(WidgetStyle style, Widget box);
 
@@ -29,8 +29,8 @@ extension on Widget {}
 ''';
 
 const _boxLayout = '''
-import 'package:stratum_ui/a/row_layout.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/a/row_layout.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 class BoxLayout extends StatelessWidget {
   const BoxLayout({super.key});
@@ -65,7 +65,7 @@ void main() {
       final renamed = renameAll(_row, {'RowLayout'});
       expect(renamed, contains('[GestureRowLayout]'));
       expect(renamed, contains('class _RowLayoutState {}'));
-      expect(renamed, contains("import 'package:stratum_ui/src/src.dart';"));
+      expect(renamed, contains("import 'package:flutter_stratum_ui/src/src.dart';"));
       expect(
         renameAll(_box, {'AnimatedStyledBox'}),
         contains('class _AnimatedStyledBoxState {}'),
@@ -109,7 +109,7 @@ void main() {
       );
       expect(
         row.indexOf("import 'baseline.dart';"),
-        lessThan(row.indexOf("import 'package:stratum_ui/src/src.dart';")),
+        lessThan(row.indexOf("import 'package:flutter_stratum_ui/src/src.dart';")),
       );
       expect(row, contains('const BaselineAnimatedStyledBox()'));
     });
@@ -153,9 +153,9 @@ void main() {
         },
       );
       final box = withSibling['box_layout.dart']!;
-      expect(box, isNot(contains('package:stratum_ui/a/row_layout.dart')));
+      expect(box, isNot(contains('package:flutter_stratum_ui/a/row_layout.dart')));
       expect(RegExp("import 'row_layout.dart';").allMatches(box).length, 1);
-      expect(box, contains("import 'package:stratum_ui/src/src.dart';"));
+      expect(box, contains("import 'package:flutter_stratum_ui/src/src.dart';"));
       expect(
         box,
         contains(

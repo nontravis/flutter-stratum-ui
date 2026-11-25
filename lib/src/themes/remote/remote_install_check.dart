@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:stratum_ui/src/themes/config/format_error.dart';
-import 'package:stratum_ui/src/themes/config/plain_theme_config.dart';
-import 'package:stratum_ui/src/themes/config/theme_source.dart';
-import 'package:stratum_ui/src/themes/remote/remote_checksum.dart';
-import 'package:stratum_ui/src/themes/remote/remote_id.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
-import 'package:stratum_ui/src/themes/remote/remote_zip_reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/format_error.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_theme_config.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_source.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_checksum.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_id.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_zip_reader.dart';
 
 /// Runs theme.yaml stages 1 to 5 of `base` under `layers`: the app passes
 /// `ThemeParse.run`, which runs them off the main isolate, and the CLI

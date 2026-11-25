@@ -1,7 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
 
 void main() {
   group('WindowSize.fromSize', () {

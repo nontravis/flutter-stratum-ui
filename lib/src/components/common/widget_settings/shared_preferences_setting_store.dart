@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
 
 /// The default [StratumWidgetSettingStore], over `shared_preferences`'s
 /// `SharedPreferencesAsync` (US-06 FR-01).

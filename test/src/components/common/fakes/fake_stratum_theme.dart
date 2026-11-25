@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/window_size_yaml_name.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/window_size_yaml_name.dart';
 
 import 'default_theme_yaml.g.dart';
 
@@ -36,7 +36,7 @@ const String defaultThemeSource = defaultThemeYaml;
 final StratumThemeConfig defaultThemeConfig = StratumThemeConfig.parse(
   base: const StratumThemeSource(
     id: 'stratum-default',
-    folder: 'packages/stratum_ui/assets/themes/default',
+    folder: 'packages/flutter_stratum_ui/assets/themes/default',
     yaml: defaultThemeSource,
   ),
 );

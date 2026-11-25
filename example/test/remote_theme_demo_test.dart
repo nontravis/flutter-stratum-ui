@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_example/remote_theme_demo.dart';
 
 Uint8List _zip(String id) =>

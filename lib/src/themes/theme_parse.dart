@@ -1,7 +1,7 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/parse_values.dart';
-import 'package:stratum_ui/src/themes/config/plain_theme_config.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/parse_values.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_theme_config.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 /// Parses a theme off the main isolate, since a main-isolate parse pushed
 /// a switch frame past 8.3 ms (NFR-P01; design S3). A test swaps [run] for

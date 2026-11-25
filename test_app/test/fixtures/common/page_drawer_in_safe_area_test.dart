@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart'
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart'
     show ContainerLayout, PageLayout, StratumThemeController;
+import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui_test_app/fixture_app.dart';
 
 const _fixtureId = 'common/page_drawer_in_safe_area';

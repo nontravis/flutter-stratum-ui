@@ -1,9 +1,9 @@
 // Packs a theme folder into a zip and checks a theme zip by the app's own
 // install check (FO-04 US-02). Run it from the app project, so its checks
-// are the stratum_ui version the app resolves (FR-02 E07):
+// are the flutter_stratum_ui version the app resolves (FR-02 E07):
 //
-//   dart run stratum_ui:stratum_theme pack <folder> [options]
-//   dart run stratum_ui:stratum_theme check <file.zip> [options]
+//   dart run flutter_stratum_ui:stratum_theme pack <folder> [options]
+//   dart run flutter_stratum_ui:stratum_theme check <file.zip> [options]
 //
 // It reaches no Flutter library, so `dart run` compiles it in the Dart VM
 // (FO-04 s03 INV-13); of the CLI, only this file reads and writes
@@ -14,17 +14,17 @@ import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart' as crypto;
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/load_yaml_text.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/parse_values.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_source.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/generated/google_font_names.g.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_cli_report.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_id.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_install_check.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_zip_writer.dart';
 import 'package:path/path.dart' as p;
-import 'package:stratum_ui/src/themes/config/pipeline/load_yaml_text.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/parse_values.dart';
-import 'package:stratum_ui/src/themes/config/theme_source.dart';
-import 'package:stratum_ui/src/themes/remote/generated/google_font_names.g.dart';
-import 'package:stratum_ui/src/themes/remote/remote_cli_report.dart';
-import 'package:stratum_ui/src/themes/remote/remote_id.dart';
-import 'package:stratum_ui/src/themes/remote/remote_install_check.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
-import 'package:stratum_ui/src/themes/remote/remote_zip_writer.dart';
 
 /// The run passed.
 const exitPass = 0;
@@ -43,7 +43,7 @@ const exitNoInput = 66;
 
 /// The usage text a usage error prints on the standard error.
 const stratumThemeUsage = '''
-usage: dart run stratum_ui:stratum_theme <command> <file> [options]
+usage: dart run flutter_stratum_ui:stratum_theme <command> <file> [options]
   pack <folder>      [--id <id>] [--out <folder>] [--app-default <path>]
                      [--max-bytes <n>] [--max-entries <n>]
   check <file.zip>   [--id <id>] [--app-default <path>]
@@ -75,12 +75,12 @@ Future<void> main(List<String> args) async {
   );
 }
 
-/// The root folder of the stratum_ui package this script runs from, whose
-/// `assets/themes/default/theme.yaml` is the package default; null when the
-/// package cannot be resolved.
+/// The root folder of the flutter_stratum_ui package this script runs from,
+/// whose `assets/themes/default/theme.yaml` is the package default; null when
+/// the package cannot be resolved.
 Future<String?> stratumPackageRoot() async {
   final library = await Isolate.resolvePackageUri(
-    Uri.parse('package:stratum_ui/stratum_ui.dart'),
+    Uri.parse('package:flutter_stratum_ui/flutter_stratum_ui.dart'),
   );
   return library == null ? null : p.dirname(p.dirname(library.toFilePath()));
 }
@@ -332,7 +332,7 @@ final class _Run {
   _Defaults _readDefaults() {
     final root = _packageRoot;
     if (root == null) {
-      throw const _NoInput('cannot find the stratum_ui package');
+      throw const _NoInput('cannot find the flutter_stratum_ui package');
     }
     final packagePath = p.join(
       root,
@@ -358,7 +358,7 @@ final class _Run {
       packagePath: packagePath,
       package: StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: _readText(packagePath, packagePath),
       ),
       appPath: appPath,

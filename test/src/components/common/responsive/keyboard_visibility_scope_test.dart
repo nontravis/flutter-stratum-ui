@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/responsive/keyboard_visibility_scope.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leak_tracker_flutter_testing/leak_tracker_flutter_testing.dart';
-import 'package:stratum_ui/src/components/common/responsive/keyboard_visibility_scope.dart';
 
 void main() {
   // Scoped to this file: `flutter test` runs each file in its own process.

@@ -1,8 +1,8 @@
 // The test reaches GoogleFonts through the src barrel, as the perf host
 // does: the example does not depend on google_fonts directly.
 // ignore_for_file: implementation_imports
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 import '../../integration_test/perf/perf_host.dart';
 

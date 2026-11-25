@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/component_defaults.dart'
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/component_defaults.dart'
     show debugCheckNoComponentStyle;
 
 /// [upper] laid over [lower], field by field and shown state by shown

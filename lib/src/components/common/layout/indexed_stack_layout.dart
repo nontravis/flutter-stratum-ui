@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/components/common/layout/focus_group.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/focus_group.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// An [IndexedStack] on [BoxLayout]: shows the child at [index] and keeps
 /// the others built, with style, interaction, semantics, and scrolling

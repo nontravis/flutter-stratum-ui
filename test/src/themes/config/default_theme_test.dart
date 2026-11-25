@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/plain_by_window_size.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/plain_by_window_size.dart';
 
 /// The WCAG 1.4.11 contrast ratio between [a] and [b].
 double _contrast(Color a, Color b) {
@@ -42,7 +42,7 @@ void main() {
     config = StratumThemeConfig.parse(
       base: StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: text,
       ),
     );

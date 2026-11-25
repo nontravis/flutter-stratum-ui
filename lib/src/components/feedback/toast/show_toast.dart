@@ -1,6 +1,6 @@
-import 'package:stratum_ui/src/components/feedback/toast/toast_host.dart'
+import 'package:flutter_stratum_ui/src/components/feedback/toast/toast_host.dart'
     show StratumToastRequest;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 extension StratumToastContextExtension on BuildContext {
   /// Shows one notice on the nearest `StratumToastHost` above this

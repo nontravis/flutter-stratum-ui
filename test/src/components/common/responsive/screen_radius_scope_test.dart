@@ -5,9 +5,9 @@
 // target, gesture, or style.
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/responsive/device_window.dart';
+import 'package:flutter_stratum_ui/src/components/common/responsive/screen_radius_scope.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/responsive/device_window.dart';
-import 'package:stratum_ui/src/components/common/responsive/screen_radius_scope.dart';
 
 const _channel = EventChannel('stratum_ui/screen_radius');
 

@@ -174,7 +174,7 @@ abstract final class _RadiusProbeSubscription {
       FlutterErrorDetails(
         exception: exception,
         stack: stack,
-        library: 'stratum_ui',
+        library: 'flutter_stratum_ui',
         context: ErrorDescription(context),
       ),
     );

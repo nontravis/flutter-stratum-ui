@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/adapters/webview_all_adapter.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/adapters/webview_flutter_adapter.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/adapters/webview_all_adapter.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/adapters/webview_flutter_adapter.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
 
 /// Picks the native adapter for the running platform.
 ///

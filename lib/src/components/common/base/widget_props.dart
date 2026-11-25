@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_falmodel/flutter_falmodel.dart' show FullWidgetState;
-import 'package:stratum_ui/src/components/common/model/widget_style.dart';
-import 'package:stratum_ui/src/extensions/context_extension.dart';
-import 'package:stratum_ui/src/themes/component_defaults.dart';
-import 'package:stratum_ui/src/themes/constant/color.dart';
-import 'package:stratum_ui/src/themes/constant/feedback_state.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
-import 'package:stratum_ui/src/themes/theme_application.dart';
-import 'package:stratum_ui/src/themes/theme_data.dart';
-import 'package:stratum_ui/src/themes/tokens/theme_tokens.g.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:flutter_stratum_ui/src/extensions/context_extension.dart';
+import 'package:flutter_stratum_ui/src/themes/component_defaults.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/color.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/feedback_state.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_application.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_data.dart';
+import 'package:flutter_stratum_ui/src/themes/tokens/theme_tokens.g.dart';
 
 /// The shared props every Stratum component takes, and how they resolve. A
 /// component that takes an instance style declares its own `customStyle`.

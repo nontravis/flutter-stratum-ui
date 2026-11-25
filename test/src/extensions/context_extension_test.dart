@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart' show ThemeMode;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/responsive/window_size_scope.dart';
+import 'package:flutter_stratum_ui/src/extensions/context_extension.dart';
+import 'package:flutter_stratum_ui/src/themes/config/by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_application.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_set.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/responsive/window_size_scope.dart';
-import 'package:stratum_ui/src/extensions/context_extension.dart';
-import 'package:stratum_ui/src/themes/config/by_window_size.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
-import 'package:stratum_ui/src/themes/theme_application.dart';
-import 'package:stratum_ui/src/themes/theme_set.dart';
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 

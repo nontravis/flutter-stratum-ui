@@ -3,7 +3,7 @@ import 'dart:ui' show PlatformDispatcher;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart' show SemanticsBinding;
 
-import 'package:stratum_ui/stratum_ui.dart' show StratumThemeController;
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart' show StratumThemeController;
 
 import 'fixture_app.dart';
 import 'fixture_route.dart';

@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_configuration.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_configuration.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
 
 void main() {
   group('D4: StratumWebViewConfiguration as a freezed value', () {

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// `PageLayout`'s own settings namespace and value name for the left pane's
 /// width (`lib/src/components/common/layout/page_layout.dart`

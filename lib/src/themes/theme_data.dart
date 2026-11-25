@@ -1,7 +1,7 @@
-import 'package:stratum_ui/src/animations/stratum_page_transitions_builder.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/widget_size_names.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
+import 'package:flutter_stratum_ui/src/animations/stratum_page_transitions_builder.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/widget_size_names.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 
 part 'generated/theme_data.freezed.dart';
 

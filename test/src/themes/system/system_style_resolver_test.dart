@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_resolver.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/system/system_style_resolver.dart';
 
 import '../../components/common/fakes/fake_stratum_theme.dart';
 import 'system_style_fakes.dart';
@@ -11,7 +11,7 @@ final StratumThemeSet _coloredBars = StratumThemeSet.fromConfig(
   StratumThemeConfig.parse(
     base: const StratumThemeSource(
       id: 'stratum-default',
-      folder: 'packages/stratum_ui/assets/themes/default',
+      folder: 'packages/flutter_stratum_ui/assets/themes/default',
       yaml: defaultThemeSource,
     ),
     layers: const [
@@ -908,7 +908,7 @@ void main() {
         tab.value = 1;
         await tester.pump();
         expect(reported, hasLength(1));
-        expect(reported.single.library, 'stratum_ui');
+        expect(reported.single.library, 'flutter_stratum_ui');
 
         // A later, independent request must still reach the platform.
         tab.value = 2;

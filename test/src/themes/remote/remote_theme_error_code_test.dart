@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 void main() {
   test('every code keys as its s05 catalog row', () {

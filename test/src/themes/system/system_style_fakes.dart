@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_resolver.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/system/system_style_resolver.dart';
 
 import '../../components/common/fakes/fake_stratum_theme.dart';
 

@@ -5,7 +5,7 @@
 //   flutter run -d macos -t lib/typography_demo.dart
 //
 // ignore_for_file: implementation_imports
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:stratum_ui_example/font_licenses.dart';
 
 Future<void> main() async {
@@ -14,16 +14,16 @@ Future<void> main() async {
   runApp(TypographyDemoApp(themes: await loadDemoTheme()));
 }
 
-/// The package default theme, read from the stratum_ui package assets.
+/// The package default theme, read from the flutter_stratum_ui package assets.
 Future<StratumThemeSet> loadDemoTheme() async {
   final text = await rootBundle.loadString(
-    'packages/stratum_ui/assets/themes/default/theme.yaml',
+    'packages/flutter_stratum_ui/assets/themes/default/theme.yaml',
   );
   return StratumThemeSet.fromConfig(
     StratumThemeConfig.parse(
       base: StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: text,
       ),
     ),

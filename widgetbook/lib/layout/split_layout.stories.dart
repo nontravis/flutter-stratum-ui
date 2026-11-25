@@ -1,18 +1,17 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:widgetbook/widgetbook.dart' hide ThemeMode;
-
-import '../kit/sample_text.dart';
 
 import '../kit/docs/catalog_docs.dart';
 import '../kit/docs/stratum_docs.dart';
 import '../kit/preset.dart';
+import '../kit/sample_text.dart';
 import '../kit/story_set.dart';
 import '../kit/style_presets.dart';
 import '../shell/catalog_section.dart';
-import 'split_layout_knobs.dart';
 import 'layout_page.dart';
 import 'layout_slots.dart';
 import 'recipes.dart';
+import 'split_layout_knobs.dart';
 
 part 'split_layout.stories.g.dart';
 

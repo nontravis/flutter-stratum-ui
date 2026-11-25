@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// The app-wide style of the fixture (`system_style_device_test.dart:29`):
 /// the switcher label `Stratum`, every look field left to the theme.

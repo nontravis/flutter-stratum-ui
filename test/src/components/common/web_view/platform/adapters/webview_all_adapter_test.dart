@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_source.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/adapters/webview_all_adapter.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/message_script.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/native_bridge_session.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_source.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/adapters/webview_all_adapter.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/message_script.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/native_bridge_session.dart';
 import 'package:webview_platform_interface/webview_platform_interface.dart';
 
 import '../../fakes/fake_webview_all_platform.dart';

@@ -1,5 +1,5 @@
 name: stratum_ui_widgetbook
-description: FO-11 component catalog app for the stratum_ui design system.
+description: FO-11 component catalog app for the flutter_stratum_ui design system.
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -13,7 +13,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  stratum_ui:
+  flutter_stratum_ui:
     path: ../
   widgetbook: 4.0.0-beta.14
   url_launcher: ^6.3.3

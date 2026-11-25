@@ -1,20 +1,20 @@
 import 'dart:ui' show Color;
 
+import 'package:flutter_stratum_ui/src/themes/config/animation_config.dart';
+import 'package:flutter_stratum_ui/src/themes/config/by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/parse_values.dart';
+import 'package:flutter_stratum_ui/src/themes/config/shadow_layer.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_asset.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_convert.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_source.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/focus_tokens.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/dimension.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/typography.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stratum_ui/src/themes/config/animation_config.dart';
-import 'package:stratum_ui/src/themes/config/by_window_size.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/parse_values.dart';
-import 'package:stratum_ui/src/themes/config/shadow_layer.dart';
-import 'package:stratum_ui/src/themes/config/theme_asset.dart';
-import 'package:stratum_ui/src/themes/config/theme_convert.dart';
-import 'package:stratum_ui/src/themes/config/theme_source.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
-import 'package:stratum_ui/src/themes/focus_tokens.dart';
-import 'package:stratum_ui/src/themes/system/system_style.dart';
-import 'package:stratum_ui/src/themes/typography/dimension.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
-import 'package:stratum_ui/src/themes/typography/typography.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
 
 part 'generated/theme_config.freezed.dart';
 

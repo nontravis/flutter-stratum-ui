@@ -1,7 +1,7 @@
+import 'package:flutter_stratum_ui/src/components/common/layout/page_areas.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/page_layout/page_areas.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/layout/page_areas.dart';
-import 'package:stratum_ui/src/components/common/model/page_layout/page_areas.dart';
-import 'package:stratum_ui/src/src.dart';
 
 // The registry primitives M4-T27 built, unit-tested directly (Edge Minor
 // finding 7): a page's handle, the probe that keeps it on or off stage,

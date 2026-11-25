@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Test seam for the three `GoogleFonts` calls a `google` font (see
 /// `StratumFontSource`) needs.
@@ -11,7 +11,7 @@ import 'package:stratum_ui/src/src.dart';
 /// replace them.
 ///
 /// Deliberately kept out of `lib/src/themes/themes.dart` and every barrel
-/// it feeds, so the public `package:stratum_ui/stratum_ui.dart` export
+/// it feeds, so the public `package:flutter_stratum_ui/flutter_stratum_ui.dart` export
 /// never exposes these setters to an app: `typography.dart`,
 /// `resolver.dart`, `theme_controller.dart`, and their tests import this
 /// file directly with a package import instead of reaching it through a

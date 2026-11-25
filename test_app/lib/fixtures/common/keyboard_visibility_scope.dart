@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Fixture for what a `KeyboardVisibilityScope` reads next to the raw bottom
 /// view inset (FO-07 US-04 FR-02 E04, E07).

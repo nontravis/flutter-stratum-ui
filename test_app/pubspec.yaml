@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  stratum_ui:
+  flutter_stratum_ui:
     path: ../
 
 dev_dependencies:

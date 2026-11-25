@@ -5,7 +5,7 @@
 //   flutter run -d macos -t lib/interaction_demo.dart
 import 'dart:async';
 
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:stratum_ui_example/font_licenses.dart';
 
 Future<void> main() async {
@@ -14,16 +14,16 @@ Future<void> main() async {
   runApp(InteractionDemoApp(themes: await loadInteractionDemoTheme()));
 }
 
-/// The package default theme, read from the stratum_ui package assets.
+/// The package default theme, read from the flutter_stratum_ui package assets.
 Future<StratumThemeSet> loadInteractionDemoTheme() async {
   final text = await rootBundle.loadString(
-    'packages/stratum_ui/assets/themes/default/theme.yaml',
+    'packages/flutter_stratum_ui/assets/themes/default/theme.yaml',
   );
   return StratumThemeSet.fromConfig(
     StratumThemeConfig.parse(
       base: StratumThemeSource(
         id: 'stratum-default',
-        folder: 'packages/stratum_ui/assets/themes/default',
+        folder: 'packages/flutter_stratum_ui/assets/themes/default',
         yaml: text,
       ),
     ),

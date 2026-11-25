@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/animations/screen_transition.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/animations/screen_transition.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The page transitions builder `StratumThemeData.toThemeData` installs
 /// for every [TargetPlatform] (FO-03 US-08 FR-01 E04), so every

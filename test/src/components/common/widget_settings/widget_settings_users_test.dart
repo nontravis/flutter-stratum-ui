@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
 
 import 'support/captured_reports.dart';
 import 'support/counting_setting_store.dart';

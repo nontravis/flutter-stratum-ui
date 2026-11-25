@@ -1,6 +1,6 @@
-import 'package:stratum_ui/src/components/common/responsive/screen_radius_scope.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/system/system_style_resolver.dart';
+import 'package:flutter_stratum_ui/src/components/common/responsive/screen_radius_scope.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_resolver.dart';
 
 /// Publishes a theme set, or a [StratumThemeController]'s active theme
 /// set, and picks the active data by theme mode and high-contrast mode

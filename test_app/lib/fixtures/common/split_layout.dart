@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// Adjustable-value fixture for the divider of a `SplitLayout`
 /// (FO-06-04 US-04 FR-04 E01).

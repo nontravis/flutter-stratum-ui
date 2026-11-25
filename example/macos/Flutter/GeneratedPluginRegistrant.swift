@@ -15,8 +15,8 @@ import flutter_udid
 import package_info_plus
 import share_plus
 import shared_preferences_foundation
-import stratum_ui
 import webview_flutter_wkwebview
+import flutter_stratum_ui
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   AppLinksMacosPlugin.register(with: registry.registrar(forPlugin: "AppLinksMacosPlugin"))
@@ -29,6 +29,6 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FPPPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FPPPackageInfoPlusPlugin"))
   SharePlusMacosPlugin.register(with: registry.registrar(forPlugin: "SharePlusMacosPlugin"))
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
-  StratumUiPlugin.register(with: registry.registrar(forPlugin: "StratumUiPlugin"))
   WebViewFlutterPlugin.register(with: registry.registrar(forPlugin: "WebViewFlutterPlugin"))
+  StratumUiPlugin.register(with: registry.registrar(forPlugin: "StratumUiPlugin"))
 }

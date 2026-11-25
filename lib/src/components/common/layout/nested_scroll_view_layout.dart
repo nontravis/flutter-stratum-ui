@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/components/common/layout/scroll_frame.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A [NestedScrollView] inside a [WidgetStyle] box: a header that
 /// collapses as the body scrolls.

@@ -1,20 +1,20 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 // The platform seam the package keeps out of its barrel; the loop pumps the
 // web view fixture, which would otherwise build the real platform view.
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
-import 'package:stratum_ui/stratum_ui.dart';
-import 'package:stratum_ui_test_app/fixture_app.dart';
-import 'package:stratum_ui_test_app/fixtures/fixtures.dart';
-// stratum_ui owns shared_preferences as its settings store seam; the loop
+import 'package:flutter_stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
+import 'package:flutter_test/flutter_test.dart';
+// flutter_stratum_ui owns shared_preferences as its settings store seam; the loop
 // pumps page_layout over the default store, which needs a platform instance
 // the same way the package's own flutter_test_config provides.
 // ignore: depend_on_referenced_packages
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 // ignore: depend_on_referenced_packages
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
+import 'package:stratum_ui_test_app/fixture_app.dart';
+import 'package:stratum_ui_test_app/fixtures/fixtures.dart';
 
 /// A web view platform that loads nothing and draws an empty box, so the
 /// fixture's controller never touches the real platform view.

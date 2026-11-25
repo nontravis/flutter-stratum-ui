@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_widgetbook/shell/catalog_config.dart';
 import 'package:stratum_ui_widgetbook/shell/rtl_addon.dart';
 import 'package:widgetbook/widgetbook.dart' hide ThemeMode;

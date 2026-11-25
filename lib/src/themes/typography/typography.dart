@@ -1,9 +1,9 @@
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
-import 'package:stratum_ui/src/themes/config/theme_convert.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
-import 'package:stratum_ui/src/themes/typography/typography_parser.dart';
-import 'package:stratum_ui/src/themes/value_model.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_convert.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/typography_parser.dart';
+import 'package:flutter_stratum_ui/src/themes/value_model.dart';
 
 export 'typography_models.dart';
 

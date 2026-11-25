@@ -1,7 +1,7 @@
-import 'package:stratum_ui/src/themes/config/escape_text.dart';
-import 'package:stratum_ui/src/themes/config/format_error.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/check_keys.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/config/escape_text.dart';
+import 'package:flutter_stratum_ui/src/themes/config/format_error.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/check_keys.dart';
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
 
 /// The tree after stage 3: every layer merged over the package default, and
 /// the four color sets and the four `system` and `focus` sets full.

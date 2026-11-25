@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
 
 import '../../components/common/fakes/fake_stratum_theme.dart';
 
@@ -256,7 +256,7 @@ void main() {
       ),
       (
         'fo02/us07/fr02/e02: reports a font without a family',
-        _typography(fonts: '{ inter: { package: stratum_ui } }'),
+        _typography(fonts: '{ inter: { package: flutter_stratum_ui } }'),
         'typography.fonts.inter.family: required',
       ),
       (
@@ -387,7 +387,7 @@ void main() {
       (
         'fo02/us08/s5: a Google font with a package',
         _typography(
-          fonts: '{ inter: { family: "Google/Kanit", package: stratum_ui } }',
+          fonts: '{ inter: { family: "Google/Kanit", package: flutter_stratum_ui } }',
         ),
         'typography.fonts.inter.package: '
             'package is not allowed with a Google font',

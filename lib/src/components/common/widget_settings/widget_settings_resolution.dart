@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_settings_scope.dart';
 import 'package:meta/meta.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_controller.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_settings_scope.dart';
 
 /// The [StratumWidgetSettingsController] a preloading wrapper uses (PD9):
 /// [passed], else the scope above [context], else a fresh one over the

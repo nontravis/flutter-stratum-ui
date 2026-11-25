@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
 
 void main() {
   test('messages compare by data and origin', () {

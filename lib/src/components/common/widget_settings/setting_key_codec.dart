@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/components/common/model/widget_setting/widget_setting_key.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_setting/widget_setting_key.dart';
 
 /// The fixed literal prefix of every storage key (PD2), stable across a
 /// minified or obfuscated build.

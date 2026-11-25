@@ -1,6 +1,6 @@
-import 'package:stratum_ui/src/components/common/base/disabled.dart'
+import 'package:flutter_stratum_ui/src/components/common/base/disabled.dart'
     show StratumDisabledScope;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// Builds [builder] from whether focus sits on any node inside the widget
 /// it builds, a pointer's focus included, as the web's `:focus-within`

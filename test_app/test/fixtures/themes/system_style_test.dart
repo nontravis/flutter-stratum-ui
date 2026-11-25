@@ -1,7 +1,7 @@
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
-import 'package:stratum_ui/src/themes/system/system_style_resolver.dart'
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_style_resolver.dart'
     show SystemStyleRoot;
+import 'package:flutter_test/flutter_test.dart';
 import 'package:stratum_ui_test_app/fixture_app.dart';
 
 import '../one_actionable_node.dart';

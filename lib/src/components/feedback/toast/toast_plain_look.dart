@@ -1,5 +1,5 @@
-import 'package:stratum_ui/src/components/common/model/solid_fill.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/solid_fill.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The close time of a notice: 4 s with no action, 8 s with one, and none
 /// while a screen reader runs for a notice with an action (US-01 FR-04

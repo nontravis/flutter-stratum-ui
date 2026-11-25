@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A [MaterialPageRoute] that shows its page with no animation and zero
 /// push and pop durations, whatever the theme's page transitions builder

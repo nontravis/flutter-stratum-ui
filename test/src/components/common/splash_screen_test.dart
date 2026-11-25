@@ -13,10 +13,10 @@
 // builder draws every frame from the app's theme.
 // NFR-E02 n/a: the splash draws nothing a customStyle could style; the
 // widgets the app's builder returns take their own customStyle.
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_font_loader.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:leak_tracker_flutter_testing/leak_tracker_flutter_testing.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/theme_font_loader.dart';
 
 import '../../themes/theme_runtime_fakes.dart';
 import 'widget_settings/support/counting_setting_store.dart';

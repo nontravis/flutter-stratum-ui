@@ -80,7 +80,7 @@ Map<String, String> freeze({
   final siblingsByPackagePath = {
     for (final path in sources.keys)
       if (path.startsWith('lib/'))
-        'package:stratum_ui/${path.substring(4)}': path.split('/').last,
+        'package:flutter_stratum_ui/${path.substring(4)}': path.split('/').last,
   };
   final files = <String, String>{};
   for (final MapEntry(key: path, value: source) in sources.entries) {

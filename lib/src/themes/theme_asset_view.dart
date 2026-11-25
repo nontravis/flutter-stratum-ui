@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_bundle.dart';
 import 'package:lottie/lottie.dart' show Lottie;
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_bundle.dart';
 
 enum _Slot { splashScreen, loading }
 

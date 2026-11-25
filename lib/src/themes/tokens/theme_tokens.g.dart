@@ -3,10 +3,10 @@
 import 'dart:ui' show Color;
 
 import 'package:flutter/painting.dart' show BoxShadow;
-import 'package:stratum_ui/src/components/common/model/image_blur_filter.dart';
-import 'package:stratum_ui/src/themes/config/theme_asset.dart';
-import 'package:stratum_ui/src/themes/constant/color.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/image_blur_filter.dart';
+import 'package:flutter_stratum_ui/src/themes/config/theme_asset.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/color.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
 
 /// A `<group>.color` group that gives its token for a [ColorEnum] name.
 abstract interface class StratumColorEnumTokens {

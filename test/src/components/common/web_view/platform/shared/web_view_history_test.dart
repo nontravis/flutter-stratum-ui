@@ -1,5 +1,5 @@
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/shared/web_view_history.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/web_view/platform/shared/web_view_history.dart';
 
 void main() {
   late WebViewHistory<String> history;

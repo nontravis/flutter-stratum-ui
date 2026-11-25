@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 // The splash loads widget settings over `shared_preferences`, which needs a
-// fake platform here (precedent: stratum_ui's own test/flutter_test_config.dart).
+// fake platform here (precedent: flutter_stratum_ui's own test/flutter_test_config.dart).
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
 import 'package:stratum_ui_example/screen_reader_demo.dart';
@@ -153,9 +153,9 @@ void main() {
       final imports = File('lib/screen_reader_demo.dart')
           .readAsLinesSync()
           .where((line) => line.startsWith('import '));
-      expect(imports, contains("import 'package:stratum_ui/stratum_ui.dart';"));
+      expect(imports, contains("import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';"));
       expect(
-        imports.where((line) => line.contains('package:stratum_ui/src/')),
+        imports.where((line) => line.contains('package:flutter_stratum_ui/src/')),
         isEmpty,
       );
     },

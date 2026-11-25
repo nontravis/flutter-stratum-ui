@@ -1,7 +1,7 @@
+import 'package:flutter_stratum_ui/src/components/common/responsive/screen_radius_scope.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_font_loader.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/responsive/screen_radius_scope.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/theme_font_loader.dart';
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 import 'theme_runtime_fakes.dart';

@@ -11,9 +11,9 @@
 //   paints the color the caller declares.
 // - NFR-E02 n/a: the fill has no style of its own; its one field is the
 //   color its child paints.
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_bars.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/system/system_bars.dart';
 
 import 'system_style_fakes.dart';
 

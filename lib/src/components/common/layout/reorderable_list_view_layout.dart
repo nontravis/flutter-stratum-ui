@@ -28,12 +28,12 @@ import 'package:flutter/rendering.dart'
         applyGrowthDirectionToAxisDirection;
 import 'package:flutter/scheduler.dart'
     show SchedulerPhase, Ticker, TickerCallback;
-import 'package:stratum_ui/src/components/common/ink_well.dart'
+import 'package:flutter_stratum_ui/src/components/common/ink_well.dart'
     show ReorderItemRoot;
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
-import 'package:stratum_ui/src/components/common/layout/focus_group.dart';
-import 'package:stratum_ui/src/components/common/layout/scroll_frame.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/focus_group.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 part 'reorder/reorder_sliver.dart';
 part 'reorder/reorder_slots.dart';
@@ -3231,7 +3231,7 @@ class _ReorderableBodyState extends State<_ReorderableBody>
             FlutterErrorDetails(
               exception: error,
               stack: stack,
-              library: 'stratum_ui',
+              library: 'flutter_stratum_ui',
               context: ErrorDescription(
                 'while ReorderableListViewLayout committed a scroll at the '
                 "frame's start",

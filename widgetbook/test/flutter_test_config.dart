@@ -1,10 +1,10 @@
 // ignore_for_file: implementation_imports
 import 'dart:async';
 
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/config/pipeline/parse_values.dart';
-import 'package:stratum_ui/src/themes/theme_parse.dart';
-import 'package:stratum_ui/src/themes/typography/google_fonts_lookup.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/config/pipeline/parse_values.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_parse.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';
 
 /// Runs every catalog test with a Google Fonts family lookup that answers
 /// the bare family name and starts no fetch, so no test reaches the

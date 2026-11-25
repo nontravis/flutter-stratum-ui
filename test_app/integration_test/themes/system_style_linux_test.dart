@@ -6,9 +6,9 @@
 // Runs in the Linux container the e2e round owns:
 //
 //   flutter test integration_test/themes/system_style_linux_test.dart -d linux
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:stratum_ui/stratum_ui.dart';
 import 'package:stratum_ui_test_app/fixture_app.dart';
 
 const _fixtureId = 'themes/system_style';

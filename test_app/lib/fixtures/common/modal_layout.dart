@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 
 /// The value the modal's first control closes it with (FO-06-04 US-03 FR-02).
 const _chooseA = 'Choose A';

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:stratum_ui/src/components/common/responsive/keyboard_visibility_scope.dart';
-import 'package:stratum_ui/src/components/common/responsive/window_size_scope.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/components/common/responsive/keyboard_visibility_scope.dart';
+import 'package:flutter_stratum_ui/src/components/common/responsive/window_size_scope.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 
 /// Window metrics and ambient platform settings read lazily from the caller's
 /// [BuildContext].

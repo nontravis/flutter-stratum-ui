@@ -1,4 +1,4 @@
-import 'package:stratum_ui/stratum_ui.dart';
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:widgetbook/widgetbook.dart' hide ThemeMode;
 
 import '../kit/callback_report.dart';
@@ -8,10 +8,10 @@ import '../kit/preset.dart';
 import '../kit/story_set.dart';
 import '../kit/style_presets.dart';
 import '../shell/catalog_section.dart';
-import 'wrap_layout_knobs.dart';
 import 'layout_page.dart';
 import 'layout_slots.dart';
 import 'recipes.dart';
+import 'wrap_layout_knobs.dart';
 
 part 'wrap_layout.stories.g.dart';
 

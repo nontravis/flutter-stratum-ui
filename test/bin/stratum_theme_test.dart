@@ -6,9 +6,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart' as crypto;
+import 'package:flutter_stratum_ui/src/themes/remote/remote_zip_writer.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
-import 'package:stratum_ui/src/themes/remote/remote_zip_writer.dart';
 
 import '../../bin/stratum_theme.dart';
 

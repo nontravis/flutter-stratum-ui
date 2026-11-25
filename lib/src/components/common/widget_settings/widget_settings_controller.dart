@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/shared_preferences_setting_store.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_box.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/setting_key_codec.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/shared_preferences_setting_store.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_box.dart';
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/widget_setting_store.dart';
 
 /// Loads and holds the current user's widget settings, swappable store
 /// included (US-02 FR-01, FR-03; US-03; US-05; US-06).
@@ -287,7 +287,7 @@ final class StratumWidgetSettingsController extends ChangeNotifier {
       FlutterErrorDetails(
         exception: error,
         stack: stack,
-        library: 'stratum_ui',
+        library: 'flutter_stratum_ui',
         context: ErrorDescription(context),
       ),
     );

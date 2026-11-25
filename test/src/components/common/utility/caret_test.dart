@@ -1,9 +1,9 @@
 import 'dart:math' as math;
 
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/utility/caret.dart'
+import 'package:flutter_stratum_ui/src/components/common/utility/caret.dart'
     show CaretPainter;
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../fakes/fake_stratum_theme.dart';
 

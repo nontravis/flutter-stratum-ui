@@ -1,8 +1,8 @@
+import 'package:flutter_stratum_ui/src/components/common/widget_settings/shared_preferences_setting_store.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_platform_interface/in_memory_shared_preferences_async.dart';
 import 'package:shared_preferences_platform_interface/shared_preferences_async_platform_interface.dart';
-import 'package:stratum_ui/src/components/common/widget_settings/shared_preferences_setting_store.dart';
 
 void main() {
   test('fo10/us06/s1: fo10/us06/fr01: a read returns the prefixed keys and '

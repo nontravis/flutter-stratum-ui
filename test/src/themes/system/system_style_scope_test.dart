@@ -10,9 +10,9 @@
 // - NFR-U08 n/a: the scope shows no state.
 // - NFR-U09 n/a: the scope handles no gesture of its own; the EndUser
 //   reveals hidden bars with the platform's own edge swipe.
+import 'package:flutter_stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/themes/system/system_bars.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/src.dart';
-import 'package:stratum_ui/src/themes/system/system_bars.dart';
 
 import '../../components/common/fakes/fake_stratum_theme.dart';
 import 'system_style_fakes.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stratum_ui/src/components/common/l10n/built_in_labels.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/l10n/built_in_labels.dart';
 
 /// [child] under a bare [Localizations] for [locale] that holds widgets
 /// localizations only.

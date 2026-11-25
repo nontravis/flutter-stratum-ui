@@ -1,4 +1,4 @@
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// The app's update check that [StratumUpdateGate] asks (CO-05-09).
 ///

@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/themes/config/reader.dart';
+import 'package:flutter_stratum_ui/src/themes/typography/dimension.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/config/reader.dart';
-import 'package:stratum_ui/src/themes/typography/dimension.dart';
 
 void main() {
   group('ThemeReader length bound', () {

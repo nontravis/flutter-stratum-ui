@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_falmodel/flutter_falmodel.dart' show FullWidgetState;
-import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/base/stateful_widget.dart';
-import 'package:stratum_ui/src/components/common/base/stateless_widget.dart';
-import 'package:stratum_ui/src/components/common/base/widget_props.dart';
-import 'package:stratum_ui/src/components/common/model/widget_style.dart';
-import 'package:stratum_ui/src/components/common/responsive/window_size_scope.dart';
-import 'package:stratum_ui/src/src.dart'
+import 'package:flutter_stratum_ui/src/components/common/base/stateful_widget.dart';
+import 'package:flutter_stratum_ui/src/components/common/base/stateless_widget.dart';
+import 'package:flutter_stratum_ui/src/components/common/base/widget_props.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
+import 'package:flutter_stratum_ui/src/components/common/responsive/window_size_scope.dart';
+import 'package:flutter_stratum_ui/src/src.dart'
     show StratumThemeConfig, StratumThemeSource;
-import 'package:stratum_ui/src/themes/config/by_window_size.dart';
-import 'package:stratum_ui/src/themes/constant/color.dart';
-import 'package:stratum_ui/src/themes/constant/widget_size.dart';
-import 'package:stratum_ui/src/themes/constant/window_size.dart';
-import 'package:stratum_ui/src/themes/theme_application.dart';
-import 'package:stratum_ui/src/themes/theme_data.dart';
-import 'package:stratum_ui/src/themes/theme_set.dart';
-import 'package:stratum_ui/src/themes/tokens/theme_tokens.g.dart';
+import 'package:flutter_stratum_ui/src/themes/config/by_window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/color.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
+import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_application.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_data.dart';
+import 'package:flutter_stratum_ui/src/themes/theme_set.dart';
+import 'package:flutter_stratum_ui/src/themes/tokens/theme_tokens.g.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../fakes/fake_stratum_theme.dart';
 
@@ -148,7 +148,7 @@ StratumThemeData _sizedData(String defaultSize) => StratumThemeSet.fromConfig(
   StratumThemeConfig.parse(
     base: const StratumThemeSource(
       id: 'stratum-default',
-      folder: 'packages/stratum_ui/assets/themes/default',
+      folder: 'packages/flutter_stratum_ui/assets/themes/default',
       yaml: defaultThemeSource,
     ),
     layers: [

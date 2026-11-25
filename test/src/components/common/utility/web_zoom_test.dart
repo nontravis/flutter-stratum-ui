@@ -1,9 +1,9 @@
 @TestOn('vm')
 library;
 
+import 'package:flutter_stratum_ui/src/components/common/base/disabled.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/components/common/base/disabled.dart';
-import 'package:stratum_ui/src/src.dart';
 
 Widget _host(Widget child) => Directionality(
   textDirection: TextDirection.ltr,

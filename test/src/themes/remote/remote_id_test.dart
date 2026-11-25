@@ -1,6 +1,6 @@
+import 'package:flutter_stratum_ui/src/themes/remote/remote_id.dart';
+import 'package:flutter_stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/src/themes/remote/remote_id.dart';
-import 'package:stratum_ui/src/themes/remote/remote_theme_error_code.dart';
 
 void main() {
   for (final id in ['brand', 'songkran-2026', 'a_b', '0', 'x-_9']) {

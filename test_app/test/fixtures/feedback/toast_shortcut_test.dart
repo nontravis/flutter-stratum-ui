@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart'
     show TargetPlatform, debugDefaultTargetPlatformOverride;
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
 import 'package:flutter/widgets.dart' show EditableText, Focus;
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart' show StratumThemeController;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stratum_ui/stratum_ui.dart' show StratumThemeController;
 import 'package:stratum_ui_test_app/fixture_app.dart';
 
 const _fixtureId = 'feedback/toast_shortcut';

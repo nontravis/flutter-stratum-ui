@@ -3,29 +3,29 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
 // The platform seam and message models this test reads are not in the
 // package barrel.
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_error.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_error.dart';
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_message.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_message.dart';
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_navigation_decision.dart';
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/model/web_view/web_view_source.dart';
-// ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/web_view/web_view.dart';
+import 'package:flutter_stratum_ui/src/components/common/model/web_view/web_view_source.dart';
 // Group A's `debugStratumWebViewPlatformFactory` seam (M3-T10, M3-T11): lets
 // the started check read a lasting record of the load callbacks instead of
 // a UI state that may never reach a drawn frame.
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view.dart';
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platform_web_view_interface.dart';
 // ignore: implementation_imports
-import 'package:stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
+import 'package:flutter_stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
+// ignore: implementation_imports
+import 'package:flutter_stratum_ui/src/components/common/web_view/web_view.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
 import 'package:stratum_ui_test_app/fixtures/common/web_view.dart';
 
 import 'support/pump_until.dart';
@@ -45,7 +45,7 @@ const _settle = Duration(seconds: 2);
 final _errorLine = RegExp(r'^(network|http): ');
 
 /// The method channel test_app's `MainActivity` answers on: the device
-/// tests' own oracle for the system WebView, apart from stratum_ui's code.
+/// tests' own oracle for the system WebView, apart from flutter_stratum_ui's code.
 const _webViewFeatures = MethodChannel(
   'dev.stratum.stratum_ui_test_app/web_view_features',
 );

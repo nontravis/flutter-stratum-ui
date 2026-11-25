@@ -1,6 +1,6 @@
 import 'package:flutter/rendering.dart' show ScrollCacheExtent;
-import 'package:stratum_ui/src/components/common/layout/scroll_frame.dart';
-import 'package:stratum_ui/src/src.dart';
+import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart';
+import 'package:flutter_stratum_ui/src/src.dart';
 
 /// A lazy list that scrolls inside a [WidgetStyle] box.
 ///

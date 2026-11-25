@@ -7,9 +7,9 @@
 /// tests import them by path.
 library;
 
-export 'package:stratum_ui/src/components/feedback/toast/show_toast.dart';
-export 'package:stratum_ui/src/components/feedback/toast/toast_host.dart'
+export 'package:flutter_stratum_ui/src/components/feedback/toast/show_toast.dart';
+export 'package:flutter_stratum_ui/src/components/feedback/toast/toast_host.dart'
     hide StratumToastRequest;
-export 'package:stratum_ui/src/components/feedback/toast/toast_notice.dart';
-export 'package:stratum_ui/src/components/feedback/toast/toast_plain_look.dart'
+export 'package:flutter_stratum_ui/src/components/feedback/toast/toast_notice.dart';
+export 'package:flutter_stratum_ui/src/components/feedback/toast/toast_plain_look.dart'
     show StratumToastPlainLook;
