@@ -1,4 +1,4 @@
-// The Build Gate of `stratum-create-widget` for `SystemBarFill` (FO-03
+// The Build Gate of `stratum-audit-widget` for `SystemBarFill` (FO-03
 // US-14; design `## Accessibility and UX`). One test per row below; the
 // rows answered n/a, each with its reason:
 // - NFR-U02 n/a: the fill holds no focusable node.

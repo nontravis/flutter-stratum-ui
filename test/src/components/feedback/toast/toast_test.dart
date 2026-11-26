@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../themes/system/system_style_fakes.dart';
 import '../../common/fakes/fake_stratum_theme.dart';
 
-// The Build Gate rows (stratum-create-widget) of the plain look, plus the
+// The Build Gate rows (stratum-audit-widget) of the plain look, plus the
 // close rules (FR-04), the announcement (FR-05), and the style layers
 // (FR-06) of US-01. The host's placement, queue, and stack behavior sit in
 // toast_host_test.dart.

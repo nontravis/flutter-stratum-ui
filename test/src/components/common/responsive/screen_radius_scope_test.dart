@@ -1,5 +1,5 @@
 // The scope draws nothing, owns no semantics node, and takes no input or
-// motion, so of the stratum-create-widget build gate only NFR-U06 (its
+// motion, so of the stratum-audit-widget build gate only NFR-U06 (its
 // child's node reads unchanged) applies; NFR-U01..U05, U07..U09, E01, and
 // E02 are n/a: an internal scope apps never write (D21), with no look,
 // target, gesture, or style.

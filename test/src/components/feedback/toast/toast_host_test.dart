@@ -5,7 +5,7 @@ import 'package:toastification/toastification.dart' show ToastificationWrapper;
 
 import '../../common/fakes/fake_stratum_theme.dart';
 
-// The Build Gate rows (stratum-create-widget) that draw the notice's
+// The Build Gate rows (stratum-audit-widget) that draw the notice's
 // look sit in the plain-look task (M4-T26), which owns the look; this
 // file proves the host's placement, queue, stack, and lifecycle
 // behavior.
