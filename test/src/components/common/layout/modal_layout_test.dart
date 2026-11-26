@@ -1,4 +1,3 @@
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stratum_ui/src/components/common/layout/modal_layout.dart'
     show
         ModalLayoutScope,

@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   app_links_linux
   flutter_secure_storage_linux
   flutter_udid
+  restart_app
   url_launcher_linux
   webview_all_linux
 )

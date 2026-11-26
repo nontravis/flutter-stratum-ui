@@ -1,6 +1,6 @@
 import 'package:animations/animations.dart'
     show FadeThroughTransition, SharedAxisTransition, SharedAxisTransitionType;
-import 'package:flutter/cupertino.dart'
+import 'package:cupertino_ui/cupertino_ui.dart'
     show
         CupertinoPageTransition,
         CupertinoPageTransitionsBuilder,

@@ -27,6 +27,7 @@ dev_dependencies:
   # accepts build 5.
   build_runner: 2.16.2
   flutter_lints: ^6.0.0
+  material_ui: ^1.11.1
   yaml: ^3.1.4
 
 flutter:

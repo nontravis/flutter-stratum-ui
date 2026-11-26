@@ -1,4 +1,3 @@
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stratum_ui/src/components/feedback/toast/toast_placement.dart'
     show defaultToastPlacement;
 import 'package:flutter_stratum_ui/src/components/feedback/toast/toast_plain_look.dart'

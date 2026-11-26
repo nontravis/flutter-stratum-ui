@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_falmodel/flutter_falmodel.dart' show FullWidgetState;
 import 'package:flutter_stratum_ui/src/components/common/model/widget_style.dart';
 import 'package:flutter_stratum_ui/src/extensions/context_extension.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 import 'package:flutter_stratum_ui/src/themes/theme_application.dart';
 import 'package:flutter_stratum_ui/src/themes/theme_data.dart';
 import 'package:flutter_stratum_ui/src/themes/tokens/theme_tokens.g.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// The shared props every Stratum component takes, and how they resolve. A
 /// component that takes an instance style declares its own `customStyle`.

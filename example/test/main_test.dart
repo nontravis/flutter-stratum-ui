@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 // A widget test has no native web view, so the URL tab's controller needs a
 // fake platform, the same way the package's own web_view tests do; main.dart
 // already imports the web_view barrel this deeply for the same reason.
@@ -9,6 +8,7 @@ import 'package:flutter_stratum_ui/src/components/common/web_view/platform/platf
 // ignore: implementation_imports
 import 'package:flutter_stratum_ui/src/components/common/web_view/stratum_web_view_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:stratum_ui_example/main.dart';
 
 void main() {

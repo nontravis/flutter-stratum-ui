@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_falmodel/flutter_falmodel.dart' show FullWidgetState;
 import 'package:flutter_stratum_ui/src/components/common/base/stateful_widget.dart';
 import 'package:flutter_stratum_ui/src/components/common/base/stateless_widget.dart';
@@ -16,6 +15,7 @@ import 'package:flutter_stratum_ui/src/themes/theme_data.dart';
 import 'package:flutter_stratum_ui/src/themes/theme_set.dart';
 import 'package:flutter_stratum_ui/src/themes/tokens/theme_tokens.g.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../fakes/fake_stratum_theme.dart';
 

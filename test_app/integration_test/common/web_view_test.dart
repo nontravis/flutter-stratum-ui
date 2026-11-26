@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // The platform seam and message models this test reads are not in the
 // package barrel.
@@ -26,6 +25,7 @@ import 'package:flutter_stratum_ui/src/components/common/web_view/stratum_web_vi
 import 'package:flutter_stratum_ui/src/components/common/web_view/web_view.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:stratum_ui_test_app/fixtures/common/web_view.dart';
 
 import 'support/pump_until.dart';

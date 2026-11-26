@@ -6,6 +6,15 @@
 - An app that carries `dependency_overrides: equatable: ^3.0.0` for flutter_stratum_ui alone drops those two lines: Stratum's
   `toastification ^3.2.2` accepts `equatable` 3. Keep them only when another package in the app graph still pins
   `equatable ^2.x` (`flutter pub deps --style=list` lists its dependents).
+- Material types (`ThemeData`, `ThemeMode`, `MaterialApp`, `GlobalMaterialLocalizations`) come from
+  `package:material_ui/material_ui.dart`, which `package:flutter_stratum_ui/flutter_stratum_ui.dart` exports, never
+  from `package:flutter/material.dart`: the two declare different types, so mixing them fails to compile. Run
+  `dart fix --apply --code=migrate_design_widgets` in the app to rewrite its imports. Remove the `flutter_localizations`
+  import that only supplied `GlobalMaterialLocalizations.delegates`; the Stratum barrel supplies that name. List
+  `material_ui: ^1.11.1` in the app's `pubspec.yaml` only for a file that imports it directly.
+- A third-party package that still imports `package:flutter/material.dart` and reads `Theme.of` sees no theme under
+  `material_ui`. Wrap the subtree that holds its widget in `MaterialUiCompatibilityBridge`, marked
+  `// ignore: deprecated_member_use`, until the package moves to `material_ui`.
 
 ## App assembly
 

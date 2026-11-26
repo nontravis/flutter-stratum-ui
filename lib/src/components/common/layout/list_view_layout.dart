@@ -1,4 +1,3 @@
-import 'package:flutter/rendering.dart' show ScrollCacheExtent;
 import 'package:flutter_stratum_ui/src/components/common/layout/scroll_frame.dart';
 import 'package:flutter_stratum_ui/src/src.dart';
 

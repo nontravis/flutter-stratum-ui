@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_stratum_ui/src/components/common/responsive/device_window.dart';
 import 'package:flutter_stratum_ui/src/components/common/responsive/keyboard_visibility_scope.dart';
 import 'package:flutter_stratum_ui/src/components/common/responsive/window_size_scope.dart';
 import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   void setWindowSize(WidgetTester tester, Size size) {

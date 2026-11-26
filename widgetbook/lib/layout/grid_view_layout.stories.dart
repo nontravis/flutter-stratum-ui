@@ -1,4 +1,3 @@
-import 'package:flutter/rendering.dart' show ScrollCacheExtent;
 import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:widgetbook/widgetbook.dart' hide ThemeMode;
 

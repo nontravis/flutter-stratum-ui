@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_stratum_ui/src/components/common/l10n/stratum_labels.dart';
 import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_stratum_ui/src/themes/theme_font_loader.dart';
@@ -699,7 +699,10 @@ void main() {
           appBuilder: (c, s) => MaterialApp(
             locale: const Locale('th'),
             supportedLocales: const [Locale('th')],
-            localizationsDelegates: StratumLabels.localizationsDelegates,
+            localizationsDelegates: const [
+              StratumLabels.delegate,
+              ...GlobalMaterialLocalizations.delegates,
+            ],
             builder: s.builder,
             home: const Text('home'),
           ),

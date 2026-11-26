@@ -1,5 +1,5 @@
 import 'package:animations/animations.dart' show FadeThroughTransition;
-import 'package:flutter/cupertino.dart'
+import 'package:cupertino_ui/cupertino_ui.dart'
     show CupertinoPageTransitionsBuilder, CupertinoRouteTransitionMixin;
 import 'package:flutter_stratum_ui/src/animations/stratum_page_transitions_builder.dart';
 import 'package:flutter_stratum_ui/src/src.dart';

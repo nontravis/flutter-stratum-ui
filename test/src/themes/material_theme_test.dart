@@ -1,6 +1,6 @@
 import 'package:animations/animations.dart'
     show FadeThroughTransition, SharedAxisTransition;
-import 'package:flutter/cupertino.dart' show CupertinoPageTransition;
+import 'package:cupertino_ui/cupertino_ui.dart' show CupertinoPageTransition;
 import 'package:flutter_stratum_ui/src/animations/stratum_page_transitions_builder.dart';
 import 'package:flutter_stratum_ui/src/src.dart';
 import 'package:flutter_stratum_ui/src/themes/typography/google_fonts_lookup.dart';

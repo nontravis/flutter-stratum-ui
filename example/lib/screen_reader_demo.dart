@@ -4,7 +4,6 @@
 //   flutter run -d <device> -t lib/screen_reader_demo.dart
 import 'dart:async';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stratum_ui/flutter_stratum_ui.dart';
 import 'package:stratum_ui_example/font_licenses.dart';
 

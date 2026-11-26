@@ -8,7 +8,8 @@
   tooltip, not Stratum's English fallback; otherwise it reads Stratum's built-in label, Thai for a Thai locale. List
   `Locale('th')` in the app's `supportedLocales` to show them in Thai. Stratum's built-in labels need no delegate of
   their own: an app that lists `Locale('th')` in `supportedLocales` still adds Flutter's
-  `GlobalMaterialLocalizations.delegates`, as any Thai Flutter app does, for its own material widgets; Stratum reads
+  `GlobalMaterialLocalizations.delegates` (from `material_ui`, which the Stratum barrel exports), as any Thai Flutter
+  app does, for its own material widgets; Stratum reads
   the resulting locale without registering a delegate of its own. Above `MaterialApp` the platform locale picks the
   language. A component's label prop, such as `StratumInkWell.secondaryTapSemanticsLabel`, replaces its built-in
   label.

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' show ThemeMode;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_stratum_ui/src/components/common/responsive/device_window.dart';
 import 'package:flutter_stratum_ui/src/themes/constant/widget_size.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 import 'package:flutter_stratum_ui/src/themes/theme.dart';
 import 'package:flutter_stratum_ui/src/themes/theme_application.dart';
 import 'package:flutter_stratum_ui/src/themes/theme_data.dart';
+import 'package:material_ui/material_ui.dart' show ThemeMode;
 
 extension StratumThemeContextExtension on BuildContext {
   /// `StratumTheme.of(this)`.

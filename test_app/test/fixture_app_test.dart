@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_stratum_ui/flutter_stratum_ui.dart'
     show StratumThemeApplication, StratumThemeController;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:stratum_ui_test_app/fixture_app.dart';
 import 'package:stratum_ui_test_app/fixtures/fixtures.dart';
 

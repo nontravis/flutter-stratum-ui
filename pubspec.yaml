@@ -18,6 +18,7 @@ dependencies:
   badges: ^4.0.1
   country_flags: ^4.1.2
   crypto: ^3.0.8
+  cupertino_ui: ^1.1.7
   dotted_border: ^3.1.0
   extended_image: ^10.1.0
   flutter:
@@ -26,7 +27,7 @@ dependencies:
   flutter_falconx:
     git:
       url: https://github.com/Nextzy/flutter-falconx
-      ref: 4.1.0
+      ref: 5.0.0
       path: flutter_falconx
   flutter_keyboard_visibility: ^7.0.1
   flutter_localizations:
@@ -38,6 +39,7 @@ dependencies:
   intl: any # flutter_localizations (SDK) bounds intl; never give this a range.
   json_annotation: ^4.12.0
   lottie: ^3.8.2
+  material_ui: ^1.11.1
   measure_size: ^5.0.2
   multi_split_view: ^3.6.2
   path: ^1.9.1

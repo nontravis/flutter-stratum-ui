@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart' show CircularProgressIndicator;
 import 'package:flutter/widgets.dart';
-import 'package:flutter_stratum_ui/flutter_stratum_ui.dart' show StratumThemeController;
+import 'package:flutter_stratum_ui/flutter_stratum_ui.dart'
+    show StratumThemeController;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart' show CircularProgressIndicator;
 // flutter_stratum_ui owns shared_preferences as its settings store seam; the splash
 // makes its own settings controller over the default store, which needs a
 // platform instance, as the package's own flutter_test_config provides.

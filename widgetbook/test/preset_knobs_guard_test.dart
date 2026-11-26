@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart' show Theme;
 import 'package:flutter_stratum_ui/flutter_stratum_ui.dart' show WindowSize;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart' show Theme;
 import 'package:stratum_ui_widgetbook/components.g.dart';
 import 'package:stratum_ui_widgetbook/kit/preset.dart';
 import 'package:stratum_ui_widgetbook/kit/story_set.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' show ThemeMode;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_stratum_ui/src/components/common/responsive/window_size_scope.dart';
 import 'package:flutter_stratum_ui/src/extensions/context_extension.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_stratum_ui/src/themes/constant/window_size.dart';
 import 'package:flutter_stratum_ui/src/themes/theme_application.dart';
 import 'package:flutter_stratum_ui/src/themes/theme_set.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart' show ThemeMode;
 
 import '../components/common/fakes/fake_stratum_theme.dart';
 
