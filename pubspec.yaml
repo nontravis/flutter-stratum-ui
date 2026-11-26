@@ -8,13 +8,13 @@ executables:
   stratum_theme:
 
 environment:
-  sdk: ^3.13.3
+  sdk: ^3.14.0
   flutter: ">=3.47.0"
 
 dependencies:
   act_thumbhash: ^1.1.0
   animations: ^3.0.0
-  archive: ^4.6.0
+  archive: ^4.7.1
   badges: ^4.0.1
   country_flags: ^4.1.2
   crypto: ^3.0.8
@@ -31,27 +31,27 @@ dependencies:
   flutter_keyboard_visibility: ^7.0.1
   flutter_localizations:
     sdk: flutter
-  flutter_svg: ^2.3.2
+  flutter_svg: ^2.5.1
   freezed_annotation: ^3.1.0
-  gap: ^3.0.1
+  gap: ^3.1.0
   google_fonts: 9.0.0
   intl: any # flutter_localizations (SDK) bounds intl; never give this a range.
   json_annotation: ^4.12.0
-  lottie: ^3.8.1
+  lottie: ^3.8.2
   measure_size: ^5.0.2
   multi_split_view: ^3.6.2
   path: ^1.9.1
   shared_preferences: ^2.5.6
   smooth_page_indicator: ^3.0.0
-  smooth_sheets: ^1.3.0
+  smooth_sheets: ^1.4.0
   toastification: ^3.2.2
   web: ^1.1.2
-  webview_all_linux: ^1.4.9
-  webview_all_windows: ^1.4.9
+  webview_all_linux: ^1.5.2
+  webview_all_windows: ^1.5.2
   webview_flutter: ^4.14.1
   webview_flutter_android: ^4.14.1
   webview_flutter_wkwebview: ^3.27.2
-  webview_platform_interface: ^1.4.9
+  webview_platform_interface: ^1.5.2
   yaml: ^3.1.4
 
 dev_dependencies:
@@ -61,7 +61,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^4.0.3
-  go_router: ^18.1.2
+  go_router: ^18.1.4
   shared_preferences_platform_interface: ^2.4.2
   very_good_analysis: ^11.0.0
   webview_flutter_platform_interface: ^2.15.1
